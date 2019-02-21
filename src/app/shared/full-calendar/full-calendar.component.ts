@@ -20,8 +20,7 @@ export class FullCalendarComponent implements OnInit {
   selectedMonth: number = new Date().getMonth();
   selectedYear: number = new Date().getFullYear();
   calendarRowHeight: string;
- 
-  test: string;
+  
 
   constructor() { }
 
