@@ -1,0 +1,210 @@
+<ul class="slots-view">
+  <!--style="vertical-align: bottom;margin-bottom: 2px;width:6%;"-->
+  <li [ngStyle]="{'vertical-align': 'bottom','margin-bottom': '2px','width': '6%'}">
+    <div>
+      <button type="button" class="btn btn-primary" (click)="shiftWeek(-1)">
+        <i class="fa fa-angle-left"></i>
+      </button>
+      <button type="button" class="btn btn-primary" (click)="shiftWeek(1)">
+        <i class="fa fa-angle-right"></i>
+      </button>
+    </div>
+    <div class="time-slots" style="margin-right: 0px;">
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>00:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>01:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>02:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>03:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>04:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>05:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>06:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>07:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>08:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>09:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>10:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>11:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>12:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>13:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>14:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>15:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>16:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>17:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>18:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>19:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>20:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>21:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>22:00:</b>
+          </span>
+        </div>
+      </div>
+      <div class="hour-row">
+        <div class="hour-title">
+          <span>
+            <b>23:00:</b>
+          </span>
+        </div>
+      </div>
+    </div>
+  </li>
+  <li *ngFor="let d of hoursMatrix; let i = index" [ngStyle]="{'width':commonMethods.computeDayColumnWidth(hoursMatrix)}">
+    <div class="day-title">
+      <b>{{getCurrentLabelValue(dayNames[i])}}</b>
+      <div>{{(dayDates[i]!=null?(dayDates[i] | date:'dd.MMM.yyyy'):'')}}</div>
+    </div>
+    <div class="time-slots">
+      <div class="hour-row" *ngFor="let h of d; let j = index">
+        <div *ngFor="let ts of h; let k = index" class="time-select-div" 
+        [ngStyle]="{'width': commonMethods.computeTimeslotWidth(hoursMatrix)}" style="margin-right: 2px;"
+        [ngClass]="{'selected':ts.isSelected,'disabled':!ts.isSelectable,'booked':ts.isBooked, 'fullbooked':ts.isFullBooked, 'searchresult':ts.hasFilteredBooking}" 
+        (click)="activateTimeSlot(i,j,k)">
+          <span>{{getTimeslotValueAsString(ts)}}</span> 
+        </div> 
+        <!-- <div class="time-select-div" 
+        [ngClass]="{'selected':h[0].isSelected,'disabled':!h[0].isSelectable,'booked':h[0].isBooked , 'fullbooked':h[0].isFullBooked}" 
+        (click)="activateTimeSlot(i,j,0)">          
+          <span>{{getTimeslotValueAsString(h[0])}}</span>
+        </div>
+        <div class="time-select-div" 
+        [ngClass]="{'selected':h[1].isSelected,'disabled':!h[1].isSelectable,'booked':h[1].isBooked , 'fullbooked':h[1].isFullBooked}" 
+        (click)="activateTimeSlot(i,j,1)">          
+          <span>{{getTimeslotValueAsString(h[1])}}</span>
+        </div> -->
+      </div>
+    </div>
+  </li>
+</ul>
+

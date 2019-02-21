@@ -1,0 +1,118 @@
+<div class="container">
+   <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+         <div class="panel panel-login">
+            <div class="panel-heading">
+               <div class="row">
+                  <!--<div class="col-xs-6">
+                     <a [routerLink]="['/login']" id="login-form-link">Login</a>
+                  </div>-->
+                  <div class="col-xs-12">
+                     <a class="active" id="register-form-link">{{getCurrentLabelValue('lblRegister')}}</a>
+                  </div>
+               </div>
+               <hr>
+            </div>
+            <div class="panel-body">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <form id="register-form" role="form" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+											 
+                     <div class="form-group"
+                        [ngClass]="{'has-success':myForm.controls['firstname'].valid,
+                        'has-error':!myForm.controls['firstname'].valid}">
+                        <div class="row">
+                           <div class="col-sm-10">
+                              <input type="text" formControlName="firstname" id="firstname" 
+                              tabindex="1" class="form-control"
+                                 [placeholder]="getCurrentLabelValue('lblFirstName')" value="">																 
+                           </div>
+                           <div class="col-sm-2" style="color: red;" *ngIf="!myForm.controls['firstname'].valid">
+                             {{getCurrentLabelValue('lblRequired')}}</div>
+                        </div>
+                     </div>
+                     <div class="form-group"
+										  [ngClass]="{'has-success':myForm.controls['lastname'].valid,
+                        'has-error':!myForm.controls['lastname'].valid}">
+                        <div class=row>
+                           <div class="col-sm-10">
+                              <input type="text" formControlName="lastname" id="lastname" tabindex="1" 
+                              class="form-control" [placeholder]="getCurrentLabelValue('lblLastName')" value="">
+                           </div>
+                           <div class="col-sm-2" style="color: red;" *ngIf="!myForm.controls['lastname'].valid">
+                             {{getCurrentLabelValue('lblRequired')}}</div>
+                        </div>
+                     </div>
+                     <div class="form-group"
+										 [ngClass]="{'has-success':myForm.controls['email'].valid,
+                        'has-error':!myForm.controls['email'].valid}">
+                        <div class="row">
+                           <div class="col-sm-10">
+                              <input type="email" formControlName="email" id="email" tabindex="1"
+                               class="form-control" placeholder="Email" value="">
+                           </div>
+                           <div class="col-sm-2" style="color: red;" *ngIf="emailExists">
+                             {{getCurrentLabelValue('lblEmailAlreadyExists')}}!</div>
+                           <div class="col-sm-2" style="color: red" 
+                           *ngIf="!myForm.controls['email'].valid && !emailExists">
+                             {{getCurrentLabelValue('lblInvalidEmail')}}</div>
+                        </div>
+                     </div>
+                     <div class="form-group"
+										 [ngClass]="{'has-success':myForm.controls['phone'].valid,
+                        'has-error':!myForm.controls['phone'].valid}">
+                        <div class="row">
+                           <div class="col-sm-10">
+                              <input type="text" formControlName="phone" id="phone" tabindex="1" class="form-control" 
+                              [placeholder]="getCurrentLabelValue('lblPhone')" value="">
+                           </div>
+                           <div class="col-sm-2" style="color: red;" *ngIf="!myForm.controls['phone'].valid">
+                             {{getCurrentLabelValue('lblRequired')}}</div>
+                        </div>
+                     </div>
+                     <div formGroupName="passwords">
+                        <div class="form-group"
+												[ngClass]="{'has-success':myForm.get('passwords').get('password').valid,
+                        'has-error':!myForm.get('passwords').get('password').valid}">
+                           <div class="row">
+                              <div class="col-sm-10">
+                                 <input type="password" formControlName="password" id="password" tabindex="2" 
+                                 class="form-control" [placeholder]="getCurrentLabelValue('lblPassword')">
+                              </div>
+                              <div class="col-sm-2" style="color: red;" *ngIf="!myForm.get('passwords').get('password').valid">
+                                {{getCurrentLabelValue('lblRequired')}}</div>
+                           </div>
+                        </div>
+                        <div class="form-group"
+												[ngClass]="{'has-success':myForm.get('passwords').get('confirmpassword').valid || passwordsMatch,
+                        'has-error':!myForm.get('passwords').get('confirmpassword').valid || !passwordsMatch}">
+                           <div class="row">
+                              <div class="col-sm-10">
+                                 <input type="password" formControlName="confirmpassword" id="confirmpassword" tabindex="2" 
+                                 class="form-control" [placeholder]="getCurrentLabelValue('lblConfirmPassword')">
+                              </div>
+                              <div class="col-sm-2" style="color: red;" *ngIf="!myForm.get('passwords').get('confirmpassword').valid">
+                                {{getCurrentLabelValue('lblRequired')}}</div>
+                              <div class="col-sm-2" style="color: red;" *ngIf="!passwordsMatch">
+                                {{getCurrentLabelValue('lblPasswordsDontMatch')}}</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="row">
+                           <div class="col-sm-6 col-sm-offset-3">
+                              <input type="submit" name="register-submit" id="register-submit" tabindex="4" 
+                              class="form-control btn btn-register" [value]="getCurrentLabelValue('lblRegisterNow')"
+                                 [disabled]="!myForm.valid">
+                           </div>
+                        </div>
+                     </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<p-growl [value]="pageMsgs"></p-growl>

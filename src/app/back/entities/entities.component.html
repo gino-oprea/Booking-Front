@@ -1,0 +1,311 @@
+<legend style="margin-bottom: 10px;">Entities</legend>
+<div class="row" style="height: 5%;">
+  <div class="col-md-6" style="height: 100%;">
+    <div class="form-group" style="margin-bottom: 0px;">
+      <div class="col-md-5" style="padding: 5px;">
+        <select [(ngModel)]="selectedLevelId" (change)="onDdlChangeLevel()" style="height: 100%;width: 100%;">
+          <option *ngFor="let l of levels" [value]="l.id">{{l.levelName_EN}}</option>
+        </select>
+      </div>
+      <div class="col-md-6" style="padding: 5px;">
+        <select [(ngModel)]="selectedEntityId" (change)="onDdlChangeEntity()" style="height: 100%;width: 100%;">
+          <option *ngFor="let e of entities" [value]="e.id">{{e.entityName_EN}}</option>
+        </select>
+      </div>
+      <div class="col-md-1" style="padding-left: 5px;padding-right: 0px;">
+        <button type="button" style="width: 100%;" class="btn btn-primary" (click)="showAddEntityDialog()">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" style="height: 95%;">
+  <div class="col-md-12" style="height: 100%;">
+    <ul class="nav nav-tabs">
+      <li (click)="selectTab('details')" [class.active]="tabs.details.active" style="cursor: pointer;">
+        <a style="color: black">
+          <i class="fa fa-file-text-o"></i> Details</a>
+      </li>
+      <li (click)="selectTab('timeSettings')" [class.active]="tabs.timeSettings.active" style="cursor: pointer;">
+        <a style="color: black;">
+          <i class="fa fa-calendar-o"></i> Time Settings</a>
+      </li>
+    </ul>
+    <div [hidden]="!tabs.details.active" style="height: 95%;padding: 5px;">
+      <div class="row" style="height: 100%; margin-right: 0px;">
+        <div class="col-md-6" style="height: 100%;">
+          <form class="form-horizontal" style="height: 100%" id="user-form" [formGroup]="genDetailsForm" (ngSubmit)="onSaveGenDetailsForm()">
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="name_ro">Name RO:</label>
+              <div class="col-md-10">
+                <input type="text" id="name_ro" formControlName="name_ro" [ngClass]="{'valid-control':genDetailsForm.controls['name_ro'].valid,
+                        'invalid-control':!genDetailsForm.controls['name_ro'].valid}" class="form-control">
+              </div>
+            </div>
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="name_en">Name EN:</label>
+              <div class="col-md-10">
+                <input type="text" id="name_en" formControlName="name_en" [ngClass]="{'valid-control':genDetailsForm.controls['name_en'].valid,
+                        'invalid-control':!genDetailsForm.controls['name_en'].valid}" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group" style="height: 15%;">
+              <label class="col-md-2 control-label" for="description_ro">Description RO:</label>
+              <div class="col-md-10" style="height: 100%">
+                <textarea id="description_ro" [ngClass]="{'valid-control':genDetailsForm.controls['description_ro'].valid,
+                        'invalid-control':!genDetailsForm.controls['description_ro'].valid}" formControlName="description_ro"
+                  type="text" class="form-control input-md" style="height: 100%;padding: 3px;"></textarea>
+              </div>
+            </div>
+            <div class="form-group" style="height: 15%;">
+              <label class="col-md-2 control-label" for="description_en">Description EN:</label>
+              <div class="col-md-10" style="height: 100%">
+                <textarea id="description_en" [ngClass]="{'valid-control':genDetailsForm.controls['description_en'].valid,
+                        'invalid-control':!genDetailsForm.controls['description_en'].valid}" formControlName="description_en"
+                  type="text" class="form-control input-md" style="height: 100%;padding: 3px;"></textarea>
+              </div>
+            </div>
+
+            <div *ngIf="selectedEntity" formArrayName="characteristics">
+              <div class="form-group" style="height: 25%;" *ngFor="let characteristic of selectedEntity.characteristics; let i = index"
+                [formGroupName]="i">
+                <label class="col-md-2 control-label" for="characteristic">{{characteristic.characteristicName_EN}}:</label>
+                <div *ngIf="characteristic.idFieldType == 2" class="col-md-5" style="height: 100%">
+                  <input type="text" id="characteristic" placeholder="english" formControlName="characteristic_value_en" type="text" class="form-control valid-control">
+                </div>
+                <div *ngIf="characteristic.idFieldType == 2" class="col-md-5" style="height: 100%">
+                  <input type="text" id="characteristic" placeholder="romana" formControlName="characteristic_value_ro" type="text" class="form-control valid-control">
+                </div>
+                <div *ngIf="characteristic.idFieldType == 1" class="col-md-10" style="height: 100%">
+                  <input type="text" id="characteristic" formControlName="characteristic_numeric_value" type="number" step="any" class="form-control valid-control">
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="selectedLevel">
+              <div *ngIf="selectedLevel.idLevelType == 2" class="form-group" style="height: 6%;">
+                <label class="col-md-2 control-label" for="duration">Duration:</label>
+                <div class="col-md-4">
+                  <!-- <input id="duration" type="text" formControlName="duration" [ngClass]="{'valid-control':genDetailsForm.controls['duration'].valid,
+                        'invalid-control':!genDetailsForm.controls['duration'].valid}" class="form-control"> -->
+                  <select formControlName="duration" style="height: 100%;width: 100%;">
+                    <option *ngFor="let d of durationArray" [value]="d">{{d}}</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <select formControlName="duration_type" (change)="loadDurationArray(this.genDetailsForm.controls['duration_type'].value)" style="height: 100%;width: 100%;">
+                    <option *ngFor="let t of durationTypes" [value]="t.id">{{currentCulture == 'EN' ? t.value_EN : t.value_RO}}</option>
+                  </select>
+                </div>
+              </div>
+              <div *ngIf="selectedLevel.idLevelType == 2" class="form-group" style="height: 6%;">
+                <label class="col-md-2 control-label" for="price">Price:</label>
+                <div class="col-md-10">
+                  <input id="price" type="text" formControlName="price" [ngClass]="{'valid-control':genDetailsForm.controls['price'].valid,
+                        'invalid-control':!genDetailsForm.controls['price'].valid}" class="form-control">
+                </div>
+              </div>
+              <div *ngIf="selectedLevel.isMultipleBooking" class="form-group" style="height: 6%;">
+                <label class="col-md-4 control-label" for="max_bookings">Maximum bookings no:</label>
+                <div class="col-md-8">
+                  <input id="max_bookings" type="text" formControlName="max_bookings" placeholder="unlimited" [ngClass]="{'valid-control':genDetailsForm.controls['max_bookings'].valid,
+                        'invalid-control':!genDetailsForm.controls['max_bookings'].valid}" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="btnSubmit"></label>
+              <div class="col-md-5">
+                <button [disabled]="!genDetailsForm.valid" (click)="setEntitySubmitType(true)" type="submit" id="btnSubmit" class="btn btn-success from-control"
+                  style="width: 100%">
+                  <i class="fa fa-save"></i> Save
+                </button>
+              </div>
+              <div class="col-md-5">
+                <button type="submit" (click)="setEntitySubmitType(false)" class="btn btn-danger from-control" style="width: 100%">
+                  <i class="fa fa-remove"></i> Delete
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6" style="height: 100%">
+          <div class="row" style="height: 8%;">
+            <div class="col-md-12">
+              <input id=file type="file" (change)="onUpload($event)" class="inputfile" />
+              <label for="file" class="btn btn-primary" style="margin-bottom: 2px;">
+                <i class="fa fa-upload"></i> Upload image</label>
+            </div>
+          </div>
+          <div class="row" style="height: 92%;">
+            <div class="col-md-12" style="height: 100%!important; overflow: auto;">
+              <ul *ngIf="images.length>0" class="imgList">
+                <li *ngFor="let img of images; let i=index" style="padding-left: 1px;padding-right: 1px;">
+                  <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)" style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
+                </li>
+              </ul>
+              <img *ngIf="images.length==0" [src]="COMP_IMG" style="height: auto;width: auto;max-height: 100px;max-width: 100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [hidden]="!tabs.timeSettings.active" style="height: 95%;padding-top: 5px;">
+      <div class="row" style="margin-right: 0px;height: 100%">
+        <div class="col-md-12" style="padding-right: 0px;height: 100%">
+          <ul class="nav nav-tabs">
+            <li (click)="selectSubTab('workingHours')" [class.active]="subTabs.workingHours.active" style="cursor: pointer;">
+              <a style="color: black">
+                <i class="fa fa-clock-o"></i> Working hours</a>
+            </li>
+            <li (click)="selectSubTab('specialDays')" [class.active]="subTabs.specialDays.active" style="cursor: pointer;">
+              <a style="color: black;">
+                <i class="fa fa-calendar"></i> Special Days</a>
+            </li>
+          </ul>
+          <div [hidden]="!subTabs.workingHours.active" style="height: 95%;padding-top: 5px;">
+            <div class="row" style="height: 5%">
+              <div class="col-md-1" style="padding: 5px;">
+                <div class="checkbox" style="margin: 0px 0px 0px 15px;padding: 5px;">
+                  <label>
+                    <input [(ngModel)]="isCustomWH" type="checkbox" (change)="onIsCustomChange()" value="">Custom</label>
+                </div>
+              </div>
+
+              <div class="col-md-1" style="padding: 5px;">
+                <div class="checkbox" style="margin: 0px;padding: 5px;">
+                  <label>
+                    <input [(ngModel)]="isVariableWH" type="checkbox" (change)="onIsVariableChange()" value="">Variable</label>
+                </div>
+              </div>
+              <div class="col-md-4" style="padding:5px;">
+                <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%;">
+                  <option value="0">Company working hours</option>
+                  <option *ngFor="let wh of customWorkingHours; let i=index;" [value]="wh.id">{{wh.name}}</option>
+                </select>
+                <button type="button" *ngIf="selectedWhId!=0 &&  selectedWhId!=-1" (click)="showAddEditCustomWHDialog(false)" style="width: 10%;"
+                  class="btn btn-primary">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button type="button" (click)="showAddEditCustomWHDialog(true)" style="width: 10%;" class="btn btn-primary">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+              <div class="col-md-2" style="padding: 5px;">
+                <p-calendar [showIcon]="true" [(ngModel)]="selectedDateWorkingHours" [hidden]="!isVariableWH" placeholder="Date" [locale]="en"
+                  dateFormat="dd.M.yy" (onSelect)="onSelectedDateChange()" readonlyInput="readonlyInput"></p-calendar>
+              </div>
+            </div>
+            <div class="row" style="height: 90%">
+              <div class="col-md-12" style="height: 100%; overflow: auto;">
+                <bf-working-hours [disabled]="!isCustomWH && !isVariableWH" [workingHours]="selectedWorkingHours" [workingHoursBounds]="companyWorkingHours"
+                  (selectTimeSlot)="onUpdateWorkingHours($event)"></bf-working-hours>
+              </div>
+            </div>
+            <!--<div class="row" style="height: 5%;margin-top: 25px;">
+              
+            </div>-->
+          </div>
+          <div [hidden]="!subTabs.specialDays.active" style="height: 95%;padding-top: 5px;">
+            <!-- <p-schedule [events]="specialDays" [height]="auto" [editable]="true" [aspectRatio]="3.2" (onDayClick)="onDayClick($event)"
+              (onEventClick)="onEventClick($event)" (onEventDrop)="onEventDrop($event)" [header]="calendarOptions"></p-schedule> -->
+              <bf-full-calendar [events]="specialDays" (dateClick)="onDayClick($event)" (eventClick)="onEventClick($event)" (eventDrop)="onEventDrop($event)"></bf-full-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Add entity" [(visible)]="displayDialogAddEntity" [responsive]="true" showEffect="fade" [modal]="true" width="400">
+  <form class="form-horizontal" style="height: 100%" id="addEntity-form" [formGroup]="addEntityForm" (ngSubmit)="onAddEntityForm()">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="addEntityName_RO">Entity name RO:</label>
+        </div>
+        <div class="ui-grid-col-8">
+          <input type="text" id="addEntityName_RO" formControlName="addEntityName_RO" [ngClass]="{'valid-control':addEntityForm.controls['addEntityName_RO'].valid,
+                        'invalid-control':!addEntityForm.controls['addEntityName_RO'].valid}" class="form-control">
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="addEntityName_EN">Entity name EN:</label>
+        </div>
+        <div class="ui-grid-col-8">
+          <input type="text" id="addEntityName_EN" formControlName="addEntityName_EN" [ngClass]="{'valid-control':addEntityForm.controls['addEntityName_EN'].valid,
+                        'invalid-control':!addEntityForm.controls['addEntityName_EN'].valid}" class="form-control">
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="submit" [disabled]="!addEntityForm.valid" class="btn btn-success">
+          <i class="fa fa-check"> Save</i>
+        </button>
+      </div>
+    </footer>
+  </form>
+</p-dialog>
+
+<p-dialog header="{{isAddCustomWHMode == true ? 'Add' : 'Edit'}}" [(visible)]="displayDialogAddCustomWH" [responsive]="true"
+  showEffect="fade" [modal]="true" width="400">
+  <form class="form-horizontal" style="height: 100%" id="addCustomWH-form" [formGroup]="addCustomWHForm" (ngSubmit)="onAddEditCustomWH()">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="customWHName">Name:</label>
+        </div>
+        <div class="ui-grid-col-8">
+          <input type="text" id="customWHName" formControlName="customWHName" [ngClass]="{'valid-control':addCustomWHForm.controls['customWHName'].valid,
+                        'invalid-control':!addCustomWHForm.controls['customWHName'].valid}" class="form-control">
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="submit" (click)="setCustomWHSubmitType(true)" [disabled]="!addCustomWHForm.valid" class="btn btn-success">
+          <i class="fa fa-check"> Save</i>
+        </button>
+        <button type="submit" (click)="setCustomWHSubmitType(false)" *ngIf="!isAddCustomWHMode" class="btn btn-danger">
+          <i class="fa fa-remove"> Delete</i>
+        </button>
+      </div>
+    </footer>
+  </form>
+</p-dialog>
+
+<p-dialog header="{{selectedDate==null ? '' : (selectedDate | date:'dd.MMM.yyyy')}}" [(visible)]="displayDialogSpecialDays"
+  [responsive]="true" showEffect="fade" [modal]="false" width="700" height="600">
+  <div style="width: 650px;height: 450px;overflow: auto">
+    <bf-working-hours [workingHours]="specialDayWorkingHours" [singleDay]="selectedWeekDayIndex" [workingHoursBounds]="companyWorkingHours"
+      (selectTimeSlot)="onUpdateWorkingHoursSpecialDay($event)"></bf-working-hours>
+  </div>
+  <footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <input type="button" [value]="getCurrentLabelValue('lblDelete')" class="btn btn-danger" (click)="removeSpecialDay()">
+      <input type="button" [value]="getCurrentLabelValue('lblSave')" class="btn btn-success" (click)="saveSpecialDay()">
+      <p-checkbox binary="true" label="{{getCurrentLabelValue('lblRepeatEveryYear')}}" [(ngModel)]="isRepeatEveryYear"></p-checkbox>
+    </div>
+  </footer>
+</p-dialog>
+
+<p-dialog [(visible)]="displayImageDialog" [responsive]="true" showEffect="fade" [modal]="false" width="600" height="500">
+  <img *ngIf="selectedImage!=null" [src]="'data:image/png;base64,'+selectedImage.img" style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">
+  <footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" [value]="" class="btn btn-danger" (click)="deleteImage()">
+        <i class="fa fa-remove"></i> Delete
+      </button>
+    </div>
+  </footer>
+</p-dialog>
+
+<p-growl [value]="pageMsgs"></p-growl>

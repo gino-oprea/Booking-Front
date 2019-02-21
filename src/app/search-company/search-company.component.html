@@ -1,0 +1,22 @@
+<legend style="margin-bottom: 10px;">Companies</legend>
+<div class="row" style="height: 100%;">
+  <div class="col-md-12" style="height:100%;overflow: auto;">
+    <div class="row" (click)="goToBooking(company.id,company.name)" *ngFor="let company of companies; let i=index" style="cursor:pointer;">
+      <div class="container-fluid well span6 col-md-11" style="margin-bottom: 5px;">
+        <div class="row-fluid">
+          <div *ngIf="company.image" class="col-md-3">            
+            <img [src]="company.image.length==0 ? COMP_IMG : domSanitizationService.bypassSecurityTrustUrl('data:image/png;base64,'+company.image[0].img)"
+              style="height: auto;width: auto;max-height: 110px;">
+          </div>
+          <div class="col-md-9">
+            <h3 style="margin-top: 0px;">{{company.name}}</h3>
+            <h6>Category: {{company.categoryName_EN}}</h6> 
+            <h6>Email: {{company.email}}</h6>            
+            <h6>Town: {{company.town}}</h6>
+            <h6>Address: {{company.address}}</h6>
+          </div>          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

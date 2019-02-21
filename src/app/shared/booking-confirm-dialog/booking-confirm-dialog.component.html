@@ -1,0 +1,125 @@
+<div *ngIf="autoAssignedEntityCombination" class="row" style="padding-left:20px;padding-right: 20px;">
+  <h4 *ngFor="let entity of autoAssignedEntityCombination.entityCombination" style="display: inline-block; padding-left:5px;padding-right: 5px;">
+    <span class="label label-default">{{entity.entityName_EN}}</span>
+  </h4>
+</div>
+<br>
+<form *ngIf="autoAssignedEntityCombination!=null" class="form-horizontal" style="height: 100%; width:100%;" id="addLevel-form" [formGroup]="confirmBooking" (ngSubmit)="saveBooking()">
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4">
+        <label style="padding: 5px;" for="firstName">First Name:</label>
+      </div>
+      <div class="ui-grid-col-8">
+        <input type="text" id="firstName" formControlName="firstName" [ngClass]="{'valid-control':confirmBooking.controls['firstName'].valid,
+                      'invalid-control':!confirmBooking.controls['firstName'].valid}" class="form-control">
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4">
+        <label style="padding: 5px;" for="lastName">Last Name:</label>
+      </div>
+      <div class="ui-grid-col-8">
+        <input type="text" id="lastName" formControlName="lastName" [ngClass]="{'valid-control':confirmBooking.controls['lastName'].valid,
+                      'invalid-control':!confirmBooking.controls['lastName'].valid}" class="form-control">
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4">
+        <label style="padding: 5px;" for="phone">Phone:</label>
+      </div>
+      <div class="ui-grid-col-8">
+        <input type="text" id="phone" formControlName="phone" [ngClass]="{'valid-control':confirmBooking.controls['phone'].valid,
+        'invalid-control':!confirmBooking.controls['phone'].valid}" class="form-control">
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4">
+        <label style="padding: 5px;" for="email">Email:</label>
+      </div>
+      <div class="ui-grid-col-8">
+        <input type="text" id="email" formControlName="email" [ngClass]="{'valid-control':confirmBooking.controls['email'].valid,
+        'invalid-control':!confirmBooking.controls['email'].valid}" class="form-control">
+      </div>
+    </div>
+  </div>
+  <br>
+  <div *ngIf="isBookingByDay">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="startDate">Start Date:</label>
+        </div>
+        <div class="col-md-8">
+          <p-calendar [showIcon]="true" formControlName="startDate" [locale]="en" placeholder="Date" dateFormat="dd.M.yy" readonlyInput="true"></p-calendar>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="endDate">End Date:</label>
+        </div>
+        <div class="col-md-8">
+          <p-calendar [showIcon]="true" formControlName="endDate" [locale]="en" placeholder="Date" dateFormat="dd.M.yy" readonlyInput="true"></p-calendar>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div *ngIf="!isBookingByDay">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="date">Date:</label>
+        </div>
+        <div class="col-md-8">
+          <p-calendar formControlName="date" [locale]="en" placeholder="Date" dateFormat="dd.M.yy"></p-calendar>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="startTime">Start Time:</label>
+        </div>
+        <div class="col-md-8">
+          <p-calendar formControlName="startTime" hourFormat="24" [locale]="en" [stepMinute]="30" placeholder="Date" [timeOnly]="true"
+            readonlyInput="true"></p-calendar>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="endTime">End Time:</label>
+        </div>
+        <div class="col-md-8">
+          <p-calendar formControlName="endTime" hourFormat="24" [locale]="en" placeholder="Date" [timeOnly]="true"></p-calendar>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="submit" [disabled]="!confirmBooking.valid" class="btn btn-success">
+        <i class="fa fa-check"> Confirm</i>
+      </button>
+    </div>
+  </footer>
+</form>
+
+<p-growl [value]="pageMsgs"></p-growl>

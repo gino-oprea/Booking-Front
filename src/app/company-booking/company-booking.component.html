@@ -1,0 +1,20 @@
+<legend style="margin-bottom: 10px;">{{companyName}}</legend>
+<div class="row" style="height:100%">
+  <div class="col-md-2" style="height:100%;">
+    <!-- <bf-booking-filter (filterChanged)="filterChanged($event)"></bf-booking-filter> -->
+    <bf-booking-filter [idCompany]="idCompany" [selectedDate]="shiftedDate" (filterChanged)="filterChanged($event)"></bf-booking-filter>   
+  </div>
+  <div *ngIf="bookingDefaultDuration" class="col-md-10" style="height:100%; overflow-x: auto;">
+    <bf-booking-calendar *ngIf="showCalendarBooking"></bf-booking-calendar>
+    <bf-booking-hours *ngIf="!showCalendarBooking" [idCompany]="idCompany" [selectedFilter]="selectedFilter" 
+    (selectDate)="onShiftWeek($event)" (selectTimeSlot)="onSelectBookingHour($event)"></bf-booking-hours>
+  </div>
+</div>
+
+<p-dialog header="Confirm Booking" (onHide)="onCloseConfirmDialog()" [(visible)]="displayDialogConfirmBooking" [responsive]="true" showEffect="fade" [modal]="true"
+  width="400">
+  <bf-booking-confirm-dialog [isBookingByDay]="showCalendarBooking" [selectedDayTime]="selectedBookingHourTransferObject?selectedBookingHourTransferObject.workingDay:null"
+  [autoAssignedEntityCombination]="autoAssignedEntityCombination" [idCompany]="idCompany" (bookingSaved)="bookingSaved($event)"></bf-booking-confirm-dialog>
+</p-dialog>
+
+<p-growl [value]="pageMsgs"></p-growl>

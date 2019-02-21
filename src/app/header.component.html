@@ -1,0 +1,122 @@
+<nav class="navbar navbar-default" style="margin-bottom:0px">
+  <div class="container-fluid" >
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <!--<ul class="nav navbar-nav" style="height:100%">
+        <li routerLinkActive="active" style="height:100%">
+          <a [routerLink]="['/searchcompany']">
+          {{getCurrentLabelValue('lblSearch')}}
+          </a>
+        </li>            
+      </ul>-->
+      <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountryId" (change)="loadTowns()">           
+           <option *ngFor="let c of countriesDic" [value]="c.id">{{c.name_Formatted}}</option>
+      </select>
+      <select style="height: 40px;width: 150px;" [(ngModel)]="selectedTownId">
+           <option value="0">All cities</option> 
+           <option *ngFor="let t of townsDic; let i=index" [value]="i+1">{{t}}</option>
+      </select>
+      <input type="text" [(ngModel)]="searchString" placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()" style="height:40px;width:300px;">
+      <button class="btn btn-primary from-control" (click)="doSearch()"><i class="fa fa-search"></i></button>
+      <ul class="nav navbar-nav navbar-right">
+        <li style="margin-top: 10px;">
+        <p-dropdown [options]="cultures" [style]="{'width':'100px'}" 
+        [(ngModel)]="selectedCulture" (onChange)="onCultureChange()"></p-dropdown>
+        </li>       
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+            <b>{{getMyAccountText()}}</b> <span class="caret"></span></a>
+            <ul id="login-dp" class="dropdown-menu">
+              <li *ngIf="!isAuth()">
+                <div class="row" > 
+                  <div class="col-md-12">                  
+                      <form class="form" role="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" id="login-nav">
+                          <div class="form-group">
+                            <label class="sr-only" for="email">Email address</label>
+                            <input type="text" class="form-control" id="email"
+                            formControlName="email" 
+                            placeholder="Email">
+                          </div>
+                          <div class="form-group">
+                            <label class="sr-only" for="password">
+                              {{getCurrentLabelValue('lblPassword')}}</label>
+                            <input type="password" class="form-control" id="password"
+                            formControlName="password" [placeholder]="getCurrentLabelValue('lblPassword')">
+                            <div class="help-block text-right">
+                              <a style="cursor: pointer;" (click)="displayConfirmDialog()">
+                                {{getCurrentLabelValue('lblForgotPassword')}}</a>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Log in</button>                              
+                          </div>                          
+                      </form>
+                </div>                
+                <div class="bottom text-center">
+                   <a [routerLink]="['/register']" style="cursor: pointer;"><b>{{getCurrentLabelValue('lblRegister')}}</b></a>
+                </div>
+                </div>
+              </li>
+              <li *ngIf="isAuth()">
+                <div class="row">
+                  <div class="col-md-12"> 
+                    <div class="row" style="margin-bottom: 10px;">
+                      <div class="col-md-12" style="text-align: center;">
+                        <a style="cursor: pointer;" [routerLink]="['/myaccount']">
+                          <b>
+                          {{getCurrentLabelValue('lblAccountDetails')}}
+                          </b>
+                        </a>
+                      </div>
+                    </div> 
+                    <div class="row" style="margin-bottom: 10px;">
+                      <div class="col-md-12" style="text-align: center;">
+                        <a style="cursor: pointer;" [routerLink]="['/changepassword']">
+                          <b>
+                          {{getCurrentLabelValue('lblChangePassword')}}
+                          </b>
+                        </a>
+                      </div>
+                    </div>                    
+                    <div class="row" style="margin-bottom: 10px;">
+                      <div class="col-md-12" style="text-align: center">
+                        <a style="cursor: pointer;" [routerLink]="['/mycompanies']">
+                          <b>{{getCurrentLabelValue('lblMyCompanies')}}</b></a>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px;">
+                      <div class="col-md-12" style="text-align: center">
+                        <a style="cursor: pointer;" [routerLink]="['/mybookings']">
+                          <b>
+                          {{getCurrentLabelValue('lblMyBookings')}}
+                        </b>
+                      </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bottom text-center">
+                    <a (click)="onLogout()" style="cursor: pointer"><b>Logout</b></a>                  
+                </div>
+                </div>
+              </li>
+            </ul>
+        </li>         
+      </ul>      
+</div>
+<!-- /.navbar-collapse -->
+</div>
+<!-- /.container-fluid -->
+</nav>
+
+<p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayDialog" 
+modal="modal" width="300" responsive="true">
+    <p>{{getCurrentLabelValue('lblConfirmForgotPassword')}}</p>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button type="button" pButton  (click)="displayDialog=false" [label]="getCurrentLabelValue('lblNo')"></button>
+                <button type="button" pButton  (click)="onForgotPassword()" [label]="getCurrentLabelValue('lblYes')"></button>
+            </div>
+        </footer>
+</p-dialog>
+
+<p-growl [value]="pageMsgs"></p-growl>

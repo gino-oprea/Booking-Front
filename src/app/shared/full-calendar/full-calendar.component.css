@@ -1,0 +1,18 @@
+.daySlot{
+  width: 14%; 
+  vertical-align: top;  
+  border: 1px solid #c8c8c8;
+  background: white;
+}
+.daySlot-currentDay{
+  width: 14%; 
+  vertical-align: top;  
+  border: 1px solid #c8c8c8;
+  background: lightblue;
+}
+.daySlot:hover{
+  width: 14%; 
+  vertical-align: top;  
+  border: 1px solid #c8c8c8;
+  background: lightgray;
+}
