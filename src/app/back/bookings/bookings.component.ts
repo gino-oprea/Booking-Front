@@ -22,13 +22,12 @@ import { Booking } from '../../objects/booking';
   templateUrl: './bookings.component.html',
   styleUrls: ['./bookings.component.css']
 })
-export class BookingsComponent extends BaseComponent implements OnInit
-{
+export class BookingsComponent extends BaseComponent implements OnInit {
   bookingDefaultDuration: BookingDefaultDuration;
   showCalendarBooking: boolean;
   selectedFilter: BookingFilter;// = new BookingFilter(null, null, new Date());
   shiftedDate: Date = new Date();
-  displayDialogConfirmBooking: boolean = false;  
+  displayDialogConfirmBooking: boolean = false;
   selectedBookingHourTransferObject: SelectBookingHourTransferObject;// = new SelectBookingHourTransferObject(new WorkingDay('', new Date()), []);
   autoAssignedEntityCombination: AutoAssignedEntityCombination;
 
@@ -41,12 +40,11 @@ export class BookingsComponent extends BaseComponent implements OnInit
   searchType: number = 1;
 
   tabs: any;
-  isAddTabEnabled:boolean = true;
+  isAddTabEnabled: boolean = true;
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
-    private entitiesService: EntitiesService)
-  { 
+    private entitiesService: EntitiesService) {
     super(injector, []);
     this.site = WebSites.Back;
     this.pageName = "Bookings";
@@ -55,70 +53,57 @@ export class BookingsComponent extends BaseComponent implements OnInit
       add: { active: true },
       edit: { active: false }
     };
-       
+
     let parentRoute: ActivatedRoute = this.route.parent;
-    this.routeSubscription = parentRoute.params.subscribe((params: any) =>
-    {
-      if (params.hasOwnProperty('id'))
-      {
+    this.routeSubscription = parentRoute.params.subscribe((params: any) => {
+      if (params.hasOwnProperty('id')) {
         this.idCompany = +params['id'];
       }
     });
   }
 
-  ngOnInit()
-  {
+  ngOnInit() {
     this.logAction(this.idCompany, false, Actions.View, "", "");
     this.getBookingDefaultDuration();
   }
 
-  filterChanged(value: BookingFilter)
-  {    
-    this.selectedFilter = new BookingFilter(value.filteredLevels,value.allEntitiesPossibleCombinations,value.date);    
+  filterChanged(value: BookingFilter) {
+    this.selectedFilter = new BookingFilter(value.filteredLevels, value.allEntitiesPossibleCombinations, value.date);
   }
 
-  onShiftWeek(value: Date)
-  {
+  onShiftWeek(value: Date) {
     this.selectedFilter.date = value;
     this.shiftedDate = value;
   }
 
-  getTimeslotBookings(bookingDate:Date)
-  {
-    this.bookingService.getBookingsByTimeSlot(this.idCompany, CommonServiceMethods.getDateString(bookingDate,true)).subscribe(gro =>
-    {
-      if (gro.error != '')
-      {
+  getTimeslotBookings(bookingDate: Date) {
+    this.bookingService.getBookingsByTimeSlot(this.idCompany, CommonServiceMethods.getDateString(bookingDate, true)).subscribe(gro => {
+      if (gro.error != '') {
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
         this.showPageMessage('error', 'Error', gro.error);
       }
-      else
-      {
+      else {
         this.timeslotBookings = <Booking[]>gro.objList;
 
-        if (this.timeslotBookings.length > 0)
-        {
+        if (this.timeslotBookings.length > 0) {
           this.selectedBooking = this.timeslotBookings[0];
           this.selectTab('edit');
         }
-        else
-        {
+        else {
           this.selectedBooking = null;
           this.selectTab('add');
         }
       }
     },
-      err =>
-      {
+      err => {
         this.logAction(this.idCompany, true, Actions.Search, 'http error getting bookings by timeslot', err.status + ' ' + err.statusText);
         this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
       });
   }
 
-  onSelectBookingHour(value: SelectBookingHourTransferObject)
-  {
+  onSelectBookingHour(value: SelectBookingHourTransferObject) {
     this.selectedBookingHourTransferObject = value;//JSON.parse(JSON.stringify(value));   
-    
+
     let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
     let h = selectedTime.split(':')[0];
     let m = selectedTime.split(':')[1];
@@ -130,10 +115,8 @@ export class BookingsComponent extends BaseComponent implements OnInit
     this.getAutoAssignedEntities();
     //this.displayDialogConfirmBooking = true;              
   }
-  getAutoAssignedEntities()
-  {    
-    if (this.selectedBookingHourTransferObject.workingDay.workHours != "")
-    {
+  getAutoAssignedEntities() {
+    if (this.selectedBookingHourTransferObject.workingDay.workHours != "") {
       //console.log(this.selectedBookingHourTransferObject.bookingDayTimeslots);
       let startTime: string = "";
       let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
@@ -144,65 +127,51 @@ export class BookingsComponent extends BaseComponent implements OnInit
       this.bookingService.autoAssignEntitiesToBooking(this.idCompany,
         CommonServiceMethods.getDateString(new Date(this.selectedBookingHourTransferObject.workingDay.date)),
         startTime,
-        new AutoAssignPayload(this.selectedFilter.filteredLevels, this.selectedBookingHourTransferObject.bookingDayTimeslots)).subscribe(gro =>
-        {
-          if (gro.error != '')
-          {
+        new AutoAssignPayload(this.selectedFilter.filteredLevels, this.selectedBookingHourTransferObject.bookingDayTimeslots)).subscribe(gro => {
+          if (gro.error != '') {
             this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
             this.showPageMessage('error', 'Error', gro.error);
           }
-          else
-          {
+          else {
             this.logAction(this.idCompany, false, Actions.Add, '', 'auto assign booking');
-            if (gro.objList != null)
-            {
+            if (gro.objList != null) {
               this.autoAssignedEntityCombination = <AutoAssignedEntityCombination>gro.objList[0];
               this.displayDialogConfirmBooking = true;
 
               this.enableAddTab(true);
             }
-            else
-            {
+            else {
               //this.showPageMessage("warn", "Warning", 'Selected combination duration does not fit in the remaining timeslots! Please select another timeslot!');
               this.enableAddTab(false);
               this.displayDialogConfirmBooking = true;
             }
           }
         },
-        err =>
-        {
-          this.logAction(this.idCompany, true, Actions.Add, 'http error auto assign booking', err.status + ' ' + err.statusText);
-          this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
-        });
+          err => {
+            this.logAction(this.idCompany, true, Actions.Add, 'http error auto assign booking', err.status + ' ' + err.statusText);
+            this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
+          });
     }
   }
 
-  enableAddTab(doEnable:boolean)
-  {
-    if (doEnable)
-    {
-      this.isAddTabEnabled = true;      
+  enableAddTab(doEnable: boolean) {
+    if (doEnable) {
+      this.isAddTabEnabled = true;
     }
-    else
-    {
-      this.isAddTabEnabled = false;      
+    else {
+      this.isAddTabEnabled = false;
     }
   }
 
-  getBookingDefaultDuration()
-  {
-    this.bookingService.getBookingDefaultDuration(this.idCompany).subscribe(result =>
-    {
+  getBookingDefaultDuration() {
+    this.bookingService.getBookingDefaultDuration(this.idCompany).subscribe(result => {
       let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
+      if (gro.error != '') {
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
         this.showPageMessage('error', 'Error', gro.error);
       }
-      else
-      {
-        if (gro.objList.length > 0)
-        {
+      else {
+        if (gro.objList.length > 0) {
           this.bookingDefaultDuration = <BookingDefaultDuration>gro.objList[0];
           this.calculateDefaultDuration();
         }
@@ -210,50 +179,41 @@ export class BookingsComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting levels', ''));
   }
-  calculateDefaultDuration()
-  {
+  calculateDefaultDuration() {
     let duration = this.bookingDefaultDuration.defaultDuration;
     let durType = this.bookingDefaultDuration.durationType;
 
-    if (durType == DurationType.Hours || durType == DurationType.Minutes)
-    {
+    if (durType == DurationType.Hours || durType == DurationType.Minutes) {
       this.showCalendarBooking = false;
     }
-    else
-    {
+    else {
       this.showCalendarBooking = true;
     }
-  }  
+  }
 
-  searchBooking()
-  {
-    if (this.searchString.trim() != "")
-    {      
+  searchBooking() {
+    if (this.searchString.trim() != "") {
       this.bookingSearchFilter = new BookingSearchFilter(this.searchString, this.searchType);
     }
   }
 
-  clearSearchBooking()
-  {
+  clearSearchBooking() {
     this.searchString = "";
     this.bookingSearchFilter = null;
   }
 
-  onCloseManageBookingsDialog()
-  {
-    if (this.autoAssignedEntityCombination)
-    {
+  onCloseManageBookingsDialog() {
+    if (this.autoAssignedEntityCombination) {
       let startTime: Date;
       let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
       let h = selectedTime.split(':')[0];
       let m = selectedTime.split(':')[1];
-    
+
       let date = new Date(this.selectedBookingHourTransferObject.workingDay.date);
       startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), parseInt(h), parseInt(m), 0, 0);
-    
+
       let bookingEntities: BookingEntity[] = [];
-      this.autoAssignedEntityCombination.entityCombination.forEach(e =>
-      {
+      this.autoAssignedEntityCombination.entityCombination.forEach(e => {
         bookingEntities.push(new BookingEntity(e.id, false, e.idLevel, e.isMultipleBooking));
       });
 
@@ -261,68 +221,57 @@ export class BookingsComponent extends BaseComponent implements OnInit
         CommonServiceMethods.getDateTimeString(date), null,
         CommonServiceMethods.getDateTimeString(startTime), null, null);
 
-   
-      this.bookingService.removePotentialBooking(this.autoAssignedEntityCombination.idPotentialBooking).subscribe(result =>
-      {
-        let gro = <GenericResponseObject>result;
-        if (gro.error != '')
-        {
-          console.log(gro);
-          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-        }
-        else
-        {
-          console.log('potential booking removed from server singleton')
-        }
-      },
-        err => this.logAction(this.idCompany, true, Actions.Search, 'http error removing potential booking from server singleton', ''));
+      if (this.autoAssignedEntityCombination.idPotentialBooking != null) {
+        this.bookingService.removePotentialBooking(this.autoAssignedEntityCombination.idPotentialBooking).subscribe(result => {
+          let gro = <GenericResponseObject>result;
+          if (gro.error != '') {
+            console.log(gro);
+            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
+          }
+          else {
+            console.log('potential booking removed from server singleton')
+          }
+        },
+          err => this.logAction(this.idCompany, true, Actions.Search, 'http error removing potential booking from server singleton', ''));
+      }
     }
   }
 
-  selectTab(title: string)
-  {
-    if (title == 'add')
-    {
+  selectTab(title: string) {
+    if (title == 'add') {
       this.tabs.add.active = true;
       this.tabs.edit.active = false;
     }
-    if (title == 'edit')
-    {
+    if (title == 'edit') {
       this.tabs.add.active = false;
       this.tabs.edit.active = true;
     }
   }
-  bookingSaved(msg: Message)
-  {
-     if (msg.type == MessageType.Error)
-       this.showPageMessage('error', 'Error', msg.value);
-     if (msg.type == MessageType.Warning)
-       this.showPageMessage('warn', 'Warning', msg.value);
-     if (msg.type == MessageType.Success)
-       this.showPageMessage('success', 'Success', msg.value);
+  bookingSaved(msg: Message) {
+    if (msg.type == MessageType.Error)
+      this.showPageMessage('error', 'Error', msg.value);
+    if (msg.type == MessageType.Warning)
+      this.showPageMessage('warn', 'Warning', msg.value);
+    if (msg.type == MessageType.Success)
+      this.showPageMessage('success', 'Success', msg.value);
 
-     this.displayDialogConfirmBooking = false;
-     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
+    this.displayDialogConfirmBooking = false;
+    this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
   }
 
-  selectBooking(booking: Booking)
-  {
+  selectBooking(booking: Booking) {
     this.selectedBooking = booking;
   }
-  deleteBooking()
-  {
-    this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => 
-    {
+  deleteBooking() {
+    this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => {
       let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
+      if (gro.error != '') {
         this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
         this.showPageMessage('error', 'Error', gro.error);
       }
-      else
-      {
+      else {
         this.showPageMessage('success', 'Booking removed', gro.error);
-        this.getTimeslotBookings(this.selectedBookingDate);   
+        this.getTimeslotBookings(this.selectedBookingDate);
         this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
       }
     },

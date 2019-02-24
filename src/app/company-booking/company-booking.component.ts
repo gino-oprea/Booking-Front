@@ -26,61 +26,50 @@ import { Message } from '../objects/message';
   templateUrl: './company-booking.component.html',
   styleUrls: ['./company-booking.component.css']
 })
-export class CompanyBookingComponent extends BaseComponent implements OnInit
-{
+export class CompanyBookingComponent extends BaseComponent implements OnInit {
   companyName: string = '';
   bookingDefaultDuration: BookingDefaultDuration;
   showCalendarBooking: boolean;
   selectedFilter: BookingFilter;// = new BookingFilter(null, null, new Date());
   shiftedDate: Date = new Date();
-  displayDialogConfirmBooking: boolean = false;  
+  displayDialogConfirmBooking: boolean = false;
   selectedBookingHourTransferObject: SelectBookingHourTransferObject;// = new SelectBookingHourTransferObject(new WorkingDay('', new Date()), []);
-  autoAssignedEntityCombination: AutoAssignedEntityCombination;  
+  autoAssignedEntityCombination: AutoAssignedEntityCombination;
   //entitiesWithLevel: EntityWithLevel[];
-  
+
 
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
-    private entitiesService: EntitiesService)
-  {
+    private entitiesService: EntitiesService) {
     super(injector, []);
     this.site = WebSites.Front;
     this.pageName = 'Company booking';
 
-    this.routeSubscription = this.route.params.subscribe((params: any) =>
-    {
-      if (params.hasOwnProperty('id'))
-      {
+    this.routeSubscription = this.route.params.subscribe((params: any) => {
+      if (params.hasOwnProperty('id')) {
         this.idCompany = +params['id'];
       }
-      if (params.hasOwnProperty('companyname'))
-      {
-        this.companyName = params['companyname']; 
+      if (params.hasOwnProperty('companyname')) {
+        this.companyName = params['companyname'];
       }
     });
   }
 
-  ngOnInit() 
-  {
+  ngOnInit() {
     this.logAction(this.idCompany, false, Actions.View, "", "");
 
     this.getBookingDefaultDuration();
   }
-  getBookingDefaultDuration()
-  {
-    this.bookingService.getBookingDefaultDuration(this.idCompany).subscribe(result =>
-    {
+  getBookingDefaultDuration() {
+    this.bookingService.getBookingDefaultDuration(this.idCompany).subscribe(result => {
       let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
+      if (gro.error != '') {
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
         this.showPageMessage('error', 'Error', gro.error);
       }
-      else
-      {
-        if (gro.objList.length > 0)
-        {
+      else {
+        if (gro.objList.length > 0) {
           this.bookingDefaultDuration = <BookingDefaultDuration>gro.objList[0];
           this.calculateDefaultDuration();
         }
@@ -88,28 +77,23 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting levels', ''));
   }
-  calculateDefaultDuration()
-  {
+  calculateDefaultDuration() {
     let duration = this.bookingDefaultDuration.defaultDuration;
     let durType = this.bookingDefaultDuration.durationType;
 
-    if (durType == DurationType.Hours || durType == DurationType.Minutes)
-    {
+    if (durType == DurationType.Hours || durType == DurationType.Minutes) {
       this.showCalendarBooking = false;
     }
-    else
-    {
+    else {
       this.showCalendarBooking = true;
     }
-  }  
-  
-
-  filterChanged(value: BookingFilter)
-  {    
-    this.selectedFilter = new BookingFilter(value.filteredLevels,value.allEntitiesPossibleCombinations,value.date);    
   }
-  bookingSaved(msg: Message)
-  {
+
+
+  filterChanged(value: BookingFilter) {
+    this.selectedFilter = new BookingFilter(value.filteredLevels, value.allEntitiesPossibleCombinations, value.date);
+  }
+  bookingSaved(msg: Message) {
     if (msg.type == MessageType.Error)
       this.showPageMessage('error', 'Error', msg.value);
     if (msg.type == MessageType.Warning)
@@ -120,21 +104,17 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
     this.displayDialogConfirmBooking = false;
     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
   }
-  onSelectBookingHour(value: SelectBookingHourTransferObject)
-  {    
+  onSelectBookingHour(value: SelectBookingHourTransferObject) {
     this.selectedBookingHourTransferObject = value//JSON.parse(JSON.stringify(value));
     this.getAutoAssignedEntities();
   }
-  onShiftWeek(value: Date)
-  {
+  onShiftWeek(value: Date) {
     this.selectedFilter.date = value;
     this.shiftedDate = value;
   }
 
-  getAutoAssignedEntities()
-  {    
-    if (this.selectedBookingHourTransferObject.workingDay.workHours != "")
-    {
+  getAutoAssignedEntities() {
+    if (this.selectedBookingHourTransferObject.workingDay.workHours != "") {
       //console.log(this.selectedBookingHourTransferObject.bookingDayTimeslots);
       let startTime: string = "";
       let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
@@ -142,50 +122,44 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
       let m = selectedTime.split(':')[1];
       startTime = h + ":" + m;
 
-      this.bookingService.autoAssignEntitiesToBooking(this.idCompany,
-        CommonServiceMethods.getDateString(new Date(this.selectedBookingHourTransferObject.workingDay.date)),
-        startTime,
-        new AutoAssignPayload(this.selectedFilter.filteredLevels, this.selectedBookingHourTransferObject.bookingDayTimeslots)).subscribe(gro =>
-        {
-          if (gro.error != '')
-          {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+
+      let bookingDate = CommonServiceMethods.getDateString(new Date(this.selectedBookingHourTransferObject.workingDay.date));
+      let autoAssignPayload = new AutoAssignPayload(this.selectedFilter.filteredLevels, this.selectedBookingHourTransferObject.bookingDayTimeslots);
+
+      this.bookingService.autoAssignEntitiesToBooking(this.idCompany, bookingDate, startTime, autoAssignPayload).subscribe(gro => {
+        if (gro.error != '') {
+          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
+          this.showPageMessage('error', 'Error', gro.error);
+        }
+        else {
+          this.logAction(this.idCompany, false, Actions.Add, '', 'auto assign booking');
+          if (gro.objList != null) {
+            this.autoAssignedEntityCombination = <AutoAssignedEntityCombination>gro.objList[0];
+            this.displayDialogConfirmBooking = true;
           }
           else
-          {
-            this.logAction(this.idCompany, false, Actions.Add, '', 'auto assign booking');
-            if (gro.objList != null)
-            {
-              this.autoAssignedEntityCombination = <AutoAssignedEntityCombination>gro.objList[0];
-              this.displayDialogConfirmBooking = true;              
-            }
-            else
-              this.showPageMessage("warn", "Warning", 'Selected combination duration does not fit in the remaining timeslots! Please select another timeslot!');    
-          }
-        },
-        err =>
-        {
+            this.showPageMessage("warn", "Warning", 'Selected combination duration does not fit in the remaining timeslots! Please select another timeslot!');
+        }
+      },
+        err => {
           this.logAction(this.idCompany, true, Actions.Add, 'http error auto assign booking', err.status + ' ' + err.statusText);
           this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
         });
     }
   }
-  onCloseConfirmDialog()
-  {
+  onCloseConfirmDialog() {
     //let idEntities: number[] = this.autoAssignedEntityCombination.entityCombination.map(e => e.id);
 
     let startTime: Date;
-      let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
-      let h = selectedTime.split(':')[0];
+    let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
+    let h = selectedTime.split(':')[0];
     let m = selectedTime.split(':')[1];
-    
+
     let date = new Date(this.selectedBookingHourTransferObject.workingDay.date);
     startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), parseInt(h), parseInt(m), 0, 0);
-    
+
     let bookingEntities: BookingEntity[] = [];
-    this.autoAssignedEntityCombination.entityCombination.forEach(e =>
-    {
+    this.autoAssignedEntityCombination.entityCombination.forEach(e => {
       bookingEntities.push(new BookingEntity(e.id, false, e.idLevel, e.isMultipleBooking));
     });
 
@@ -193,19 +167,18 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
       CommonServiceMethods.getDateTimeString(date), null,
       CommonServiceMethods.getDateTimeString(startTime), null, null);
 
-    this.bookingService.removePotentialBooking(this.autoAssignedEntityCombination.idPotentialBooking).subscribe(result =>
-      {
+    if (this.autoAssignedEntityCombination.idPotentialBooking != null) {
+      this.bookingService.removePotentialBooking(this.autoAssignedEntityCombination.idPotentialBooking).subscribe(result => {
         let gro = <GenericResponseObject>result;
-        if (gro.error != '')
-        {
+        if (gro.error != '') {
           console.log(gro);
-          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);          
+          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
         }
-        else
-        {
+        else {
           console.log('potential booking removed from server singleton')
         }
       },
         err => this.logAction(this.idCompany, true, Actions.Search, 'http error removing potential booking from server singleton', ''));
-  } 
+    }
+  }
 }
