@@ -75,10 +75,10 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
       user.password = (<FormGroup>this.myForm.controls['passwords']).controls['password'].value;
 
       console.log(user);
-      this.usersService.registerUser(user).subscribe((response: any) =>
+      this.usersService.registerUser(user).subscribe((response: GenericResponseObject) =>
       {
         console.log(response);
-        let gro = <GenericResponseObject>JSON.parse(response._body);
+        let gro = response;
         if (gro.info.indexOf('success') > -1) {
           this.showPageMessage("success","Success", this.getCurrentLabelValue('lblActivationLinkSent'));
           this.myForm.reset();

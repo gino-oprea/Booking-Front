@@ -33,7 +33,7 @@ export class UsersService
         };
         return this.http.get<User>(AppSettings.API_ENDPOINT + 'users/getbyemail/' + email, options);
     }
-    registerUser(user: User): Observable<any>
+    registerUser(user: User): Observable<GenericResponseObject>
     {
         const body = JSON.stringify(user);
         const headers = new HttpHeaders({
@@ -44,7 +44,7 @@ export class UsersService
             headers: CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
         };
 
-        return this.http.post(AppSettings.API_ENDPOINT + 'users', body, options);
+        return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users', body, options);
     }
     activateUser(activationKey: string): Observable<User>
     {
