@@ -2,5 +2,11 @@
 {
     "editor.tabSize": 2,
     "vsicons.presets.angular": true,
-    "editor.minimap.enabled": false
+    "editor.minimap.enabled": false,
+    "javascript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "javascript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true
   }
