@@ -25,29 +25,29 @@ export enum WeekShiftType
   styleUrls: ['./booking-hours.component.css']
 })
 export class BookingHoursComponent extends BaseComponent implements OnInit, OnChanges, OnDestroy
-{  
+{
   @Input() idCompany: number;
   @Input() selectedFilter = new BookingFilter();
   @Input() bookingSearchFilter: BookingSearchFilter;
   @Input() allowFullCalendarNavigation: boolean = false;
-   
+
   workingHoursBounds: WorkingHours = null;
   //@Output() selectTimeSlot = new EventEmitter<WorkingDay>();
   @Output() selectTimeSlot = new EventEmitter<SelectBookingHourTransferObject>();
   @Output() selectDate = new EventEmitter<Date>();
 
   shiftedDate: Date = new Date();
-  workingHours: WorkingHours = null;  
-  hoursMatrix: Timeslot[][][] = []; 
+  workingHours: WorkingHours = null;
+  hoursMatrix: Timeslot[][][] = [];
   dayNames: any[];
   dayDates: Date[];
 
   refreshInterval;
 
-  commonMethods: CommonServiceMethods = new CommonServiceMethods();  
-  
+  commonMethods: CommonServiceMethods = new CommonServiceMethods();
+
   constructor(private injector: Injector,
-  private bookingService:BookingService)
+    private bookingService: BookingService)
   {
     super(injector, [
       'lblMonday', 'lblTuesday', 'lblWednesday', 'lblThursday', 'lblFriday', 'lblSaturday', 'lblSunday'
@@ -63,9 +63,9 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     //     this.idCompany = +params['id'];
     //   }     
     // });
-      
+
     this.dayNames = ['lblMonday', 'lblTuesday', 'lblWednesday', 'lblThursday', 'lblFriday', 'lblSaturday', 'lblSunday'];
-    this.dayDates = [null, null, null, null, null, null, null];    
+    this.dayDates = [null, null, null, null, null, null, null];
 
     // this.workingHours = new WorkingHours(0, this.idCompany, '',
     // new WorkingDay('', null),
@@ -90,6 +90,7 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
   ngOnDestroy(): void 
   {
     clearInterval(this.refreshInterval);
+    this.refreshInterval = null;
   }
   ngOnChanges(changes: SimpleChanges): void 
   {
@@ -106,7 +107,7 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
           new WorkingDay('', null),
           new WorkingDay('', null));
       }
-    
+
 
       if (this.selectedFilter != null)
       {
@@ -120,7 +121,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
           this.setDayDates();
           this.getHoursMatrix();
 
-          this.refreshInterval = setInterval(() => { this.refreshMatrix() }, 20000);
+          if (!this.refreshInterval)
+            this.refreshInterval = setInterval(() => { this.refreshMatrix() }, 20000);
         }
       }
     }
@@ -151,29 +153,29 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
         this.showPageMessage('error', 'Error', gro.error);
       }
       else
-      {        
+      {
         this.selectedFilter.filteredLevels = <LevelAsFilter[]>gro.objList;
-        
+
         this.bookingService.generateHoursMatrix(this.idCompany, weekDates, this.selectedFilter.filteredLevels, this.bookingSearchFilter).subscribe(gro =>
+        {
+          if (gro.error != '')
           {
-            if (gro.error != '')
+            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+            this.showPageMessage('error', 'Error', gro.error);
+          }
+          else
+          {
+            if (gro.objList.length > 0)
             {
-              this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-              this.showPageMessage('error', 'Error', gro.error);
+              this.hoursMatrix = <Timeslot[][][]>gro.objList;
             }
-            else
-            {
-              if (gro.objList.length > 0)
-              {
-                this.hoursMatrix = <Timeslot[][][]>gro.objList;                 
-              }
-            }
-          },
-            err => this.logAction(this.idCompany, true, Actions.Search, 'http error generating booking hours matrix', ''));
+          }
+        },
+          err => this.logAction(this.idCompany, true, Actions.Search, 'http error generating booking hours matrix', ''));
       }
-    },    
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting filter working hours', ''));    
-  } 
+    },
+      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting filter working hours', ''));
+  }
 
   getTimeslotValueAsString(timeslot: Timeslot): string
   {
@@ -183,17 +185,17 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
 
     return val;
   }
-  
+
   getDateString(date: Date)
-  {    
+  {
     var month = date.getMonth() + 1; //months from 1-12
     var day = date.getDate();
     var year = date.getFullYear();
-    
+
     var dateString = year + "-" + month + "-" + day;
     return dateString;
-  } 
-  
+  }
+
   setDayDates()
   {
     if (this.workingHours != null)
@@ -207,34 +209,34 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
       this.workingHours.sunday.date];
     }
   }
-  shiftWeek(type:WeekShiftType)
-  {   
+  shiftWeek(type: WeekShiftType)
+  {
     let newDate: Date = new Date(this.shiftedDate.getTime());
-    
+
     if (type == WeekShiftType.Right)
     {
-      newDate.setDate(this.shiftedDate.getDate() + 7); 
+      newDate.setDate(this.shiftedDate.getDate() + 7);
       if (!this.isValidDate(newDate))
         newDate = null;
-    } 
+    }
     else
     {
-      newDate.setDate(this.shiftedDate.getDate() - 7); 
+      newDate.setDate(this.shiftedDate.getDate() - 7);
       if (!this.isValidDate(newDate))
         newDate = null;
-    } 
+    }
 
     if (newDate != null)
     {
       this.selectDate.emit(newDate);
       this.shiftedDate = newDate;
       this.assignCalendarDateForBookingHours(this.shiftedDate);
-      this.setDayDates();      
-      
+      this.setDayDates();
+
       this.getHoursMatrix();
-    }  
+    }
   }
-  
+
   activateTimeSlot(dayIndex: number, hourRowIndex: number, timeSlotIndex: number)
   {
     if (
@@ -257,18 +259,18 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
             workingDayToEmit = this.workingHours[wDay];
             break;
           }
-      } 
-      
+      }
+
       let obj: SelectBookingHourTransferObject = new SelectBookingHourTransferObject();
       obj.workingDay = workingDayToEmit;
       obj.bookingDayTimeslots = this.hoursMatrix[dayIndex];
       this.selectTimeSlot.emit(obj);
-    }          
+    }
   }
   unselectAllWorkingHours()
   {
     for (var i = 0; i < this.hoursMatrix.length; i++) 
-    {      
+    {
       for (var j = 0; j < this.hoursMatrix[i].length; j++) 
       {
         for (var x = 0; x < this.hoursMatrix[i][j].length; x++) 
@@ -305,7 +307,7 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
   }
   assignCalendarDateForBookingHours(selDate: Date)
   {
-    let weekDay = selDate.getDay();    
+    let weekDay = selDate.getDay();
 
     let mondayDate = new Date(selDate.getTime());
     let tuesdayDate = new Date(selDate.getTime());
@@ -314,7 +316,7 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     let fridayDate = new Date(selDate.getTime());
     let saturdayDate = new Date(selDate.getTime());
     let sundayDate = new Date(selDate.getTime());
-    
+
     if (weekDay != 0)//nu duminica
     {
       mondayDate.setDate(mondayDate.getDate() + (1 - weekDay));
@@ -334,8 +336,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
       fridayDate.setDate(fridayDate.getDate() - 2);
       saturdayDate.setDate(saturdayDate.getDate() - 1);
       sundayDate.setDate(sundayDate.getDate());
-    }     
-    
+    }
+
     this.workingHours.monday.date = mondayDate;
     this.workingHours.monday.date.setHours(0, 0, 0, 0);
 
@@ -370,7 +372,7 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
       else//duminica          
         sundayDate.setDate(sundayDate.getDate());
 
-    
+
       today.setHours(0, 0, 0, 0);
       sundayDate.setHours(0, 0, 0, 0);
       if (today.getTime() <= sundayDate.getTime())

@@ -31,6 +31,7 @@
     "fullcalendar": "^3.2.0",
     "jquery": "^3.2.1",
     "moment": "2.17.0",
+    "primeicons": "^1.0.0",
     "primeng": "7.0.5",
     "rxjs": "^6.2.1",
     "ts-helpers": "^1.1.1",
