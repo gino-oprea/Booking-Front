@@ -6,13 +6,15 @@
       <div class="col-md-2">
         <div class="row">
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary" (click)="levelMove('up')"><i class="fa fa-sort-up"></i></button>
+            <button type="button" class="btn btn-primary" (click)="levelMove('up')"><i
+                class="fa fa-sort-up"></i></button>
           </div>
         </div>
         <br>
         <div class="row">
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary" (click)="levelMove('down')"><i class="fa fa-sort-down"></i></button>
+            <button type="button" class="btn btn-primary" (click)="levelMove('down')"><i
+                class="fa fa-sort-down"></i></button>
           </div>
         </div>
       </div>
@@ -22,45 +24,51 @@
         </div>
         <div class="col-md-12">
           <ol style="padding:0px;">
-            <li class="list-group-item" style="cursor:pointer" *ngFor="let level of levels; let i = index" (click)="selectLevel(level)"
-              [ngClass]="{'selected': (selectedLevel!=null ? level.id == selectedLevel.id : false)}">{{level.levelName_RO}}</li>
+            <li class="list-group-item" style="cursor:pointer" *ngFor="let level of levels; let i = index"
+              (click)="selectLevel(level)"
+              [ngClass]="{'selected': (selectedLevel!=null ? level.id == selectedLevel.id : false)}">
+              {{level.levelName_RO}}</li>
           </ol>
         </div>
       </div>
     </div>
   </div>
-  
-  <div class="col-md-2" style="height: 100%;">    
+
+  <div class="col-md-2" style="height: 100%;">
     <div class="row">
       <div class="col-md-12">Entities</div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <ol style="padding:0px;">
-          <li class="list-group-item" style="cursor:pointer" *ngFor="let entity of entities; let i = index" (click)="selectEntity(entity)"
-            [ngClass]="{'selected': (selectedEntity!=null ? entity.id == selectedEntity.id : false)}">{{entity.entityName_RO}}</li>
+          <li class="list-group-item" style="cursor:pointer" *ngFor="let entity of entities; let i = index"
+            (click)="selectEntity(entity)"
+            [ngClass]="{'selected': (selectedEntity!=null ? entity.id == selectedEntity.id : false)}">
+            {{entity.entityName_RO}}</li>
         </ol>
       </div>
     </div>
   </div>
-  
-  <div class="col-md-2" style="height: 100%;">    
+
+  <div class="col-md-2" style="height: 100%;">
     <div class="row">
       <div class="col-md-12">Next entities</div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <ol style="padding:0px;">
-          <li class="list-group-item" style="cursor:pointer" *ngFor="let entity of nextEntities; let i = index" >{{entity.entityName_RO}}            
-            <input type="checkbox" [checked]="isCheckedEntity(entity.id)" (change)="onLinkChange($event,entity)" style="float:right;margin:0px;">
+          <li class="list-group-item" style="cursor:pointer" *ngFor="let entity of nextEntities; let i = index">
+            {{entity.entityName_RO}}
+            <input type="checkbox" [checked]="isCheckedEntity(entity.id)" (change)="onLinkChange($event,entity)"
+              style="float:right;margin:0px;">
           </li>
         </ol>
       </div>
     </div>
   </div>
-  <div class="col-md-6" style="height: 100%;">    
+  <div class="col-md-6" style="height: 100%;">
     tree
-    <p-tree [value]="testJson" layout="horizontal"></p-tree>
+    <p-tree [value]="testTreeData" layout="horizontal"></p-tree>
   </div>
 </div>
 

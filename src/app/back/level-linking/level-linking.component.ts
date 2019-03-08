@@ -24,9 +24,9 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   entityLinks: EntitiesLink[] = [];
   nextEntities: Entity[] = [];
   selectedLevel: Level;
-  selectedEntity: Entity;  
+  selectedEntity: Entity;
 
-  testJson: TreeNode[] = [];
+  testTreeData: TreeNode[] = [];
 
 
   constructor(private injector: Injector,
@@ -52,6 +52,35 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   ngOnInit()
   {
     this.logAction(this.idCompany, false, Actions.View, '', '');
+
+
+    this.testTreeData = [{
+      label: 'Root',
+      expanded: true,
+      children: [
+        {
+          label: 'Documents',
+          expanded: true,
+          children: [
+            { label: 'Work' },
+            { label: 'Home' }]
+        },
+        {
+          label: 'Pictures',
+          expanded: true,
+          children: [
+            { label: 'Picture 1' },
+            { label: 'Picture 2' }]
+        },
+        {
+          label: 'Movies',
+          expanded: true,
+          children: [
+            { label: 'Movie 1' },
+            { label: 'Movie 2' }]
+        }
+      ]
+    }];
   }
 
   loadLevels()
@@ -70,7 +99,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
         {
           this.levels = (<Level[]>gro.objList).sort((l1, l2) => l1.orderIndex - l2.orderIndex);
           this.selectedLevel = this.levels[0];
-          this.loadEntities();                 
+          this.loadEntities();
         }
       }
 
@@ -91,7 +120,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       else
       {
         this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');
-          
+
         this.entities = <Entity[]>gro.objList;
         if (gro.objList.length > 0)
         {
@@ -118,7 +147,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
         }
         else
         {
-          this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');                    
+          this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');
           this.nextEntities = <Entity[]>gro.objList;
         }
       },
@@ -127,7 +156,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
     else
     {
       this.nextEntities = [];
-    } 
+    }
   }
   loadEntitiesLinking(idEnt: number)
   {
@@ -141,13 +170,13 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.entityLinks = <EntitiesLink[]>gro.objList; 
+        this.entityLinks = <EntitiesLink[]>gro.objList;
         this.loadNextLevelEntities();
       }
     },
       er => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entities linking', ''));
   }
-  isCheckedEntity(idChildEntity:number)
+  isCheckedEntity(idChildEntity: number)
   {
     let isChecked = false;
     for (var i = 0; i < this.entityLinks.length; i++) 
@@ -156,14 +185,14 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       {
         isChecked = true;
         break;
-      }  
+      }
     }
     return isChecked;
   }
   getNextLevelId(): number
   {
     let index = -1;
-    
+
     for (var i = 0; i < this.levels.length; i++) 
     {
       if (this.levels[i].id == this.selectedLevel.id)     
@@ -172,7 +201,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
         {
           index = i + 1;
           break;
-        }  
+        }
       }
     }
     if (index > -1)
@@ -181,19 +210,19 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       return id;
     }
     else
-      return null;  
+      return null;
   }
   selectLevel(level: Level)
   {
     this.selectedLevel = level;
-    this.loadEntities();    
+    this.loadEntities();
   }
-  selectEntity(entity:Entity)
+  selectEntity(entity: Entity)
   {
-    this.selectedEntity = entity;    
+    this.selectedEntity = entity;
     this.loadEntitiesLinking(this.selectedEntity.id);
   }
-  updateLevel(level:Level)
+  updateLevel(level: Level)
   {
     this.levelsService.updateLevel(level).subscribe(result =>
     {
@@ -202,11 +231,11 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
         this.showPageMessage('error', 'Error', gro.error);
-      } 
+      }
       else
       {
         //this.showPageMessage('success', 'Saved', '');
-      }  
+      }
     },
       err => this.logAction(this.idCompany, true, Actions.Edit, 'http error changing level order index', ''));
   }
@@ -229,13 +258,13 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
         this.showPageMessage('error', 'Error', gro.error);
-      }  
+      }
       else
       {
         this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity links before level order change');
         this.showPageMessage('warn', 'Warning', 'links between selected level and others deleted!');
-      }  
-      
+      }
+
     },
       err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting entity links before level order change', ''));
 
@@ -244,7 +273,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       if (currentIndex > 0)
       {
         let aux = this.levels[currentIndex - 1];
-        
+
         this.levels[currentIndex - 1] = this.selectedLevel;
         this.levels[currentIndex - 1].orderIndex = this.levels[currentIndex - 1].orderIndex - 1;
         this.updateLevel(this.levels[currentIndex - 1]);
@@ -270,26 +299,26 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       }
     }
 
-    this.loadEntities();    
+    this.loadEntities();
   }
-  onLinkChange(e, ent:Entity)
-  {    
-      let entLink: EntitiesLink = new EntitiesLink(this.selectedEntity.id, ent.id);      
-      this.levelLinkingService.setEntitiesLinking(entLink, e.target.checked).subscribe(result =>
+  onLinkChange(e, ent: Entity)
+  {
+    let entLink: EntitiesLink = new EntitiesLink(this.selectedEntity.id, ent.id);
+    this.levelLinkingService.setEntitiesLinking(entLink, e.target.checked).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
       {
-        let gro = <GenericResponseObject>result;
-        if (gro.error != '')
-        {
-          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-          this.showPageMessage('error', 'Error', gro.error);
-        }
-        else
-        {
-          this.logAction(this.idCompany, false, Actions.Add, '', e.target.checked ? 'added entity link' : 'removed entity link');
-          this.showPageMessage('success', 'Saved', '');
-        }
-      },
-        err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entities linking', ''));     
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
+        this.showPageMessage('error', 'Error', gro.error);
+      }
+      else
+      {
+        this.logAction(this.idCompany, false, Actions.Add, '', e.target.checked ? 'added entity link' : 'removed entity link');
+        this.showPageMessage('success', 'Saved', '');
+      }
+    },
+      err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entities linking', ''));
   }
-  
+
 }
