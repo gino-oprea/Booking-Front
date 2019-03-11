@@ -26,7 +26,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   selectedLevel: Level;
   selectedEntity: Entity;
 
-  testTreeData: TreeNode[] = [];
+  linkTreeData: TreeNode[] = [];
 
 
   constructor(private injector: Injector,
@@ -52,35 +52,27 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   ngOnInit()
   {
     this.logAction(this.idCompany, false, Actions.View, '', '');
-
-
-    this.testTreeData = [{
-      label: 'Root',
-      expanded: true,
-      children: [
+    this.loadTree();
+  }
+  loadTree()
+  {
+    this.levelLinkingService.getEntitiesLinkingTree(this.idCompany, "Root", this.currentCulture).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+      }
+      else
+      {
+        if (gro.objList.length > 0)
         {
-          label: 'Documents',
-          expanded: true,
-          children: [
-            { label: 'Work' },
-            { label: 'Home' }]
-        },
-        {
-          label: 'Pictures',
-          expanded: true,
-          children: [
-            { label: 'Picture 1' },
-            { label: 'Picture 2' }]
-        },
-        {
-          label: 'Movies',
-          expanded: true,
-          children: [
-            { label: 'Movie 1' },
-            { label: 'Movie 2' }]
+          this.linkTreeData = <TreeNode[]>gro.objList;
         }
-      ]
-    }];
+      }
+
+    },
+      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entities tree', ''));
   }
 
   loadLevels()
@@ -265,6 +257,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
         this.showPageMessage('warn', 'Warning', 'links between selected level and others deleted!');
       }
 
+      this.loadTree();
+
     },
       err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting entity links before level order change', ''));
 
@@ -317,6 +311,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
         this.logAction(this.idCompany, false, Actions.Add, '', e.target.checked ? 'added entity link' : 'removed entity link');
         this.showPageMessage('success', 'Saved', '');
       }
+
+      this.loadTree();
     },
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entities linking', ''));
   }

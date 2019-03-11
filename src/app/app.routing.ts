@@ -12,21 +12,23 @@ import { MyCompaniesComponent } from './my-companies/my-companies.component';
 import { CompanyBookingComponent } from './company-booking/company-booking.component';
 import { CompanyBookingGuard } from './route-guards/company-booking.guard';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
+import { CompanyDetailsComponent } from './company-details/company-details.component';
 
 const APP_ROUTES = [
     { path: '', redirectTo: 'searchcompany', pathMatch: 'full' },
     //{ path: '', component: SearchCompanyComponent },    
-    
+
     { path: 'register', component: UserRegistrationComponent, canActivate: [NonAuthGuard] },
     { path: 'useractivation/:activationKey', component: UserActivationComponent },
     { path: 'searchcompany', component: SearchCompanyComponent },
     { path: 'companybooking/:id/:companyname', component: CompanyBookingComponent, canActivate: [CompanyBookingGuard] },
+    { path: 'companydetails/:id/:companyname', component: CompanyDetailsComponent, canActivate: [CompanyBookingGuard] },
     { path: 'myaccount', component: MyAccountComponent, canActivate: [AuthGuard] },
     { path: 'mybookings', component: MyBookingsComponent, canActivate: [AuthGuard] },
     { path: 'changepassword', component: ChangePasswordComponent, canActivate: [AuthGuard] },
     { path: 'mycompanies', component: MyCompaniesComponent, canActivate: [AuthGuard] },
     { path: 'company/:id', loadChildren: 'app/back/back.module#BackModule' },
-    
+
     { path: '**', redirectTo: '/searchcompany' }
 ];
 

@@ -13,7 +13,7 @@ export class LevelLinkingService
 {
   constructor(private http: HttpClient,
     private usersService: UsersService) { }
-  
+
   getEntitiesLinking(idEntity: number, idCompany: number): Observable<GenericResponseObject>
   {
     let options = {
@@ -21,6 +21,14 @@ export class LevelLinkingService
     };
 
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/' + idEntity + '/' + idCompany, options);
+  }
+  getEntitiesLinkingTree(idCompany: number, companyName: string, culture: string): Observable<GenericResponseObject>
+  {
+    let options = {
+      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+    };
+
+    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/gettree/' + idCompany + '/' + companyName + '/' + culture, options);
   }
   setEntitiesLinking(entitiesLink: EntitiesLink, isAdd: boolean): Observable<GenericResponseObject>  
   {

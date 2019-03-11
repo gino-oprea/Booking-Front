@@ -24,20 +24,20 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
 
   constructor(private injector: Injector,
     private companySearchService: CompanySearchService,
-    private imageService:ImageService,
+    private imageService: ImageService,
     private domSanitizationService: DomSanitizer)
   {
     super(injector,
       ['lblTest']
     );
     this.site = WebSites.Front;
-    this.pageName = "Search Company";    
+    this.pageName = "Search Company";
   }
 
   ngOnInit() 
   {
     this.logAction(null, false, Actions.View, "", "");
-    
+
     this.route.queryParams.subscribe((queryParams: Params) =>
     {
       let flt = new CompanyFilter(null, queryParams['name'] != null ? queryParams['name'] : null,
@@ -47,8 +47,8 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
         queryParams['town'] != null ? queryParams['town'] : null);
       this.loadFilteredCompanies(flt);
     });
-  }  
-  loadFilteredCompanies(filter:CompanyFilter)
+  }
+  loadFilteredCompanies(filter: CompanyFilter)
   {
     this.companySearchService.getCompanies(filter).subscribe(result =>
     {
@@ -67,10 +67,11 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
         });
       }
     },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error searching companies', ''));    
+      err => this.logAction(this.idCompany, true, Actions.Search, 'http error searching companies', ''));
   }
-  goToBooking(companyId:number, companyName:string)
+
+  goToCompanyDetails(companyId: number, companyName: string)
   {
-    this.router.navigate(['/companybooking', companyId, companyName.replace(/ /g, '')]);
+    this.router.navigate(['/companydetails', companyId, companyName.replace(/ /g, '')]);
   }
 }

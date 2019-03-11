@@ -46,13 +46,15 @@ import { BookingService } from './app-services/booking.service';
 import { HoursMatrixService } from './app-services/hours-matrix.service';
 import { ImageService } from './app-services/image.service';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
+import { CompanyDetailsComponent } from './company-details/company-details.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    MyBookingsComponent      
+    MyBookingsComponent,
+    CompanyDetailsComponent      
   ],
   imports: [
     routing,
