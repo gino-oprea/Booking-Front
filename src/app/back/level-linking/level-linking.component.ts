@@ -56,6 +56,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   }
   loadTree()
   {
+    this.linkTreeData = [];
     this.levelLinkingService.getEntitiesLinkingTree(this.idCompany, "Root", this.currentCulture).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
@@ -255,45 +256,45 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity links before level order change');
         this.showPageMessage('warn', 'Warning', 'links between selected level and others deleted!');
+
+        if (type == 'up')
+        {
+          if (currentIndex > 0)
+          {
+            let aux = this.levels[currentIndex - 1];
+
+            this.levels[currentIndex - 1] = this.selectedLevel;
+            this.levels[currentIndex - 1].orderIndex = this.levels[currentIndex - 1].orderIndex - 1;
+            this.updateLevel(this.levels[currentIndex - 1]);
+
+            this.levels[currentIndex] = aux;
+            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex + 1;
+            this.updateLevel(this.levels[currentIndex]);
+          }
+        }
+        if (type == 'down')
+        {
+          if (currentIndex < (this.levels.length - 1))
+          {
+            let aux = this.levels[currentIndex + 1];
+
+            this.levels[currentIndex + 1] = this.selectedLevel;
+            this.levels[currentIndex + 1].orderIndex = this.levels[currentIndex + 1].orderIndex + 1;
+            this.updateLevel(this.levels[currentIndex + 1]);
+
+            this.levels[currentIndex] = aux;
+            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex - 1;
+            this.updateLevel(this.levels[currentIndex]);
+          }
+        }
+
+        this.loadEntities();
       }
 
       this.loadTree();
 
     },
       err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting entity links before level order change', ''));
-
-    if (type == 'up')
-    {
-      if (currentIndex > 0)
-      {
-        let aux = this.levels[currentIndex - 1];
-
-        this.levels[currentIndex - 1] = this.selectedLevel;
-        this.levels[currentIndex - 1].orderIndex = this.levels[currentIndex - 1].orderIndex - 1;
-        this.updateLevel(this.levels[currentIndex - 1]);
-
-        this.levels[currentIndex] = aux;
-        this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex + 1;
-        this.updateLevel(this.levels[currentIndex]);
-      }
-    }
-    if (type == 'down')
-    {
-      if (currentIndex < (this.levels.length - 1))
-      {
-        let aux = this.levels[currentIndex + 1];
-
-        this.levels[currentIndex + 1] = this.selectedLevel;
-        this.levels[currentIndex + 1].orderIndex = this.levels[currentIndex + 1].orderIndex + 1;
-        this.updateLevel(this.levels[currentIndex + 1]);
-
-        this.levels[currentIndex] = aux;
-        this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex - 1;
-        this.updateLevel(this.levels[currentIndex]);
-      }
-    }
-
-    this.loadEntities();
   }
   onLinkChange(e, ent: Entity)
   {
