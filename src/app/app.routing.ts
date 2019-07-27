@@ -27,7 +27,7 @@ const APP_ROUTES = [
     { path: 'mybookings', component: MyBookingsComponent, canActivate: [AuthGuard] },
     { path: 'changepassword', component: ChangePasswordComponent, canActivate: [AuthGuard] },
     { path: 'mycompanies', component: MyCompaniesComponent, canActivate: [AuthGuard] },
-    { path: 'company/:id', loadChildren: 'app/back/back.module#BackModule' },
+    { path: 'company/:id', loadChildren: () => import('app/back/back.module').then(m => m.BackModule) },
 
     { path: '**', redirectTo: '/searchcompany' }
 ];

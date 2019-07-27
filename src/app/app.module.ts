@@ -20,7 +20,7 @@ import { UserRegistrationModule } from './user-registration/user-registration.mo
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+
 
 import { AppComponent } from './app.component';
 import { LoginModule } from './login/login.module';
@@ -61,7 +61,7 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,    
-    HttpModule,
+    
     HttpClientModule,
     ReactiveFormsModule,
     DropdownModule,  
