@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, RequestOptions, Headers } from '@angular/http';
+
 import { Observable } from 'rxjs';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { Entity } from '../objects/entity';

@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../objects/user';
-import { Headers, Http, Response, RequestOptions } from '@angular/http';
+
 import { Injectable } from '@angular/core';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { AppSettings } from './app-settings';

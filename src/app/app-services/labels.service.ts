@@ -1,6 +1,6 @@
 import { Label } from '../objects/label';
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Response, URLSearchParams, Headers } from '@angular/http';
+
 import { Observable, Subject } from 'rxjs';
 import { AppSettings } from './app-settings';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';

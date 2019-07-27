@@ -1,6 +1,6 @@
 import { UsersService } from './users.service';
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
+
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { Observable } from 'rxjs';
 import { CommonServiceMethods } from './common-service-methods';

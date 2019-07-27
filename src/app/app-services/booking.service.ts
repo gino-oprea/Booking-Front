@@ -1,6 +1,6 @@
 import { AppSettings } from './app-settings';
 import { UsersService } from './users.service';
-import { RequestOptions, Http } from '@angular/http';
+
 import { Injectable } from '@angular/core';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { CommonServiceMethods } from './common-service-methods';

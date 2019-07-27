@@ -52,8 +52,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   tabs: any;
   subTabs: any;
 
-  @ViewChild('map') map;
-  @ViewChild('address') address: ElementRef;
+  @ViewChild('map', { static: false }) map;
+  @ViewChild('address', { static: false }) address: ElementRef;
 
 
 

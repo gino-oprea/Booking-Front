@@ -1,6 +1,6 @@
 import { Level } from '../objects/level';
 import { Injectable } from '@angular/core';
-import { Http, Response, URLSearchParams, RequestOptions, Headers } from '@angular/http';
+
 import { Observable } from 'rxjs';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { LevelAdditionalCharacteristic } from '../objects/level-additional-characteristic';

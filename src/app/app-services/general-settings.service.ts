@@ -1,6 +1,6 @@
 import { Setting } from '../objects/setting';
 import { Observable } from 'rxjs';
-import { Headers, Http, Response, RequestOptions } from '@angular/http';
+
 import { Injectable } from '@angular/core';
 import { AppSettings } from './app-settings';
 import { CommonServiceMethods } from './common-service-methods';

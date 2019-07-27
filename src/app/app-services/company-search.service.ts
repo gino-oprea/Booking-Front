@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+
 import { Subject, Observable } from 'rxjs';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { CommonServiceMethods } from './common-service-methods';

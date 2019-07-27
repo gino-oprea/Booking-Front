@@ -1,7 +1,7 @@
 import { DurationType } from '../enums/enums';
 import { HttpHeaders } from '@angular/common/http';
 import { UsersService } from './users.service';
-import { Headers } from '@angular/http';
+
 import { Timeslot } from '../objects/timeslot';
 export class CommonServiceMethods
 {

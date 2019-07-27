@@ -1,6 +1,6 @@
 import { SpecialDay } from '../objects/special-day';
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+
 import { SubscriptionObject } from '../objects/subscription-object';
 import { Observable } from 'rxjs';
 import { GenericResponseObject } from '../objects/generic-response-object';
