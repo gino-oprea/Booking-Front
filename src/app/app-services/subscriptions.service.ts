@@ -15,7 +15,7 @@ export class SubscriptionsService {
   getSubscriptions():Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'subscriptions', options);
   }

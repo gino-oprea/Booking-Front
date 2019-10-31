@@ -26,7 +26,7 @@ export class CompanySearchService
     params = params.append('town', flt.town != null ? flt.town.toString() : null);
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 

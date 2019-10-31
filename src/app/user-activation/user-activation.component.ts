@@ -48,8 +48,8 @@ export class UserActivationComponent extends BaseComponent implements OnInit, On
               console.log(result);//aici se va face login si redirect catre prima pagina cu autentificare
 
               localStorage.setItem('b_front_auth_user', JSON.stringify(result));
-              this.usersService.loggedIn = true;
-              this.usersService.emmitLoginChange();
+              this.loginService.loggedIn = true;
+              this.loginService.emmitLoginChange();
               this.router.navigate(['/searchcompany']);
             }
             else

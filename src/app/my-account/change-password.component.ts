@@ -37,7 +37,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit
   ngOnInit()
   {
     this.logAction(null, false, Actions.View, "", "");
-    this.user = this.usersService.getCurrentUser();
+    this.user = this.loginService.getCurrentUser();
     this.initForm();
   }
   initForm()
@@ -62,7 +62,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit
         if (gro.info.indexOf('success') > -1)
         {
           localStorage.setItem('b_front_auth_user', JSON.stringify(this.user));
-          this.usersService.emmitLoginChange();
+          this.loginService.emmitLoginChange();
 
           this.showPageMessage("success", "Success", this.getCurrentLabelValue('lblYourPasswordChanged'));
           this.logAction(null, false, Actions.Edit, "", "");

@@ -19,7 +19,7 @@ export class LoggerService
   getLogs(): Observable<LogItem[]>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
     return this.http.get<LogItem[]>(AppSettings.API_ENDPOINT + 'logs', options);
   }
@@ -49,7 +49,7 @@ export class LoggerService
     params = params.append('infoMessage', infoMessage);
     
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 

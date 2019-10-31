@@ -36,7 +36,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
 
   getBookings()
   {
-    var currentUser = this.usersService.getCurrentUser();
+    var currentUser = this.loginService.getCurrentUser();
     this.bookingService.getBookingsByUser(currentUser.id).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;

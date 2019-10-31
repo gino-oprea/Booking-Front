@@ -34,7 +34,7 @@ export class MyAccountComponent extends BaseComponent implements OnInit
   {
     this.logAction(null, false, Actions.View, "", "");
 
-   this.user = this.usersService.getCurrentUser();
+   this.user = this.loginService.getCurrentUser();
     
     this.initForm();  
   }
@@ -68,7 +68,7 @@ export class MyAccountComponent extends BaseComponent implements OnInit
           if (gro.info.indexOf('success') > -1)
           {
             localStorage.setItem('b_front_auth_user', JSON.stringify(this.user));
-            this.usersService.emmitLoginChange();
+            this.loginService.emmitLoginChange();
 
             this.showPageMessage("success", "Success", this.getCurrentLabelValue('lblSaved'));
             this.logAction(null, false, Actions.Edit, "", "");            

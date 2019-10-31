@@ -17,21 +17,21 @@ export class LevelsService
   getLevelTypes():Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/GetLevelTypesDic', options);
   }
   getDurationTypes():Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/GetDurationTypesDic', options);
   }
   getLevelFieldTypes():Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/GetLevelFieldTypesDic', options);
   }
@@ -42,7 +42,7 @@ export class LevelsService
     params = params.append('idLevel', idLevel != null ? idLevel.toString() : null);
     
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -54,7 +54,7 @@ export class LevelsService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/AddLevelAdditionalCharacteristic', body, options);
@@ -65,7 +65,7 @@ export class LevelsService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/EditLevelAdditionalCharacteristic', body, options);
@@ -73,7 +73,7 @@ export class LevelsService
   getLevels(idCompany: number): Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/' + idCompany, options);
   }
@@ -85,7 +85,7 @@ export class LevelsService
     );
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels', body, options);
@@ -98,21 +98,21 @@ export class LevelsService
     );
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
     return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels', body, options);
   }
   deleteLevel(idLevel: number):Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/' + idLevel, options);
   }
   deleteLevelAdditionalCharacteristic(idCharact: number):Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/DeleteLevelCharacteristic/' + idCharact, options);
   }

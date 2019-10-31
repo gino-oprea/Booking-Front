@@ -17,7 +17,7 @@ export class CompanyActiveSubscriptionService
   getCompanyActiveSubscription(idCompany: number): Observable<GenericResponseObject>
   {
     let options ={
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanySubscription/' + idCompany.toString(), options);
@@ -25,7 +25,7 @@ export class CompanyActiveSubscriptionService
   getSubscriptionsForRenewUpgrade(idCompany: number, subscriptionType: string): Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanySubscription/GetSubscriptionForRenewUpgrade/' + idCompany.toString() + '/' + subscriptionType, options);
   }
@@ -37,7 +37,7 @@ export class CompanyActiveSubscriptionService
     });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanySubscription/RenewSubscription/' + idCompany.toString() + '/' + idSubscription.toString() + '/' + amount.toString() + '/' + months.toString(), body,
@@ -51,7 +51,7 @@ export class CompanyActiveSubscriptionService
     });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanySubscription/UpgradeSubscription/' + idCompany.toString() + '/' + idSubscription.toString() + '/' + amount.toString() + '/' + months.toString(), body,

@@ -14,7 +14,7 @@ export class ImageService
   getCompanyImages(idCompany:number)
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/GetCompanyImages/' + idCompany, options);
   }
@@ -24,14 +24,14 @@ export class ImageService
     input.append("file", fileToUpload);
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/UploadCompanyImage/' + idCompany, input, options);
   }
   deleteCompanyImage(idImage: number):Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/DeleteCompanyImage/' + idImage, options);
   }
@@ -40,7 +40,7 @@ export class ImageService
   getEntityImages(idEntity:number)
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/GetEntityImages/' + idEntity, options);
   }
@@ -50,14 +50,14 @@ export class ImageService
     input.append("file", fileToUpload);
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/UploadEntityImage/' + idEntity, input, options);
   }
   deleteEntityImage(idImage: number): Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/DeleteEntityImage/' + idImage, options);
   }

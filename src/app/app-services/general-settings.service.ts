@@ -15,7 +15,7 @@ export class GeneralSettingsService
   getSettings():Observable<Setting[]>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.get<Setting[]>(AppSettings.API_ENDPOINT + 'generalSettings', options);
   }
@@ -27,7 +27,7 @@ export class GeneralSettingsService
     });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
     
     return this.http.post<Observable<any>>(AppSettings.API_ENDPOINT + 'generalSettings', body, options);
@@ -40,7 +40,7 @@ export class GeneralSettingsService
     });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
     
     return this.http.put<Observable<any>>(AppSettings.API_ENDPOINT + 'generalSettings', body, options);

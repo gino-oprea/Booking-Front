@@ -231,7 +231,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   }
   reloadCompany()
   {
-    this.companyService.getCompany(this.usersService.getCurrentUser().id, this.idCompany).subscribe(result =>
+    this.companyService.getCompany(this.loginService.getCurrentUser().id, this.idCompany).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')

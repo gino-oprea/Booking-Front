@@ -48,7 +48,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
     this.pageName = "My companies";
     this.idCompany = null;
 
-    this.companyService.getCompanies(this.usersService.getCurrentUser().id).subscribe(result =>
+    this.companyService.getCompanies(this.loginService.getCurrentUser().id).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
@@ -129,7 +129,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   }
   addNewCompany(idSubscription:number,amount:number,months:number)
   {
-    this.companyService.createCompany(this.usersService.getCurrentUser().id, idSubscription, amount, months)
+    this.companyService.createCompany(this.loginService.getCurrentUser().id, idSubscription, amount, months)
       .subscribe(result =>
       {
         let gro = <GenericResponseObject>result;

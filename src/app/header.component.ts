@@ -10,6 +10,8 @@ import { GenericResponseObject } from './objects/generic-response-object';
 import { CompanySearchService } from './app-services/company-search.service';
 import { Country } from './objects/country';
 import { CountriesService } from './app-services/countries.service';
+import { Token } from './objects/token';
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'bf-header',
@@ -119,61 +121,73 @@ export class HeaderComponent extends BaseComponent implements OnInit
     return myAccountText;
   }
   onLogin()
-  {    
-    this.usersService.login(
+  {       
+    this.loginService.login(
       this.loginForm.controls['email'].value,
-      this.loginForm.controls['password'].value).subscribe((result: User) =>
+      this.loginForm.controls['password'].value).subscribe((token: Token) =>
       {
-        console.log(result);
-        if (result.error == '')//
+        var decoded = jwt_decode(token.access_token);
+        var username: string = decoded.sub;
+        this.usersService.getUserByEmail(username).subscribe(result =>
         {
-          this.logAction(null, false, Actions.Login, "", "");
 
-          this.loginForm.reset();
-          this.usersService.emmitLoginChange();
-
-          this.usersService.editUser(result, 1).subscribe((data) =>//updateaza data ultimului login
+          console.log(result);
+          if (result.error == '')//
           {
-            let gro = (<GenericResponseObject>data);
-            console.log(gro);
-            if (gro.info.indexOf('success') > -1)
-            {              
-              //this.router.navigate(['/searchcompany']);              
-            }
-            else
-            {
-              console.log(gro.error);
-              this.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed);
-            }
-          },
-            err =>
-            {
-              console.log(err)
-              this.logAction(null, true, Actions.Login, "http error", "");
-            });
+            this.logAction(null, false, Actions.Login, "", "");
 
-        }
-        else
-        {
-          console.log(result.error);
-          this.showPageMessage("error", "Error", result.error);
-          this.logAction(null, true, Actions.Login, result.error, result.errorDetailed);
-        }
+            this.loginForm.reset();
+            this.loginService.emmitLoginChange();
+
+            this.usersService.editUser(result, 1).subscribe((data) =>//updateaza data ultimului login
+            {
+              let gro = (<GenericResponseObject>data);
+              console.log(gro);
+              if (gro.info.indexOf('success') > -1)
+              {
+                //this.router.navigate(['/searchcompany']);              
+              }
+              else
+              {
+                console.log(gro.error);
+                this.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed);
+              }
+            },
+              err =>
+              {
+                console.log(err)
+                this.logAction(null, true, Actions.Login, "http error", "");
+              });
+
+          }
+          else
+          {
+            console.log(result.error);
+            this.showPageMessage("error", "Error", result.error);
+            this.logAction(null, true, Actions.Login, result.error, result.errorDetailed);
+          }
+        },
+          err =>
+          {
+            console.log(err);
+            this.showPageMessage("error", "Error", this.getCurrentLabelValue('lblHttpError'));
+            this.logAction(null, true, Actions.Login, "http request error", "");
+          });
       },
-      err =>
-      {
-        console.log(err);
-        this.showPageMessage("error", "Error", this.getCurrentLabelValue('lblHttpError'));
-        this.logAction(null, true, Actions.Login, "http request error", "");
-      });
+        err =>
+        {
+          console.log(err);
+          this.showPageMessage("error", "Error", this.getCurrentLabelValue('lblHttpError'));
+          this.logAction(null, true, Actions.Login, "http request error", "");
+        });
   }
   onLogout()
   {
     this.logAction(null, false, Actions.Logout, "", "");
     try//
     {
-      this.usersService.logout();
-      this.usersService.emmitLoginChange();
+      this.loginService.logout();
+      this.loginService.emmitLoginChange();
       this.router.navigate(['/searchcompany']);
       //this.router.navigate(['/login']);
     }
@@ -185,7 +199,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
   }
   isAuth(): boolean
   {
-    return this.usersService.isAuthenticated();
+    return this.loginService.isAuthenticated();
   }
   onCultureChange()
   {

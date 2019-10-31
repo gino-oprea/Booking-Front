@@ -11,25 +11,25 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class UsersService
 {
-    public loggedIn = false;    
-    loginSubject = new Subject<string>();
+    // public loggedIn = false;    
+    // loginSubject = new Subject<string>();
 
     constructor(private http: HttpClient)
     {
-        this.loggedIn = !!localStorage.getItem('b_front_auth_user');        
+        // this.loggedIn = !!localStorage.getItem('b_front_auth_user');        
     }
 
     getUsers(): Observable<User[]>
     {
         let options = {
-            headers: CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
+            headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
         };
         return this.http.get<User[]>(AppSettings.API_ENDPOINT + 'users', options);
     }
     getUserByEmail(email: string): Observable<User>
     {
         let options = {
-            headers: CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
+            headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
         };
         return this.http.get<User>(AppSettings.API_ENDPOINT + 'users/getbyemail/' + email, options);
     }
@@ -41,7 +41,7 @@ export class UsersService
         });
 
         let options = {
-            headers: CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
+            headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
         };
 
         return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users', body, options);
@@ -54,54 +54,54 @@ export class UsersService
     {
         return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/CheckPassword/' + idUser.toString() + '/' + password);
     }
-    login(email: string, password: string): Observable<User>
-    {
-        let usr = new User();
-        usr.email = email;
-        usr.password = password;
+    // login(email: string, password: string): Observable<User>
+    // {
+    //     let usr = new User();
+    //     usr.email = email;
+    //     usr.password = password;
 
-        const body = JSON.stringify(usr);
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/json'
-        });
+    //     const body = JSON.stringify(usr);
+    //     const headers = new HttpHeaders({
+    //         'Content-Type': 'application/json'
+    //     });
 
-        return this.http.post(AppSettings.API_ENDPOINT + 'users/login', body, { headers: headers }).pipe(
-            map((response: Response) =>
-            {
-                let user = <User>response;
-                if (user.error == '')
-                //&& (<User>response.json()).idRole == 1)//doar pentru admin
-                {
-                    localStorage.setItem('b_front_auth_user', JSON.stringify(user));
-                    this.loggedIn = true;
-                }
+    //     return this.http.post(AppSettings.API_ENDPOINT + 'users/login', body, { headers: headers }).pipe(
+    //         map((response: Response) =>
+    //         {
+    //             let user = <User>response;
+    //             if (user.error == '')
+    //             //&& (<User>response.json()).idRole == 1)//doar pentru admin
+    //             {
+    //                 localStorage.setItem('b_front_auth_user', JSON.stringify(user));
+    //                 //this.loggedIn = true;
+    //             }
 
-                return response as User;
-            }));
-    }
-    isAuthenticated()
-    {
-        return this.loggedIn;
-        //return !!localStorage.getItem('b_front_auth_user');
-    }
-    getCurrentUser():User
-    {
-        if (!!localStorage.getItem('b_front_auth_user'))
-        {
-            return <User>JSON.parse(localStorage.getItem('b_front_auth_user'));
-        }
-        else
-            return null;    
-    }
-    emmitLoginChange()
-    {
-        this.loginSubject.next('login change');
-    }
-    logout()
-    {
-        localStorage.removeItem('b_front_auth_user');
-        this.loggedIn = false;
-    }
+    //             return response as User;
+    //         }));
+    // }
+    // isAuthenticated()
+    // {
+    //     return this.loggedIn;
+    //     //return !!localStorage.getItem('b_front_auth_user');
+    // }
+    // getCurrentUser():User
+    // {
+    //     if (!!localStorage.getItem('b_front_auth_user'))
+    //     {
+    //         return <User>JSON.parse(localStorage.getItem('b_front_auth_user'));
+    //     }
+    //     else
+    //         return null;    
+    // }
+    // emmitLoginChange()
+    // {
+    //     this.loginSubject.next('login change');
+    // }
+    // logout()
+    // {
+    //     localStorage.removeItem('b_front_auth_user');
+    //     this.loggedIn = false;
+    // }
     editUser(user: User, updateMode: number): Observable<any>
     {
         const body = JSON.stringify(user);
@@ -110,7 +110,7 @@ export class UsersService
         });
 
         let options = {
-            headers: CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
+            headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
         };
 
         return this.http.put(AppSettings.API_ENDPOINT + 'users/' + updateMode.toString(),
@@ -124,7 +124,7 @@ export class UsersService
         });
 
         let options = {
-            headers: CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
+            headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
         };
 
         return this.http.put(AppSettings.API_ENDPOINT + 'users/resetpassword',
@@ -137,7 +137,7 @@ export class UsersService
     resendUserActivationLink(userId: number): Observable<GenericResponseObject>
     {
         let options = {
-            headers: CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
+            headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
         };
         return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/sendActivationLink/' + userId.toString(), options);
     }

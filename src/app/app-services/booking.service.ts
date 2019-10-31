@@ -25,7 +25,7 @@ export class BookingService {
     }
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -42,7 +42,7 @@ export class BookingService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers),
+      headers: headers,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers),
       params: params
     };
 
@@ -51,7 +51,7 @@ export class BookingService {
   }
   getBookingDefaultDuration(idCompany: number): Observable<GenericResponseObject> {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Booking/GetBookingDefaultDuration/' + idCompany.toString(), options);
@@ -66,7 +66,7 @@ export class BookingService {
     }
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -87,7 +87,7 @@ export class BookingService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)
     };
 
     return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking', body, options);
@@ -97,7 +97,7 @@ export class BookingService {
     //const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
     return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/RemovePotentialBooking/' + idPotentialBooking.toString(), options);
   }
@@ -112,7 +112,7 @@ export class BookingService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers),
+      headers: headers,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers),
       params: params
     };
 
@@ -137,7 +137,7 @@ export class BookingService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers),
+      headers: headers,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers),
       params: params
     };
 
@@ -157,7 +157,7 @@ export class BookingService {
   //   }
 
   //   let options = {
-  //     headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+  //     headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
   //     params: params
   //   };
 
@@ -165,7 +165,7 @@ export class BookingService {
   // }
   getBookingsByUser(idUser: number): Observable<GenericResponseObject> {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingsByUser/' + idUser.toString(), options);
@@ -176,7 +176,7 @@ export class BookingService {
     params = params.append('bookingDate', bookingDate);
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -184,7 +184,7 @@ export class BookingService {
   }
   removeBooking(idBooking: number) {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
     return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/' + idBooking.toString(), options);

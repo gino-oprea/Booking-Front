@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsersService } from '../app-services/users.service';
 import { User } from '../objects/user';
 import { GenericResponseObject } from '../objects/generic-response-object';
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'bf-login',
@@ -41,50 +42,62 @@ export class LoginComponent extends BaseComponent implements OnInit
   }
   onLogin()
   {
-    this.usersService.login(
+    this.loginService.login(
       this.myForm.controls['email'].value,
-      this.myForm.controls['password'].value).subscribe((result: User) =>
+      this.myForm.controls['password'].value).subscribe(token =>
       {
-        console.log(result);
-        if (result.error == '')//
+        var decoded = jwt_decode(token.access_token);
+        var username: string = decoded.sub;
+        this.usersService.getUserByEmail(username).subscribe(result =>
         {
-          this.logAction(null, false, Actions.Login, "", "");
 
-          this.usersService.editUser(result, 1).subscribe((data) =>
+          console.log(result);
+          if (result.error == '')//
           {
-            let gro = (<GenericResponseObject>JSON.parse(data._body));
-            console.log(gro);
-            if (gro.info.indexOf('success') > -1)
-            {
-              this.router.navigate(['/searchcompany']);
-              this.usersService.emmitLoginChange();
-            }
-            else
-            {
-              console.log(gro.error);
-              this.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed);
-            }
-          },
-            err =>
-            {
-              console.log(err)
-              this.logAction(null, true, Actions.Login, "http error", "");
-            });
+            this.logAction(null, false, Actions.Login, "", "");
 
-        }
-        else
-        {
-          console.log(result.error);
-          this.showPageMessage("error", "Error", result.error);
-          this.logAction(null, true, Actions.Login, result.error, result.errorDetailed);
-        }
+            this.usersService.editUser(result, 1).subscribe((data) =>
+            {
+              let gro = (<GenericResponseObject>JSON.parse(data._body));
+              console.log(gro);
+              if (gro.info.indexOf('success') > -1)
+              {
+                this.router.navigate(['/searchcompany']);
+                this.loginService.emmitLoginChange();
+              }
+              else
+              {
+                console.log(gro.error);
+                this.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed);
+              }
+            },
+              err =>
+              {
+                console.log(err)
+                this.logAction(null, true, Actions.Login, "http error", "");
+              });
+
+          }
+          else
+          {
+            console.log(result.error);
+            this.showPageMessage("error", "Error", result.error);
+            this.logAction(null, true, Actions.Login, result.error, result.errorDetailed);
+          }
+        },
+          err =>
+          {
+            console.log(err);
+            this.showPageMessage("error", "Error", this.getCurrentLabelValue('lblHttpError'));
+            this.logAction(null, true, Actions.Login, "http request error", "");
+          });
       },
-      err =>
-      {
-        console.log(err);
-        this.showPageMessage("error", "Error", this.getCurrentLabelValue('lblHttpError'));
-        this.logAction(null, true, Actions.Login, "http request error", "");
-      });
+        err =>
+        {
+          console.log(err);
+          this.showPageMessage("error", "Error", this.getCurrentLabelValue('lblHttpError'));
+          this.logAction(null, true, Actions.Login, "http request error", "");
+        });
   }
 
 }

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LevelLinkingService } from './app-services/level-linking.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LevelsService } from './app-services/levels.service';
@@ -47,6 +47,8 @@ import { HoursMatrixService } from './app-services/hours-matrix.service';
 import { ImageService } from './app-services/image.service';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
+import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
+import { LoginService } from './app-services/login.service';
 
 
 @NgModule({
@@ -85,6 +87,7 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
     ConfirmationService,
     HoursMatrixService,
     UsersService,
+    LoginService,
     GeneralSettingsService,
     LabelsService,
     LoggerService,
@@ -100,7 +103,12 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
     BookingService,
     AuthGuard,
     NonAuthGuard,
-    CompanyBookingGuard
+    CompanyBookingGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -24,7 +24,7 @@ export class HoursMatrixService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers),
+      headers: headers,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers),
       params: params
     };
 

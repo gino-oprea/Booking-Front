@@ -17,7 +17,7 @@ export class LevelLinkingService
   getEntitiesLinking(idEntity: number, idCompany: number): Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/' + idEntity + '/' + idCompany, options);
@@ -25,7 +25,7 @@ export class LevelLinkingService
   getEntitiesLinkingTree(idCompany: number, companyName: string, culture: string): Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/gettree/' + idCompany + '/' + companyName + '/' + culture, options);
@@ -36,7 +36,7 @@ export class LevelLinkingService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)
     };
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/' + isAdd.toString(), body, options);
@@ -44,7 +44,7 @@ export class LevelLinkingService
   removeEntitiesLinkingOnLevelOrderChange(idLevelMoved: number, isMoveUp: boolean): Observable<GenericResponseObject>  
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/' + idLevelMoved.toString() + '/' + isMoveUp.toString(), options);
   }

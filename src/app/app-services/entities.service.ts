@@ -24,7 +24,7 @@ export class EntitiesService
     params = params.append('idEntity', idEntity != null ? idEntity.toString() : null);
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -44,7 +44,7 @@ export class EntitiesService
     }
 
     let options ={
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -53,7 +53,7 @@ export class EntitiesService
   getDurationTypes():Observable<GenericResponseObject>
   {
     let options ={
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/GetDurationTypesDic', options);
   }
@@ -63,7 +63,7 @@ export class EntitiesService
     params = params.append('idWorkingHours', idWorkingHours != null ? idWorkingHours.toString() : null);
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -77,7 +77,7 @@ export class EntitiesService
     params = params.append('dateEnd', this.getDateString(dateEnd));
     
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -98,7 +98,7 @@ export class EntitiesService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities', body, options);
@@ -109,7 +109,7 @@ export class EntitiesService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/AddEntityCustomHours', body, options);
@@ -120,7 +120,7 @@ export class EntitiesService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/AddEntityVariableHours/' + idEntity.toString(), body, options);
@@ -131,7 +131,7 @@ export class EntitiesService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities', body, options);
@@ -142,7 +142,7 @@ export class EntitiesService
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/EditEntityCustomHours', body, options);
@@ -150,7 +150,7 @@ export class EntitiesService
   deleteEntity(idEntity: number): Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/' + idEntity.toString(), options);
   }
@@ -158,7 +158,7 @@ export class EntitiesService
   deleteEntityWorkingHours(id: number): Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Entities/DeleteCustomWorkingHours/' + id, options);
   }
@@ -170,7 +170,7 @@ export class EntitiesService
     params = params.append('day', day != null ? day.toUTCString() : null);
     
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
@@ -187,7 +187,7 @@ export class EntitiesService
     );
 
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Entities/SetEntitySpecialDays/' + isAdd, body, options);
@@ -195,7 +195,7 @@ export class EntitiesService
   deleteEntitySpecialDay(id: number): Observable<GenericResponseObject>
   {
     let options = {
-      headers: CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Entities/DeleteEntitySpecialDays/' + id, options);
   }

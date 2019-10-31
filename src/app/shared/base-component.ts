@@ -10,6 +10,7 @@ import { User } from '../objects/user';
 import { LabelsService } from '../app-services/labels.service';
 import { Label } from '../objects/label';
 import { UsersService } from '../app-services/users.service';
+import { LoginService } from '../app-services/login.service';
 
 export class BaseComponent implements OnDestroy
 {
@@ -19,7 +20,8 @@ export class BaseComponent implements OnDestroy
     site = WebSites.Front;
     pageLabels: string[] = [];
 
-    usersService: UsersService;    
+    loginService: LoginService;
+    usersService: UsersService;      
     loggerService: LoggerService;
     labelsService: LabelsService;
     router: Router;
@@ -42,6 +44,7 @@ export class BaseComponent implements OnDestroy
         {
             this.loggerService = injector.get(LoggerService);
             this.labelsService = injector.get(LabelsService);
+            this.loginService = injector.get(LoginService);
             this.usersService = injector.get(UsersService);
             this.router = injector.get(Router);
             this.route = injector.get(ActivatedRoute);
@@ -52,7 +55,7 @@ export class BaseComponent implements OnDestroy
             
             
         
-            this.usersService.emmitLoginChange();
+            this.loginService.emmitLoginChange();
             
             this.calendarLocale_RO = {
                 firstDay: 1,
@@ -79,9 +82,9 @@ export class BaseComponent implements OnDestroy
                 this.currentCulture = culture;  
                 this.onChangeCulture();
             });
-            this.userSubscription = this.usersService.loginSubject.subscribe(res =>
+            this.userSubscription = this.loginService.loginSubject.subscribe(res =>
             {
-                this.currentUser = this.usersService.getCurrentUser();
+                this.currentUser = this.loginService.getCurrentUser();
                 this.redirectFromUnauthorizedPages();
             });
         }
