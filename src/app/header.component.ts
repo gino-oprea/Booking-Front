@@ -140,8 +140,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
     this.logAction(null, false, Actions.Logout, "", "");
     try//
     {
-      this.loginService.logout();
-      this.loginService.emmitLoginChange();
+      this.loginService.logout();      
       this.router.navigate(['/searchcompany']);
       //this.router.navigate(['/login']);
     }

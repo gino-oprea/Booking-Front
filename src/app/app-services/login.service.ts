@@ -46,6 +46,7 @@ export class LoginService
       map(token =>
       {
         /////////////
+        token.token_generated = new Date();
         localStorage.setItem('b_front_token', JSON.stringify(token));
         /////////////
         var decoded = jwt_decode(token.access_token);
@@ -107,7 +108,9 @@ export class LoginService
   {
     if (!!localStorage.getItem('b_front_token'))
     {
-      return <Token>JSON.parse(localStorage.getItem('b_front_token'));
+      let token: Token = <Token>JSON.parse(localStorage.getItem('b_front_token'));
+      token.token_generated = new Date(token.token_generated);
+      return token;
     }
     else
       return null;
@@ -127,7 +130,10 @@ export class LoginService
   }
   logout()
   {
+    localStorage.removeItem('b_front_token');
     localStorage.removeItem('b_front_auth_user');
     this.loggedIn = false;
+
+    this.emmitLoginChange();
   }
 }
