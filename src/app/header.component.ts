@@ -124,55 +124,9 @@ export class HeaderComponent extends BaseComponent implements OnInit
   {       
     this.loginService.login(
       this.loginForm.controls['email'].value,
-      this.loginForm.controls['password'].value).subscribe((token: Token) =>
+      this.loginForm.controls['password'].value, this).subscribe((token: Token) =>
       {
-        var decoded = jwt_decode(token.access_token);
-        var username: string = decoded.sub;
-        this.usersService.getUserByEmail(username).subscribe(result =>
-        {
-
-          console.log(result);
-          if (result.error == '')//
-          {
-            this.logAction(null, false, Actions.Login, "", "");
-
-            this.loginForm.reset();
-            this.loginService.emmitLoginChange();
-
-            this.usersService.editUser(result, 1).subscribe((data) =>//updateaza data ultimului login
-            {
-              let gro = (<GenericResponseObject>data);
-              console.log(gro);
-              if (gro.info.indexOf('success') > -1)
-              {
-                //this.router.navigate(['/searchcompany']);              
-              }
-              else
-              {
-                console.log(gro.error);
-                this.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed);
-              }
-            },
-              err =>
-              {
-                console.log(err)
-                this.logAction(null, true, Actions.Login, "http error", "");
-              });
-
-          }
-          else
-          {
-            console.log(result.error);
-            this.showPageMessage("error", "Error", result.error);
-            this.logAction(null, true, Actions.Login, result.error, result.errorDetailed);
-          }
-        },
-          err =>
-          {
-            console.log(err);
-            this.showPageMessage("error", "Error", this.getCurrentLabelValue('lblHttpError'));
-            this.logAction(null, true, Actions.Login, "http request error", "");
-          });
+        this.loginForm.reset();        
       },
         err =>
         {

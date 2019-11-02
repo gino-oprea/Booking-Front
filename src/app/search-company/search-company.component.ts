@@ -54,7 +54,10 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
+      {
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        this.showPageMessage("error", "Error", gro.error);
+      }
       else
       {
         this.companies = <Company[]>gro.objList;

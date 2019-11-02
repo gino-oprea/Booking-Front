@@ -1,7 +1,6 @@
 import { SearchCompanyComponent } from './search-company/search-company.component';
 import { RouterModule, CanActivate } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { LoginComponent } from './login/login.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { UserActivationComponent } from './user-activation/user-activation.component';
 import { NonAuthGuard } from './route-guards/non-auth.guard';

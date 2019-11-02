@@ -23,7 +23,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
-import { LoginModule } from './login/login.module';
 import { routing } from './app.routing';
 import { UserActivationModule } from './user-activation/user-activation.module';
 import { GeneralSettingsService } from './app-services/general-settings.service';
@@ -72,9 +71,8 @@ import { LoginService } from './app-services/login.service';
     SharedModule,
     ButtonModule,
     DialogModule,
-    CalendarModule,
-
-    LoginModule,
+    CalendarModule,    
+    
     UserRegistrationModule,
     UserActivationModule,
     SearchCompanyModule,

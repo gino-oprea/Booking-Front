@@ -10,13 +10,15 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Token } from '../objects/token';
 import * as jwt_decode from 'jwt-decode';
 import { UsersService } from './users.service';
+import { BaseComponent } from '../shared/base-component';
+import { Actions } from 'app/enums/enums';
 
 
 
 @Injectable()
 export class LoginService
 {
-  public loggedIn = false;
+  public loggedIn = false;  
   loginSubject = new Subject<string>();
 
   constructor(private http: HttpClient, private usersService:UsersService)
@@ -26,8 +28,8 @@ export class LoginService
 
   
 
-  login(email: string, password: string): Observable<Token>
-  {    
+  login(email: string, password: string, component: BaseComponent)
+  {
     let body = new URLSearchParams();
     body.set('username', email);
     body.set('password', password);
@@ -38,32 +40,77 @@ export class LoginService
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
-    });    
+    });
 
-    return this.http.post<Token>(AppSettings.TOKEN_API_ENDPOINT, body.toString(), { headers: headers }).pipe(      
+    return this.http.post<Token>(AppSettings.TOKEN_API_ENDPOINT, body.toString(), { headers: headers }).pipe(
       map(token =>
       {
+        /////////////
+        localStorage.setItem('b_front_token', JSON.stringify(token));
+        /////////////
         var decoded = jwt_decode(token.access_token);
         var username: string = decoded.sub;
+
         this.usersService.getUserByEmail(username).subscribe(user =>
         {
           if (user.error == '')        
           {
+            user.password = password;//se salveaza pe local storage pentru a putea sa-l tinem logat(refacem automat login-ul inainte sa expire tokenul)
             user.token = token.access_token;
             localStorage.setItem('b_front_auth_user', JSON.stringify(user));
-            this.loggedIn = true;            
-          }          
-        });
+            this.loggedIn = true;
+
+            component.logAction(null, false, Actions.Login, "", "");
+            
+            this.emmitLoginChange();
+
+            this.usersService.editUser(user, 1).subscribe((data) =>//updateaza data ultimului login
+            {
+              let gro = (<GenericResponseObject>data);
+              console.log(gro);
+              if (gro.info.indexOf('success') > -1)
+              {
+                //this.router.navigate(['/searchcompany']);              
+              }
+              else
+              {
+                console.log(gro.error);
+                component.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed);
+              }
+            },
+              err =>
+              {
+                console.log(err)
+                component.logAction(null, true, Actions.Login, "http error", "");
+                component.showPageMessage("error", "Error", component.getCurrentLabelValue('lblHttpError'));                
+              });
+          }
+        },
+          err =>
+          {
+            console.log(err);
+            component.logAction(null, true, Actions.Login, "http error", "");
+            component.showPageMessage("error", "Error", component.getCurrentLabelValue('lblHttpError'));
+          });
 
         return token;
       })
     );
-    
+
   }
   isAuthenticated()
   {
     return this.loggedIn;
     //return !!localStorage.getItem('b_front_auth_user');
+  }
+  getToken(): Token
+  {
+    if (!!localStorage.getItem('b_front_token'))
+    {
+      return <Token>JSON.parse(localStorage.getItem('b_front_token'));
+    }
+    else
+      return null;
   }
   getCurrentUser(): User
   {
