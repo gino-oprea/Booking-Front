@@ -7,4 +7,4 @@ export class Token
     public token_type: string,
     public token_generated: Date
   ) { }
-}
+}   
