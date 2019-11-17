@@ -78,8 +78,8 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     weekDates = this.setUpWeekDates()
     this.bookingService.getLevelsAsFilters(this.idCompany, weekDates).subscribe(gro => {
       if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else {
         this.levels = <LevelAsFilter[]>gro.objList;
@@ -157,8 +157,8 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
   loadEntitiesLinking() {
     this.levelLinkingService.getEntitiesLinking(null, this.idCompany).subscribe(gro => {
       if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else {
         let entityLinks = <EntitiesLink[]>gro.objList;

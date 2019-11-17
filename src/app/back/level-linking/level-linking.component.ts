@@ -62,7 +62,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
       }
       else
       {
@@ -83,8 +83,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -107,8 +107,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -135,8 +135,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-          this.showPageMessage('error', 'Error', gro.error);
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+          //this.showPageMessage('error', 'Error', gro.error);
         }
         else
         {
@@ -158,8 +158,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -222,8 +222,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -249,13 +249,13 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity links before level order change');
-        this.showPageMessage('warn', 'Warning', 'links between selected level and others deleted!');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity links before level order change', true, 'links between selected level and others deleted!', true);
+        //this.showPageMessage('warn', 'Warning', 'links between selected level and others deleted!');
 
         if (type == 'up')
         {
@@ -304,13 +304,13 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add, '', e.target.checked ? 'added entity link' : 'removed entity link');
-        this.showPageMessage('success', 'Saved', '');
+        this.logAction(this.idCompany, false, Actions.Add, '', e.target.checked ? 'added entity link' : 'removed entity link', true, '');
+        //this.showPageMessage('success', 'Saved', '');
       }
 
       this.loadTree();

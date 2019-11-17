@@ -149,8 +149,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     {
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -160,8 +160,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
         {
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {

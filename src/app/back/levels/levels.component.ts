@@ -96,8 +96,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -122,8 +122,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -140,8 +140,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -157,8 +157,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -174,8 +174,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -191,8 +191,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -375,8 +375,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {
@@ -406,8 +406,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {
@@ -430,8 +430,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {
@@ -465,8 +465,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {
@@ -493,8 +493,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {
@@ -516,8 +516,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {
@@ -549,8 +549,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {

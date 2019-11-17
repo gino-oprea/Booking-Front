@@ -81,7 +81,7 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
     {
       if (gro.error != '')
       {
-        this.showPageMessage('error', 'Error', gro.error);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {

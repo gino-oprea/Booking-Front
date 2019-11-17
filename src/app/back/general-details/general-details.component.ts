@@ -118,8 +118,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -216,8 +216,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
       }
       else
       {
@@ -236,8 +236,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
       }
       else
       {
@@ -269,8 +269,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -310,9 +310,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company special days', ''));
   }
   onSaveForm()
-  {
-    try
-    {
+  {    
       this.company.name = this.genDetailsForm.controls['name'].value;
       this.company.description = this.genDetailsForm.controls['description'].value;
       this.company.idCategory = parseInt(this.genDetailsForm.controls['category'].value);
@@ -332,21 +330,15 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.showPageMessage('error', 'Error', gro.error);
-          this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
+          //this.showPageMessage('error', 'Error', gro.error);
+          this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true, gro.error);
         }
         else
         {
-          this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
-          this.logAction(this.idCompany, false, Actions.Edit, '', '');
+          //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
+          this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblSaved'));
         }
-      });
-    }
-    catch (ex)
-    {
-      this.logAction(this.idCompany, true, Actions.Edit, ex.message, 'error editing company');
-      this.showPageMessage('error', 'Error', ex.message);
-    }
+      });   
   }
   loadCountriesDic()
   {
@@ -355,7 +347,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
       else
       {
         this.countriesDic = <Country[]>gro.objList;
@@ -384,8 +376,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -408,8 +400,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -442,8 +434,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
+        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
       }
       else
       {
@@ -532,14 +524,14 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
             if (gro.error.indexOf('size limit') > -1)
               this.showPageMessage('error', 'Error', this.getCurrentLabelValue('lblOnlyOneMBfilesPermitted'));
             else
-              this.showPageMessage('error', 'Error', gro.error);
+              //this.showPageMessage('error', 'Error', gro.error);
 
-            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
+            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
           }
           else
           {
-            this.logAction(this.idCompany, false, Actions.Edit, '', 'image upload');
-            this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
+            this.logAction(this.idCompany, false, Actions.Edit, '', 'image upload', true, this.getCurrentLabelValue('lblSaved'));
+            //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
             this.loadCompanyImages();
           }
         });
@@ -563,13 +555,13 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
 
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete company image');
-        this.showPageMessage('success', 'Success', '');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete company image', true, '');
+        //this.showPageMessage('success', 'Success', '');
         this.loadCompanyImages();
       }
     },
@@ -589,8 +581,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -627,7 +619,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
       }
       else
       {
@@ -652,8 +644,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -733,13 +725,13 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {
-            this.logAction(this.idCompany, false, Actions.Add, '', 'saved company special day');
-            this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
+            this.logAction(this.idCompany, false, Actions.Add, '', 'saved company special day', true, this.getCurrentLabelValue('lblSaved'));
+            //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
           }
           this.reloadCompanySpecialDays();
         },
@@ -764,8 +756,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-          this.showPageMessage('error', 'Error', gro.error);
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+          //this.showPageMessage('error', 'Error', gro.error);
         }
         else
         {
@@ -779,14 +771,14 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
               let gro = <GenericResponseObject>result;
               if (gro.error != '')
               {
-                this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-                this.showPageMessage('error', 'Error', gro.error);
+                this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+                //this.showPageMessage('error', 'Error', gro.error);
 
               }
               else
               {
-                this.logAction(this.idCompany, false, Actions.Add, '', 'saved company special day');
-                this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
+                this.logAction(this.idCompany, false, Actions.Add, '', 'saved company special day', true, this.getCurrentLabelValue('lblSaved'));
+                //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
               }
               this.reloadCompanySpecialDays();
             },
@@ -809,13 +801,13 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'deleted company special day');
-        this.showPageMessage('success', 'Success', '');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'deleted company special day', true, '');
+        //this.showPageMessage('success', 'Success', '');
         this.reloadCompanySpecialDays();
       }
     },

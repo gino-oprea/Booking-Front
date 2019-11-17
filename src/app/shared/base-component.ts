@@ -2,7 +2,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LogItem } from '../objects/log-item';
 import { Injector, OnDestroy } from '@angular/core';
-import { WebSites, Actions } from '../enums/enums';
+import { WebSites, Actions, PageMessageType } from '../enums/enums';
 import { LoggerService } from '../app-services/logger.service';
 import { Message } from 'primeng/primeng';
 import { GenericResponseObject } from '../objects/generic-response-object';
@@ -147,9 +147,10 @@ export class BaseComponent implements OnDestroy
 
     }
 
-    logAction(idCompany: number, isError: boolean, idAction: number, errMsg: string, infoMsg: string)
+    logAction(idCompany: number, isError: boolean, idAction: number, errMsg: string, infoMsg: string, showPageMessage: boolean = false, pageMessage:string = errMsg, isWarning: boolean = false)
     {
-        try {
+        try
+        {
             let log = new LogItem();
 
             log.idUser = (!!localStorage.getItem('b_front_auth_user') ? (<User>JSON.parse(localStorage.getItem('b_front_auth_user'))).id : null);
@@ -169,9 +170,21 @@ export class BaseComponent implements OnDestroy
                 //console.log(gro);
             },
                 err => console.log(err));
+            
+            if (showPageMessage)
+            {
+                let severity: string = PageMessageType.Success;
+                if (isError)
+                    severity = PageMessageType.Error;
+                if (isWarning)
+                    severity = PageMessageType.Warn;
+                
+                this.showPageMessage(severity, severity, pageMessage);               
+            }
         }
-        catch (e) {
-            //console.log(e);
+        catch (e)
+        {
+            console.log(e);
         }
 
     }

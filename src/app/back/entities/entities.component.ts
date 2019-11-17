@@ -176,8 +176,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -203,8 +203,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -230,8 +230,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-          this.showPageMessage('error', 'Error', gro.error);
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+          //this.showPageMessage('error', 'Error', gro.error);
         }
         else
         {          
@@ -247,8 +247,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -302,8 +302,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -325,8 +325,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -528,14 +528,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
             if (gro.error.indexOf('size limit') > -1)
               this.showPageMessage('error', 'Error', 'size limit exceded');
             else
-              this.showPageMessage('error', 'Error', gro.error);
+              //this.showPageMessage('error', 'Error', gro.error);
             
-            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
+            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
           }
           else
           {
-            this.logAction(this.idCompany, false, Actions.Edit, '', 'image upload for entity ' + this.selectedEntity.id);
-            this.showPageMessage('success', 'Success', 'image saved');
+            this.logAction(this.idCompany, false, Actions.Edit, '', 'image upload for entity ' + this.selectedEntity.id, true, 'image saved');
+            //this.showPageMessage('success', 'Success', 'image saved');
             this.loadEntities(this.selectedEntity.id);
           }
         });
@@ -574,13 +574,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-          this.showPageMessage('error', 'Error', gro.error);
+          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+          //this.showPageMessage('error', 'Error', gro.error);
         }
         else
         {
-          this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity custom hours idEntity: ' + this.selectedEntityId);
-          this.showPageMessage('success', 'Success', 'Custom working hours removed');
+          this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity custom hours idEntity: ' + this.selectedEntityId, true, 'Custom working hours removed');
+          //this.showPageMessage('success', 'Success', 'Custom working hours removed');
           this.loadEntities(this.selectedEntityId);
           this.loadCustomWorkingHours(null, false);
         }
@@ -602,13 +602,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity image ' + this.selectedEntity.id);
-        this.showPageMessage('success', 'Success', '');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity image ' + this.selectedEntity.id, true, 'image deleted');
+        //this.showPageMessage('success', 'Success', '');
         this.loadEntities(this.selectedEntity.id);
       }
     },
@@ -910,13 +910,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add, '', 'add entity');
-        this.showPageMessage('success', 'Success', 'Entity added');
+        this.logAction(this.idCompany, false, Actions.Add, '', 'add entity', true, 'Entity added');
+        //this.showPageMessage('success', 'Success', 'Entity added');
         this.loadEntities(null);
       }
     },
@@ -935,8 +935,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -987,14 +987,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity idEntity:' + entity.id.toString());
-        if (showSuccessMessage)
-          this.showPageMessage('success', 'Success', 'Entity saved');
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity idEntity:' + entity.id.toString(), showSuccessMessage, 'Entity saved');
+        // if (showSuccessMessage)
+        //   this.showPageMessage('success', 'Success', 'Entity saved');
         if (isReloadEntities)
           this.loadEntities(entity.id);
       }
@@ -1008,13 +1008,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
+        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
       }
       else
       {
-        this.showPageMessage('success', 'Success', 'Entity deleted');
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity ' + this.selectedEntityId);
+        //this.showPageMessage('success', 'Success', 'Entity deleted');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity ' + this.selectedEntityId, true, 'Entity deleted');
       }
       this.loadEntities(null);
     });
@@ -1026,8 +1026,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -1044,14 +1044,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity working hours idEntity: ' + this.selectedEntityId.toString());
-        if (showSuccessMessage)
-          this.showPageMessage('success', 'Success', 'Saved');
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity working hours idEntity: ' + this.selectedEntityId.toString(), showSuccessMessage, 'Saved');
+        // if (showSuccessMessage)
+        //   this.showPageMessage('success', 'Success', 'Saved');
         if (isReloadWorkingHours)
           this.loadCustomWorkingHours(null, false);
       }
@@ -1065,8 +1065,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -1146,8 +1146,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -1211,7 +1211,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
       }
       else
       {
@@ -1236,8 +1236,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
@@ -1315,13 +1315,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
           else
           {
-            this.logAction(this.idCompany, false, Actions.Add, '', 'saved entity special day');
-            this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));            
+            this.logAction(this.idCompany, false, Actions.Add, '', 'saved entity special day', true, this.getCurrentLabelValue('lblSaved'));
+            //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));            
           }
           this.loadEntitySpecialDays();
         },
@@ -1346,8 +1346,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-          this.showPageMessage('error', 'Error', gro.error);
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+          //this.showPageMessage('error', 'Error', gro.error);
         }
         else
         {
@@ -1361,14 +1361,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
               let gro = <GenericResponseObject>result;
               if (gro.error != '')
               {
-                this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-                this.showPageMessage('error', 'Error', gro.error);
+                this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+                //this.showPageMessage('error', 'Error', gro.error);
             
               }
               else
               {
-                this.logAction(this.idCompany, false, Actions.Add, '', 'saved entity special day');
-                this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
+                this.logAction(this.idCompany, false, Actions.Add, '', 'saved entity special day', true, this.getCurrentLabelValue('lblSaved'));
+                //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
               }
               this.loadEntitySpecialDays();
             },
@@ -1391,13 +1391,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {        
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'deleted entity special day');
-        this.showPageMessage('success', 'Success', '');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'deleted entity special day', true, '');
+        //this.showPageMessage('success', 'Success', '');
         this.loadEntitySpecialDays();
       }
     },

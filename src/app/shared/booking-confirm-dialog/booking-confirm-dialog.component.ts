@@ -133,7 +133,7 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
       
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
         //this.showPageMessage('error', 'Error', gro.error);
         message = new Message(MessageType.Error, gro.error);
       }

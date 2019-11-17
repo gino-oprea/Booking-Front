@@ -44,3 +44,10 @@ export enum BookingFilterType
     Name = 2,
     Email = 3
 }
+export enum PageMessageType
+{
+    Info = "info",
+    Warn = "warn",
+    Error = "error",
+    Success = "success"
+}

@@ -65,8 +65,8 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit {
     this.bookingService.getBookingDefaultDuration(this.idCompany).subscribe(result => {
       let gro = <GenericResponseObject>result;
       if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
       else {
         if (gro.objList.length > 0) {
@@ -128,8 +128,8 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit {
 
       this.bookingService.autoAssignEntitiesToBooking(this.idCompany, bookingDate, startTime, autoAssignPayload).subscribe(gro => {
         if (gro.error != '') {
-          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-          this.showPageMessage('error', 'Error', gro.error);
+          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+          //this.showPageMessage('error', 'Error', gro.error);
         }
         else {
           this.logAction(this.idCompany, false, Actions.Add, '', 'auto assign booking');
@@ -172,7 +172,7 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit {
         let gro = <GenericResponseObject>result;
         if (gro.error != '') {
           console.log(gro);
-          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
+          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
         }
         else {
           console.log('potential booking removed from server singleton')

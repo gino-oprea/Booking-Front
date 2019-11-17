@@ -76,23 +76,11 @@ export class LoginService
               else
               {
                 console.log(gro.error);
-                component.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed);
+                component.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed, true, gro.error);
               }
-            },
-              err =>
-              {
-                console.log(err)
-                component.logAction(null, true, Actions.Login, "http error", "");
-                component.showPageMessage("error", "Error", component.getCurrentLabelValue('lblHttpError'));                
-              });
+            });
           }
-        },
-          err =>
-          {
-            console.log(err);
-            component.logAction(null, true, Actions.Login, "http error", err);
-            component.showPageMessage("error", "Error", err);
-          });
+        });
 
         return token;
       })

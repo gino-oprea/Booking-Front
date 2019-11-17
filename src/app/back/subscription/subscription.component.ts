@@ -62,7 +62,7 @@ export class SubscriptionComponent extends BaseComponent implements OnInit
         {
           let gro = <GenericResponseObject>result;
           if (gro.error != '') {
-            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
           }
           else {
             this.subscriptions = <SubscriptionObject[]>gro.objList;
@@ -81,8 +81,8 @@ export class SubscriptionComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       } 
       else
       {
@@ -103,13 +103,13 @@ export class SubscriptionComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }  
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add, '', 'company subscription renewed');
-        this.showPageMessage('success', 'Success', 'Subscription renewed');
+        this.logAction(this.idCompany, false, Actions.Add, '', 'company subscription renewed', true, 'Subscription renewed');
+        //this.showPageMessage('success', 'Success', 'Subscription renewed');
         this.loadSubscription(this.idCompany);
       }
     },
@@ -122,13 +122,13 @@ export class SubscriptionComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }  
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add, '', 'company subscription upgraded');
-        this.showPageMessage('success', 'Success', 'Subscription upgraded');
+        this.logAction(this.idCompany, false, Actions.Add, '', 'company subscription upgraded', true, 'Subscription upgraded');
+        //this.showPageMessage('success', 'Success', 'Subscription upgraded');
         this.loadSubscription(this.idCompany);
       }
     },

@@ -84,7 +84,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
       else
       {
         this.countriesDic = <Country[]>gro.objList;        
@@ -100,7 +100,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
       else
       {
         this.townsDic = <string[]>gro.objList;

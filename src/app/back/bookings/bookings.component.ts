@@ -76,29 +76,31 @@ export class BookingsComponent extends BaseComponent implements OnInit {
     this.shiftedDate = value;
   }
 
-  getTimeslotBookings(bookingDate: Date) {
-    this.bookingService.getBookingsByTimeSlot(this.idCompany, CommonServiceMethods.getDateString(bookingDate, true)).subscribe(gro => {
-      if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+  getTimeslotBookings(bookingDate: Date)
+  {
+    this.bookingService.getBookingsByTimeSlot(this.idCompany, CommonServiceMethods.getDateString(bookingDate, true)).subscribe(gro =>
+    {
+      if (gro.error != '') 
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true, gro.error);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
-      else {
+      else 
+      {
         this.timeslotBookings = <Booking[]>gro.objList;
 
-        if (this.timeslotBookings.length > 0) {
+        if (this.timeslotBookings.length > 0)
+        {
           this.selectedBooking = this.timeslotBookings[0];
           this.selectTab('edit');
         }
-        else {
+        else
+        {
           this.selectedBooking = null;
           this.selectTab('add');
         }
       }
-    },
-      err => {
-        this.logAction(this.idCompany, true, Actions.Search, 'http error getting bookings by timeslot', err.status + ' ' + err.statusText);
-        this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
-      });
+    });
   }
 
   onSelectBookingHour(value: SelectBookingHourTransferObject) {
@@ -115,8 +117,10 @@ export class BookingsComponent extends BaseComponent implements OnInit {
     this.getAutoAssignedEntities();
     //this.displayDialogConfirmBooking = true;              
   }
-  getAutoAssignedEntities() {
-    if (this.selectedBookingHourTransferObject.workingDay.workHours != "") {
+  getAutoAssignedEntities()
+  {
+    if (this.selectedBookingHourTransferObject.workingDay.workHours != "")
+    {
       //console.log(this.selectedBookingHourTransferObject.bookingDayTimeslots);
       let startTime: string = "";
       let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
@@ -127,30 +131,31 @@ export class BookingsComponent extends BaseComponent implements OnInit {
       this.bookingService.autoAssignEntitiesToBooking(this.idCompany,
         CommonServiceMethods.getDateString(new Date(this.selectedBookingHourTransferObject.workingDay.date)),
         startTime,
-        new AutoAssignPayload(this.selectedFilter.filteredLevels, this.selectedBookingHourTransferObject.bookingDayTimeslots)).subscribe(gro => {
-          if (gro.error != '') {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed);
-            this.showPageMessage('error', 'Error', gro.error);
+        new AutoAssignPayload(this.selectedFilter.filteredLevels, this.selectedBookingHourTransferObject.bookingDayTimeslots)).subscribe(gro =>
+        {
+          if (gro.error != '')
+          {
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true, gro.error);
+            //this.showPageMessage('error', 'Error', gro.error);
           }
-          else {
+          else
+          {
             this.logAction(this.idCompany, false, Actions.Add, '', 'auto assign booking');
-            if (gro.objList != null) {
+            if (gro.objList != null)
+            {
               this.autoAssignedEntityCombination = <AutoAssignedEntityCombination>gro.objList[0];
               this.displayDialogConfirmBooking = true;
 
               this.enableAddTab(true);
             }
-            else {
+            else
+            {
               //this.showPageMessage("warn", "Warning", 'Selected combination duration does not fit in the remaining timeslots! Please select another timeslot!');
               this.enableAddTab(false);
               this.displayDialogConfirmBooking = true;
             }
           }
-        },
-          err => {
-            this.logAction(this.idCompany, true, Actions.Add, 'http error auto assign booking', err.status + ' ' + err.statusText);
-            this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
-          });
+        });
     }
   }
 
@@ -163,21 +168,25 @@ export class BookingsComponent extends BaseComponent implements OnInit {
     }
   }
 
-  getBookingDefaultDuration() {
-    this.bookingService.getBookingDefaultDuration(this.idCompany).subscribe(result => {
+  getBookingDefaultDuration()
+  {
+    this.bookingService.getBookingDefaultDuration(this.idCompany).subscribe(result =>
+    {
       let gro = <GenericResponseObject>result;
-      if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
-      else {
-        if (gro.objList.length > 0) {
+      else
+      {
+        if (gro.objList.length > 0)
+        {
           this.bookingDefaultDuration = <BookingDefaultDuration>gro.objList[0];
           this.calculateDefaultDuration();
         }
       }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting levels', ''));
+    });
   }
   calculateDefaultDuration() {
     let duration = this.bookingDefaultDuration.defaultDuration;
@@ -226,7 +235,7 @@ export class BookingsComponent extends BaseComponent implements OnInit {
           let gro = <GenericResponseObject>result;
           if (gro.error != '') {
             console.log(gro);
-            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
+            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
           }
           else {
             console.log('potential booking removed from server singleton')
@@ -247,7 +256,8 @@ export class BookingsComponent extends BaseComponent implements OnInit {
       this.tabs.edit.active = true;
     }
   }
-  bookingSaved(msg: Message) {
+  bookingSaved(msg: Message)
+  {
     if (msg.type == MessageType.Error)
       this.showPageMessage('error', 'Error', msg.value);
     if (msg.type == MessageType.Warning)
@@ -266,16 +276,17 @@ export class BookingsComponent extends BaseComponent implements OnInit {
     this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => {
       let gro = <GenericResponseObject>result;
       if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed);
-        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+        //this.showPageMessage('error', 'Error', gro.error);
       }
-      else {
-        this.showPageMessage('success', 'Booking removed', gro.error);
+      else 
+      {
+        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+        //this.showPageMessage('success', 'Booking removed', gro.error);
         this.getTimeslotBookings(this.selectedBookingDate);
         this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
       }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleing booking id:' + this.selectedBooking.id, ''));
+    });
   }
 
 }
