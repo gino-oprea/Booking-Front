@@ -131,8 +131,8 @@ export class HeaderComponent extends BaseComponent implements OnInit
         err =>
         {
           console.log(err);
-          this.showPageMessage("error", "Error", this.getCurrentLabelValue('lblHttpError'));
-          this.logAction(null, true, Actions.Login, "http request error", "");
+          this.showPageMessage("error", "Error", err.message);
+          this.logAction(null, true, Actions.Login, "http request error", err.message);
         });
   }
   onLogout()

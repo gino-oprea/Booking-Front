@@ -122,7 +122,7 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
     const promise = new Promise<any>(
       (resolve, reject) =>
       {
-        this.usersService.getUserByEmail(control.value).subscribe((data: User) =>
+        this.usersService.getUserByEmailForUserRegistration(control.value).subscribe((data: User) =>
         {
           if (data.error === 'User does not exist') {
             this.emailExists = false;

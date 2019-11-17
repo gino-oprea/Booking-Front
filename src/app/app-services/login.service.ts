@@ -90,8 +90,8 @@ export class LoginService
           err =>
           {
             console.log(err);
-            component.logAction(null, true, Actions.Login, "http error", "");
-            component.showPageMessage("error", "Error", component.getCurrentLabelValue('lblHttpError'));
+            component.logAction(null, true, Actions.Login, "http error", err);
+            component.showPageMessage("error", "Error", err);
           });
 
         return token;
