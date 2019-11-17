@@ -362,9 +362,9 @@ export class LevelsComponent extends BaseComponent implements OnInit
       {
         let newLevel = new Level();
         newLevel.idCompany = this.idCompany;
-        newLevel.idLevelType = this.addLevelForm.controls["addLevelType"].value;
-        newLevel.defaultDuration = this.addLevelForm.controls["duration"].value;
-        newLevel.idDurationType=this.addLevelForm.controls["duration_type"].value;
+        newLevel.idLevelType =parseInt(this.addLevelForm.controls["addLevelType"].value);
+        newLevel.defaultDuration = parseInt(this.addLevelForm.controls["duration"].value);
+        newLevel.idDurationType = parseInt(this.addLevelForm.controls["duration_type"].value);
         newLevel.levelName_RO = this.addLevelForm.controls["addLevelName_RO"].value;
         newLevel.levelName_EN = this.addLevelForm.controls["addLevelName_EN"].value;
         newLevel.isFrontOption = this.addLevelForm.controls["addLevelIsFrontOption"].value;
@@ -393,9 +393,9 @@ export class LevelsComponent extends BaseComponent implements OnInit
       else//daca e update
       {
         let levelToUpdate = this.getSelectedLevelObj(parseInt(this.selectedLevel));        
-        levelToUpdate.idLevelType = this.addLevelForm.controls["addLevelType"].value;
-        levelToUpdate.defaultDuration = this.addLevelForm.controls["duration"].value;
-        levelToUpdate.idDurationType=this.addLevelForm.controls["duration_type"].value;
+        levelToUpdate.idLevelType = parseInt(this.addLevelForm.controls["addLevelType"].value);
+        levelToUpdate.defaultDuration = parseInt(this.addLevelForm.controls["duration"].value);
+        levelToUpdate.idDurationType = parseInt(this.addLevelForm.controls["duration_type"].value);
         levelToUpdate.levelName_RO = this.addLevelForm.controls["addLevelName_RO"].value;
         levelToUpdate.levelName_EN = this.addLevelForm.controls["addLevelName_EN"].value;
         levelToUpdate.isFrontOption = this.addLevelForm.controls["addLevelIsFrontOption"].value;
@@ -457,7 +457,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
         newCharacteristic.idLevel = parseInt(this.selectedLevel);
         newCharacteristic.characteristicName_RO = this.addLevelCharactForm.controls["addLevelCharactName_RO"].value;
         newCharacteristic.characteristicName_EN = this.addLevelCharactForm.controls["addLevelCharactName_EN"].value;
-        newCharacteristic.idFieldType = this.addLevelCharactForm.controls["addLevelCharactFieldType"].value;
+        newCharacteristic.idFieldType = parseInt(this.addLevelCharactForm.controls["addLevelCharactFieldType"].value);
         newCharacteristic.isFrontOption = this.addLevelCharactForm.controls["addLevelCharactIsFrontOption"].value;
 
         this.levelsService.addLevelAdditionalCharacteristic(newCharacteristic).subscribe(result =>
@@ -485,7 +485,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
         let characteristicToUpdate = this.selectedLevelCharacteristic;
         characteristicToUpdate.characteristicName_RO = this.addLevelCharactForm.controls["addLevelCharactName_RO"].value;
         characteristicToUpdate.characteristicName_EN = this.addLevelCharactForm.controls["addLevelCharactName_EN"].value;
-        characteristicToUpdate.idFieldType = this.addLevelCharactForm.controls["addLevelCharactFieldType"].value;
+        characteristicToUpdate.idFieldType = parseInt(this.addLevelCharactForm.controls["addLevelCharactFieldType"].value);
         characteristicToUpdate.isFrontOption = this.addLevelCharactForm.controls["addLevelCharactIsFrontOption"].value;
 
         this.levelsService.editLevelAdditionalCharacteristic(characteristicToUpdate).subscribe(result =>

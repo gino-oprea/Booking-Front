@@ -150,9 +150,29 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   {
     this.router.navigate(['/company', idCompany, 'generaldetails']);
   } 
-  toggleCompanyEnabled(e)
+  toggleCompanyEnabled(e,company:Company)
   {
     let isEnabled = e.checked;
+
+    company.isEnabled = isEnabled;
+    //se pun null ca se se updateze doar cele de sus
+    company.lat = null;
+    company.lng = null;
+
+    this.companyService.updateCompany(company).subscribe(result =>
+    { 
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+      {
+        this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed);
+      }
+      else
+      {
+        this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
+        this.logAction(this.idCompany, false, Actions.Edit, '', '');
+      }
+    });
   }
 }
 

@@ -16,7 +16,7 @@
                 <h6>{{getCurrentLabelValue('lblTown')}}: {{company.town}}</h6>
             </div>
             <div class="span2">
-                <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="toggleCompanyEnabled($event)"
+                <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="toggleCompanyEnabled($event, company)"
                  [(ngModel)]="company.isEnabled"></p-inputSwitch>
             </div>
 

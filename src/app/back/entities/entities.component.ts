@@ -485,10 +485,10 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.selectedEntity.entityName_EN = this.genDetailsForm.controls['name_en'].value;
         this.selectedEntity.entityDescription_RO = this.genDetailsForm.controls['description_ro'].value;
         this.selectedEntity.entityDescription_EN = this.genDetailsForm.controls['description_en'].value;
-        this.selectedEntity.defaultServiceDuration = this.genDetailsForm.controls['duration'].value;
-        this.selectedEntity.idDurationType = this.genDetailsForm.controls['duration_type'].value;
-        this.selectedEntity.defaultServicePrice = this.genDetailsForm.controls['price'].value;
-        this.selectedEntity.maximumMultipleBookings = this.genDetailsForm.controls['max_bookings'].value;
+        this.selectedEntity.defaultServiceDuration = parseInt(this.genDetailsForm.controls['duration'].value);
+        this.selectedEntity.idDurationType = parseInt(this.genDetailsForm.controls['duration_type'].value);
+        this.selectedEntity.defaultServicePrice = parseInt(this.genDetailsForm.controls['price'].value);
+        this.selectedEntity.maximumMultipleBookings = parseInt(this.genDetailsForm.controls['max_bookings'].value);
 
         if ((<FormArray>this.genDetailsForm.get('characteristics')).controls.length > 0)
         {
@@ -496,7 +496,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           {
             this.selectedEntity.characteristics[i].textValue_RO = (<FormGroup>(<FormArray>this.genDetailsForm.get('characteristics')).controls[i]).controls['characteristic_value_ro'].value;
             this.selectedEntity.characteristics[i].textValue_EN = (<FormGroup>(<FormArray>this.genDetailsForm.get('characteristics')).controls[i]).controls['characteristic_value_en'].value;
-            this.selectedEntity.characteristics[i].numericValue = (<FormGroup>(<FormArray>this.genDetailsForm.get('characteristics')).controls[i]).controls['characteristic_numeric_value'].value;
+            this.selectedEntity.characteristics[i].numericValue = parseInt((<FormGroup>(<FormArray>this.genDetailsForm.get('characteristics')).controls[i]).controls['characteristic_numeric_value'].value);
           }
         }
         this.editEntity(this.selectedEntity, true, true);
@@ -705,7 +705,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         }
         this.isCustomWH = true;
         this.selectedEntity.hasCustomWorkingHours = true;
-        this.selectedEntity.idCustomWorkingHours = this.selectedWhId;
+        this.selectedEntity.idCustomWorkingHours =parseInt(this.selectedWhId.toString());
         this.editEntity(this.selectedEntity, false, false);
       }
     }
@@ -901,7 +901,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   onAddEntityForm()
   {
     let newEntity = new Entity();
-    newEntity.idLevel = this.selectedLevelId;
+    newEntity.idLevel = parseInt(this.selectedLevelId.toString());
     newEntity.entityName_RO = this.addEntityForm.controls["addEntityName_RO"].value;
     newEntity.entityName_EN = this.addEntityForm.controls["addEntityName_EN"].value;
         

@@ -315,9 +315,9 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     {
       this.company.name = this.genDetailsForm.controls['name'].value;
       this.company.description = this.genDetailsForm.controls['description'].value;
-      this.company.idCategory = this.genDetailsForm.controls['category'].value;
-      this.company.idSubcategory = this.genDetailsForm.controls['subcategory'].value;
-      this.company.idCountry = this.genDetailsForm.controls['country'].value;
+      this.company.idCategory = parseInt(this.genDetailsForm.controls['category'].value);
+      this.company.idSubcategory = parseInt(this.genDetailsForm.controls['subcategory'].value);
+      this.company.idCountry = parseInt(this.genDetailsForm.controls['country'].value);
       this.company.town = this.genDetailsForm.controls['town'].value;
       this.company.address = this.genDetailsForm.controls['address'].value;
       this.company.email = this.genDetailsForm.controls['email'].value;
@@ -457,8 +457,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     let country: Country = this.getCountryObj(this.genDetailsForm.controls['country'].value);
 
     let searchBox = new google.maps.places.Autocomplete(this.address.nativeElement);
-    if (country)
-      searchBox.setComponentRestrictions({ 'country': country.isO2.toLowerCase() });
+    // if (country)
+    //   searchBox.setComponentRestrictions({ 'country': country.isO2.toLowerCase() });
 
 
     google.maps.event.addListener(searchBox, 'place_changed', () =>
