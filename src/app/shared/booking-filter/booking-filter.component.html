@@ -5,7 +5,7 @@
         <div class="span8">
           <h5>{{level.levelName_EN}}</h5>
         </div>
-        <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2">
+        <!-- <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2">
           <select id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}" [(ngModel)]="getSelectedCharacteristic(level.id,characteristic.id).selectedValue"
             (change)="doFilterEntitiesByCharacteristics(level.id)">
             <option value="-1">Select {{characteristic.characteristicName_EN}} / Reset</option>
@@ -13,7 +13,7 @@
               {{charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN}}
             </option>
           </select>
-        </div>
+        </div> -->
         <div class="span2">
           <select style="height: 30px;width: 200px; border-color: blue;" id="ddlLevelEntities" [(ngModel)]="getSelectedEntitiesByIdLevel(level.id).idEntity"
             (change)="doFilterEntities(level.id,false)">

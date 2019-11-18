@@ -7,8 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import
 {
   CalendarModule,
-  CheckboxModule,
-  DataTableModule,
+  CheckboxModule,  
   DialogModule,
   DropdownModule,
   FileUploadModule,
@@ -19,6 +18,7 @@ import
   ScheduleModule,
   TreeModule,
 } from 'primeng/primeng';
+import { TableModule } from 'primeng/table'
 import { EntitiesComponent } from './entities/entities.component';
 import { LevelLinkingComponent } from './level-linking/level-linking.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
@@ -43,7 +43,7 @@ import { SharedModule } from '../shared/shared.module';
     InputSwitchModule,
     DialogModule,
     CheckboxModule,
-    DataTableModule,
+    TableModule,
     CalendarModule,
     TreeModule,
     SharedModule

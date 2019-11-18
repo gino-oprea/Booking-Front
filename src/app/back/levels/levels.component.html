@@ -23,27 +23,83 @@
 </div>
 <div class="row" style="height: 93%;">
   <div class="col-md-6" style="height: 100%;">
-    <p-dataTable [value]="entities" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
-      <header>Entities</header>
-      <p-column field="entityName_RO" header="Entity name RO" [style]="{'text-align':'left'}"></p-column>
-      <p-column field="entityName_EN" header="Entity name EN" [style]="{'text-align':'left'}"></p-column>
-      <p-column header="Edit" [style]="{'width':'60px','text-align':'center'}">
-        <ng-template pTemplate="header">
-          <button type="button" class="btn btn-primary" (click)="showAddEntityDialog()">
-            <i class="fa fa-plus"></i>
-          </button>
-        </ng-template>
-        <ng-template let-col let-data="rowData" pTemplate="body">
-          <button type="button" class="btn btn-primary" (click)="editEntity(data.id)">
-            <i class="fa fa-edit"></i>
-          </button>
-        </ng-template>
-      </p-column>
-    </p-dataTable>
+    <p-table [value]="entities" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
+      <ng-template pTemplate="caption">
+        Entities
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:300px;text-align:center">Entity name RO</th>
+          <th style="width:300px;text-align:center">Entity name EN</th>
+          <th style="width:50px;text-align:center">
+            <button type="button" class="btn btn-primary" (click)="showAddEntityDialog()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-entity>
+        <tr [pSelectableRow]="entity">
+          <td style="width:300px;text-align:center">{{entity.entityName_RO}}</td>
+          <td style="width:300px;text-align:center">{{entity.entityName_EN}}</td>
+          <td style="width:50px;text-align:center">
+            <button type="button" class="btn btn-primary" (click)="editEntity(entity.id)">
+              <i class="fa fa-edit"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- <header>Entities</header>
+              <p-column field="entityName_RO" header="Entity name RO" [style]="{'text-align':'left'}"></p-column>
+              <p-column field="entityName_EN" header="Entity name EN" [style]="{'text-align':'left'}"></p-column>
+              <p-column header="Edit" [style]="{'width':'60px','text-align':'center'}">
+                <ng-template pTemplate="header">
+                  <button type="button" class="btn btn-primary" (click)="showAddEntityDialog()">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </ng-template>
+                <ng-template let-col let-data="rowData" pTemplate="body">
+                  <button type="button" class="btn btn-primary" (click)="editEntity(data.id)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                </ng-template>
+              </p-column> -->
+    </p-table>
   </div>
   <div class="col-md-6" style="height: 100%;">
-    <p-dataTable [value]="levelCharacteristics" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
-      <header>Level additional characteristics</header>
+    <p-table [value]="levelCharacteristics" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
+      <ng-template pTemplate="caption">
+        Level additional characteristics
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:200px;text-align:center">Name RO</th>
+          <th style="width:200px;text-align:center">Name EN</th>
+          <th style="width:200px;text-align:center">Type</th>
+          <th style="width:200px;text-align:center">Allow user option</th>
+          <th style="width:50px;text-align:center">
+            <button type="button" class="btn btn-primary" (click)="showAddLevelCharacteristicDialog(true)">
+              <i class="fa fa-plus"></i>
+            </button>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-characteristic>
+        <tr [pSelectableRow]="characteristic">
+          <td style="width:200px;text-align:center">{{characteristic.characteristicName_RO}}</td>
+          <td style="width:200px;text-align:center">{{characteristic.characteristicName_EN}}</td>
+          <td style="width:200px;text-align:center">{{characteristic.levelFieldType_EN}}</td>
+          <td style="width:200px;text-align:center">
+            <input type="checkbox" [checked]="characteristic.isFrontOption" disabled="true" />
+          </td>
+          <td style="width:50px;text-align:center">
+            <button type="button" class="btn btn-primary" (click)="selectedLevelCharacteristic = characteristic; showAddLevelCharacteristicDialog(false)">
+              <i class="fa fa-edit"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- <header>Level additional characteristics</header>
       <p-column field="characteristicName_RO" header="Name RO" [style]="{'text-align':'left'}"></p-column>
       <p-column field="characteristicName_EN" header="Name EN" [style]="{'text-align':'left'}"></p-column>
       <p-column field="levelFieldType_EN" header="Type" [style]="{'text-align':'left'}"></p-column>
@@ -63,8 +119,8 @@
             <i class="fa fa-edit"></i>
           </button>
         </ng-template>
-      </p-column>
-    </p-dataTable>
+      </p-column> -->
+    </p-table>
   </div>
 </div>
 
