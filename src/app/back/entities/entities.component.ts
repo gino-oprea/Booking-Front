@@ -1278,7 +1278,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
             new WorkingDay('',null));
           this.selectedSpecialDayWorkingHoursString = '';
 
-          this.selectedSpecialDay = new SpecialDay(0, this.selectedEntityId, this.selectedDate, this.isRepeatEveryYear,
+          //[(ngModel)] converteste variabila la string si pot aparea probleme
+          this.selectedSpecialDay = new SpecialDay(0, parseInt(this.selectedEntityId.toString()), this.selectedDate, this.isRepeatEveryYear,
             this.selectedSpecialDayWorkingHoursString);
         }
       }
