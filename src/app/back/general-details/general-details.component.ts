@@ -33,6 +33,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   categories: GenericDictionary[] = [];
   subcategories: GenericDictionary[] = [];
   workingHours: WorkingHours;
+  workingHoursOriginal: WorkingHours;
   specialDayWorkingHours: WorkingHours;
   countries: SelectItem[];
   gMapOverlays: any[] = [];
@@ -123,7 +124,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.workingHours = gro.objList[0];
+        this.workingHours = WorkingHours.DeepCopy(gro.objList[0]);
+        this.workingHoursOriginal = WorkingHours.DeepCopy(gro.objList[0]);
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company working hours', ''));
@@ -207,7 +209,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       'phone': new FormControl(this.company == null ? '' : this.company.phone, Validators.required)
     });
 
-    this.addressAutocomplete();
+    if (this.address)
+      this.addressAutocomplete();
   }
   loadCompanyImages()
   {
@@ -581,11 +584,11 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true); 
+        this.workingHours = WorkingHours.DeepCopy(this.workingHoursOriginal);
       }
       else
-      {
+      {        
         this.logAction(this.idCompany, false, Actions.Edit, '', 'edit company working hours');
       }
     },
