@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, identity } from 'rxjs';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { Entity } from '../objects/entity';
 import { WorkingHours } from '../objects/working-hours';
@@ -125,16 +125,41 @@ export class EntitiesService
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/AddEntityVariableHours/' + idEntity.toString(), body, options);
   }
-  editEntity(entity: Entity): Observable<GenericResponseObject>
+  editEntity(entity: Entity, variableWHStartDate:Date=null, variableWHEndDate:Date=null): Observable<GenericResponseObject>
   {
     const body = JSON.stringify(entity);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    let params = new HttpParams();    
+    if (variableWHStartDate != null)
+    {
+      params = params.append('variableWHdateStart', this.getDateString(variableWHStartDate));
+      params = params.append('variableWHdateEnd', this.getDateString(variableWHEndDate));
+    }
+
     let options = {
-      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers,
+      params: params
     };
 
     return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities', body, options);
+  }
+  validateWorkingHours(idCompany: number, idEntity: number, workingHours: WorkingHours): Observable<GenericResponseObject>
+  {
+    const body = JSON.stringify(workingHours);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    let params = new HttpParams();    
+    params = params.append('idCompany', idCompany.toString());
+    params = params.append('idEntity', idEntity.toString());
+    
+
+    let options = {
+      headers: headers,
+      params: params
+    };
+
+    return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/ValidateWorkingHours', body, options);
   }
   editEntityWorkingHours(wh: WorkingHours): Observable<GenericResponseObject>
   {

@@ -785,8 +785,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
       this.selectedEntity.hasCustomWorkingHours = false;
       this.editEntity(this.selectedEntity, false, false);      
-    }
-    
+    }    
   }
   onIsVariableChange()
   {
@@ -799,7 +798,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
       this.selectedEntity.hasCustomWorkingHours = false;      
       this.selectedEntity.hasVariableProgramme = true;      
-      this.editEntity(this.selectedEntity, false, false);
+      this.editEntity(this.selectedEntity, false, false, this.selectedWorkingHours.monday.date, this.selectedWorkingHours.sunday.date);
     }
     else
     {
@@ -980,9 +979,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     let weekStartEnd = this.getWeekStartEndDates(this.selectedDateWorkingHours);
     this.loadEntityVariableWorkingHours(this.selectedEntityId, weekStartEnd[0], weekStartEnd[1], true);
   }
-  editEntity(entity: Entity, isReloadEntities: boolean, showSuccessMessage)
+  editEntity(entity: Entity, isReloadEntities: boolean, showSuccessMessage: boolean, variableWHDateStart:Date=null, variableWHDateEnd:Date=null)
   {
-    this.entitiesService.editEntity(entity).subscribe(result =>
+    this.entitiesService.editEntity(entity,variableWHDateStart,variableWHDateEnd).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
