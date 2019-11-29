@@ -125,21 +125,14 @@ export class EntitiesService
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/AddEntityVariableHours/' + idEntity.toString(), body, options);
   }
-  editEntity(entity: Entity, variableWHStartDate:Date=null, variableWHEndDate:Date=null): Observable<GenericResponseObject>
+  editEntity(entity: Entity): Observable<GenericResponseObject>
   {
     const body = JSON.stringify(entity);
+
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    let params = new HttpParams();    
-    if (variableWHStartDate != null)
-    {
-      params = params.append('variableWHdateStart', this.getDateString(variableWHStartDate));
-      params = params.append('variableWHdateEnd', this.getDateString(variableWHEndDate));
-    }
-
     let options = {
-      headers: headers,
-      params: params
+      headers: headers      
     };
 
     return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities', body, options);

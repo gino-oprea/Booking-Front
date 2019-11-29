@@ -691,6 +691,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
         this.isCustomWH = false;
         this.selectedEntity.hasCustomWorkingHours = false;
+        this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
         this.editEntity(this.selectedEntity, false, false);
       }
       else//custom wh
@@ -705,7 +706,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         }
         this.isCustomWH = true;
         this.selectedEntity.hasCustomWorkingHours = true;
-        this.selectedEntity.idCustomWorkingHours =parseInt(this.selectedWhId.toString());
+        this.selectedEntity.idCustomWorkingHours = parseInt(this.selectedWhId.toString());
+        this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
         this.editEntity(this.selectedEntity, false, false);
       }
     }
@@ -752,7 +754,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.companyWorkingHours.name = 'Custom';
         this.addEntityWorkingHours(this.companyWorkingHours, true);        
       }
-      else//trebuie selectat primul existent
+      else//trebuie selectat primul existent(adica company working hours)
       {
         if (this.selectedEntity.idCustomWorkingHours == null)
         {
@@ -772,6 +774,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           }
         }
 
+        this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
         this.selectedEntity.idCustomWorkingHours = this.selectedWhId;
         this.selectedEntity.hasCustomWorkingHours = true;
         this.selectedEntity.hasVariableProgramme = false;
@@ -782,7 +785,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     {
       this.selectedWhId = 0;
       this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
-
+      this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
       this.selectedEntity.hasCustomWorkingHours = false;
       this.editEntity(this.selectedEntity, false, false);      
     }    
@@ -797,8 +800,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.loadEntityVariableWorkingHours(this.selectedEntityId, this.selectedWorkingHours.monday.date, this.selectedWorkingHours.sunday.date, true);
 
       this.selectedEntity.hasCustomWorkingHours = false;      
-      this.selectedEntity.hasVariableProgramme = true;      
-      this.editEntity(this.selectedEntity, false, false, this.selectedWorkingHours.monday.date, this.selectedWorkingHours.sunday.date);
+      this.selectedEntity.hasVariableProgramme = true;  
+      this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
+      this.editEntity(this.selectedEntity, false, false);
     }
     else
     {
@@ -979,9 +983,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     let weekStartEnd = this.getWeekStartEndDates(this.selectedDateWorkingHours);
     this.loadEntityVariableWorkingHours(this.selectedEntityId, weekStartEnd[0], weekStartEnd[1], true);
   }
-  editEntity(entity: Entity, isReloadEntities: boolean, showSuccessMessage: boolean, variableWHDateStart:Date=null, variableWHDateEnd:Date=null)
+  editEntity(entity: Entity, isReloadEntities: boolean, showSuccessMessage: boolean)
   {
-    this.entitiesService.editEntity(entity,variableWHDateStart,variableWHDateEnd).subscribe(result =>
+    this.entitiesService.editEntity(entity).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
