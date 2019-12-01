@@ -10,6 +10,7 @@ import { LevelLinkingComponent } from './level-linking/level-linking.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { BookingsComponent } from './bookings/bookings.component';
 import { FullCalendarComponent } from '../shared/full-calendar/full-calendar.component';
+import { TimetablesComponent } from './timetables/timetables.component';
 
 
 export const COMPANY_ROUTES: Routes = [
@@ -20,6 +21,7 @@ export const COMPANY_ROUTES: Routes = [
       { path: 'generaldetails', component: GeneralDetailsComponent },
       { path: 'levels', component: LevelsComponent },
       { path: 'entities', component: EntitiesComponent },
+      { path: 'timetables', component: TimetablesComponent },
       { path: 'entities/:idLevel/:idEntity', component: EntitiesComponent },
       { path: 'bookings', component: BookingsComponent },
       { path: 'level-linking', component: LevelLinkingComponent },
