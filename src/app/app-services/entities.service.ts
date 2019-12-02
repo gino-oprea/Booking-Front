@@ -17,11 +17,12 @@ export class EntitiesService
 {
   constructor(private http: HttpClient, private usersService:UsersService) { }
 
-  getEntities(idLevel: number, idEntity: number): Observable<GenericResponseObject>
+  getEntities(idLevel: number, idEntity: number, idCompany:number=null): Observable<GenericResponseObject>
   {
     let params = new HttpParams();
     params = params.append('idLevel', idLevel != null ? idLevel.toString() : null);
     params = params.append('idEntity', idEntity != null ? idEntity.toString() : null);
+    params = params.append('idCompany', idCompany != null ? idCompany.toString() : null);
 
     let options = {
       headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
@@ -137,14 +138,15 @@ export class EntitiesService
 
     return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities', body, options);
   }
-  validateWorkingHours(idCompany: number, idEntity: number, workingHours: WorkingHours): Observable<GenericResponseObject>
+  validateWorkingHours(idCompany: number, workingHours: WorkingHours, idEntity: number=null): Observable<GenericResponseObject>
   {
     const body = JSON.stringify(workingHours);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let params = new HttpParams();    
     params = params.append('idCompany', idCompany.toString());
-    params = params.append('idEntity', idEntity.toString());
+    if (idEntity != null)
+      params = params.append('idEntity', idEntity.toString());
     
 
     let options = {

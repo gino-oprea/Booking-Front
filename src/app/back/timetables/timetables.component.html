@@ -1,21 +1,52 @@
 <legend style="margin-bottom: 10px;">Timetables</legend>
 <div class="row" style="height: 5%;margin-left: 5px;">
-  <div class="col-md-4" style="padding:5px;">
-    <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%;">      
+  <div class="col-md-2" style="padding:5px;">
+    <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%; width: 60%;">      
       <option *ngFor="let wh of customWorkingHours; let i=index;" [value]="wh.id">{{wh.name}}</option>
     </select>
-    <button type="button" *ngIf="selectedWhId!=0 &&  selectedWhId!=-1"
-      style="width: 10%;" class="btn btn-primary">
+    <button type="button" *ngIf="selectedWhId!=0 &&  selectedWhId!=-1" (click)="showAddEditCustomWHDialog(false)"
+      style="width: 20%;" class="btn btn-primary">
       <i class="fa fa-edit"></i>
     </button>
-    <button type="button" style="width: 10%;" class="btn btn-primary">
+    <button type="button" style="width: 20%;" class="btn btn-primary" (click)="showAddEditCustomWHDialog(true)">
       <i class="fa fa-plus"></i>
     </button>
   </div>
+  <div class="col-md-4" style="padding:5px;">* Atentie! Modificarea unui orar afecteaza toate entitatile care au asociat orarul respectiv.</div>
 </div>
 <div class="row" style="height: 95%;">
   <div class="col-md-12" style="height: 100%; overflow: auto;">
-    <bf-working-hours [workingHours]="selectedWorkingHours"
-      [workingHoursBounds]="companyWorkingHours" ></bf-working-hours>
+    <bf-working-hours [workingHours]="selectedWorkingHours" (selectTimeSlot)="onUpdateWorkingHours($event)"
+      [workingHoursBounds]="companyWorkingHours"></bf-working-hours>
   </div>
 </div>
+
+<p-dialog header="{{isAddCustomWHMode == true ? 'Add' : 'Edit'}}" [(visible)]="displayDialogAddCustomWH"
+  [responsive]="true" showEffect="fade" [modal]="true" width="400">
+  <form class="form-horizontal" style="height: 100%" id="addCustomWH-form" [formGroup]="addCustomWHForm"
+    (ngSubmit)="onAddEditCustomWH()">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="customWHName">Name:</label>
+        </div>
+        <div class="ui-grid-col-8">
+          <input type="text" id="customWHName" formControlName="customWHName" [ngClass]="{'valid-control':addCustomWHForm.controls['customWHName'].valid,
+                        'invalid-control':!addCustomWHForm.controls['customWHName'].valid}" class="form-control">
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="submit" (click)="setCustomWHSubmitType(true)" [disabled]="!addCustomWHForm.valid"
+          class="btn btn-success">
+          <i class="fa fa-check"> Save</i>
+        </button>
+        <button type="submit" (click)="setCustomWHSubmitType(false)" *ngIf="!isAddCustomWHMode" class="btn btn-danger">
+          <i class="fa fa-remove"> Delete</i>
+        </button>
+      </div>
+    </footer>
+  </form>
+</p-dialog>
+<p-growl [value]="pageMsgs"></p-growl>

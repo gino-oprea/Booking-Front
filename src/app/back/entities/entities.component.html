@@ -186,13 +186,13 @@
                   <option value="0">Company working hours</option>
                   <option *ngFor="let wh of customWorkingHours; let i=index;" [value]="wh.id">{{wh.name}}</option>
                 </select>
-                <button type="button" *ngIf="selectedWhId!=0 &&  selectedWhId!=-1" (click)="showAddEditCustomWHDialog(false)" style="width: 10%;"
+                <!-- <button type="button" *ngIf="selectedWhId!=0 &&  selectedWhId!=-1" (click)="showAddEditCustomWHDialog(false)" style="width: 10%;"
                   class="btn btn-primary">
                   <i class="fa fa-edit"></i>
                 </button>
                 <button type="button" (click)="showAddEditCustomWHDialog(true)" style="width: 10%;" class="btn btn-primary">
                   <i class="fa fa-plus"></i>
-                </button>
+                </button> -->
               </div>
               <div class="col-md-2" style="padding: 5px;">
                 <p-calendar [showIcon]="true" [(ngModel)]="selectedDateWorkingHours" [hidden]="!isVariableWH" placeholder="Date" [locale]="en"
@@ -201,7 +201,7 @@
             </div>
             <div class="row" style="height: 90%">
               <div class="col-md-12" style="height: 100%; overflow: auto;">
-                <bf-working-hours [disabled]="!isCustomWH && !isVariableWH" [workingHours]="selectedWorkingHours" [workingHoursBounds]="companyWorkingHours"
+                <bf-working-hours [disabled]="!isVariableWH" [workingHours]="selectedWorkingHours" [workingHoursBounds]="companyWorkingHours"
                   (selectTimeSlot)="onUpdateWorkingHours($event)"></bf-working-hours>
               </div>
             </div>
@@ -255,7 +255,7 @@
   </form>
 </p-dialog>
 
-<p-dialog header="{{isAddCustomWHMode == true ? 'Add' : 'Edit'}}" [(visible)]="displayDialogAddCustomWH" [responsive]="true"
+<!-- <p-dialog header="{{isAddCustomWHMode == true ? 'Add' : 'Edit'}}" [(visible)]="displayDialogAddCustomWH" [responsive]="true"
   showEffect="fade" [modal]="true" width="400">
   <form class="form-horizontal" style="height: 100%" id="addCustomWH-form" [formGroup]="addCustomWHForm" (ngSubmit)="onAddEditCustomWH()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
@@ -280,7 +280,7 @@
       </div>
     </footer>
   </form>
-</p-dialog>
+</p-dialog> -->
 
 <p-dialog header="{{selectedDate==null ? '' : (selectedDate | date:'dd.MMM.yyyy')}}" [(visible)]="displayDialogSpecialDays"
   [responsive]="true" showEffect="fade" [modal]="false" width="700" height="600">

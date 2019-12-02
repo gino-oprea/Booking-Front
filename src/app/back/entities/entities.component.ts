@@ -32,13 +32,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
   displayDialogAddEntity = false;
   displayImageDialog = false;
-  displayDialogAddCustomWH = false;
+  //displayDialogAddCustomWH = false;
 
   isAddCustomWHMode = true;
   selectedImage: Image = null;
   genDetailsForm: FormGroup;
   addEntityForm: FormGroup;
-  addCustomWHForm: FormGroup;
+  //addCustomWHForm: FormGroup;
 
   selectedLevel: Level;
   selectedEntity: Entity;
@@ -46,7 +46,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   selectedEntityId: number = null;
   selectedDateWorkingHours: Date;
   selectedWhId: number = 0;
-  selectedWorkingHours: WorkingHours;
+  selectedWorkingHours: WorkingHours;  
   images: Image[] = [];
   
   en: any;
@@ -150,7 +150,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
     this.initGenDetailsForm();
     this.initFormAddEntity();
-    this.initFormCustomWH();
+    // this.initFormCustomWH();
   }
   loadDurationArray(type:DurationType)
   {
@@ -163,12 +163,12 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       'addEntityName_EN': new FormControl('', Validators.required)
     });
   }
-  initFormCustomWH()
-  {
-    this.addCustomWHForm = new FormGroup({
-      'customWHName': new FormControl(this.isAddCustomWHMode ? '' : this.selectedWorkingHours.name, Validators.required)
-    });
-  }
+  // initFormCustomWH()
+  // {
+  //   this.addCustomWHForm = new FormGroup({
+  //     'customWHName': new FormControl(this.isAddCustomWHMode ? '' : this.selectedWorkingHours.name, Validators.required)
+  //   });
+  // }
   loadCustomWorkingHours(idWH: number, isAfterAutoAdd: boolean)
   {
     this.entitiesService.getEntitiesWorkingHours(idWH).subscribe(result =>
@@ -187,7 +187,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         if (isAfterAutoAdd)
         {
           this.selectedWhId = this.customWorkingHours[0].id;
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);          
           this.selectedEntity.idCustomWorkingHours = this.customWorkingHours[0].id;
           this.selectedEntity.hasCustomWorkingHours = true;
           this.selectedEntity.hasVariableProgramme = false;
@@ -271,7 +271,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
               {
                 if (this.selectedWhId == this.customWorkingHours[i].id)
                 {                   
-                  this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
+                  this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);                  
                   break;
                 }
               }            
@@ -284,7 +284,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           if (!this.isCustomWH && !this.isVariableWH)//daca nu e nici custom nici variable
           {
             this.selectedWhId = 0;
-            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
+            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);            
           }
           this.initGenDetailsForm();
 
@@ -343,7 +343,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         }
         if (setAsSelected)
         {
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.variableWorkingHours);
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.variableWorkingHours);          
           this.selectedWhId = this.doCustomWorkingHoursIdentification();
         }
         this.assignCalendarDateForWorkingHours();
@@ -471,10 +471,10 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   {
     this.isSave = isSave;
   }
-  setCustomWHSubmitType(isSave: boolean)
-  {
-    this.isSaveCustomWH = isSave;
-  }
+  // setCustomWHSubmitType(isSave: boolean)
+  // {
+  //   this.isSaveCustomWH = isSave;
+  // }
   onSaveGenDetailsForm()
   {
     if (this.isSave)//daca e save
@@ -546,49 +546,49 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.showPageMessage('warn', 'Warning', 'only 5 images permitted');
     }
   }
-  showAddEditCustomWHDialog(mode: boolean)
-  {
-    this.isAddCustomWHMode = mode;
-    this.displayDialogAddCustomWH = true;
-    this.initFormCustomWH();
-  }
-  onAddEditCustomWH()
-  {
-    if (this.isSaveCustomWH)//save
-    {
-      if (this.isAddCustomWHMode)//add
-      {
-        this.companyWorkingHours.name = this.addCustomWHForm.controls['customWHName'].value;
-        this.addEntityWorkingHours(this.companyWorkingHours, false);        
-      }
-      else//edit
-      {
-        this.selectedWorkingHours.name = this.addCustomWHForm.controls['customWHName'].value;
-        this.editEntityWorkingHours(this.selectedWorkingHours, true, true);
-      }
-    }
-    else//delete
-    {
-      this.entitiesService.deleteEntityWorkingHours(this.selectedWhId).subscribe(result =>
-      {
-        let gro = <GenericResponseObject>result;
-        if (gro.error != '')
-        {
-          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
-          //this.showPageMessage('error', 'Error', gro.error);
-        }
-        else
-        {
-          this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity custom hours idEntity: ' + this.selectedEntityId, true, 'Custom working hours removed');
-          //this.showPageMessage('success', 'Success', 'Custom working hours removed');
-          this.loadEntities(this.selectedEntityId);
-          this.loadCustomWorkingHours(null, false);
-        }
-      },
-        err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting custom working hours for idEntity: ' + this.selectedEntityId.toString(), ''));
-    }
-    this.displayDialogAddCustomWH = false;
-  }
+  // showAddEditCustomWHDialog(mode: boolean)
+  // {
+  //   this.isAddCustomWHMode = mode;
+  //   this.displayDialogAddCustomWH = true;
+  //   this.initFormCustomWH();
+  // }
+  // onAddEditCustomWH()
+  // {
+  //   if (this.isSaveCustomWH)//save
+  //   {
+  //     if (this.isAddCustomWHMode)//add
+  //     {
+  //       this.companyWorkingHours.name = this.addCustomWHForm.controls['customWHName'].value;
+  //       this.addEntityWorkingHours(this.companyWorkingHours, false);        
+  //     }
+  //     else//edit
+  //     {
+  //       this.selectedWorkingHours.name = this.addCustomWHForm.controls['customWHName'].value;
+  //       this.editEntityWorkingHours(this.selectedWorkingHours, true, true);
+  //     }
+  //   }
+  //   else//delete
+  //   {
+  //     this.entitiesService.deleteEntityWorkingHours(this.selectedWhId).subscribe(result =>
+  //     {
+  //       let gro = <GenericResponseObject>result;
+  //       if (gro.error != '')
+  //       {
+  //         this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+  //         //this.showPageMessage('error', 'Error', gro.error);
+  //       }
+  //       else
+  //       {
+  //         this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity custom hours idEntity: ' + this.selectedEntityId, true, 'Custom working hours removed');
+  //         //this.showPageMessage('success', 'Success', 'Custom working hours removed');
+  //         this.loadEntities(this.selectedEntityId);
+  //         this.loadCustomWorkingHours(null, false);
+  //       }
+  //     },
+  //       err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting custom working hours for idEntity: ' + this.selectedEntityId.toString(), ''));
+  //   }
+  //   this.displayDialogAddCustomWH = false;
+  // }
   onImageClick(image: Image)
   {
     this.selectedImage = image;
@@ -663,7 +663,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       {
         if (this.selectedWhId == this.customWorkingHours[i].id)
         {
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);          
           break;
         }
       }
@@ -676,7 +676,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     if (!this.isCustomWH && !this.isVariableWH)
     {
       this.selectedWhId = 0;
-      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
+      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);      
     }
 
     this.loadEntitySpecialDays();
@@ -687,7 +687,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     {
       if (this.selectedWhId == 0)//company wh
       {
-        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
+        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);        
 
         this.isCustomWH = false;
         this.selectedEntity.hasCustomWorkingHours = false;
@@ -700,7 +700,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         {
           if (this.customWorkingHours[i].id == this.selectedWhId)
           {
-            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
+            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);           
             break;
           }
         }
@@ -710,13 +710,23 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
         this.editEntity(this.selectedEntity, false, false);
       }
+
+      this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
+      {
+        let gro = <GenericResponseObject>result;
+        if (gro.objList.length > 0)
+        {
+          this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
+          this.loadLevels(this.selectedLevelId);
+        }
+      });
     }
     if(this.isVariableWH) //daca e in modul variabil
     {
       //selectam wh corespunzator
       if (this.selectedWhId == 0)//company wh
       {
-        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
+        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);        
       }
       else
       {
@@ -724,7 +734,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         {
           if (this.customWorkingHours[i].id == this.selectedWhId)
           {
-            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
+            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);            
             break;
           }
         }
@@ -740,7 +750,18 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       wds.push(this.selectedWorkingHours.saturday);
       wds.push(this.selectedWorkingHours.sunday);
 
-      this.addEntityVariableWorkingHours(wds);      
+      this.addEntityVariableWorkingHours(wds);   
+      
+
+      this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
+      {
+        let gro = <GenericResponseObject>result;
+        if (gro.objList.length > 0)
+        {
+          this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
+          this.loadLevels(this.selectedLevelId);
+        }
+      });
     }     
   }
   onIsCustomChange()
@@ -752,14 +773,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       if (this.customWorkingHours.length == 0)//trebuie adaugat
       {
         this.companyWorkingHours.name = 'Custom';
-        this.addEntityWorkingHours(this.companyWorkingHours, true);        
+        this.addEntityWorkingHours(this.companyWorkingHours, true);
       }
       else//trebuie selectat primul existent(adica company working hours)
       {
         if (this.selectedEntity.idCustomWorkingHours == null)
         {
           this.selectedWhId = this.customWorkingHours[0].id;
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);          
         }
         else
         {
@@ -768,27 +789,37 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           {
             if (this.customWorkingHours[i].id == this.selectedWhId)
             {
-              this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
+              this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);              
               break;
             }
           }
         }
-
+       
         this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
         this.selectedEntity.idCustomWorkingHours = this.selectedWhId;
         this.selectedEntity.hasCustomWorkingHours = true;
         this.selectedEntity.hasVariableProgramme = false;
-        this.editEntity(this.selectedEntity, false, false);        
+        this.editEntity(this.selectedEntity, false, false);
       }
     }
     else//trebuie selectate orele companiei id=0
     {
       this.selectedWhId = 0;
-      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
+      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);      
       this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
       this.selectedEntity.hasCustomWorkingHours = false;
       this.editEntity(this.selectedEntity, false, false);      
-    }    
+    }
+    
+    this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.objList.length > 0)
+      {
+        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);    
+        this.loadLevels(this.selectedLevelId);
+      }      
+    }); 
   }
   onIsVariableChange()
   {
@@ -809,7 +840,17 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.assignCalendarDateForWorkingHours();
       this.selectedEntity.hasVariableProgramme = false;
       this.onIsCustomChange();//salvarea in db a entitiatii se face aici        
-    }    
+    }
+    
+    this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.objList.length > 0)
+      {
+        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);   
+        this.loadLevels(this.selectedLevelId);
+      }
+    });
   }
   getWeekStartEndDates(date: Date): Date[]
   {
@@ -895,7 +936,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
     ////schimbam referinta la obiect ca sa se declanseze change detection-ul in componenta working-hours
     //let auxWh = Object.assign({}, this.selectedWorkingHours);
-    this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);// auxWh;
+    this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);// auxWh;    
   }
   showAddEntityDialog()
   {
@@ -949,7 +990,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.companyWorkingHours.name = 'Company working hours';
 
         this.selectedWhId = 0;
-        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
+        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);        
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company working hours for entity', ''));
@@ -957,26 +998,36 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   }
   onUpdateWorkingHours(wh: WorkingHours)
   {
-    this.selectedWorkingHours = wh;
-    if (this.isCustomWH)//daca e in modul custom atunci se editeaza direct pe tabela de entities working hours
+    // this.selectedWorkingHours = wh;
+    // if (this.isCustomWH)//daca e in modul custom atunci se editeaza direct pe tabela de entities working hours
+    // {
+    //   this.editEntityWorkingHours(wh, true, false);
+    // }
+    // else//daca e in modul variable atunci se editeaza in tabela de entities variable working hours
+    // {      
+    let wds: WorkingDay[] = [];
+    wds.push(this.selectedWorkingHours.monday);
+    wds.push(this.selectedWorkingHours.tuesday);
+    wds.push(this.selectedWorkingHours.wednesday);
+    wds.push(this.selectedWorkingHours.thursday);
+    wds.push(this.selectedWorkingHours.friday);
+    wds.push(this.selectedWorkingHours.saturday);
+    wds.push(this.selectedWorkingHours.sunday);
+
+    this.addEntityVariableWorkingHours(wds);
+
+    this.selectedWhId = this.doCustomWorkingHoursIdentification();
+    
+    this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
     {
-      this.editEntityWorkingHours(wh, true, false);
-    }
-    else//daca e in modul variable atunci se editeaza in tabela de entities variable working hours
-    {      
-      let wds: WorkingDay[] = [];
-      wds.push(this.selectedWorkingHours.monday);
-      wds.push(this.selectedWorkingHours.tuesday);
-      wds.push(this.selectedWorkingHours.wednesday);
-      wds.push(this.selectedWorkingHours.thursday);
-      wds.push(this.selectedWorkingHours.friday);
-      wds.push(this.selectedWorkingHours.saturday);
-      wds.push(this.selectedWorkingHours.sunday);
-
-      this.addEntityVariableWorkingHours(wds);
-
-      this.selectedWhId = this.doCustomWorkingHoursIdentification();
-    }
+      let gro = <GenericResponseObject>result;
+      if (gro.objList.length > 0)
+      {
+        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
+        this.loadLevels(this.selectedLevelId);
+      }
+    });
+    // }
   }
   onSelectedDateChange()
   {
@@ -990,14 +1041,11 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);        
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity idEntity:' + entity.id.toString(), showSuccessMessage, 'Entity saved');
-        // if (showSuccessMessage)
-        //   this.showPageMessage('success', 'Success', 'Entity saved');
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity idEntity:' + entity.id.toString(), showSuccessMessage, 'Entity saved');        
         if (isReloadEntities)
           this.loadEntities(entity.id);
       }
