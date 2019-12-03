@@ -28,6 +28,7 @@ import { WorkingHoursComponent } from "app/back/shared/working-hours/working-hou
 import { BookingsComponent } from './bookings/bookings.component';
 import { SharedModule } from '../shared/shared.module';
 import { TimetablesComponent } from './timetables/timetables.component';
+import { BookingManagementDialogComponent } from './shared/booking-management-dialog/booking-management-dialog.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { TimetablesComponent } from './timetables/timetables.component';
     LevelLinkingComponent,
     SubscriptionComponent,
     BookingsComponent,
-    TimetablesComponent    
+    TimetablesComponent,
+    BookingManagementDialogComponent    
   ],
   providers: [
     CompanyGuard

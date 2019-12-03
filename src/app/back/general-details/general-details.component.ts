@@ -15,6 +15,7 @@ import { Image } from '../../objects/image';
 import { WorkingDay } from '../../objects/working-day';
 import { GenericDictionary } from '../../objects/generic-dictionary';
 import { ImageService } from '../../app-services/image.service';
+import { Booking } from '../../objects/booking';
 
 
 @Component({
@@ -46,6 +47,9 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   selectedDate: Date = null;
   selectedSpecialDay: SpecialDay = null;
   selectedSpecialDayWorkingHoursString: string = '';
+  displayAffectedBookings: boolean = false;
+
+  affectedBookings: Booking[] = [];
 
   calendarOptions: any;
   images: Image[] = [];
@@ -586,6 +590,11 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true); 
         this.workingHours = WorkingHours.DeepCopy(this.workingHoursOriginal);
+        if (gro.objList != null && gro.objList.length > 0)
+        {
+          this.affectedBookings = gro.objList;
+          this.displayAffectedBookings = true;          
+        }
       }
       else
       {        
@@ -729,7 +738,12 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
           if (gro.error != '')
           {
             this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
-            //this.showPageMessage('error', 'Error', gro.error);
+            
+            if (gro.objList != null && gro.objList.length > 0)
+            {
+              this.affectedBookings = gro.objList;
+              this.displayAffectedBookings = true;
+            }
           }
           else
           {
@@ -795,6 +809,18 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       this.logAction(this.idCompany, true, Actions.Add, ex.message, '');
       this.showPageMessage('error', 'Error', ex.message);
       this.reloadCompanySpecialDays();
+    }
+  }
+  onBookingRemoved(event:string)
+  {
+    this.displayAffectedBookings = false;
+    if (event == "removed")
+    {
+      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+    }
+    else
+    {
+      this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
     }
   }
   removeSpecialDay()

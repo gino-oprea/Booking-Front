@@ -17,6 +17,7 @@ import { SpecialDay } from '../../objects/special-day';
 import { GenericDictionary } from '../../objects/generic-dictionary';
 import { CommonServiceMethods } from '../../app-services/common-service-methods';
 import { ImageService } from '../../app-services/image.service';
+import { Booking } from '../../objects/booking';
 
 @Component({
   selector: 'bf-entities',
@@ -61,6 +62,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   isSaveCustomWH = true;
   isVariableWH = false;
   isCustomWH = false;
+
+  displayAffectedBookings: boolean = false;
+  affectedBookings: Booking[] = [];
 
 
   ////special days
@@ -718,6 +722,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         {
           this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
           this.loadLevels(this.selectedLevelId);
+
+          this.affectedBookings = gro.objList;
+          this.displayAffectedBookings = true;
         }
       });
     }
@@ -760,6 +767,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         {
           this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
           this.loadLevels(this.selectedLevelId);
+
+          this.affectedBookings = gro.objList;
+          this.displayAffectedBookings = true;
         }
       });
     }     
@@ -818,6 +828,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);    
         this.loadLevels(this.selectedLevelId);
+
+        this.affectedBookings = gro.objList;
+        this.displayAffectedBookings = true;
       }      
     }); 
   }
@@ -849,6 +862,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);   
         this.loadLevels(this.selectedLevelId);
+
+        this.affectedBookings = gro.objList;
+        this.displayAffectedBookings = true;
       }
     });
   }
@@ -1025,6 +1041,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
         this.loadLevels(this.selectedLevelId);
+
+        this.affectedBookings = gro.objList;
+        this.displayAffectedBookings = true;
       }
     });
     // }
@@ -1368,7 +1387,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           if (gro.error != '')
           {
             this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
-            //this.showPageMessage('error', 'Error', gro.error);
+            
+            
+            if (gro.objList != null && gro.objList.length > 0)
+            {
+              this.affectedBookings = gro.objList;
+              this.displayAffectedBookings = true;
+            }
           }
           else
           {
@@ -1457,6 +1482,19 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     
     this.displayDialogSpecialDays = false;
   }
+  onBookingRemoved(event: string)
+  {
+    this.displayAffectedBookings = false;
+    if (event == "removed")
+    {
+      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+    }
+    else
+    {
+      this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
+    }
+  }
+
   convertWeekDayIndex(jsIndex)
   {
     let normalIndex = 0;

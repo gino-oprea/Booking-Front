@@ -9,6 +9,7 @@ import { WorkingDay } from '../../objects/working-day';
 import { CompanyService } from '../../app-services/company.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Entity } from '../../objects/entity';
+import { Booking } from '../../objects/booking';
 
 @Component({
   selector: 'bf-timetables',
@@ -28,6 +29,9 @@ export class TimetablesComponent extends BaseComponent implements OnInit
 
   displayDialogAddCustomWH = false;
   isSaveCustomWH = true;
+
+  displayAffectedBookings: boolean = false;
+  affectedBookings: Booking[] = [];
 
   constructor(private injector: Injector,
     private entitiesService: EntitiesService,
@@ -110,16 +114,18 @@ export class TimetablesComponent extends BaseComponent implements OnInit
         this.customWorkingHours = <WorkingHours[]>gro.objList;
 
         if (this.selectedWhId == null)
+        {
           // for (var i = 0; i < this.customWorkingHours.length; i++) 
           // {
           //   if (!this.isCustomWorkingHoursDisabled(this.customWorkingHours[i].id))
           //   {
-              this.selectedWhId = this.customWorkingHours[0].id;
-        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
-        this.originalWokingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
+          this.selectedWhId = this.customWorkingHours[0].id;
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
+          this.originalWokingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
           //     break;
           //   }
           // }
+        }
       }
     });
   }
@@ -225,6 +231,9 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
         this.selectedWorkingHours = WorkingHours.DeepCopy(this.originalWokingHours);
+
+        this.affectedBookings = gro.objList;
+        this.displayAffectedBookings = true;
       }
       else
       {
@@ -267,5 +276,18 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding/editing entity custom hours', ''));
+  }
+
+  onBookingRemoved(event: string)
+  {
+    this.displayAffectedBookings = false;
+    if (event == "removed")
+    {
+      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+    }
+    else
+    {
+      this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
+    }
   }
 }
