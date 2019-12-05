@@ -31,6 +31,18 @@ export class EntitiesService
 
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities', options);
   }
+  getEntityBookings(idEntity: number): Observable<GenericResponseObject>
+  {
+    let params = new HttpParams();
+    params = params.append('idEntity', idEntity.toString());
+
+    let options ={
+      headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
+      params: params
+    };
+
+    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/GetEntityBookings', options);      
+  }
   getEntitiesWithLevel(idEntities: number[], idLevels: number[]): Observable<GenericResponseObject>
   {
     let params = new HttpParams();
@@ -38,18 +50,18 @@ export class EntitiesService
     {
       params = params.append('idEntities', idEntities[i].toString());
     }
-    
+
     for (let i = 0; i < idLevels.length; i++)
     {
       params = params.append('idLevels', idLevels[i].toString());
     }
 
-    let options ={
+    let options = {
       headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/GetEntitiesWithLevel', options);      
+    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/GetEntitiesWithLevel', options);
   }
   getDurationTypes():Observable<GenericResponseObject>
   {

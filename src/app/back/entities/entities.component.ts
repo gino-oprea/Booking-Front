@@ -18,6 +18,7 @@ import { GenericDictionary } from '../../objects/generic-dictionary';
 import { CommonServiceMethods } from '../../app-services/common-service-methods';
 import { ImageService } from '../../app-services/image.service';
 import { Booking } from '../../objects/booking';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'bf-entities',
@@ -61,7 +62,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   isSave = true;
   isSaveCustomWH = true;
   isVariableWH = false;
-  isCustomWH = false;
+  isCustomWH = false;  
 
   displayAffectedBookings: boolean = false;
   affectedBookings: Booking[] = [];
@@ -435,21 +436,36 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       'price': new FormControl(price),
       'max_bookings':new FormControl(maxBookings),
       'characteristics': characteristics
-    });
+    });    
 
-    this.loadDurationArray(<DurationType>parseInt(this.genDetailsForm.controls["duration_type"].value));
+    this.loadDurationArray(<DurationType>parseInt(this.genDetailsForm.controls["duration_type"].value));    
 
-    // if (this.selectedLevel != null)
-    // {
-    //   if (this.selectedLevel.idLevelType == 2)
-    //   {
-    //     this.genDetailsForm.controls['duration'].setValidators([Validators.required]);
-    //   }
-    //   else
-    //   {
-    //     this.genDetailsForm.controls['duration'].setValidators(null);
-    //   }
-    // }  
+    this.setDurationControlsState();
+  }
+  setDurationControlsState()
+  {
+    if (this.selectedEntity != null)
+      this.entitiesService.getEntityBookings(this.selectedEntity.id).subscribe(result =>
+      {
+        let gro = <GenericResponseObject>result;
+        if (result.error != '')
+        {
+          this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        }
+        else
+        {
+          if (gro.objList.length > 0)
+          {
+            this.genDetailsForm.controls['duration'].disable();
+            this.genDetailsForm.controls['duration_type'].disable();
+          }
+          else
+          {
+            this.genDetailsForm.controls['duration'].enable();
+            this.genDetailsForm.controls['duration_type'].enable();
+          }
+        }
+      });
   }
   checkDurationType(idDurationType): boolean
   {
@@ -1077,9 +1093,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-      {
-        //this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+      {        
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+        
+        if (gro.objList != null && gro.objList.length > 0)
+        {
+          this.affectedBookings = gro.objList;
+          this.displayAffectedBookings = true;
+        }
       }
       else
       {

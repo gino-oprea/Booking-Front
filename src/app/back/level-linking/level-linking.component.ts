@@ -10,6 +10,7 @@ import { GenericResponseObject } from '../../objects/generic-response-object';
 import { EntitiesService } from '../../app-services/entities.service';
 import { Entity } from '../../objects/entity';
 import { EntitiesLink } from '../../objects/entities-link';
+import { Booking } from '../../objects/booking';
 
 
 @Component({
@@ -27,6 +28,9 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   selectedEntity: Entity;
 
   linkTreeData: TreeNode[] = [];
+
+  displayAffectedBookings: boolean = false;
+  affectedBookings: Booking[] = [];
 
 
   constructor(private injector: Injector,
@@ -250,7 +254,13 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       if (gro.error != '')
       {
         this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        
+
+        if (gro.objList != null && gro.objList.length > 0)
+        {
+          this.affectedBookings = gro.objList;
+          this.displayAffectedBookings = true;
+        }
       }
       else
       {
@@ -304,8 +314,15 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
+        e.target.checked = !e.target.checked;
+
         this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        
+        if (gro.objList != null && gro.objList.length > 0)
+        {
+          this.affectedBookings = gro.objList;
+          this.displayAffectedBookings = true;
+        }
       }
       else
       {
@@ -316,6 +333,19 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       this.loadTree();
     },
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entities linking', ''));
+  }
+
+  onBookingRemoved(event: string)
+  {
+    this.displayAffectedBookings = false;
+    if (event == "removed")
+    {
+      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+    }
+    else
+    {
+      this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
+    }
   }
 
 }

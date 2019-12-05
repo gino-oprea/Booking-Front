@@ -84,8 +84,9 @@
               </div>
             </div>
 
-            <div *ngIf="selectedLevel">
-              <div *ngIf="selectedLevel.idLevelType == 2" class="form-group" style="height: 6%;">
+            <div *ngIf="selectedLevel">              
+              <div *ngIf="selectedLevel.idLevelType == 2">*Nu se poate schimba durata unui serviciu pe care sunt deja facute programari</div>
+              <div *ngIf="selectedLevel.idLevelType == 2" class="form-group" style="height: 6%;">                
                 <label class="col-md-2 control-label" for="duration">Duration:</label>
                 <div class="col-md-4">
                   <!-- <input id="duration" type="text" formControlName="duration" [ngClass]="{'valid-control':genDetailsForm.controls['duration'].valid,
