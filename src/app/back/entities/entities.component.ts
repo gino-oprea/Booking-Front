@@ -176,7 +176,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   // }
   loadCustomWorkingHours(idWH: number, isAfterAutoAdd: boolean)
   {
-    this.entitiesService.getEntitiesWorkingHours(idWH).subscribe(result =>
+    this.entitiesService.getEntitiesWorkingHours(this.idCompany, idWH).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
@@ -799,7 +799,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       if (this.customWorkingHours.length == 0)//trebuie adaugat
       {
         this.companyWorkingHours.name = 'Custom';
-        this.addEntityWorkingHours(this.companyWorkingHours, true);
+        this.addEntityWorkingHours(this.idCompany, this.companyWorkingHours, true);
       }
       else//trebuie selectat primul existent(adica company working hours)
       {
@@ -1110,9 +1110,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.loadEntities(null);
     });
   }
-  addEntityWorkingHours(workingHours: WorkingHours, isAfterAutoAdd:boolean)
+  addEntityWorkingHours(idCompany: number, workingHours: WorkingHours, isAfterAutoAdd:boolean)
   {
-    this.entitiesService.addEntityWorkingHours(workingHours).subscribe(result =>
+    this.entitiesService.addEntityWorkingHours(idCompany, workingHours).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
@@ -1130,7 +1130,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   }
   editEntityWorkingHours(workingHours: WorkingHours, isReloadWorkingHours: boolean, showSuccessMessage:boolean)
   {
-    this.entitiesService.editEntityWorkingHours(workingHours).subscribe(result =>
+    this.entitiesService.editEntityWorkingHours(this.idCompany, workingHours).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
@@ -1484,7 +1484,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   }
   removeSpecialDay()
   {
-    this.entitiesService.deleteEntitySpecialDay(this.selectedSpecialDay.id).subscribe(result =>
+    this.entitiesService.deleteEntitySpecialDay(this.selectedSpecialDay.id, this.selectedEntity.id).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')

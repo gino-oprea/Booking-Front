@@ -101,7 +101,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
   }
   loadCustomWorkingHours(idWH: number)
   {
-    this.entitiesService.getEntitiesWorkingHours(idWH).subscribe(result =>
+    this.entitiesService.getEntitiesWorkingHours(this.idCompany, idWH).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
@@ -194,7 +194,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       if (this.isAddCustomWHMode)//add
       {
         this.companyWorkingHours.name = this.addCustomWHForm.controls['customWHName'].value;
-        this.addEntityWorkingHours(this.companyWorkingHours);
+        this.addEntityWorkingHours(this.idCompany, this.companyWorkingHours);
       }
       else//edit
       {
@@ -204,7 +204,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
     }
     else//delete
     {
-      this.entitiesService.deleteEntityWorkingHours(this.selectedWhId).subscribe(result =>
+      this.entitiesService.deleteEntityWorkingHours(this.selectedWhId, this.idCompany).subscribe(result =>
       {
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
@@ -245,7 +245,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
   }
   editEntityWorkingHours(workingHours: WorkingHours)
   {
-    this.entitiesService.editEntityWorkingHours(workingHours).subscribe(result =>
+    this.entitiesService.editEntityWorkingHours(this.idCompany, workingHours).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
@@ -260,9 +260,9 @@ export class TimetablesComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error editing entity custom hours', ''));
   }
-  addEntityWorkingHours(workingHours: WorkingHours)
+  addEntityWorkingHours(idCompany: number, workingHours: WorkingHours)
   {
-    this.entitiesService.addEntityWorkingHours(workingHours).subscribe(result =>
+    this.entitiesService.addEntityWorkingHours(idCompany, workingHours).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')

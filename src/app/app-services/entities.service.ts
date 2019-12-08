@@ -70,10 +70,11 @@ export class EntitiesService
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/GetDurationTypesDic', options);
   }
-  getEntitiesWorkingHours(idWorkingHours: number): Observable<GenericResponseObject>
+  getEntitiesWorkingHours(idCompany: number, idWorkingHours: number): Observable<GenericResponseObject>
   {
     let params = new HttpParams();
-    params = params.append('idWorkingHours', idWorkingHours != null ? idWorkingHours.toString() : null);
+    params = params.append('idCompany', idCompany.toString());
+    params = params.append('idWorkingHours', idWorkingHours != null ? idWorkingHours.toString() : null);    
 
     let options = {
       headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
@@ -116,13 +117,17 @@ export class EntitiesService
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities', body, options);
   }
-  addEntityWorkingHours(wh: WorkingHours): Observable<GenericResponseObject>
+  addEntityWorkingHours(idCompany: number, wh: WorkingHours): Observable<GenericResponseObject>
   {
     const body = JSON.stringify(wh);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    let params = new HttpParams();
+    params = params.append('idCompany', idCompany.toString());
+
     let options = {
-      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      params:params
     };
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/AddEntityCustomHours', body, options);
@@ -168,13 +173,17 @@ export class EntitiesService
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/ValidateWorkingHours', body, options);
   }
-  editEntityWorkingHours(wh: WorkingHours): Observable<GenericResponseObject>
+  editEntityWorkingHours(idCompany: number, wh: WorkingHours): Observable<GenericResponseObject>
   {
     const body = JSON.stringify(wh);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    let params = new HttpParams();
+    params = params.append('idCompany', idCompany.toString());
+
     let options = {
-      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
+      headers: headers,
+      params: params
     };
 
     return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/EditEntityCustomHours', body, options);
@@ -187,10 +196,14 @@ export class EntitiesService
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'entities/' + idEntity.toString(), options);
   }
   
-  deleteEntityWorkingHours(id: number): Observable<GenericResponseObject>
+  deleteEntityWorkingHours(id: number, idCompany: number): Observable<GenericResponseObject>
   {
+    let params = new HttpParams();
+    params = params.append('idCompany', idCompany.toString());
+
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null,
+      params: params
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Entities/DeleteCustomWorkingHours/' + id, options);
   }
@@ -224,10 +237,14 @@ export class EntitiesService
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Entities/SetEntitySpecialDays/' + isAdd, body, options);
   }
-  deleteEntitySpecialDay(id: number): Observable<GenericResponseObject>
+  deleteEntitySpecialDay(id: number, idEntity: number): Observable<GenericResponseObject>
   {
+    let params = new HttpParams();
+    params = params.append('idEntity', idEntity.toString());
+
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null,
+      params: params
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Entities/DeleteEntitySpecialDays/' + id, options);
   }
