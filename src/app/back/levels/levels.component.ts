@@ -5,7 +5,7 @@ import { Actions, DurationType, WebSites } from '../../enums/enums';
 import { ActivatedRoute } from '@angular/router';
 import { LevelsService } from '../../app-services/levels.service';
 import { GenericResponseObject } from '../../objects/generic-response-object';
-import { GenericDictionary } from '../../objects/generic-dictionary';
+import { GenericDictionaryItem } from '../../objects/generic-dictionary-item';
 import { LevelAdditionalCharacteristic } from '../../objects/level-additional-characteristic';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EntitiesService } from '../../app-services/entities.service';
@@ -25,9 +25,9 @@ export class LevelsComponent extends BaseComponent implements OnInit
   addLevelCharactForm: FormGroup;
 
   levels: Level[] = [];
-  durationTypes : GenericDictionary[] = [];
-  types: GenericDictionary[] = [];
-  levelFieldTypes: GenericDictionary[] = [];
+  durationTypes : GenericDictionaryItem[] = [];
+  types: GenericDictionaryItem[] = [];
+  levelFieldTypes: GenericDictionaryItem[] = [];
   levelCharacteristics: LevelAdditionalCharacteristic[] = [];
   entities: Entity[] = [];
 
@@ -127,7 +127,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.durationTypes = <GenericDictionary[]>gro.objList;
+        this.durationTypes = <GenericDictionaryItem[]>gro.objList;
         this.loadDurationArray(<DurationType>parseInt(this.addLevelForm.controls["duration_type"].value));
       }
     },
@@ -145,7 +145,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.types = <GenericDictionary[]>gro.objList;
+        this.types = <GenericDictionaryItem[]>gro.objList;
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting level types', ''));
@@ -162,7 +162,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.levelFieldTypes = <GenericDictionary[]>gro.objList;
+        this.levelFieldTypes = <GenericDictionaryItem[]>gro.objList;
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting level fields types', ''));
@@ -511,7 +511,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
     }
     else//delete
     {      
-      this.levelsService.deleteLevelAdditionalCharacteristic(this.selectedLevelCharacteristic.id).subscribe(result =>
+      this.levelsService.deleteLevelAdditionalCharacteristic(this.selectedLevelCharacteristic.id, parseInt(this.selectedLevel)).subscribe(result =>
         {
           let gro = <GenericResponseObject>result;
           if (gro.error != '')

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, identity } from 'rxjs';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { UsersService } from './users.service';
 import { CommonServiceMethods } from './common-service-methods';
@@ -11,7 +11,7 @@ export class ImageService
 {
   constructor(private http: HttpClient, private usersService: UsersService) { }
 
-  getCompanyImages(idCompany:number)
+  getCompanyImages(idCompany: number)
   {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
@@ -28,16 +28,20 @@ export class ImageService
     };
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/UploadCompanyImage/' + idCompany, input, options);
   }
-  deleteCompanyImage(idImage: number):Observable<GenericResponseObject>
+  deleteCompanyImage(idImage: number, idCompany: number): Observable<GenericResponseObject>
   {
+    let params = new HttpParams();
+    params = params.append('idCompany', idCompany.toString());
+
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null,
+      params: params
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/DeleteCompanyImage/' + idImage, options);
   }
 
 
-  getEntityImages(idEntity:number)
+  getEntityImages(idEntity: number)
   {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
@@ -54,10 +58,14 @@ export class ImageService
     };
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/UploadEntityImage/' + idEntity, input, options);
   }
-  deleteEntityImage(idImage: number): Observable<GenericResponseObject>
+  deleteEntityImage(idImage: number, idEntity: number): Observable<GenericResponseObject>
   {
+    let params = new HttpParams();
+    params = params.append('idEntity', idEntity.toString());
+
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null,
+      params: params
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/DeleteEntityImage/' + idImage, options);
   }

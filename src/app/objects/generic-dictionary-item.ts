@@ -1,4 +1,4 @@
-export class GenericDictionary
+export class GenericDictionaryItem
 {
   constructor(
     public id?: number,

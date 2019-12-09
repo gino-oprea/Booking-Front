@@ -14,7 +14,7 @@ import { Image } from '../../objects/image';
 import { CompanyService } from '../../app-services/company.service';
 import { WorkingDay } from '../../objects/working-day';
 import { SpecialDay } from '../../objects/special-day';
-import { GenericDictionary } from '../../objects/generic-dictionary';
+import { GenericDictionaryItem } from '../../objects/generic-dictionary-item';
 import { CommonServiceMethods } from '../../app-services/common-service-methods';
 import { ImageService } from '../../app-services/image.service';
 import { Booking } from '../../objects/booking';
@@ -57,7 +57,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   variableWorkingHours: WorkingHours = null;
   levels: Level[] = [];
   entities: Entity[] = [];
-  durationTypes: GenericDictionary[] = [];
+  durationTypes: GenericDictionaryItem[] = [];
   durationArray: number[];
   isSave = true;
   isSaveCustomWH = true;
@@ -312,7 +312,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.durationTypes = <GenericDictionary[]>gro.objList;
+        this.durationTypes = <GenericDictionaryItem[]>gro.objList;
         for (var i = this.durationTypes.length-1; i >= 0; i--) 
         {
           if (!this.checkDurationType(this.durationTypes[i].id))
@@ -616,7 +616,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   }
   deleteImage()
   {
-    this.imageService.deleteEntityImage(this.selectedImage.id).subscribe(result =>
+    this.imageService.deleteEntityImage(this.selectedImage.id, this.selectedEntity.id).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
 

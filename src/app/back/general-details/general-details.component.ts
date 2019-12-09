@@ -13,7 +13,7 @@ import { Country } from '../../objects/country';
 import { WorkingHours } from '../../objects/working-hours';
 import { Image } from '../../objects/image';
 import { WorkingDay } from '../../objects/working-day';
-import { GenericDictionary } from '../../objects/generic-dictionary';
+import { GenericDictionaryItem } from '../../objects/generic-dictionary-item';
 import { ImageService } from '../../app-services/image.service';
 import { Booking } from '../../objects/booking';
 
@@ -31,8 +31,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   genDetailsForm: FormGroup;
   company: Company;
   countriesDic: Country[] = [];
-  categories: GenericDictionary[] = [];
-  subcategories: GenericDictionary[] = [];
+  categories: GenericDictionaryItem[] = [];
+  subcategories: GenericDictionaryItem[] = [];
   workingHours: WorkingHours;
   workingHoursOriginal: WorkingHours;
   specialDayWorkingHours: WorkingHours;
@@ -388,7 +388,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.categories = <GenericDictionary[]>gro.objList;
+        this.categories = <GenericDictionaryItem[]>gro.objList;
         if (this.categories.length > 0)
         {
           if (selectedIdCategory == null)
@@ -412,7 +412,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.subcategories = <GenericDictionary[]>gro.objList;
+        this.subcategories = <GenericDictionaryItem[]>gro.objList;
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting subcategory types', ''));
@@ -556,7 +556,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   }
   deleteImage()
   {
-    this.imageService.deleteCompanyImage(this.selectedImage.id).subscribe(result =>
+    this.imageService.deleteCompanyImage(this.selectedImage.id, this.idCompany).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
 

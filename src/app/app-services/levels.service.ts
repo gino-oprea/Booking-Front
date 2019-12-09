@@ -109,10 +109,14 @@ export class LevelsService
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/' + idLevel, options);
   }
-  deleteLevelAdditionalCharacteristic(idCharact: number):Observable<GenericResponseObject>
+  deleteLevelAdditionalCharacteristic(idCharact: number, idLevel: number):Observable<GenericResponseObject>
   {
+    let params = new HttpParams();    
+    params = params.append('idLevel', idLevel.toString());
+
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null,
+      params: params
     };
     return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levels/DeleteLevelCharacteristic/' + idCharact, options);
   }
