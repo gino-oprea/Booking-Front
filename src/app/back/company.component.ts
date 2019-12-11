@@ -30,7 +30,7 @@ export class CompanyComponent extends BaseComponent implements OnInit
 
   ngOnInit() 
   {
-    this.logAction(this.idCompany, false, Actions.View, "", "");
+    super.ngOnInit();
   }
  
   toggleSideBar()

@@ -54,6 +54,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
 
   ngOnInit()
   {
+    super.ngOnInit();
     this.logAction(this.idCompany, false, Actions.View, '', '');
 
     this.loadCompanyWorkingHours();

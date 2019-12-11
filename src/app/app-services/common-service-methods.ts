@@ -5,52 +5,6 @@ import { UsersService } from './users.service';
 import { Timeslot } from '../objects/timeslot';
 export class CommonServiceMethods
 {
-  // public static generateAuthHeaders(usersService: UsersService, existingHeaders:Headers): Headers
-  // {
-  //   let currentUser = usersService.getCurrentUser();    
-  //   let headers = new Headers();
-  //   if (existingHeaders != null)
-  //     headers = existingHeaders;  
-  //   if (currentUser != null)
-  //   {
-  //     if (currentUser.token != null)
-  //       headers.append('Authorization', 'Basic ' + usersService.getCurrentUser().token);
-  //   }
-  //   else
-  //     {
-  //       if (existingHeaders == null)
-  //           return null;
-  //       else
-  //           return existingHeaders;
-  //   }
-    
-  //   return headers;
-  // }
-
-
-  // public static generateHttpClientAuthHeaders(usersService: UsersService, existingHeaders:HttpHeaders): HttpHeaders
-  // {
-  //   let currentUser = usersService.getCurrentUser();    
-  //   let headers = new HttpHeaders();
-  //   if (existingHeaders != null)
-  //     headers = existingHeaders;  
-  //   if (currentUser != null)
-  //   {
-  //     if (currentUser.token != null)
-  //       headers = headers.append('Authorization', 'Basic ' + usersService.getCurrentUser().token);
-  //   }
-  //   else
-  //     {
-  //       if (existingHeaders == null)
-  //           return null;
-  //       else
-  //           return existingHeaders;
-  //   }
-    
-  //   return headers;
-  // }
-
-
   public static getDurationArray(durType: DurationType): number[]
   {
     let minutesUnit = 5;//asta trebuie sa vina din DB din setarile din back ale fiecarei companii

@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LogItem } from '../objects/log-item';
-import { Injector, OnDestroy } from '@angular/core';
+import { Injector, OnDestroy, OnInit } from '@angular/core';
 import { WebSites, Actions, PageMessageType } from '../enums/enums';
 import { LoggerService } from '../app-services/logger.service';
 import { Message } from 'primeng/primeng';
@@ -11,9 +11,13 @@ import { LabelsService } from '../app-services/labels.service';
 import { Label } from '../objects/label';
 import { UsersService } from '../app-services/users.service';
 import { LoginService } from '../app-services/login.service';
+import { Token } from '../objects/token';
 
-export class BaseComponent implements OnDestroy
+export class BaseComponent implements OnInit, OnDestroy
 {
+    
+    autoLoginTimeout;
+
     idCompany: number = null;
     pageName: string;
     pageMsgs: Message[] = [];
@@ -92,6 +96,11 @@ export class BaseComponent implements OnDestroy
         {
             this.logAction(this.idCompany, true, Actions.View, e.message, 'error in base component constructor');
         }
+    }
+
+    ngOnInit(): void
+    {
+        this.logAction(this.idCompany, false, Actions.View, "", "");
     }
 
     redirectFromUnauthorizedPages()
@@ -187,6 +196,41 @@ export class BaseComponent implements OnDestroy
             console.log(e);
         }
 
+    }
+
+    autoLogin()
+    {
+        console.log("auto login fired");
+        clearTimeout(this.autoLoginTimeout);
+        this.autoLoginTimeout = null;
+
+        let savedUser = this.loginService.getCurrentUser();
+        if (savedUser != null)
+        {
+            this.loginService.login(savedUser.email, savedUser.password, this).subscribe(token =>
+            {
+                token.token_generated = new Date();
+
+                this.autoLoginTimeout = setTimeout(() =>
+                {
+                    this.autoLogin();
+                }, this.getTokenRemainingTime(token));
+            });
+        }
+    }
+
+    getTokenRemainingTime(token: Token): number
+    {
+        // get current time
+        let currentTime = new Date();
+        var tokenStartTime = token.token_generated;
+
+        let elapsed = currentTime.getTime() - tokenStartTime.getTime();
+        let timeToRefresh = token.expires_in * 1000 - elapsed;
+
+        var safetyInterval = 10 * 60 * 1000;//10 minute
+
+        return timeToRefresh - safetyInterval;
     }
 
     showPageMessage(severity: string, summary: string, message: string)

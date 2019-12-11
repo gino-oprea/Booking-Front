@@ -63,7 +63,7 @@ export class BookingsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.logAction(this.idCompany, false, Actions.View, "", "");
+    super.ngOnInit();
     this.getBookingDefaultDuration();
   }
 

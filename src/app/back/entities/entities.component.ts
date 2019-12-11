@@ -19,6 +19,7 @@ import { CommonServiceMethods } from '../../app-services/common-service-methods'
 import { ImageService } from '../../app-services/image.service';
 import { Booking } from '../../objects/booking';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'bf-entities',
@@ -140,7 +141,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
   ngOnInit() 
   {
-    this.logAction(this.idCompany, false, Actions.View, '', '');
+    super.ngOnInit();    
 
     this.en = {
       firstDayOfWeek: 1,
@@ -986,14 +987,18 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);        
       }
       else
       {
         this.logAction(this.idCompany, false, Actions.Add, '', 'add entity', true, 'Entity added');
-        //this.showPageMessage('success', 'Success', 'Entity added');
-        this.loadEntities(null);
+        //one time subscription - trebuie facut reload la entities abia dupa ce se emite noul token cu claim-urile corecte
+        this.loginService.loginSubject.pipe(first()).subscribe(login =>
+        {
+          this.loadEntities(null);
+        });
+
+        this.autoLogin();//mai sus e pregatit subscriptionul ca sa prinda schimbarea de token si sa faca refresh la entitati        
       }
     },
       err =>

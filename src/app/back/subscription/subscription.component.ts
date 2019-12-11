@@ -52,7 +52,7 @@ export class SubscriptionComponent extends BaseComponent implements OnInit
 
   ngOnInit() 
   {
-    this.logAction(this.idCompany, false, Actions.View, "", "");
+    super.ngOnInit();
     this.loadSubscription(this.idCompany);    
   }
   loadAvailableSubscriptions(subscriptionType:string)

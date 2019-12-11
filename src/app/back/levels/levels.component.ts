@@ -11,6 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EntitiesService } from '../../app-services/entities.service';
 import { Entity } from '../../objects/entity';
 import { CommonServiceMethods } from '../../app-services/common-service-methods';
+import { first } from 'rxjs/operators';
 
 
 @Component({
@@ -379,9 +380,16 @@ export class LevelsComponent extends BaseComponent implements OnInit
             //this.showPageMessage('error', 'Error', gro.error);
           }
           else
-          {
-            this.showPageMessage('success', 'Success', 'Level added');
-            this.loadLevels();
+          {            
+            this.logAction(this.idCompany, false, Actions.Add, '', 'add level', true, 'Level added');
+            //one time subscription - trebuie facut reload la levels abia dupa ce se emite noul token cu claim-urile corecte
+            this.loginService.loginSubject.pipe(first()).subscribe(login =>
+            {
+              this.loadLevels();
+            });
+
+            this.autoLogin();//mai sus e pregatit subscriptionul ca sa prinda schimbarea de token si sa faca refresh la levels 
+            
           }
         },
           err =>
@@ -556,6 +564,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
           {
             this.showPageMessage('success', 'Success', 'Entity added');
             this.loadEntities(parseInt(this.selectedLevel));
+            this.autoLogin();
           }
         },
           err =>

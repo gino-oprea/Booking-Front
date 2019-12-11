@@ -8,11 +8,7 @@ import { Token } from './objects/token';
   templateUrl: './app.component.html'
 })
 export class AppComponent extends BaseComponent implements OnInit
-{  
-  title = 'bf works!';
-
-  timeout;
-
+{ 
   constructor(private injector: Injector)
   {
     super(injector, []);
@@ -27,6 +23,7 @@ export class AppComponent extends BaseComponent implements OnInit
 
   ngOnInit(): void
   {
+    super.ngOnInit();    
     let savedUser = this.loginService.getCurrentUser();
     let savedToken = this.loginService.getToken();
     if (savedToken != null)
@@ -34,7 +31,7 @@ export class AppComponent extends BaseComponent implements OnInit
         if (savedUser != null)
           this.loginService.login(savedUser.email, savedUser.password, this);
 
-    if (!this.timeout)
+    if (!this.autoLoginTimeout)
       this.setupAutoLogin();
   }
   
@@ -45,51 +42,11 @@ export class AppComponent extends BaseComponent implements OnInit
 
     if (savedToken != null)
     {
-      if (!this.timeout)
-        this.timeout = setTimeout(() =>
+      if (!this.autoLoginTimeout)
+        this.autoLoginTimeout = setTimeout(() =>
         {
           this.autoLogin();
         }, this.getTokenRemainingTime(savedToken));
-    }
-    // else
-    //   if (savedUser != null)
-    //   {
-    //     this.autoLogin();
-    //   }      
-  }
-
-  autoLogin()
-  {
-    console.log("auto login fired");
-    clearTimeout(this.timeout);
-    this.timeout = null;
-
-    let savedUser = this.loginService.getCurrentUser();
-    if (savedUser != null)
-    {
-      this.loginService.login(savedUser.email, savedUser.password, this).subscribe(token =>
-      { 
-        token.token_generated = new Date();
-
-        this.timeout = setTimeout(() =>
-        {          
-          this.autoLogin();          
-        }, this.getTokenRemainingTime(token));
-      });      
-    }
-  }
-
-  getTokenRemainingTime(token:Token): number
-  {    
-    // get current time
-    let currentTime = new Date();
-    var tokenStartTime = token.token_generated;
-
-    let elapsed = currentTime.getTime() - tokenStartTime.getTime();
-    let timeToRefresh = token.expires_in * 1000 - elapsed;
-
-    var safetyInterval = 10 * 60 * 1000;//10 minute
-
-    return timeToRefresh - safetyInterval;
-  }
+    }        
+  }  
 }

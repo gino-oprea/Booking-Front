@@ -8,6 +8,7 @@ import { WebSites, Actions } from '../enums/enums';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { CompanyService } from '../app-services/company.service';
 import { ImageService } from '../app-services/image.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'bf-my-companies',
@@ -71,7 +72,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
 
   ngOnInit()
   {
-    this.logAction(this.idCompany, false, Actions.View, "", "");
+    super.ngOnInit();
     
     try {
       this.subscriptionsService.getSubscriptions().subscribe(
@@ -134,14 +135,18 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
       {
         let gro = <GenericResponseObject>result;
         if (gro.error != '') {
-          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
-          //this.showPageMessage('error', 'Error', gro.error);
+          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);          
         }
         else
         {
-          //route to new company
-          let idCompany = gro.info;
-          this.router.navigate(['/company', idCompany, 'generaldetails']);
+          //one time subscription - trebuie facut routing la noua companie abia dupa ce se emite noul token cu claim-urile corecte
+          this.loginService.loginSubject.pipe(first()).subscribe(login =>
+          {
+            //route to new company  
+            let idCompany = gro.info;
+            this.router.navigate(['/company', idCompany, 'generaldetails']);
+          });
+          this.autoLogin();//mai sus e pregatit subscriptionul ca sa prinda schimbarea de token si sa faca routing-ul catre noua companie           
         }  
       },
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding company', ''));

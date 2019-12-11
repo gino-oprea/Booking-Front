@@ -60,31 +60,31 @@ export class LoggerService
     let ip = "";
 
     
-    return this.http.get('https://api.ipify.org/?format=text', { responseType: 'text' }).pipe(
-      switchMap((res: string) =>
-      {
-        try
-        {
-          ip = res;// res._body; 
-        } catch (e) { }
+    // return this.http.get('https://api.ipify.org/?format=text', { responseType: 'text' }).pipe(
+    //   switchMap((res: string) =>
+    //   {
+    //     try
+    //     {
+    //       ip = res;// res._body; 
+    //     } catch (e) { }
 
-        //aici vom seta ip-ul
-        log.ip = ip;
+    //     //aici vom seta ip-ul
+    //     log.ip = ip;
 
         const body = JSON.stringify(log);
         const headers = new HttpHeaders({
           'Content-Type': 'application/json'
         });
         return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
-      }),
-      catchError((err: any) =>
-      {
-        console.log(err);
-        const body = JSON.stringify(log);
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json'
-        });
-        return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
-      }));
+      // }),
+      // catchError((err: any) =>
+      // {
+      //   console.log(err);
+      //   const body = JSON.stringify(log);
+      //   const headers = new HttpHeaders({
+      //     'Content-Type': 'application/json'
+      //   });
+      //   return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
+      // }));
   }
 }

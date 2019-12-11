@@ -34,7 +34,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   }
   ngOnChanges(changes: SimpleChanges): void 
   {
-    this.logAction(this.idCompany, false, Actions.View, "", "");
+    super.ngOnInit();
     if (this.bookings.length > 0)
       this.selectedBooking = this.bookings[0];
   }

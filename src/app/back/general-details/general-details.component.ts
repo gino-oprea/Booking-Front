@@ -162,7 +162,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
 
   ngOnInit()
   {
-    this.logAction(this.idCompany, false, Actions.View, "", "");
+    super.ngOnInit();
     this.initForm();
 
     this.reloadCompanySpecialDays();

@@ -29,51 +29,6 @@ export class FullCalendarComponent implements OnInit {
     this.dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     this.dayDates = this.generateMonth();
     this.calendarRowHeight = this.getCalendarRowHeight();
-
-    // this.events = [
-    //   {
-    //     "id": "1",
-    //     "title": "All Day Event",
-    //     "start": "2019-02-01",
-    //     "color": "#ff4d4d"
-    //   },
-    //   {
-    //     "id": "2",
-    //     "title": "Long Event",
-    //     "start": "2019-02-10",
-    //     "color": "#ff4d4d"
-    //   },
-    //   {
-    //     "id": "3",
-    //     "title": "Repeating Event",
-    //     "start": "2019-02-12",
-    //     "color": "#ff4d4d"
-    //   },
-    //   {
-    //     "id": "4",
-    //     "title": "Repeating Event",
-    //     "start": "2019-02-07",
-    //     "color": "#ff4d4d"
-    //   },
-    //   {
-    //     "id": "5",
-    //     "title": "Conference",
-    //     "start": "2019-02-25",
-    //     "color": "#ff4d4d"
-    //   },
-    //   {
-    //     "id": "6",
-    //     "title": "Conference",
-    //     "start": "2019-01-31",
-    //     "color": "#ff4d4d"
-    //   },
-    //   {
-    //     "id": "7",
-    //     "title": "Conference",
-    //     "start": "2019-03-02",
-    //     "color": "#ff4d4d"
-    //   }
-    // ];
   }
 
   getDateSlotEvent(dayNumber:number, monthNumber:number, yearNumber:number): CalendarEvent[]
@@ -166,7 +121,7 @@ export class FullCalendarComponent implements OnInit {
 
     let date: Date = new Date(this.selectedYear, this.selectedMonth, 1, 0, 0, 0, 0);
 
-    let firstDayAsWeekDay = date.getDay();
+    let firstDayAsWeekDay = date.getDay() == 0 ? 7 : date.getDay();
     let numberOfDaysInPreviousMonth = new Date(this.selectedYear, this.selectedMonth, 0).getDate();
     let numberOfDaysInCurrentMonth = new Date(this.selectedYear, this.selectedMonth + 1, 0).getDate();
 
