@@ -54,6 +54,17 @@
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
             <div class="ui-grid-col-2">
+              <label style="padding: 5px;" for="startTime">Date:</label>
+            </div>
+            <div class="col-md-1">
+              <span>{{selectedBooking.startDate | date:'dd.MMM.yyyy'}}</span>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
               <label style="padding: 5px;" for="startTime">Start Time:</label>
             </div>
             <div class="col-md-1">

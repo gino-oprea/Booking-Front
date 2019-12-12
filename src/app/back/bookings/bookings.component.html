@@ -2,35 +2,36 @@
 <div class="row" style="height: 5%; margin-bottom: 10px;">
   <div class="col-md-12" style="height: 100%;">
     Search by
-    <select style="margin-left: 5px;" [(ngModel)]="searchType">      
+    <select style="margin-left: 5px;" [(ngModel)]="searchType">
       <option value="1">Phone</option>
       <option value="2">Name</option>
       <option value="3">E-mail</option>
     </select>
-    <input type="text" style="margin-left: 5px; width: 150px; padding: 2px;" placeholder="search terms" [(ngModel)]="searchString">
-    <button class="btn btn-primary from-control" style="margin-left: 5px;" (click)="searchBooking()"><i class="fa fa-search"></i></button>
-    <button class="btn btn-primary from-control" style="margin-left: 5px;" (click)="clearSearchBooking()"><i class="fa fa-undo"></i></button>
+    <input type="text" style="margin-left: 5px; width: 150px; padding: 2px;" placeholder="search terms"
+      [(ngModel)]="searchString">
+    <button class="btn btn-primary from-control" style="margin-left: 5px;" (click)="searchBooking()"><i
+        class="fa fa-search"></i></button>
+    <button class="btn btn-primary from-control" style="margin-left: 5px;" (click)="clearSearchBooking()"><i
+        class="fa fa-undo"></i></button>
   </div>
 </div>
 <div class="row" style="height:95%">
   <div class="col-md-2" style="height:100%;">
-    <bf-booking-filter [idCompany]="idCompany" [selectedDate]="shiftedDate" (filterChanged)="filterChanged($event)"></bf-booking-filter>
+    <bf-booking-filter [idCompany]="idCompany" [selectedDate]="shiftedDate" (filterChanged)="filterChanged($event)">
+    </bf-booking-filter>
   </div>
   <div *ngIf="bookingDefaultDuration" class="col-md-10" style="height:100%; overflow-x: auto;">
-    <bf-booking-hours *ngIf="!showCalendarBooking" 
-    [idCompany]="idCompany" 
-    [selectedFilter]="selectedFilter" 
-    [bookingSearchFilter]="bookingSearchFilter"
-    [allowFullCalendarNavigation]="true"
+    <bf-booking-hours *ngIf="!showCalendarBooking" [idCompany]="idCompany" [selectedFilter]="selectedFilter"
+      [bookingSearchFilter]="bookingSearchFilter" [allowFullCalendarNavigation]="true"
       (selectDate)="onShiftWeek($event)" (selectTimeSlot)="onSelectBookingHour($event)"></bf-booking-hours>
   </div>
 </div>
 
-<p-dialog header="Manage Bookings" (onHide)="onCloseManageBookingsDialog()" 
-[(visible)]="displayDialogConfirmBooking" [responsive]="true" showEffect="fade" [modal]="true"
-  width="900">  
+<p-dialog header="Manage Bookings" (onHide)="onCloseManageBookingsDialog()" [(visible)]="displayDialogConfirmBooking"
+  [responsive]="true" showEffect="fade" [modal]="true" width="900">
   <ul class="nav nav-tabs">
-    <li (click)="selectTab('add')" [class.disabled]="!isAddTabEnabled" [class.active]="tabs.add.active" style="cursor: pointer;">
+    <li (click)="selectTab('add')" [class.disabled]="!isAddTabEnabled" [class.active]="tabs.add.active"
+      style="cursor: pointer;">
       <a style="color: black"><i class="fa fa-calendar-plus-o"></i> Add Booking</a>
     </li>
     <li (click)="selectTab('edit')" [class.active]="tabs.edit.active" style="cursor: pointer;">
@@ -38,100 +39,111 @@
     </li>
   </ul>
   <div [hidden]="!tabs.add.active">
-    <bf-booking-confirm-dialog [isBookingByDay]="showCalendarBooking" 
-    [selectedDayTime]="selectedBookingHourTransferObject?selectedBookingHourTransferObject.workingDay:null"
-    [autoAssignedEntityCombination]="autoAssignedEntityCombination" 
-    [idCompany]="idCompany" 
-    [isAdminAddBooking]="true"
-    (bookingSaved)="bookingSaved($event)"></bf-booking-confirm-dialog>
+    <bf-booking-confirm-dialog [isBookingByDay]="showCalendarBooking"
+      [selectedDayTime]="selectedBookingHourTransferObject?selectedBookingHourTransferObject.workingDay:null"
+      [autoAssignedEntityCombination]="autoAssignedEntityCombination" [idCompany]="idCompany" [isAdminAddBooking]="true"
+      (bookingSaved)="bookingSaved($event)"></bf-booking-confirm-dialog>
   </div>
   <div [hidden]="!tabs.edit.active">
     <p *ngIf="timeslotBookings.length==0">No bookings saved yet</p>
     <div class="col-md-3" style="height: 100%;">
       <ol style="padding:0px;">
-        <li class="list-group-item" style="cursor:pointer" *ngFor="let booking of timeslotBookings; let i = index" 
-        (click)="selectBooking(booking)"
-        [ngClass]="{'selected': (selectedBooking!=null ? booking.id == selectedBooking.id : false)}">
-        {{booking.email}}</li>
+        <li class="list-group-item" style="cursor:pointer" *ngFor="let booking of timeslotBookings; let i = index"
+          (click)="selectBooking(booking)"
+          [ngClass]="{'selected': (selectedBooking!=null ? booking.id == selectedBooking.id : false)}">
+          {{booking.email}}</li>
       </ol>
     </div>
     <div *ngIf="selectedBooking" class="col-md-9">
       <div class="row" style="padding-left:20px;padding-right: 20px;">
-          <h4 *ngFor="let entity of selectedBooking.entities" style="display: inline-block; padding-left:5px;padding-right: 5px;">
-            <span class="label label-default">{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</span>
-          </h4>          
-        </div>
-        <br>
-        <form class="form-horizontal" style="height: 100%; width:100%;">          
-          <div>   
-              <div class="ui-grid ui-grid-responsive ui-fluid">
-                  <div class="ui-grid-row">
-                    <div class="ui-grid-col-2">
-                      <label style="padding: 5px;" for="firstName">First Name:</label>
-                    </div>
-                    <div class="col-md-1">
-                      <span>{{selectedBooking.firstName}}</span>
-                    </div>
-                  </div>
-                </div>
-                <br>
-                <div class="ui-grid ui-grid-responsive ui-fluid">
-                    <div class="ui-grid-row">
-                      <div class="ui-grid-col-2">
-                        <label style="padding: 5px;" for="lastName">Last Name:</label>
-                      </div>
-                      <div class="col-md-1">
-                        <span>{{selectedBooking.lastName}}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <br>
-                  <div class="ui-grid ui-grid-responsive ui-fluid">
-                      <div class="ui-grid-row">
-                        <div class="ui-grid-col-2">
-                          <label style="padding: 5px;" for="phone">Phone:</label>
-                        </div>
-                        <div class="col-md-1">
-                          <span>{{selectedBooking.phone}}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <br>         
-            <div class="ui-grid ui-grid-responsive ui-fluid">
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-2">
-                  <label style="padding: 5px;" for="startTime">Start Time:</label>
-                </div>
-                <div class="col-md-1">
-                  <span>{{selectedBooking.startTime | date:'HH:mm'}}</span>
-                </div>
+        <h4 *ngFor="let entity of selectedBooking.entities"
+          style="display: inline-block; padding-left:5px;padding-right: 5px;">
+          <span
+            class="label label-default">{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</span>
+        </h4>
+      </div>
+      <br>
+      <form class="form-horizontal" style="height: 100%; width:100%;">
+        <div>
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-2">
+                <label style="padding: 5px;" for="firstName">First Name:</label>
+              </div>
+              <div class="col-md-1">
+                <span>{{selectedBooking.firstName}}</span>
               </div>
             </div>
-            <br>
-            <div class="ui-grid ui-grid-responsive ui-fluid">
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-2">
-                  <label style="padding: 5px;" for="endTime">End Time:</label>
-                </div>
-                <div class="col-md-1">
-                  <span>{{selectedBooking.endTime | date:'HH:mm'}}</span>
-                </div>
-              </div>
-            </div>
-            <br>
           </div>
-          <footer>            
-            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-              <button class="btn btn-warning" (click)="cancelBooking()">
-                <i class="fa fa-remove"> Cancel booking</i>
-              </button>
-              <button class="btn btn-danger" (click)="deleteBooking()">
-                <i class="fa fa-remove"> Delete</i>
-              </button>
+          <br>
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-2">
+                <label style="padding: 5px;" for="lastName">Last Name:</label>
+              </div>
+              <div class="col-md-1">
+                <span>{{selectedBooking.lastName}}</span>
+              </div>
             </div>
-          </footer>
-        </form>                           
-  </div>
+          </div>
+          <br>
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-2">
+                <label style="padding: 5px;" for="phone">Phone:</label>
+              </div>
+              <div class="col-md-1">
+                <span>{{selectedBooking.phone}}</span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-2">
+                <label style="padding: 5px;" for="startTime">Date:</label>
+              </div>
+              <div class="col-md-1">
+                <span>{{selectedBooking.startDate | date:'dd.MMM.yyyy'}}</span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-2">
+                <label style="padding: 5px;" for="startTime">Start Time:</label>
+              </div>
+              <div class="col-md-1">
+                <span>{{selectedBooking.startTime | date:'HH:mm'}}</span>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-2">
+                <label style="padding: 5px;" for="endTime">End Time:</label>
+              </div>
+              <div class="col-md-1">
+                <span>{{selectedBooking.endTime | date:'HH:mm'}}</span>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+        <footer>
+          <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button class="btn btn-warning" (click)="cancelBooking()">
+              <i class="fa fa-remove"> Cancel booking</i>
+            </button>
+            <button class="btn btn-danger" (click)="deleteBooking()">
+              <i class="fa fa-remove"> Delete</i>
+            </button>
+          </div>
+        </footer>
+      </form>
+    </div>
   </div>
 </p-dialog>
 
