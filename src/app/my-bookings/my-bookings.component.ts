@@ -16,12 +16,17 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
 {
   bookings: Booking[];
   selectedBooking: Booking;
+  displayConfirmDialog: boolean = false;
 
-  constructor(private injector: Injector,    
+  constructor(private injector: Injector,
     private bookingService: BookingService)
   {
     super(injector,
-      []
+      [
+        'lblConfirmation',
+        'lblYes',
+        'lblNo'
+      ]
     );
     this.site = WebSites.Front;
     this.pageName = "My Bookings";
@@ -42,7 +47,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -63,23 +68,44 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
     this.selectedBooking = booking;
   }
 
-  deleteBooking()
+  // deleteBooking()
+  // {
+  //   this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => 
+  //   {
+  //     let gro = <GenericResponseObject>result;
+  //     if (gro.error != '')
+  //     {
+  //       this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);        
+  //     }
+  //     else
+  //     {
+  //       this.showPageMessage('success', 'Booking removed', gro.error);
+  //       this.getBookings();        
+  //     }
+  //   },
+  //     err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleing booking id:' + this.selectedBooking.id, ''));
+  // }
+  showConfirmDialog()
   {
-    this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => 
+    this.displayConfirmDialog = true;
+  }
+  onCancelBooking()
+  {
+    this.displayConfirmDialog = false;
+
+    this.bookingService.cancelBooking(this.selectedBooking.id).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
       }
       else
       {
-        this.showPageMessage('success', 'Booking removed', gro.error);
-        this.getBookings();        
+        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking canceled");    
+        this.getBookings();
       }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleing booking id:' + this.selectedBooking.id, ''));
+    });
   }
 
 }

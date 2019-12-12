@@ -40,12 +40,23 @@
           </div>
           <footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-              <button class="btn btn-danger" (click)="deleteBooking()">
-                <i class="fa fa-remove"> Delete</i>
+              <button class="btn btn-danger" (click)="showConfirmDialog()">
+                <i class="fa fa-remove"> Cancel booking</i>
               </button>
             </div>
           </footer>
         </form>                           
   </div>
 </div>
+
+<p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayConfirmDialog" modal="modal" width="300"
+  responsive="true">
+  <p>Sunteti sigur ca doriti sa anulati programarea?</p>
+  <footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton (click)="displayConfirmDialog=false" [label]="getCurrentLabelValue('lblNo')"></button>
+      <button type="button" pButton (click)="onCancelBooking()" [label]="getCurrentLabelValue('lblYes')"></button>
+    </div>
+  </footer>
+</p-dialog>
 <p-growl [value]="pageMsgs"></p-growl>

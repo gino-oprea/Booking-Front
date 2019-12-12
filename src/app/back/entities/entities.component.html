@@ -186,14 +186,7 @@
                 <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%;">
                   <option value="0">Company working hours</option>
                   <option *ngFor="let wh of customWorkingHours; let i=index;" [value]="wh.id">{{wh.name}}</option>
-                </select>
-                <!-- <button type="button" *ngIf="selectedWhId!=0 &&  selectedWhId!=-1" (click)="showAddEditCustomWHDialog(false)" style="width: 10%;"
-                  class="btn btn-primary">
-                  <i class="fa fa-edit"></i>
-                </button>
-                <button type="button" (click)="showAddEditCustomWHDialog(true)" style="width: 10%;" class="btn btn-primary">
-                  <i class="fa fa-plus"></i>
-                </button> -->
+                </select>               
               </div>
               <div class="col-md-2" style="padding: 5px;">
                 <p-calendar [showIcon]="true" [(ngModel)]="selectedDateWorkingHours" [hidden]="!isVariableWH" placeholder="Date" [locale]="en"
@@ -206,13 +199,10 @@
                   (selectTimeSlot)="onUpdateWorkingHours($event)"></bf-working-hours>
               </div>
             </div>
-            <!--<div class="row" style="height: 5%;margin-top: 25px;">
-              
-            </div>-->
+            
           </div>
           <div [hidden]="!subTabs.specialDays.active" style="height: 95%;padding-top: 5px;">
-            <!-- <p-schedule [events]="specialDays" [height]="auto" [editable]="true" [aspectRatio]="3.2" (onDayClick)="onDayClick($event)"
-              (onEventClick)="onEventClick($event)" (onEventDrop)="onEventDrop($event)" [header]="calendarOptions"></p-schedule> -->
+            
               <bf-full-calendar [events]="specialDays" (dateClick)="onDayClick($event)" (eventClick)="onEventClick($event)" (eventDrop)="onEventDrop($event)"></bf-full-calendar>
           </div>
         </div>
@@ -256,32 +246,7 @@
   </form>
 </p-dialog>
 
-<!-- <p-dialog header="{{isAddCustomWHMode == true ? 'Add' : 'Edit'}}" [(visible)]="displayDialogAddCustomWH" [responsive]="true"
-  showEffect="fade" [modal]="true" width="400">
-  <form class="form-horizontal" style="height: 100%" id="addCustomWH-form" [formGroup]="addCustomWHForm" (ngSubmit)="onAddEditCustomWH()">
-    <div class="ui-grid ui-grid-responsive ui-fluid">
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="customWHName">Name:</label>
-        </div>
-        <div class="ui-grid-col-8">
-          <input type="text" id="customWHName" formControlName="customWHName" [ngClass]="{'valid-control':addCustomWHForm.controls['customWHName'].valid,
-                        'invalid-control':!addCustomWHForm.controls['customWHName'].valid}" class="form-control">
-        </div>
-      </div>
-    </div>
-    <footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="submit" (click)="setCustomWHSubmitType(true)" [disabled]="!addCustomWHForm.valid" class="btn btn-success">
-          <i class="fa fa-check"> Save</i>
-        </button>
-        <button type="submit" (click)="setCustomWHSubmitType(false)" *ngIf="!isAddCustomWHMode" class="btn btn-danger">
-          <i class="fa fa-remove"> Delete</i>
-        </button>
-      </div>
-    </footer>
-  </form>
-</p-dialog> -->
+
 
 <p-dialog header="{{selectedDate==null ? '' : (selectedDate | date:'dd.MMM.yyyy')}}" [(visible)]="displayDialogSpecialDays"
   [responsive]="true" showEffect="fade" [modal]="false" width="700" height="600">

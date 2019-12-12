@@ -189,4 +189,12 @@ export class BookingService {
 
     return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/' + idBooking.toString(), options);
   }
+  cancelBooking(idBooking: number)
+  {
+    let options = {
+      headers: null
+    };
+
+    return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/CancelBooking/' + idBooking.toString(), options);
+  }
 }

@@ -37,11 +37,11 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   displayImageDialog = false;
   //displayDialogAddCustomWH = false;
 
-  isAddCustomWHMode = true;
+  //isAddCustomWHMode = true;
   selectedImage: Image = null;
   genDetailsForm: FormGroup;
   addEntityForm: FormGroup;
-  //addCustomWHForm: FormGroup;
+  
 
   selectedLevel: Level;
   selectedEntity: Entity;
@@ -567,49 +567,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.showPageMessage('warn', 'Warning', 'only 5 images permitted');
     }
   }
-  // showAddEditCustomWHDialog(mode: boolean)
-  // {
-  //   this.isAddCustomWHMode = mode;
-  //   this.displayDialogAddCustomWH = true;
-  //   this.initFormCustomWH();
-  // }
-  // onAddEditCustomWH()
-  // {
-  //   if (this.isSaveCustomWH)//save
-  //   {
-  //     if (this.isAddCustomWHMode)//add
-  //     {
-  //       this.companyWorkingHours.name = this.addCustomWHForm.controls['customWHName'].value;
-  //       this.addEntityWorkingHours(this.companyWorkingHours, false);        
-  //     }
-  //     else//edit
-  //     {
-  //       this.selectedWorkingHours.name = this.addCustomWHForm.controls['customWHName'].value;
-  //       this.editEntityWorkingHours(this.selectedWorkingHours, true, true);
-  //     }
-  //   }
-  //   else//delete
-  //   {
-  //     this.entitiesService.deleteEntityWorkingHours(this.selectedWhId).subscribe(result =>
-  //     {
-  //       let gro = <GenericResponseObject>result;
-  //       if (gro.error != '')
-  //       {
-  //         this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
-  //         //this.showPageMessage('error', 'Error', gro.error);
-  //       }
-  //       else
-  //       {
-  //         this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity custom hours idEntity: ' + this.selectedEntityId, true, 'Custom working hours removed');
-  //         //this.showPageMessage('success', 'Success', 'Custom working hours removed');
-  //         this.loadEntities(this.selectedEntityId);
-  //         this.loadCustomWorkingHours(null, false);
-  //       }
-  //     },
-  //       err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting custom working hours for idEntity: ' + this.selectedEntityId.toString(), ''));
-  //   }
-  //   this.displayDialogAddCustomWH = false;
-  // }
+  
   onImageClick(image: Image)
   {
     this.selectedImage = image;
@@ -1034,14 +992,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     
   }
   onUpdateWorkingHours(wh: WorkingHours)
-  {
-    // this.selectedWorkingHours = wh;
-    // if (this.isCustomWH)//daca e in modul custom atunci se editeaza direct pe tabela de entities working hours
-    // {
-    //   this.editEntityWorkingHours(wh, true, false);
-    // }
-    // else//daca e in modul variable atunci se editeaza in tabela de entities variable working hours
-    // {      
+  {     
+    //doar pentru modul variabil
     let wds: WorkingDay[] = [];
     wds.push(this.selectedWorkingHours.monday);
     wds.push(this.selectedWorkingHours.tuesday);
@@ -1066,8 +1018,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.affectedBookings = gro.objList;
         this.displayAffectedBookings = true;
       }
-    });
-    // }
+    });    
   }
   onSelectedDateChange()
   {
@@ -1132,28 +1083,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding/editing entity custom hours', ''));
-  }
-  editEntityWorkingHours(workingHours: WorkingHours, isReloadWorkingHours: boolean, showSuccessMessage:boolean)
-  {
-    this.entitiesService.editEntityWorkingHours(this.idCompany, workingHours).subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
-        //this.showPageMessage('error', 'Error', gro.error);
-      }
-      else
-      {
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity working hours idEntity: ' + this.selectedEntityId.toString(), showSuccessMessage, 'Saved');
-        // if (showSuccessMessage)
-        //   this.showPageMessage('success', 'Success', 'Saved');
-        if (isReloadWorkingHours)
-          this.loadCustomWorkingHours(null, false);
-      }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Add, 'http error editing entity custom hours', ''));
-  }
+  } 
   addEntityVariableWorkingHours(wds: WorkingDay[])
   {
     this.entitiesService.addEntityVariableWorkingHours(wds, this.selectedEntityId).subscribe(result =>

@@ -273,16 +273,33 @@ export class BookingsComponent extends BaseComponent implements OnInit {
     this.selectedBooking = booking;
   }
   deleteBooking() {
-    this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => {
+    this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => 
+    {
       let gro = <GenericResponseObject>result;
-      if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
+      if (gro.error != '') 
+      {
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);        
       }
       else 
       {
-        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
-        //this.showPageMessage('success', 'Booking removed', gro.error);
+        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");        
+        this.getTimeslotBookings(this.selectedBookingDate);
+        this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
+      }
+    });
+  }
+  cancelBooking()
+  {
+    this.bookingService.cancelBooking(this.selectedBooking.id).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+      }
+      else
+      {
+        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking canceled");    
         this.getTimeslotBookings(this.selectedBookingDate);
         this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
       }
