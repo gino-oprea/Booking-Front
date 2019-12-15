@@ -26,7 +26,8 @@ class SelectedCharacteristic {
   templateUrl: './booking-filter.component.html',
   styleUrls: ['./booking-filter.component.css']
 })
-export class BookingFilterComponent extends BaseComponent implements OnInit, OnChanges {
+export class BookingFilterComponent extends BaseComponent implements OnInit, OnChanges
+{
   @Input() idCompany: number;
   @Output() filterChanged = new EventEmitter<BookingFilter>();
 
@@ -42,7 +43,8 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
-    private levelLinkingService: LevelLinkingService) {
+    private levelLinkingService: LevelLinkingService)
+  {
     super(injector, []);
     this.site = WebSites.Front;
     this.pageName = 'Booking filters';
@@ -65,23 +67,29 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     };
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     //this.loadAllLevels();
   }
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void
+  {
     if (this.idCompany)
       this.loadAllLevels();
   }
 
-  loadAllLevels() {
+  loadAllLevels()
+  {
     let weekDates: string[];
     weekDates = this.setUpWeekDates()
-    this.bookingService.getLevelsAsFilters(this.idCompany, weekDates).subscribe(gro => {
-      if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+    this.bookingService.getLevelsAsFilters(this.idCompany, weekDates).subscribe(gro =>
+    {
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
-      else {
+      else
+      {
         this.levels = <LevelAsFilter[]>gro.objList;
         //console.log(this.levels);
         this.initFilteredEntities();
@@ -89,13 +97,12 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
         this.initSelectedCharacteristics();
         this.loadEntitiesLinking();
         //console.log(this.selectedEntities);
-
-
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading booking filters', ''));
   }
-  setUpWeekDates(): string[] {
+  setUpWeekDates(): string[]
+  {
     let weekDay = this.selectedDate.getDay();
 
     let mondayDate = new Date(this.selectedDate.getTime());// + this.invertNumberSign(_userOffset));
@@ -146,7 +153,8 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
 
     return weekDates;
   }
-  getDateString(date: Date) {
+  getDateString(date: Date)
+  {
     var month = date.getMonth() + 1; //months from 1-12
     var day = date.getDate();
     var year = date.getFullYear();
@@ -154,13 +162,17 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     var dateString = year + "-" + month + "-" + day;
     return dateString;
   }
-  loadEntitiesLinking() {
-    this.levelLinkingService.getEntitiesLinking(null, this.idCompany).subscribe(gro => {
-      if (gro.error != '') {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+  loadEntitiesLinking()
+  {
+    this.levelLinkingService.getEntitiesLinking(null, this.idCompany).subscribe(gro =>
+    {
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
-      else {
+      else
+      {
         let entityLinks = <EntitiesLink[]>gro.objList;
         this.addChildEntityIdsToParentEntities(entityLinks);
 
@@ -173,18 +185,23 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     },
       er => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entities linking', ''));
   }
-  initSelectedEntities() {
+  initSelectedEntities()
+  {
     this.selectedEntities = [];
-    for (var i = 0; i < this.levels.length; i++) {
+    for (var i = 0; i < this.levels.length; i++)
+    {
       let entity = new SelectedEntityPerLevel(this.levels[i].id, -1, this.levels[i].idLevelType);
       this.selectedEntities.push([entity]);
     }
   }
 
-  initSelectedCharacteristics() {
+  initSelectedCharacteristics()
+  {
     this.selectedCharacteristics = [];
-    for (var i = 0; i < this.levels.length; i++) {
-      for (var j = 0; j < this.levels[i].levelCharacteristics.length; j++) {
+    for (var i = 0; i < this.levels.length; i++)
+    {
+      for (var j = 0; j < this.levels[i].levelCharacteristics.length; j++)
+      {
         let c = new SelectedCharacteristic();
         c.selectedIdLevel = this.levels[i].id;
         c.selectedIdCharacteristic = this.levels[i].levelCharacteristics[j].id;
@@ -194,27 +211,36 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
       }
     }
   }
-  resetSelectedCharacteristics(idLevel: number, resetCurrentLevel: boolean) {
-    for (let i = 0; i < this.selectedCharacteristics.length; i++) {
+  resetSelectedCharacteristics(idLevel: number, resetCurrentLevel: boolean)
+  {
+    for (let i = 0; i < this.selectedCharacteristics.length; i++)
+    {
       const selCharact = this.selectedCharacteristics[i];
-      if (resetCurrentLevel) {
+      if (resetCurrentLevel)
+      {
         if (selCharact.selectedIdLevel == idLevel)//se reseteaza doar caracteristicile de pe nivelul curent
           selCharact.selectedValue = "-1";
       }
-      else {
+      else
+      {
         if (selCharact.selectedIdLevel != idLevel)//se reseteaza doar caracteristicile de pe celelealte niveluri
           if (!this.isLevelEntitySelected(selCharact.selectedIdLevel))  //doar daca nivelul nu are selectie
             selCharact.selectedValue = "-1";
       }
     }
   }
-  initFilteredEntities() {
+  initFilteredEntities()
+  {
     this.filteredLevels = JSON.parse(JSON.stringify(this.levels));
   }
-  addChildEntityIdsToParentEntities(entityLinks: EntitiesLink[]) {
-    this.levels.forEach(l => {
-      l.entities.forEach(e => {
-        entityLinks.forEach(el => {
+  addChildEntityIdsToParentEntities(entityLinks: EntitiesLink[])
+  {
+    this.levels.forEach(l =>
+    {
+      l.entities.forEach(e =>
+      {
+        entityLinks.forEach(el =>
+        {
           if (e.childEntityIds == null)
             e.childEntityIds = [];
           if (e.id == el.idParentEntity)
@@ -224,19 +250,24 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     });
   }
 
-  getAllLinkedEntitiesCombinations(currentEntities: Entity[], currentCombination: Entity[], resultCombinations: Entity[][]) {
-    for (let i = 0; i < currentEntities.length; i++) {
+  getAllLinkedEntitiesCombinations(currentEntities: Entity[], currentCombination: Entity[], resultCombinations: Entity[][])
+  {
+    for (let i = 0; i < currentEntities.length; i++)
+    {
       let currentEntity = currentEntities[i];
       currentCombination.push(currentEntity);
 
-      if (currentEntity.childEntityIds && currentEntity.childEntityIds.length > 0) {
+      if (currentEntity.childEntityIds && currentEntity.childEntityIds.length > 0)
+      {
         let childEntities = this.getEntitiesByIds(currentEntity.childEntityIds);
         this.getAllLinkedEntitiesCombinations(childEntities, currentCombination, resultCombinations);
       }
-      else {
+      else
+      {
         ////copy id list
         let tempEntList: Entity[] = [];
-        currentCombination.forEach(e => {
+        currentCombination.forEach(e =>
+        {
           tempEntList.push(e);
         });
         resultCombinations.push(tempEntList);
@@ -244,11 +275,15 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
       currentCombination.splice(currentCombination.length - 1, 1);
     }
   }
-  getEntitiesByIds(entityIds: number[]): Entity[] {
+  getEntitiesByIds(entityIds: number[]): Entity[]
+  {
     let resultEntities: Entity[] = [];
-    entityIds.forEach(ei => {
-      this.levels.forEach(l => {
-        l.entities.forEach(e => {
+    entityIds.forEach(ei =>
+    {
+      this.levels.forEach(l =>
+      {
+        l.entities.forEach(e =>
+        {
           if (ei == e.id)
             resultEntities.push(e);
         });
@@ -256,38 +291,48 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     });
     return resultEntities;
   }
-  getSelectedCharacteristic(idLevel: number, idCharact: number): SelectedCharacteristic {
-    for (var i = 0; i < this.selectedCharacteristics.length; i++) {
+  getSelectedCharacteristic(idLevel: number, idCharact: number): SelectedCharacteristic
+  {
+    for (var i = 0; i < this.selectedCharacteristics.length; i++)
+    {
       if (this.selectedCharacteristics[i].selectedIdLevel == idLevel && this.selectedCharacteristics[i].selectedIdCharacteristic == idCharact)
         return this.selectedCharacteristics[i]
     }
   }
 
-  getSelectedEntitiesByIdLevel(idLevel: number): SelectedEntityPerLevel {
-    for (var i = 0; i < this.selectedEntities.length; i++) {
+  getSelectedEntitiesByIdLevel(idLevel: number): SelectedEntityPerLevel
+  {
+    for (var i = 0; i < this.selectedEntities.length; i++)
+    {
       var levelEntities = this.selectedEntities[i];
       if (levelEntities.length > 0)
-        if (levelEntities[0].idLevel == idLevel) {
+        if (levelEntities[0].idLevel == idLevel)
+        {
           levelEntities.splice(1, levelEntities.length - 1);//trebuie sa ramana doar unul  
           return levelEntities[0];
         }
     }
   }
-  isLevelEntitySelected(idLevel: number): boolean {
-    for (var i = 0; i < this.selectedEntities.length; i++) {
+  isLevelEntitySelected(idLevel: number): boolean
+  {
+    for (var i = 0; i < this.selectedEntities.length; i++)
+    {
       var levelEntities = this.selectedEntities[i];
       if (levelEntities.length > 0)
-        if (levelEntities[0].idLevel == idLevel) {
+        if (levelEntities[0].idLevel == idLevel)
+        {
           if (levelEntities[0].idEntity != -1)
             return true;
         }
     }
     return false;
   }
-  doFilterEntities(idLevel: number, calledFromCharacteristicFilter: boolean) {
+  doFilterEntities(idLevel: number, calledFromCharacteristicFilter: boolean)
+  {
     this.resetSelectedCharacteristics(idLevel, false);
 
-    if (!calledFromCharacteristicFilter) {
+    if (!calledFromCharacteristicFilter)
+    {
       //daca selectia de entitati e resetata se reseteaza si selectia de caracteristici
       let selEnts = this.selectedEntities.filter(e => e[0].idLevel == idLevel)[0];
       if (selEnts[0].idEntity == -1)
@@ -298,9 +343,11 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     let filteredEntititesPerLevel = this.getFilteredEntitiesPerLevel();
 
     //le punem in obiectul legat la interfata
-    for (let i = 0; i < filteredEntititesPerLevel.length; i++) {
+    for (let i = 0; i < filteredEntititesPerLevel.length; i++)
+    {
       const filteredEntities = filteredEntititesPerLevel[i];
-      for (let j = 0; j < this.filteredLevels.length; j++) {
+      for (let j = 0; j < this.filteredLevels.length; j++)
+      {
         let level = this.filteredLevels[j];
         if (filteredEntities.length > 0)
           if (level.id == filteredEntities[0].idLevel)
@@ -311,7 +358,8 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     this.applyFilter();
   }
 
-  doFilterEntitiesByCharacteristics(idLevel: number) {
+  doFilterEntitiesByCharacteristics(idLevel: number)
+  {
     this.resetSelectedCharacteristics(idLevel, false);
     this.initFilteredEntities();//trebuie initializat si aici pentru ca altfel va incerca sa filtreze entiati deja filtrate si nu va gasi nimic
     let level = this.filteredLevels.filter(l => l.id == idLevel);
@@ -319,26 +367,32 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
 
     let filteredEntities: Entity[] = [];
 
-    for (let j = 0; j < level[0].entities.length; j++) {
+    for (let j = 0; j < level[0].entities.length; j++)
+    {
       const entity = level[0].entities[j];
 
       let matchNo = 0;//trebuie sa se potriveasca toate caracteristicile din filtre(care sunt selectate, adica !="-1")
       break_level:
-      for (let k = 0; k < entity.characteristics.length; k++) {
+      for (let k = 0; k < entity.characteristics.length; k++)
+      {
 
-        for (let i = 0; i < characteristicFilters.length; i++) {
+        for (let i = 0; i < characteristicFilters.length; i++)
+        {
           const charactFilter = characteristicFilters[i];
           const charact = entity.characteristics[k];
           if (charact.id == charactFilter.selectedIdCharacteristic)
             if (charactFilter.selectedValue != "-1")  //All
             {
-              if (charact.idFieldType == FieldType.Numeric) {
+              if (charact.idFieldType == FieldType.Numeric)
+              {
                 let numericVal: string = charact.numericValue != null ? charact.numericValue.toString() : "";
-                if (numericVal == charactFilter.selectedValue) {
+                if (numericVal == charactFilter.selectedValue)
+                {
                   matchNo++;
                 }
               }
-              else {
+              else
+              {
                 if (charact.textValue_EN == charactFilter.selectedValue)//aici trebuie sa tina cont de cultura
                 {
                   matchNo++;
@@ -358,20 +412,24 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     if (filteredEntities.length > 0)//daca s-au gasit entitati care sa se potriveasca
     {
       //punem entitatile filtrate in selected entitites si apelam metoda de filtrare de entitati
-      for (var i = 0; i < this.selectedEntities.length; i++) {
+      for (var i = 0; i < this.selectedEntities.length; i++)
+      {
         var levelEntities = this.selectedEntities[i];
         if (levelEntities.length > 0)
-          if (levelEntities[0].idLevel == idLevel) {
+          if (levelEntities[0].idLevel == idLevel)
+          {
             let currentIdLevelType = levelEntities[0].idLevelType
             levelEntities = [];
-            for (let j = 0; j < filteredEntities.length; j++) {
+            for (let j = 0; j < filteredEntities.length; j++)
+            {
               const fltEnt = filteredEntities[j];
               levelEntities.push(new SelectedEntityPerLevel(idLevel, fltEnt.id, currentIdLevelType));
             }
             this.selectedEntities[i] = levelEntities;
             //break;
           }
-          else {
+          else
+          {
             //resetam toate selectiile de entitati de pe celelalte niveluri
             let entity = new SelectedEntityPerLevel(levelEntities[0].idLevel, -1, levelEntities[0].idLevelType);
             this.selectedEntities[i] = [entity];
@@ -388,24 +446,30 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     }
   }
 
-  isValidCombination(combination: Entity[]): boolean {
+  isValidCombination(combination: Entity[]): boolean
+  {
     let containsAll = true;
 
-    for (let i = 0; i < this.selectedEntities.length; i++) {
+    for (let i = 0; i < this.selectedEntities.length; i++)
+    {
       let isFound = false;
       let selectedEntitiesPerLevel = this.selectedEntities[i];
       level1:
-      for (let x = 0; x < selectedEntitiesPerLevel.length; x++) {
+      for (let x = 0; x < selectedEntitiesPerLevel.length; x++)
+      {
         const selectedEntity = selectedEntitiesPerLevel[x];
-        for (let j = 0; j < combination.length; j++) {
-          if (selectedEntity.idEntity == combination[j].id || selectedEntity.idEntity == -1) {
+        for (let j = 0; j < combination.length; j++)
+        {
+          if (selectedEntity.idEntity == combination[j].id || selectedEntity.idEntity == -1)
+          {
             isFound = true;
             break level1;
           }
         }
       }
 
-      if (!isFound) {
+      if (!isFound)
+      {
         containsAll = false;
         break;
       }
@@ -413,25 +477,31 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
 
     return containsAll;
   }
-  getFilteredEntitiesPerLevel(): Entity[][] {
+  getFilteredEntitiesPerLevel(): Entity[][]
+  {
     let filteredEntitiesPerLevel: Entity[][] = []
 
     //filtram path-urile dupa selected entities(trebuie pastrate doar cele care contin toate entitatile selectate)
     let filteredCombinations: Entity[][] = [];
-    for (let i = 0; i < this.allEntityCombinations.length; i++) {
+    for (let i = 0; i < this.allEntityCombinations.length; i++)
+    {
       if (this.isValidCombination(this.allEntityCombinations[i]))
         filteredCombinations.push(this.allEntityCombinations[i]);
     }
     /////
 
     ////grupare per nivel
-    if (filteredCombinations.length > 0) {
+    if (filteredCombinations.length > 0)
+    {
       let levelsNumber = this.getMaxDepth(filteredCombinations);
 
-      for (let i = 0; i < levelsNumber; i++) {
+      for (let i = 0; i < levelsNumber; i++)
+      {
         let levelEntitites: Entity[] = [];
-        filteredCombinations.forEach(combination => {
-          if (combination.length > i) {
+        filteredCombinations.forEach(combination =>
+        {
+          if (combination.length > i)
+          {
             var exists = levelEntitites.filter(e => e.id == combination[i].id);
             if (exists.length == 0)//nu mai exista
               levelEntitites.push(combination[i]);
@@ -443,10 +513,13 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     return filteredEntitiesPerLevel;
   }
 
-  getMaxDepth(combinations: Entity[][]): number {
-    if (combinations.length > 0) {
+  getMaxDepth(combinations: Entity[][]): number
+  {
+    if (combinations.length > 0)
+    {
       let max = combinations[0].length;
-      for (let i = 0; i < combinations.length; i++) {
+      for (let i = 0; i < combinations.length; i++)
+      {
         if (combinations[0].length > max)
           max = combinations[0].length;
       }
@@ -455,17 +528,20 @@ export class BookingFilterComponent extends BaseComponent implements OnInit, OnC
     else
       return 0;
   }
-  resetFilters() {
+  resetFilters()
+  {
     this.initSelectedEntities();
     this.initSelectedCharacteristics();
     this.initFilteredEntities();
     this.applyFilter();
   }
-  generateBookingFilter(): BookingFilter {
+  generateBookingFilter(): BookingFilter
+  {
     return new BookingFilter(this.filteredLevels, this.allEntityCombinations, this.selectedDate);
   }
 
-  applyFilter() {
+  applyFilter()
+  {
     let bookingFilter = this.generateBookingFilter();
     this.filterChanged.emit(bookingFilter);
   }

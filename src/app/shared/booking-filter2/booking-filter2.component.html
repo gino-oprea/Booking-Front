@@ -1,0 +1,38 @@
+<div class="row">
+  <div *ngFor="let level of filteredLevelsForDropdowns">
+    <div *ngIf="level.isFrontOption" style="margin:2px;padding:2px;" class="container-fluid well span6 col-md-12">
+      <div class="row-fluid">
+        <div class="span8">
+          <h5>{{level.levelName_EN}}</h5>
+        </div>
+        <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2" style="margin-bottom: 5px;">
+          <select *ngIf="characteristic.isFrontOption" id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}" [(ngModel)]="getSelectedCharacteristic(level.id,characteristic.id).selectedValue"
+            (change)="doFilterEntitiesByCharacteristics(level.id)">
+            <option value="-1">Select {{characteristic.characteristicName_EN}} / Reset</option>
+            <option *ngFor="let charactValue of characteristic.characteristicValues" [value]="charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN">
+              {{charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN}}
+            </option>
+          </select>          
+        </div>
+        <div class="span2">
+          <select style="height: 30px;width: 200px; border-color: blue;" id="ddlLevelEntities"
+            [(ngModel)]="getSelectedEntitiesByIdLevel(level.id).idEntity" (change)="doFilterEntities(level.id,false)">
+            <option value="-1">Select {{level.levelName_EN}} / Reset</option>
+            <option *ngFor="let entity of level.entities" [value]="entity.id">{{entity.entityName_EN}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <p-calendar [showIcon]="true" [(ngModel)]="selectedDate" (onSelect)="applyFilter()" [minDate]="today"
+    placeholder="Date" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
+</div>
+<div class="row">
+  <button class="btn btn-primary from-control" (click)="resetFilters()">
+    <i class="fa fa-refresh"></i> Reset filters
+  </button>
+</div>
+
+<p-growl [value]="pageMsgs"></p-growl>
