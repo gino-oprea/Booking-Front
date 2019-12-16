@@ -14,6 +14,7 @@ import
   DialogModule
 } from 'primeng/primeng';
 import { FullCalendarComponent } from './full-calendar/full-calendar.component';
+import { BookingFilter2Component } from './booking-filter2/booking-filter2.component';
 
 @NgModule({
   imports: [    
@@ -32,10 +33,12 @@ import { FullCalendarComponent } from './full-calendar/full-calendar.component';
     BookingHoursComponent,
     BookingConfirmDialogComponent,
     BookingCalendarComponent,
-    FullCalendarComponent
+    FullCalendarComponent,
+    BookingFilter2Component
   ],
   exports: [
     BookingFilterComponent,
+    BookingFilter2Component,
     BookingHoursComponent,
     BookingConfirmDialogComponent,
     BookingCalendarComponent,
