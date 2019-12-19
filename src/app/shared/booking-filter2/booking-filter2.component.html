@@ -5,18 +5,21 @@
         <div class="span8">
           <h5>{{level.levelName_EN}}</h5>
         </div>
-        <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2" style="margin-bottom: 5px;">
-          <select *ngIf="characteristic.isFrontOption" id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}" [(ngModel)]="getSelectedCharacteristic(level.id,characteristic.id).selectedValue"
+        <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2"
+          style="margin-bottom: 5px;">
+          <select *ngIf="characteristic.isFrontOption" id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}"
+            [(ngModel)]="getSelectedCharacteristic(level.id,characteristic.id).selectedValue"
             (change)="doFilterEntitiesByCharacteristics(level.id)">
             <option value="-1">Select {{characteristic.characteristicName_EN}} / Reset</option>
-            <option *ngFor="let charactValue of characteristic.characteristicValues" [value]="charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN">
+            <option *ngFor="let charactValue of characteristic.characteristicValues"
+              [value]="charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN">
               {{charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN}}
             </option>
-          </select>          
+          </select>
         </div>
         <div class="span2">
           <select style="height: 30px;width: 200px; border-color: blue;" id="ddlLevelEntities"
-            [(ngModel)]="getSelectedEntitiesByIdLevel(level.id).idEntity" (change)="doFilterEntities(level.id,false)">
+            [(ngModel)]="getSelectedEntitiesByIdLevel(level.id).idEntity" (change)="doFilterEntities(level.id)">
             <option value="-1">Select {{level.levelName_EN}} / Reset</option>
             <option *ngFor="let entity of level.entities" [value]="entity.id">{{entity.entityName_EN}}</option>
           </select>

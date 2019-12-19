@@ -17,8 +17,8 @@
 </div>
 <div class="row" style="height:95%">
   <div class="col-md-2" style="height:100%;">
-    <bf-booking-filter [idCompany]="idCompany" [selectedDate]="shiftedDate" (filterChanged)="filterChanged($event)">
-    </bf-booking-filter>
+    <bf-booking-filter2 [idCompany]="idCompany" [selectedDate]="shiftedDate" (filterChanged)="filterChanged($event)">
+    </bf-booking-filter2>
   </div>
   <div *ngIf="bookingDefaultDuration" class="col-md-10" style="height:100%; overflow-x: auto;">
     <bf-booking-hours *ngIf="!showCalendarBooking" [idCompany]="idCompany" [selectedFilter]="selectedFilter"

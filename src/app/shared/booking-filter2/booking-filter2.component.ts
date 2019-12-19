@@ -63,7 +63,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
 
   ngOnInit()
   {
-    
+
   }
   ngOnChanges(changes: SimpleChanges): void
   {
@@ -311,21 +311,20 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
     }
     ///////
   }
-  doFilterEntities(idLevel: number, calledFromCharacteristicFilter: boolean)
+  doFilterEntities(idLevel: number)
   {
     //reset invalid selections
     this.resetInvalidSelections(idLevel);
 
     this.resetSelectedCharacteristics(idLevel, false);
 
-    if (!calledFromCharacteristicFilter)
-    {
-      //daca selectia de entitati e resetata se reseteaza si selectia de caracteristici
-      let selEnts = this.selectedEntities.filter(e => e.idLevel == idLevel)[0];
-      if (selEnts.idEntity == -1)
-        this.resetSelectedCharacteristics(idLevel, true);
-      ////
-    }
+
+    //se reseteaza si selectia de caracteristici
+    //let selEnts = this.selectedEntities.find(e => e.idLevel == idLevel);
+    // if (selEnts.idEntity == -1)
+    //   this.resetSelectedCharacteristics(idLevel, true);
+    ////
+
 
     let filteredEntititesPerLevel = this.getFilteredEntitiesPerLevel();
 
@@ -334,7 +333,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
     this.setupFilterObjectForDropdowns(filteredEntititesPerLevel, idLevel);
 
     this.applyFilter();
-    
+
   }
   getFilteredEntitiesPerLevel(): Entity[][]
   {
@@ -473,10 +472,41 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   ///////additional characteristic code
   getSelectedCharacteristic(idLevel: number, idCharact: number): SelectedCharacteristic
   {
-    return this.selectedCharacteristics.find(c => c.selectedIdLevel == idLevel && c.selectedIdCharacteristic == idCharact);    
+    return this.selectedCharacteristics.find(c => c.selectedIdLevel == idLevel && c.selectedIdCharacteristic == idCharact);
   }
   doFilterEntitiesByCharacteristics(idLevel: number)
   {
+    let filteredEntititesPerLevel = this.getFilteredEntitiesPerLevel();
+    this.setupFilterObjectForDropdowns(filteredEntititesPerLevel, idLevel);//start from level filtering each time
 
+    let characteristicFilters = this.selectedCharacteristics.filter(c => c.selectedIdLevel == idLevel);
+    let levelFilterForDropdowns = this.filteredLevelsForDropdowns.find(l => l.id == idLevel);
+    let filteredEntities = levelFilterForDropdowns.entities.filter(e =>
+    {
+      let count = 0;
+      for (let i = 0; i < characteristicFilters.length; i++)
+      {
+        let charactFilter = characteristicFilters[i];
+        let entCharact = e.characteristics.find(c => c.id == charactFilter.selectedIdCharacteristic);
+
+        //aici trebuie tinut cont si de cultura
+        if (charactFilter.selectedValue == "-1"
+          || entCharact.numericValue == parseInt(charactFilter.selectedValue)
+          || entCharact.textValue_EN == charactFilter.selectedValue)
+          count++
+      }
+      if (count == characteristicFilters.length)
+        return true;
+      else
+        return false;
+    });
+
+    levelFilterForDropdowns.entities = filteredEntities;
+
+    this.selectedEntities.find(se => se.idLevel == idLevel).idEntity = -1;
+
+    filteredEntititesPerLevel = this.getFilteredEntitiesPerLevel();
+    this.setupFilterObjectForEmit(filteredEntititesPerLevel);
+    this.applyFilter();
   }
 }
