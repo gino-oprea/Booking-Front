@@ -22,15 +22,15 @@
 
 </div>
 <div class="row" style="height: 93%;">
-  <div class="col-md-6" style="height: 100%;">
+  <div class="col-md-5" style="height: 100%;">
     <p-table [value]="entities" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
       <ng-template pTemplate="caption">
         Entities
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:300px;text-align:center">Entity name RO</th>
-          <th style="width:300px;text-align:center">Entity name EN</th>
+          <th style="width:150px;text-align:center">Entity name RO</th>
+          <th style="width:150px;text-align:center">Entity name EN</th>
           <th style="width:50px;text-align:center">
             <button type="button" class="btn btn-primary" (click)="showAddEntityDialog()">
               <i class="fa fa-plus"></i>
@@ -40,8 +40,8 @@
       </ng-template>
       <ng-template pTemplate="body" let-entity>
         <tr [pSelectableRow]="entity">
-          <td style="width:300px;text-align:center">{{entity.entityName_RO}}</td>
-          <td style="width:300px;text-align:center">{{entity.entityName_EN}}</td>
+          <td style="width:150px;text-align:center">{{entity.entityName_RO}}</td>
+          <td style="width:150px;text-align:center">{{entity.entityName_EN}}</td>
           <td style="width:50px;text-align:center">
             <button type="button" class="btn btn-primary" (click)="editEntity(entity.id)">
               <i class="fa fa-edit"></i>
@@ -66,17 +66,18 @@
               </p-column> -->
     </p-table>
   </div>
-  <div class="col-md-6" style="height: 100%;">
-    <p-table [value]="levelCharacteristics" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
+  <div class="col-md-7" style="height: 100%;">
+    <p-table [value]="levelCharacteristics" selectionMode="single" [responsive]="true" scrollable="true"
+      scrollHeight="99%">
       <ng-template pTemplate="caption">
         Level additional characteristics
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:200px;text-align:center">Name RO</th>
-          <th style="width:200px;text-align:center">Name EN</th>
-          <th style="width:200px;text-align:center">Type</th>
-          <th style="width:200px;text-align:center">Allow user option</th>
+          <th style="width:180px;text-align:center">Name RO</th>
+          <th style="width:180px;text-align:center">Name EN</th>
+          <th style="width:180px;text-align:center">Type</th>
+          <th style="width:180px;text-align:center">Allow user option</th>
           <th style="width:50px;text-align:center">
             <button type="button" class="btn btn-primary" (click)="showAddLevelCharacteristicDialog(true)">
               <i class="fa fa-plus"></i>
@@ -86,14 +87,15 @@
       </ng-template>
       <ng-template pTemplate="body" let-characteristic>
         <tr [pSelectableRow]="characteristic">
-          <td style="width:200px;text-align:center">{{characteristic.characteristicName_RO}}</td>
-          <td style="width:200px;text-align:center">{{characteristic.characteristicName_EN}}</td>
-          <td style="width:200px;text-align:center">{{characteristic.levelFieldType_EN}}</td>
-          <td style="width:200px;text-align:center">
+          <td style="width:180px;text-align:center">{{characteristic.characteristicName_RO}}</td>
+          <td style="width:180px;text-align:center">{{characteristic.characteristicName_EN}}</td>
+          <td style="width:180px;text-align:center">{{characteristic.levelFieldType_EN}}</td>
+          <td style="width:180px;text-align:center">
             <input type="checkbox" [checked]="characteristic.isFrontOption" disabled="true" />
           </td>
           <td style="width:50px;text-align:center">
-            <button type="button" class="btn btn-primary" (click)="selectedLevelCharacteristic = characteristic; showAddLevelCharacteristicDialog(false)">
+            <button type="button" class="btn btn-primary"
+              (click)="selectedLevelCharacteristic = characteristic; showAddLevelCharacteristicDialog(false)">
               <i class="fa fa-edit"></i>
             </button>
           </td>
@@ -129,9 +131,10 @@
   <input type="button" value="Save" class="btn btn-success">  
 </div>-->
 
-<p-dialog header="{{isAddEntityMode == true ? 'Add entity' : 'Edit entity'}}" [(visible)]="displayDialogAddEntity" [responsive]="true"
-  showEffect="fade" [modal]="true" width="400">
-  <form class="form-horizontal" style="height: 100%" id="addEntity-form" [formGroup]="addEntityForm" (ngSubmit)="onAddEntityForm()">
+<p-dialog header="{{isAddEntityMode == true ? 'Add entity' : 'Edit entity'}}" [(visible)]="displayDialogAddEntity"
+  [responsive]="true" showEffect="fade" [modal]="true" width="400">
+  <form class="form-horizontal" style="height: 100%" id="addEntity-form" [formGroup]="addEntityForm"
+    (ngSubmit)="onAddEntityForm()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
@@ -157,7 +160,8 @@
     </div>
     <footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="submit" (click)="setEntitySubmitType(true)" [disabled]="!addEntityForm.valid" class="btn btn-success">
+        <button type="submit" (click)="setEntitySubmitType(true)" [disabled]="!addEntityForm.valid"
+          class="btn btn-success">
           <i class="fa fa-check"> Save</i>
         </button>
         <button type="submit" (click)="setEntitySubmitType(false)" *ngIf="!isAddEntityMode" class="btn btn-danger">
@@ -169,9 +173,10 @@
 </p-dialog>
 
 
-<p-dialog header="{{isAddLevelMode == true ? 'Add level' : 'Edit level'}}" [(visible)]="displayDialogAddLevel" [responsive]="true"
-  showEffect="fade" [modal]="true" width="400">
-  <form class="form-horizontal" style="height: 100%" id="addLevel-form" [formGroup]="addLevelForm" (ngSubmit)="onAddLevelForm()">
+<p-dialog header="{{isAddLevelMode == true ? 'Add level' : 'Edit level'}}" [(visible)]="displayDialogAddLevel"
+  [responsive]="true" showEffect="fade" [modal]="true" width="400">
+  <form class="form-horizontal" style="height: 100%" id="addLevel-form" [formGroup]="addLevelForm"
+    (ngSubmit)="onAddLevelForm()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
@@ -216,13 +221,16 @@
           <!-- <input id="duration" (keyup)="checkDuration($event.target.value)" type="text" 
           formControlName="duration" [ngClass]="{'valid-control':addLevelForm.controls['duration'].valid,
                         'invalid-control':!addLevelForm.controls['duration'].valid}" class="form-control"> -->
-          <select formControlName="duration"  style="height: 100%;width: 100%;">
+          <select formControlName="duration" style="height: 100%;width: 100%;">
             <option *ngFor="let d of durationArray" [value]="d">{{d}}</option>
           </select>
         </div>
         <div class="col-md-4">
-          <select formControlName="duration_type" (change)="loadDurationArray(this.addLevelForm.controls['duration_type'].value)" style="height: 100%;width: 100%;">
-            <option *ngFor="let t of durationTypes" [disabled]="t.id==3" [value]="t.id">{{currentCulture == 'EN' ? t.value_EN : t.value_RO}}</option>
+          <select formControlName="duration_type"
+            (change)="loadDurationArray(this.addLevelForm.controls['duration_type'].value)"
+            style="height: 100%;width: 100%;">
+            <option *ngFor="let t of durationTypes" [disabled]="t.id==3" [value]="t.id">
+              {{currentCulture == 'EN' ? t.value_EN : t.value_RO}}</option>
           </select>
         </div>
       </div>
@@ -247,7 +255,8 @@
 
     <footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="submit" (click)="setLevelSubmitType(true)" [disabled]="!addLevelForm.valid" class="btn btn-success">
+        <button type="submit" (click)="setLevelSubmitType(true)" [disabled]="!addLevelForm.valid"
+          class="btn btn-success">
           <i class="fa fa-check"> Save</i>
         </button>
         <button type="submit" (click)="setLevelSubmitType(false)" *ngIf="!isAddLevelMode" class="btn btn-danger">
@@ -258,9 +267,10 @@
   </form>
 </p-dialog>
 
-<p-dialog header="{{isAddCharacteristicMode == true ? 'Add level characteristic' : 'Edit level characteristic'}}" [(visible)]="displayDialogAddLevelCharacteristic"
-  [responsive]="true" showEffect="fade" [modal]="true" width="400">
-  <form class="form-horizontal" style="height: 100%" id="addLevelCharact-form" [formGroup]="addLevelCharactForm" (ngSubmit)="onAddLevelCharactForm()">
+<p-dialog header="{{isAddCharacteristicMode == true ? 'Add level characteristic' : 'Edit level characteristic'}}"
+  [(visible)]="displayDialogAddLevelCharacteristic" [responsive]="true" showEffect="fade" [modal]="true" width="400">
+  <form class="form-horizontal" style="height: 100%" id="addLevelCharact-form" [formGroup]="addLevelCharactForm"
+    (ngSubmit)="onAddLevelCharactForm()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
@@ -268,7 +278,8 @@
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="addLevelCharactName_RO" formControlName="addLevelCharactName_RO" [ngClass]="{'valid-control':addLevelCharactForm.controls['addLevelCharactName_RO'].valid,
-                        'invalid-control':!addLevelCharactForm.controls['addLevelCharactName_RO'].valid}" class="form-control">
+                        'invalid-control':!addLevelCharactForm.controls['addLevelCharactName_RO'].valid}"
+            class="form-control">
         </div>
       </div>
     </div>
@@ -280,7 +291,8 @@
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="addLevelCharactName_EN" formControlName="addLevelCharactName_EN" [ngClass]="{'valid-control':addLevelCharactForm.controls['addLevelCharactName_EN'].valid,
-                        'invalid-control':!addLevelCharactForm.controls['addLevelCharactName_EN'].valid}" class="form-control">
+                        'invalid-control':!addLevelCharactForm.controls['addLevelCharactName_EN'].valid}"
+            class="form-control">
         </div>
       </div>
     </div>
@@ -292,7 +304,8 @@
         </div>
         <div class="ui-grid-col-8">
           <select id="ddlFieldType_dialog" formControlName="addLevelCharactFieldType" style="height: 100%;width: 100%;">
-            <option *ngFor="let t of levelFieldTypes" [value]="t.id">{{currentCulture == 'EN' ? t.value_EN : t.value_RO}}</option>
+            <option *ngFor="let t of levelFieldTypes" [value]="t.id">
+              {{currentCulture == 'EN' ? t.value_EN : t.value_RO}}</option>
           </select>
         </div>
       </div>
@@ -308,10 +321,12 @@
     </div>
     <footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button type="submit" (click)="setCharacteristicSubmitType(true)" [disabled]="!addLevelCharactForm.valid" class="btn btn-success">
+        <button type="submit" (click)="setCharacteristicSubmitType(true)" [disabled]="!addLevelCharactForm.valid"
+          class="btn btn-success">
           <i class="fa fa-check"> Save</i>
         </button>
-        <button type="submit" (click)="setCharacteristicSubmitType(false)" *ngIf="!isAddCharacteristicMode" class="btn btn-danger">
+        <button type="submit" (click)="setCharacteristicSubmitType(false)" *ngIf="!isAddCharacteristicMode"
+          class="btn btn-danger">
           <i class="fa fa-remove"> Delete</i>
         </button>
       </div>

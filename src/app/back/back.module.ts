@@ -29,6 +29,7 @@ import { BookingsComponent } from './bookings/bookings.component';
 import { SharedModule } from '../shared/shared.module';
 import { TimetablesComponent } from './timetables/timetables.component';
 import { BookingManagementDialogComponent } from './shared/booking-management-dialog/booking-management-dialog.component';
+import { BookingsHistoryComponent } from './bookings-history/bookings-history.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { BookingManagementDialogComponent } from './shared/booking-management-di
     SubscriptionComponent,
     BookingsComponent,
     TimetablesComponent,
-    BookingManagementDialogComponent    
+    BookingManagementDialogComponent,
+    BookingsHistoryComponent    
   ],
   providers: [
     CompanyGuard

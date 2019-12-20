@@ -5,7 +5,7 @@
       <button type="button" class="btn btn-primary" (click)="shiftWeek(-1)">
         <i class="fa fa-angle-left"></i>
       </button>
-      <button type="button" class="btn btn-primary" (click)="shiftWeek(1)">
+      <button type="button" class="btn btn-primary" style="margin-left: 2px;" (click)="shiftWeek(1)">
         <i class="fa fa-angle-right"></i>
       </button>
     </div>
@@ -180,19 +180,20 @@
       </div>
     </div>
   </li>
-  <li *ngFor="let d of hoursMatrix; let i = index" [ngStyle]="{'width':commonMethods.computeDayColumnWidth(hoursMatrix)}">
+  <li *ngFor="let d of hoursMatrix; let i = index"
+    [ngStyle]="{'width':commonMethods.computeDayColumnWidth(hoursMatrix)}">
     <div class="day-title">
       <b>{{getCurrentLabelValue(dayNames[i])}}</b>
       <div>{{(dayDates[i]!=null?(dayDates[i] | date:'dd.MMM.yyyy'):'')}}</div>
     </div>
     <div class="time-slots">
       <div class="hour-row" *ngFor="let h of d; let j = index">
-        <div *ngFor="let ts of h; let k = index" class="time-select-div" 
-        [ngStyle]="{'width': commonMethods.computeTimeslotWidth(hoursMatrix)}" style="margin-right: 2px;"
-        [ngClass]="{'selected':ts.isSelected,'disabled':!ts.isSelectable,'booked':ts.isBooked, 'fullbooked':ts.isFullBooked, 'searchresult':ts.hasFilteredBooking}" 
-        (click)="activateTimeSlot(i,j,k)">
-          <span>{{getTimeslotValueAsString(ts)}}</span> 
-        </div> 
+        <div *ngFor="let ts of h; let k = index" class="time-select-div"
+          [ngStyle]="{'width': commonMethods.computeTimeslotWidth(hoursMatrix)}" style="margin-right: 2px;"
+          [ngClass]="{'selected':ts.isSelected,'disabled':!ts.isSelectable,'booked':ts.isBooked, 'fullbooked':ts.isFullBooked, 'searchresult':ts.hasFilteredBooking}"
+          (click)="activateTimeSlot(i,j,k)">
+          <span>{{getTimeslotValueAsString(ts)}}</span>
+        </div>
         <!-- <div class="time-select-div" 
         [ngClass]="{'selected':h[0].isSelected,'disabled':!h[0].isSelectable,'booked':h[0].isBooked , 'fullbooked':h[0].isFullBooked}" 
         (click)="activateTimeSlot(i,j,0)">          
@@ -207,4 +208,3 @@
     </div>
   </li>
 </ul>
-
