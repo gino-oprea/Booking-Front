@@ -15,9 +15,10 @@ import
 } from 'primeng/primeng';
 import { FullCalendarComponent } from './full-calendar/full-calendar.component';
 import { BookingFilter2Component } from './booking-filter2/booking-filter2.component';
+import { GenericConfirmDialogComponent } from './generic-confirm-dialog/generic-confirm-dialog.component';
 
 @NgModule({
-  imports: [    
+  imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -34,11 +35,13 @@ import { BookingFilter2Component } from './booking-filter2/booking-filter2.compo
     BookingConfirmDialogComponent,
     BookingCalendarComponent,
     FullCalendarComponent,
-    BookingFilter2Component
+    BookingFilter2Component,
+    GenericConfirmDialogComponent
   ],
   exports: [
     BookingFilterComponent,
     BookingFilter2Component,
+    GenericConfirmDialogComponent,
     BookingHoursComponent,
     BookingConfirmDialogComponent,
     BookingCalendarComponent,

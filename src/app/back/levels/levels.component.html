@@ -334,5 +334,9 @@
   </form>
 </p-dialog>
 
-
+<p-dialog header="Confirm" [(visible)]="displayConfirmDeleteLevel" [responsive]="true" showEffect="fade" [modal]="true"
+  width="350">
+  <bf-generic-confirm-dialog [confirmMessage]="confirmDeleteLevelMessage" (onConfirm)="onConfirmDeleteLevel($event)">
+  </bf-generic-confirm-dialog>
+</p-dialog>
 <p-growl [value]="pageMsgs"></p-growl>

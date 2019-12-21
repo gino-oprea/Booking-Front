@@ -1,0 +1,8 @@
+<p>{{confirmMessage}}</p>
+<footer>
+  <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+    <button type="button" pButton (click)="onCancelClick()" [label]="getCurrentLabelValue('lblNo')"></button>
+    <button type="button" pButton (click)="onConfirmClick()" [label]="getCurrentLabelValue('lblYes')"
+      style="margin-left: 5px;"></button>
+  </div>
+</footer>

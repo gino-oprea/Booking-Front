@@ -26,12 +26,14 @@ export class LevelsComponent extends BaseComponent implements OnInit
   addLevelCharactForm: FormGroup;
 
   levels: Level[] = [];
-  durationTypes : GenericDictionaryItem[] = [];
+  durationTypes: GenericDictionaryItem[] = [];
   types: GenericDictionaryItem[] = [];
   levelFieldTypes: GenericDictionaryItem[] = [];
   levelCharacteristics: LevelAdditionalCharacteristic[] = [];
   entities: Entity[] = [];
 
+  displayConfirmDeleteLevel = false;
+  confirmDeleteLevelMessage: string;
   //pentru dialogul de add level  
   isAddLevelMode = true;
   isSubmitLevel = true;
@@ -41,7 +43,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
   //pentru dialogul de add entity
   isAddEntityMode = true;
   isSubmitEntity = true;
-  
+
   displayDialogAddEntity = false;
   displayDialogAddLevel = false;
   displayDialogAddLevelCharacteristic = false;
@@ -51,15 +53,15 @@ export class LevelsComponent extends BaseComponent implements OnInit
   selectedLevelTypeForEdit: string = '1';
   durationArray: number[];
 
-  
+
   constructor(private injector: Injector,
     private levelsService: LevelsService,
-    private entitiesService:EntitiesService)
+    private entitiesService: EntitiesService)
   {
     super(injector, []);
     this.site = WebSites.Back;
     this.pageName = "Levels";
-    
+
     let parentRoute: ActivatedRoute = this.route.parent;
     this.routeSubscription = parentRoute.params.subscribe((params: any) =>
     {
@@ -69,13 +71,13 @@ export class LevelsComponent extends BaseComponent implements OnInit
       }
     });
 
-    
-    
+
+
     this.initFormAddLevel();
     this.initFormAddEntity();
     this.initFormAddLevelCharacteristic();
-    
-    this.loadDurationTypes();    
+
+    this.loadDurationTypes();
     this.loadLevels();
     this.loadLevelTypes();
     this.loadLevelFieldTypes();
@@ -85,7 +87,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
   {
     this.logAction(this.idCompany, false, Actions.View, '', '');
   }
-  loadDurationArray(type:DurationType)
+  loadDurationArray(type: DurationType)
   {
     this.durationArray = CommonServiceMethods.getDurationArray(type);
   }
@@ -97,7 +99,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -114,7 +116,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
 
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting levels', ''));
-    
+
   }
   loadDurationTypes()
   {
@@ -123,7 +125,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -141,7 +143,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -158,7 +160,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -175,7 +177,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -187,19 +189,19 @@ export class LevelsComponent extends BaseComponent implements OnInit
   }
   loadEntities(idLevel: number)
   {
-    this.entitiesService.getEntities(idLevel,null).subscribe(result =>
+    this.entitiesService.getEntities(idLevel, null).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
         //if (gro.objList.length > 0)
         //{
-          this.entities = <Entity[]>gro.objList;          
+        this.entities = <Entity[]>gro.objList;
         //}
       }
 
@@ -216,7 +218,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
         'addLevelName_EN': new FormControl('', Validators.required),
         'addLevelType': new FormControl('1'),
         'duration': new FormControl('30'),//aici trebuie pusa unitatea din setari
-        'duration_type':new FormControl('1'),
+        'duration_type': new FormControl('1'),
         'addLevelIsMultipleBookings': new FormControl(false),
         'addLevelIsFrontOption': new FormControl(true)
       });
@@ -229,7 +231,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
         'addLevelName_EN': new FormControl(this.getSelectedLevelObj(parseInt(this.selectedLevel)).levelName_EN, Validators.required),
         'addLevelType': new FormControl(this.getSelectedLevelObj(parseInt(this.selectedLevel)).idLevelType),
         'duration': new FormControl(this.getSelectedLevelObj(parseInt(this.selectedLevel)).defaultDuration),
-        'duration_type':new FormControl(this.getSelectedLevelObj(parseInt(this.selectedLevel)).idDurationType),
+        'duration_type': new FormControl(this.getSelectedLevelObj(parseInt(this.selectedLevel)).idDurationType),
         'addLevelIsMultipleBookings': new FormControl(this.getSelectedLevelObj(parseInt(this.selectedLevel)).isMultipleBooking),
         'addLevelIsFrontOption': new FormControl(this.getSelectedLevelObj(parseInt(this.selectedLevel)).isFrontOption)
       });
@@ -259,7 +261,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
   //     }        
   //   }  
   // }
-  
+
   getSelectedLevelObj(id: number): Level
   {
     for (var i = 0; i < this.levels.length; i++) 
@@ -296,7 +298,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
         'addLevelCharactFieldType': new FormControl(this.selectedLevelCharacteristic.idFieldType),
         'addLevelCharactIsFrontOption': new FormControl(this.selectedLevelCharacteristic.isFrontOption)
       });
-    }  
+    }
   }
   onDdlChangeLevel()
   {
@@ -334,7 +336,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
     this.initFormAddLevel();
     this.loadDurationArray(<DurationType>parseInt(this.addLevelForm.controls["duration_type"].value));
   }
-  
+
   showAddLevelCharacteristicDialog(isAdd: boolean)
   {
     this.isAddCharacteristicMode = isAdd;
@@ -363,24 +365,24 @@ export class LevelsComponent extends BaseComponent implements OnInit
       {
         let newLevel = new Level();
         newLevel.idCompany = this.idCompany;
-        newLevel.idLevelType =parseInt(this.addLevelForm.controls["addLevelType"].value);
+        newLevel.idLevelType = parseInt(this.addLevelForm.controls["addLevelType"].value);
         newLevel.defaultDuration = parseInt(this.addLevelForm.controls["duration"].value);
         newLevel.idDurationType = parseInt(this.addLevelForm.controls["duration_type"].value);
         newLevel.levelName_RO = this.addLevelForm.controls["addLevelName_RO"].value;
         newLevel.levelName_EN = this.addLevelForm.controls["addLevelName_EN"].value;
         newLevel.isFrontOption = this.addLevelForm.controls["addLevelIsFrontOption"].value;
         newLevel.isMultipleBooking = this.addLevelForm.controls["addLevelIsMultipleBookings"].value;
-        
+
         this.levelsService.addLevel(newLevel).subscribe(result =>
         {
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
             //this.showPageMessage('error', 'Error', gro.error);
           }
           else
-          {            
+          {
             this.logAction(this.idCompany, false, Actions.Add, '', 'add level', true, 'Level added');
             //one time subscription - trebuie facut reload la levels abia dupa ce se emite noul token cu claim-urile corecte
             this.loginService.loginSubject.pipe(first()).subscribe(login =>
@@ -389,18 +391,18 @@ export class LevelsComponent extends BaseComponent implements OnInit
             });
 
             this.autoLogin();//mai sus e pregatit subscriptionul ca sa prinda schimbarea de token si sa faca refresh la levels 
-            
+
           }
         },
           err =>
           {
             this.logAction(this.idCompany, true, Actions.Add, 'http error adding level', err.status + ' ' + err.statusText);
             this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
-          });      
+          });
       }
       else//daca e update
       {
-        let levelToUpdate = this.getSelectedLevelObj(parseInt(this.selectedLevel));        
+        let levelToUpdate = this.getSelectedLevelObj(parseInt(this.selectedLevel));
         levelToUpdate.idLevelType = parseInt(this.addLevelForm.controls["addLevelType"].value);
         levelToUpdate.defaultDuration = parseInt(this.addLevelForm.controls["duration"].value);
         levelToUpdate.idDurationType = parseInt(this.addLevelForm.controls["duration_type"].value);
@@ -414,7 +416,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
             //this.showPageMessage('error', 'Error', gro.error);
           }
           else
@@ -432,28 +434,38 @@ export class LevelsComponent extends BaseComponent implements OnInit
     }
     else//delete
     {
-      //trebuie verificat mai intai daca exista programari pe vreo entitate din level-ul respectiv
-      this.levelsService.deleteLevel(parseInt(this.selectedLevel)).subscribe(result =>
-        {
-          let gro = <GenericResponseObject>result;
-          if (gro.error != '')
-          {
-            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
-            //this.showPageMessage('error', 'Error', gro.error);
-          }
-          else
-          {
-            this.showPageMessage('success', 'Success', 'Level removed');
-            this.loadLevels();
-          }
-        },
-          err =>
-          {
-            this.logAction(this.idCompany, true, Actions.Delete, 'http error removing level', err.status + ' ' + err.statusText);
-            this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
-          });
+      this.confirmDeleteLevelMessage = "Are you sure you want to delete level: " + this.getSelectedLevelObj(parseInt(this.selectedLevel)).levelName_EN;
+      this.displayConfirmDeleteLevel = true;
     }
     this.displayDialogAddLevel = false;
+  }
+  deleteLevel()
+  {
+    this.levelsService.deleteLevel(parseInt(this.selectedLevel)).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+        //this.showPageMessage('error', 'Error', gro.error);
+      }
+      else
+      {
+        this.showPageMessage('success', 'Success', 'Level removed');
+        this.loadLevels();
+      }
+    },
+      err =>
+      {
+        this.logAction(this.idCompany, true, Actions.Delete, 'http error removing level', err.status + ' ' + err.statusText);
+        this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
+      });
+  }
+  onConfirmDeleteLevel(message: string)
+  {
+    if (message == "yes")
+      this.deleteLevel();
+    this.displayConfirmDeleteLevel = false;
   }
   onAddLevelCharactForm()
   {
@@ -473,7 +485,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
             //this.showPageMessage('error', 'Error', gro.error);
           }
           else
@@ -482,12 +494,12 @@ export class LevelsComponent extends BaseComponent implements OnInit
             this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
           }
         },
-        err =>
+          err =>
           {
             this.logAction(this.idCompany, true, Actions.Add, 'http error adding level characteristic', err.status + ' ' + err.statusText);
             this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
           });
-      } 
+      }
       else//daca e update
       {
         let characteristicToUpdate = this.selectedLevelCharacteristic;
@@ -501,7 +513,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
             //this.showPageMessage('error', 'Error', gro.error);
           }
           else
@@ -510,7 +522,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
             this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
           }
         },
-        err =>
+          err =>
           {
             this.logAction(this.idCompany, true, Actions.Edit, 'http error updating level characteristic', err.status + ' ' + err.statusText);
             this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
@@ -518,27 +530,27 @@ export class LevelsComponent extends BaseComponent implements OnInit
       }
     }
     else//delete
-    {      
+    {
       this.levelsService.deleteLevelAdditionalCharacteristic(this.selectedLevelCharacteristic.id, parseInt(this.selectedLevel)).subscribe(result =>
+      {
+        let gro = <GenericResponseObject>result;
+        if (gro.error != '')
         {
-          let gro = <GenericResponseObject>result;
-          if (gro.error != '')
-          {
-            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
-            //this.showPageMessage('error', 'Error', gro.error);
-          }
-          else
-          {
-            this.showPageMessage('success', 'Success', 'Characteristic removed');
-            this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
-          }
-        },
-          err =>
-          {
-            this.logAction(this.idCompany, true, Actions.Delete, 'http error removing level characteristic', err.status + ' ' + err.statusText);
-            this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
-          });
-    }  
+          this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+          //this.showPageMessage('error', 'Error', gro.error);
+        }
+        else
+        {
+          this.showPageMessage('success', 'Success', 'Characteristic removed');
+          this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
+        }
+      },
+        err =>
+        {
+          this.logAction(this.idCompany, true, Actions.Delete, 'http error removing level characteristic', err.status + ' ' + err.statusText);
+          this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
+        });
+    }
     this.displayDialogAddLevelCharacteristic = false;
   }
   onAddEntityForm()
@@ -550,14 +562,14 @@ export class LevelsComponent extends BaseComponent implements OnInit
         let newEntity = new Entity();
         newEntity.idLevel = parseInt(this.selectedLevel);
         newEntity.entityName_RO = this.addEntityForm.controls["addEntityName_RO"].value;
-        newEntity.entityName_EN = this.addEntityForm.controls["addEntityName_EN"].value;        
-        
+        newEntity.entityName_EN = this.addEntityForm.controls["addEntityName_EN"].value;
+
         this.entitiesService.addEntity(newEntity).subscribe(result =>
         {
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
             //this.showPageMessage('error', 'Error', gro.error);
           }
           else
@@ -575,13 +587,13 @@ export class LevelsComponent extends BaseComponent implements OnInit
       }
       else//update
       {
-        
+
       }
-    } 
+    }
     else//delete
     {
 
-    }  
+    }
     this.displayDialogAddEntity = false;
   }
 

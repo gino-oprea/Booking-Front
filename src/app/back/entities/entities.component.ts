@@ -1,5 +1,5 @@
 import { FormArray } from '@angular/forms';
-import { Component, OnInit, Injector} from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { BaseComponent } from '../../shared/base-component';
 import { Actions, DurationType, WebSites } from '../../enums/enums';
 import { ActivatedRoute } from '@angular/router';
@@ -35,13 +35,16 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
   displayDialogAddEntity = false;
   displayImageDialog = false;
+
+  displayConfirmDeleteEntity = false;
+  confirmDeleteEntityMessage: string = "Are you sure you want to delete this entity?";
   //displayDialogAddCustomWH = false;
 
   //isAddCustomWHMode = true;
   selectedImage: Image = null;
   genDetailsForm: FormGroup;
   addEntityForm: FormGroup;
-  
+
 
   selectedLevel: Level;
   selectedEntity: Entity;
@@ -49,9 +52,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   selectedEntityId: number = null;
   selectedDateWorkingHours: Date;
   selectedWhId: number = 0;
-  selectedWorkingHours: WorkingHours;  
+  selectedWorkingHours: WorkingHours;
   images: Image[] = [];
-  
+
   en: any;
   companyWorkingHours: WorkingHours;
   customWorkingHours: WorkingHours[] = [];
@@ -63,7 +66,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   isSave = true;
   isSaveCustomWH = true;
   isVariableWH = false;
-  isCustomWH = false;  
+  isCustomWH = false;
 
   displayAffectedBookings: boolean = false;
   affectedBookings: Booking[] = [];
@@ -97,7 +100,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
     this.site = WebSites.Back;
     this.pageName = "Entities";
-    
+
     let parentRoute: ActivatedRoute = this.route.parent;
     this.routeSubscription = parentRoute.params.subscribe((params: any) =>
     {
@@ -132,16 +135,16 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       workingHours: { active: true },
       specialDays: { active: false }
     };
-    
-    
-    this.loadCustomWorkingHours(null, false);    
+
+
+    this.loadCustomWorkingHours(null, false);
     this.loadCompanyWorkingHours();
-    this.loadLevels(this.selectedLevelId);    
+    this.loadLevels(this.selectedLevelId);
   }
 
   ngOnInit() 
   {
-    super.ngOnInit();    
+    super.ngOnInit();
 
     this.en = {
       firstDayOfWeek: 1,
@@ -151,14 +154,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     };
-    
+
     this.selectedDateWorkingHours = new Date();
 
     this.initGenDetailsForm();
     this.initFormAddEntity();
     // this.initFormCustomWH();
   }
-  loadDurationArray(type:DurationType)
+  loadDurationArray(type: DurationType)
   {
     this.durationArray = CommonServiceMethods.getDurationArray(type);
   }
@@ -182,7 +185,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -193,7 +196,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         if (isAfterAutoAdd)
         {
           this.selectedWhId = this.customWorkingHours[0].id;
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);          
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
           this.selectedEntity.idCustomWorkingHours = this.customWorkingHours[0].id;
           this.selectedEntity.hasCustomWorkingHours = true;
           this.selectedEntity.hasVariableProgramme = false;
@@ -209,7 +212,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -232,19 +235,19 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   loadEntityImages()
   {
     this.imageService.getEntityImages(this.selectedEntity.id).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
       {
-        let gro = <GenericResponseObject>result;
-        if (gro.error != '')
-        {
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
-          //this.showPageMessage('error', 'Error', gro.error);
-        }
-        else
-        {          
-          this.images = <Image[]>gro.objList;          
-        }  
-      },
-        err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entities images', ''));
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        //this.showPageMessage('error', 'Error', gro.error);
+      }
+      else
+      {
+        this.images = <Image[]>gro.objList;
+      }
+    },
+      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entities images', ''));
   }
   loadEntities(entityId: number)
   {
@@ -253,7 +256,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -272,25 +275,25 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           if (this.isCustomWH)//daca e custom
           {
             this.selectedWhId = this.selectedEntity.idCustomWorkingHours;
-           
-              for (var i = 0; i < this.customWorkingHours.length; i++) 
+
+            for (var i = 0; i < this.customWorkingHours.length; i++) 
+            {
+              if (this.selectedWhId == this.customWorkingHours[i].id)
               {
-                if (this.selectedWhId == this.customWorkingHours[i].id)
-                {                   
-                  this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);                  
-                  break;
-                }
-              }            
+                this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
+                break;
+              }
+            }
           }
           if (this.isVariableWH)//daca e variable
           {
             let weekStartEnd = this.getWeekStartEndDates(this.selectedDateWorkingHours);
             this.loadEntityVariableWorkingHours(this.selectedEntityId, weekStartEnd[0], weekStartEnd[1], true);
-          } 
+          }
           if (!this.isCustomWH && !this.isVariableWH)//daca nu e nici custom nici variable
           {
             this.selectedWhId = 0;
-            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);            
+            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
           }
           this.initGenDetailsForm();
 
@@ -308,13 +311,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
       {
         this.durationTypes = <GenericDictionaryItem[]>gro.objList;
-        for (var i = this.durationTypes.length-1; i >= 0; i--) 
+        for (var i = this.durationTypes.length - 1; i >= 0; i--) 
         {
           if (!this.checkDurationType(this.durationTypes[i].id))
             this.durationTypes.splice(i, 1);
@@ -324,14 +327,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting duration types', ''));
   }
-  loadEntityVariableWorkingHours(entityId:number,dateStart:Date,dateEnd:Date, setAsSelected:boolean)
+  loadEntityVariableWorkingHours(entityId: number, dateStart: Date, dateEnd: Date, setAsSelected: boolean)
   {
     this.entitiesService.getEntityVariableWorkingHours(entityId, dateStart, dateEnd).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -349,7 +352,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         }
         if (setAsSelected)
         {
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.variableWorkingHours);          
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.variableWorkingHours);
           this.selectedWhId = this.doCustomWorkingHoursIdentification();
         }
         this.assignCalendarDateForWorkingHours();
@@ -368,10 +371,10 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       emptyWorkingDay,
       emptyWorkingDay,
       emptyWorkingDay);
-    
+
     return emptyWorkingHours;
   }
-  
+
   getEntity(id: number): Entity
   {
     for (var i = 0; i < this.entities.length; i++) 
@@ -402,7 +405,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     let maxBookings = null;
     let characteristics = new FormArray([]);
 
-    
+
     if (this.selectedEntity != null)
     {
       name_ro = this.selectedEntity.entityName_RO;
@@ -433,13 +436,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       'description_ro': new FormControl(descr_ro),
       'description_en': new FormControl(descr_en),
       'duration': new FormControl(duration),
-      'duration_type':new FormControl(idDurationType),
+      'duration_type': new FormControl(idDurationType),
       'price': new FormControl(price),
-      'max_bookings':new FormControl(maxBookings),
+      'max_bookings': new FormControl(maxBookings),
       'characteristics': characteristics
-    });    
+    });
 
-    this.loadDurationArray(<DurationType>parseInt(this.genDetailsForm.controls["duration_type"].value));    
+    this.loadDurationArray(<DurationType>parseInt(this.genDetailsForm.controls["duration_type"].value));
 
     this.setDurationControlsState();
   }
@@ -486,7 +489,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         else
           return true;
       }
-    }  
+    }
   }
   setEntitySubmitType(isSave: boolean)
   {
@@ -530,8 +533,21 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     }
     else//daca e delete
     {
-      this.deleteEntity(this.selectedEntity);
+      //this.deleteEntity(this.selectedEntity);
+      this.showConfirmDeleteDialog()
     }
+  }
+  showConfirmDeleteDialog()
+  {
+    this.displayConfirmDeleteEntity = true;
+    this.confirmDeleteEntityMessage = "Are you sure you want to delete entity: " + this.selectedEntity.entityDescription_EN;
+  }
+  onConfirmDelete(message: string)
+  {
+    if (message == "yes")
+      this.deleteEntity(this.selectedEntity);
+
+    this.displayConfirmDeleteEntity = false;
   }
   onUpload(fileInput: any)
   {
@@ -550,8 +566,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
               this.showPageMessage('error', 'Error', 'size limit exceded');
             else
               //this.showPageMessage('error', 'Error', gro.error);
-            
-            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+
+              this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
           }
           else
           {
@@ -567,7 +583,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.showPageMessage('warn', 'Warning', 'only 5 images permitted');
     }
   }
-  
+
   onImageClick(image: Image)
   {
     this.selectedImage = image;
@@ -581,7 +597,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -592,7 +608,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting entity image', ''));
-    
+
     this.displayImageDialog = false;
   }
   selectTab(title: string)
@@ -642,7 +658,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       {
         if (this.selectedWhId == this.customWorkingHours[i].id)
         {
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);          
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
           break;
         }
       }
@@ -655,7 +671,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     if (!this.isCustomWH && !this.isVariableWH)
     {
       this.selectedWhId = 0;
-      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);      
+      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
     }
 
     this.loadEntitySpecialDays();
@@ -666,7 +682,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     {
       if (this.selectedWhId == 0)//company wh
       {
-        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);        
+        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
 
         this.isCustomWH = false;
         this.selectedEntity.hasCustomWorkingHours = false;
@@ -679,7 +695,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         {
           if (this.customWorkingHours[i].id == this.selectedWhId)
           {
-            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);           
+            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
             break;
           }
         }
@@ -703,12 +719,12 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         }
       });
     }
-    if(this.isVariableWH) //daca e in modul variabil
+    if (this.isVariableWH) //daca e in modul variabil
     {
       //selectam wh corespunzator
       if (this.selectedWhId == 0)//company wh
       {
-        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);        
+        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
       }
       else
       {
@@ -716,7 +732,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         {
           if (this.customWorkingHours[i].id == this.selectedWhId)
           {
-            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);            
+            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
             break;
           }
         }
@@ -732,8 +748,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       wds.push(this.selectedWorkingHours.saturday);
       wds.push(this.selectedWorkingHours.sunday);
 
-      this.addEntityVariableWorkingHours(wds);   
-      
+      this.addEntityVariableWorkingHours(wds);
+
 
       this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
       {
@@ -747,7 +763,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           this.displayAffectedBookings = true;
         }
       });
-    }     
+    }
   }
   onIsCustomChange()
   {
@@ -765,7 +781,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         if (this.selectedEntity.idCustomWorkingHours == null)
         {
           this.selectedWhId = this.customWorkingHours[0].id;
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);          
+          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
         }
         else
         {
@@ -774,12 +790,12 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           {
             if (this.customWorkingHours[i].id == this.selectedWhId)
             {
-              this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);              
+              this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[i]);
               break;
             }
           }
         }
-       
+
         this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
         this.selectedEntity.idCustomWorkingHours = this.selectedWhId;
         this.selectedEntity.hasCustomWorkingHours = true;
@@ -790,36 +806,36 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     else//trebuie selectate orele companiei id=0
     {
       this.selectedWhId = 0;
-      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);      
+      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
       this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
       this.selectedEntity.hasCustomWorkingHours = false;
-      this.editEntity(this.selectedEntity, false, false);      
+      this.editEntity(this.selectedEntity, false, false);
     }
-    
+
     this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.objList.length > 0)
       {
-        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);    
+        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
         this.loadLevels(this.selectedLevelId);
 
         this.affectedBookings = gro.objList;
         this.displayAffectedBookings = true;
-      }      
-    }); 
+      }
+    });
   }
   onIsVariableChange()
   {
     if (this.isVariableWH)
     {
       this.isCustomWH = false;
-      this.assignCalendarDateForWorkingHours();      
+      this.assignCalendarDateForWorkingHours();
 
       this.loadEntityVariableWorkingHours(this.selectedEntityId, this.selectedWorkingHours.monday.date, this.selectedWorkingHours.sunday.date, true);
 
-      this.selectedEntity.hasCustomWorkingHours = false;      
-      this.selectedEntity.hasVariableProgramme = true;  
+      this.selectedEntity.hasCustomWorkingHours = false;
+      this.selectedEntity.hasVariableProgramme = true;
       this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
       this.editEntity(this.selectedEntity, false, false);
     }
@@ -829,13 +845,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.selectedEntity.hasVariableProgramme = false;
       this.onIsCustomChange();//salvarea in db a entitiatii se face aici        
     }
-    
+
     this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.objList.length > 0)
       {
-        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);   
+        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
         this.loadLevels(this.selectedLevelId);
 
         this.affectedBookings = gro.objList;
@@ -849,7 +865,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
     let mondayDate = new Date(date);
     let sundayDate = new Date(date);
-    
+
     if (weekDay != 0)//nu duminica
     {
       mondayDate.setDate(mondayDate.getDate() + (1 - weekDay));
@@ -867,7 +883,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
     return weekStartEnd;
   }
-  
+
   assignCalendarDateForWorkingHours()
   {
     if (this.isVariableWH)
@@ -875,7 +891,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let weekDay = this.selectedDateWorkingHours.getDay();
 
       //trebuie creata data cu timezone-ul clientului pentru a evita conversia la UTC cand se trimite la baza de date (JSON.stringify)      
-      var _userOffset = this.selectedDateWorkingHours.getTimezoneOffset()*60000; // [min*60000 = ms]
+      var _userOffset = this.selectedDateWorkingHours.getTimezoneOffset() * 60000; // [min*60000 = ms]
 
       let mondayDate = new Date(this.selectedDateWorkingHours.getTime() + this.invertNumberSign(_userOffset));
       let tuesdayDate = new Date(this.selectedDateWorkingHours.getTime() + this.invertNumberSign(_userOffset));
@@ -884,7 +900,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let fridayDate = new Date(this.selectedDateWorkingHours.getTime() + this.invertNumberSign(_userOffset));
       let saturdayDate = new Date(this.selectedDateWorkingHours.getTime() + this.invertNumberSign(_userOffset));
       let sundayDate = new Date(this.selectedDateWorkingHours.getTime() + this.invertNumberSign(_userOffset));
-    
+
       if (weekDay != 0)//nu duminica
       {
         mondayDate.setDate(mondayDate.getDate() + (1 - weekDay));
@@ -939,13 +955,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     newEntity.idLevel = parseInt(this.selectedLevelId.toString());
     newEntity.entityName_RO = this.addEntityForm.controls["addEntityName_RO"].value;
     newEntity.entityName_EN = this.addEntityForm.controls["addEntityName_EN"].value;
-        
+
     this.entitiesService.addEntity(newEntity).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);        
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
       }
       else
       {
@@ -964,7 +980,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.logAction(this.idCompany, true, Actions.Add, 'http error adding entity', err.status + ' ' + err.statusText);
         this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
       });
-    
+
     this.displayDialogAddEntity = false;
   }
   loadCompanyWorkingHours()
@@ -974,7 +990,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -985,14 +1001,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.companyWorkingHours.name = 'Company working hours';
 
         this.selectedWhId = 0;
-        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);        
+        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company working hours for entity', ''));
-    
+
   }
   onUpdateWorkingHours(wh: WorkingHours)
-  {     
+  {
     //doar pentru modul variabil
     let wds: WorkingDay[] = [];
     wds.push(this.selectedWorkingHours.monday);
@@ -1006,7 +1022,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     this.addEntityVariableWorkingHours(wds);
 
     this.selectedWhId = this.doCustomWorkingHoursIdentification();
-    
+
     this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
@@ -1018,7 +1034,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.affectedBookings = gro.objList;
         this.displayAffectedBookings = true;
       }
-    });    
+    });
   }
   onSelectedDateChange()
   {
@@ -1032,11 +1048,11 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);        
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity idEntity:' + entity.id.toString(), showSuccessMessage, 'Entity saved');        
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity idEntity:' + entity.id.toString(), showSuccessMessage, 'Entity saved');
         if (isReloadEntities)
           this.loadEntities(entity.id);
       }
@@ -1049,9 +1065,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-      {        
+      {
         this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
-        
+
         if (gro.objList != null && gro.objList.length > 0)
         {
           this.affectedBookings = gro.objList;
@@ -1066,14 +1082,14 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.loadEntities(null);
     });
   }
-  addEntityWorkingHours(idCompany: number, workingHours: WorkingHours, isAfterAutoAdd:boolean)
+  addEntityWorkingHours(idCompany: number, workingHours: WorkingHours, isAfterAutoAdd: boolean)
   {
     this.entitiesService.addEntityWorkingHours(idCompany, workingHours).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -1083,7 +1099,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding/editing entity custom hours', ''));
-  } 
+  }
   addEntityVariableWorkingHours(wds: WorkingDay[])
   {
     this.entitiesService.addEntityVariableWorkingHours(wds, this.selectedEntityId).subscribe(result =>
@@ -1091,7 +1107,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -1136,7 +1152,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   getWorkingHoursDeepCopy(workingHours: WorkingHours): WorkingHours
   {
     let newWH = new WorkingHours();
-    
+
     newWH.id = workingHours.id;
     newWH.idParent = workingHours.idParent;
     newWH.name = workingHours.name;
@@ -1156,7 +1172,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     if (n != 0)
       inverted = -n;
     else
-      inverted = n;  
+      inverted = n;
 
     return inverted;
   }
@@ -1172,7 +1188,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -1185,7 +1201,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
             "title": this.getCurrentLabelValue('lblSpecialDay'),
             "allDay": true,
             "start": sd[i].day,
-            "color":"#ff4d4d"
+            "color": "#ff4d4d"
           });
           if (sd[i].isEveryYear)
           {
@@ -1204,32 +1220,32 @@ export class EntitiesComponent extends BaseComponent implements OnInit
                   "start": reccruringDate,
                   "color": "#ff4d4d"
                 });
-              }  
+              }
             }
-          }  
+          }
         }
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entity special days', ''));
   }
   onDayClick(event) 
-  { 
+  {
     this.selectedDate = event;//.date._d;
     this.selectedWeekDayIndex = this.convertWeekDayIndex(event.getDay());//.date._d.getDay());
-    this.displayDialogSpecialDays = true; 
-    
+    this.displayDialogSpecialDays = true;
+
     this.getExistingSpecialDayEvent(event);//.date._d);
   }
   onEventClick(event)
   {
     this.selectedDate = new Date(event.start);//.calEvent._start._d;
     this.selectedWeekDayIndex = this.convertWeekDayIndex(new Date(event.start).getDay());//.calEvent._start._d.getDay());
-    this.displayDialogSpecialDays = true;    
+    this.displayDialogSpecialDays = true;
 
     this.getExistingSpecialDayEvent(new Date(event.start));//.calEvent._start._d);
   }
   onEventDrop(event)
-  {    
+  {
     //trebuie verificat daca nu exista deja special day la noua data si atunci nu schimbam nimic si afisam mesaj
     //trebuie facuta optiune de remove special day
     this.entitiesService.getEntitySpecialDays(this.selectedEntityId, new Date(event.event.start)).subscribe(result =>
@@ -1237,7 +1253,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
@@ -1249,7 +1265,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         }
         else
         {
-          this.updateSpecialDayAfterDrop(new Date(event.originDate), new Date(event.targetDate));          
+          this.updateSpecialDayAfterDrop(new Date(event.originDate), new Date(event.targetDate));
         }
       }
     },
@@ -1262,7 +1278,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -1273,8 +1289,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           this.selectedSpecialDay = sd[0];
           this.selectedSpecialDayWorkingHoursString = sd[0].workingHours;
           this.isRepeatEveryYear = sd[0].isEveryYear;
-          
-          this.specialDayWorkingHours = new WorkingHours(0, this.idCompany,'',
+
+          this.specialDayWorkingHours = new WorkingHours(0, this.idCompany, '',
             new WorkingDay('', null),
             new WorkingDay('', null),
             new WorkingDay('', null),
@@ -1288,20 +1304,20 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           if (this.selectedWeekDayIndex == 3) { this.specialDayWorkingHours.thursday.workHours = this.selectedSpecialDay.workingHours; }
           if (this.selectedWeekDayIndex == 4) { this.specialDayWorkingHours.friday.workHours = this.selectedSpecialDay.workingHours; }
           if (this.selectedWeekDayIndex == 5) { this.specialDayWorkingHours.saturday.workHours = this.selectedSpecialDay.workingHours; }
-          if (this.selectedWeekDayIndex == 6) { this.specialDayWorkingHours.sunday.workHours = this.selectedSpecialDay.workingHours; }          
+          if (this.selectedWeekDayIndex == 6) { this.specialDayWorkingHours.sunday.workHours = this.selectedSpecialDay.workingHours; }
         }
         else
         {
           //resetam toate variabilele
           this.isRepeatEveryYear = false;
-          this.specialDayWorkingHours = new WorkingHours(0, this.idCompany,'',
+          this.specialDayWorkingHours = new WorkingHours(0, this.idCompany, '',
             new WorkingDay('', null),
             new WorkingDay('', null),
             new WorkingDay('', null),
             new WorkingDay('', null),
             new WorkingDay('', null),
             new WorkingDay('', null),
-            new WorkingDay('',null));
+            new WorkingDay('', null));
           this.selectedSpecialDayWorkingHoursString = '';
 
           //[(ngModel)] converteste variabila la string si pot aparea probleme
@@ -1335,16 +1351,16 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.selectedSpecialDay.isEveryYear = this.isRepeatEveryYear;
       this.selectedSpecialDay.day = this.selectedDate;
 
-    
+
       this.entitiesService.setEntitySpecialDays(isAdd, this.selectedSpecialDay)
         .subscribe(result =>
         {
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
-            
-            
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
+
+
             if (gro.objList != null && gro.objList.length > 0)
             {
               this.affectedBookings = gro.objList;
@@ -1358,19 +1374,19 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           }
           this.loadEntitySpecialDays();
         },
-        err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entity special day', '')
+          err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entity special day', '')
         );
     }
     catch (ex)
     {
       this.logAction(this.idCompany, true, Actions.Add, ex.message, '');
-      this.showPageMessage('error', 'Error', ex.message);   
+      this.showPageMessage('error', 'Error', ex.message);
       this.loadEntitySpecialDays();
     }
 
     this.displayDialogSpecialDays = false;
   }
-  updateSpecialDayAfterDrop(initialDate:Date, newDate:Date)
+  updateSpecialDayAfterDrop(initialDate: Date, newDate: Date)
   {
     try
     {
@@ -1379,24 +1395,24 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
           //this.showPageMessage('error', 'Error', gro.error);
         }
         else
         {
-          let sd: SpecialDay[] = <SpecialDay[]>gro.objList;          
-          this.selectedSpecialDay = sd[0];           
+          let sd: SpecialDay[] = <SpecialDay[]>gro.objList;
+          this.selectedSpecialDay = sd[0];
           this.selectedSpecialDay.day = newDate;
-          
+
           this.entitiesService.setEntitySpecialDays(false, this.selectedSpecialDay)
             .subscribe(result =>
             {
               let gro = <GenericResponseObject>result;
               if (gro.error != '')
               {
-                this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+                this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
                 //this.showPageMessage('error', 'Error', gro.error);
-            
+
               }
               else
               {
@@ -1405,17 +1421,17 @@ export class EntitiesComponent extends BaseComponent implements OnInit
               }
               this.loadEntitySpecialDays();
             },
-            err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entity special day', ''));         
+              err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entity special day', ''));
         }
       },
-        err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entity special days', ''));     
+        err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entity special days', ''));
     }
     catch (ex)
     {
       this.logAction(this.idCompany, true, Actions.Add, ex.message, '');
-      this.showPageMessage('error', 'Error', ex.message); 
+      this.showPageMessage('error', 'Error', ex.message);
       this.loadEntitySpecialDays();
-    }  
+    }
   }
   removeSpecialDay()
   {
@@ -1424,18 +1440,18 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
-      {        
+      {
         this.logAction(this.idCompany, false, Actions.Delete, '', 'deleted entity special day', true, '');
         //this.showPageMessage('success', 'Success', '');
         this.loadEntitySpecialDays();
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting entity special day', ''));
-    
+
     this.displayDialogSpecialDays = false;
   }
   onBookingRemoved(event: string)
