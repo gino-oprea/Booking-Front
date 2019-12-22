@@ -11,6 +11,7 @@ import
   ConfirmDialogModule,
   ConfirmationService,
   SharedModule,
+  GMapModule,
   ButtonModule,
   DialogModule,
   CalendarModule
@@ -67,6 +68,7 @@ import { LoginService } from './app-services/login.service';
     ReactiveFormsModule,
     DropdownModule,  
     GrowlModule,
+    GMapModule,
     ConfirmDialogModule, 
     SharedModule,
     ButtonModule,

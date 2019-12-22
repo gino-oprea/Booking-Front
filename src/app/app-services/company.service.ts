@@ -44,7 +44,7 @@ export class CompanyService
   getCompany(idUser:number, idCompany:number)
   {
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/' + idUser + '/' + idCompany, options);
   }

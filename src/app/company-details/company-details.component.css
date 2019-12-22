@@ -1,0 +1,16 @@
+.readonly-textarea{
+  height: 100%;
+  padding: 3px;
+  resize: none;
+  border: 0;
+  background-color: transparent;
+  text-align: left;
+}
+
+.imgList{  
+  padding: 0px;    
+   display: block;
+}
+.imgList li {
+    display: inline-block;
+}

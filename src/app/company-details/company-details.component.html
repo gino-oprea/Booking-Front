@@ -1,5 +1,101 @@
-<p>
-  company-details works!
-  <button class="btn btn-primary from-control" (click)="goToBooking(idCompany,companyName)"><i
-      class="fa fa-arrow-right"></i></button>
-</p>
+<legend style="margin-bottom: 10px;">Company Details</legend>
+<div  class="row" style="margin-right: 0px;height: 100%;">
+  <div *ngIf="company" class="col-md-6" style="height: 100%;">
+    <form class="form-horizontal" style="height: 100%" id="user-form">
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="name">{{getCurrentLabelValue('lblName')}}:</label>
+        <div class="col-md-10">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.name}}</textarea>
+        </div>
+      </div>
+
+      <div class="form-group" style="height: 15%;">
+        <label class="col-md-2 control-label" for="description">Description:</label>
+        <div class="col-md-10" style="height: 100%">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.description_RO}}</textarea>
+        </div>
+      </div>
+
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="category">{{getCurrentLabelValue('lblCategory')}}:</label>
+        <div class="col-md-10">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.categoryName_RO}}
+          </textarea>
+        </div>
+      </div>
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="subcategory">{{getCurrentLabelValue('lblSubCategory')}}:</label>
+        <div class="col-md-10">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.subcategoryName_EN}}
+          </textarea>
+        </div>
+      </div>
+
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="county">Judet:</label>
+        <div class="col-md-10">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.countyName}}
+          </textarea>
+        </div>
+      </div>
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="city">Localitate:</label>
+        <div class="col-md-10">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.cityName}}
+          </textarea>
+        </div>
+      </div>
+
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="address">{{getCurrentLabelValue('lblAddress')}}:</label>
+        <div class="col-md-10">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.address}}
+          </textarea>
+        </div>
+      </div>
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="email">Email:</label>
+        <div class="col-md-10">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.email}}
+          </textarea>
+        </div>
+      </div>
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="phone">{{getCurrentLabelValue('lblPhone')}}:</label>
+        <div class="col-md-10">
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.phone}}
+          </textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-6" style="height: 100%;">
+    <div class="row" style="height: 25%;">
+      <div class="col-md-12" style="height: 100%!important; overflow: auto;">
+        <ul *ngIf="images.length>0" class="imgList">
+          <li *ngFor="let img of images; let i=index" style="padding-left: 1px;padding-right: 1px;">
+            <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)"
+              style="cursor:pointer; height: auto;width: auto;max-height: 100px;max-width: 100%;">
+          </li>
+        </ul>
+        <img *ngIf="images.length==0" [src]="COMP_IMG"
+          style="height: auto;width: auto;max-height: 100px;max-width: 100%;">
+      </div>
+    </div>
+    <br>
+    <div class="row" style="height: 65%;">
+      <div class="col-md-12" style="height: 100%;">        
+        <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'100%'}" [overlays]="gMapOverlays"></p-gmap>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(visible)]="displayImageDialog" [responsive]="true" showEffect="fade" [modal]="false" width="600"
+  height="500">
+  <img *ngIf="selectedImage!=null" [src]="'data:image/png;base64,'+selectedImage.img"
+    style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">  
+</p-dialog>
+
+<button class="btn btn-primary from-control" (click)="goToBooking(idCompany,companyName)"><i
+    class="fa fa-arrow-right"></i> Book now</button>

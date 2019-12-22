@@ -101,7 +101,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       'lblOnlyOneMBfilesPermitted'
     ]);
     this.site = WebSites.Back;
-    this.pageName = "General details";
+    this.pageName = "Company General Details";
 
     let parentRoute: ActivatedRoute = this.route.parent;
     this.routeSubscription = parentRoute.params.subscribe((params: any) =>
