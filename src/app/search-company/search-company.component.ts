@@ -44,7 +44,9 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
         null,
         null,
         queryParams['idCountry'] != null ? queryParams['idCountry'] : null,
-        queryParams['town'] != null ? queryParams['town'] : null);
+        queryParams['idCounty'] != null ? queryParams['idCounty'] : null,
+        queryParams['idCity'] != null ? queryParams['idCity'] : null
+      );
       this.loadFilteredCompanies(flt);
     });
   }

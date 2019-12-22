@@ -9,15 +9,22 @@
           </a>
         </li>            
       </ul>-->
-      <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountryId" (change)="loadTowns()">           
+      <!-- <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountryId" (change)="loadTowns()">           
            <option *ngFor="let c of countriesDic" [value]="c.id">{{c.name_Formatted}}</option>
+      </select> -->
+
+      <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountyId" (change)="loadCities()">
+        <option value="0">All Counties</option>
+        <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}</option>
       </select>
-      <select style="height: 40px;width: 150px;" [(ngModel)]="selectedTownId">
+
+      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCityId">
            <option value="0">All cities</option> 
-           <option *ngFor="let t of townsDic; let i=index" [value]="i+1">{{t}}</option>
+           <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}</option>
       </select>
-      <input type="text" [(ngModel)]="searchString" placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()" style="height:40px;width:300px;">
-      <button class="btn btn-primary from-control" (click)="doSearch()"><i class="fa fa-search"></i></button>
+
+      <input type="text" [(ngModel)]="searchString" placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()" style="height:40px;width:300px;margin-left: 5px;">
+      <button class="btn btn-primary from-control" (click)="doSearch()" style="margin-left: 5px;"><i class="fa fa-search"></i></button>
       <ul class="nav navbar-nav navbar-right">
         <li style="margin-top: 10px;">
         <p-dropdown [options]="cultures" [style]="{'width':'100px'}" 

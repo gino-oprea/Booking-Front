@@ -12,11 +12,15 @@ export class CountriesService {
   
   getCountries():Observable<GenericResponseObject>
   {
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Country/GetForSearch');
+    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyLocation/GetForSearch');
   }
-  getTowns(idCountry:number): Observable<GenericResponseObject>
+  getCounties(idCountry: number): Observable<GenericResponseObject>
   {
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Country/GetTowns/' + idCountry.toString());
+    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyLocation/GetCounties/' + idCountry.toString());
+  }
+  getCities(idCounty:number): Observable<GenericResponseObject>
+  {
+    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyLocation/GetCities/' + idCounty.toString());
   }
 
 }

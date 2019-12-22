@@ -48,20 +48,33 @@
               </div>
             </div>
             <!-- Text input-->
-            <div class="form-group" style="height: 6%;">
+            <!-- <div class="form-group" style="height: 6%;">
               <label class="col-md-2 control-label" for="country">{{getCurrentLabelValue('lblCountry')}}:</label>
               <div class="col-md-10">
                 <p-dropdown [options]="countries" formControlName="country" [style]="{'width':'100%'}" [filter]="true" (onChange)="addressAutocomplete()"></p-dropdown>
               </div>
+            </div> -->
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="county">Judet:</label>
+              <div class="col-md-10">
+                <p-dropdown [options]="counties" formControlName="county" [style]="{'width':'100%'}" [filter]="true"
+                  (onChange)="loadCities()"></p-dropdown>
+              </div>
+            </div>
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="city">Localitate:</label>
+              <div class="col-md-10">
+                <p-dropdown [options]="cities" formControlName="city" [style]="{'width':'100%'}" [filter]="true"></p-dropdown>
+              </div>
             </div>
             <!-- Text input-->
-            <div class="form-group" style="height: 6%;">
+            <!-- <div class="form-group" style="height: 6%;">
               <label class="col-md-2 control-label" for="town">{{getCurrentLabelValue('lblTown')}}:</label>
               <div class="col-md-10">
                 <input id="town" type="text" formControlName="town" [ngClass]="{'valid-control':genDetailsForm.controls['town'].valid,
                         'invalid-control':!genDetailsForm.controls['town'].valid}" class="form-control">
               </div>
-            </div>
+            </div> -->
             <div class="form-group" style="height: 6%;">
               <label class="col-md-2 control-label" for="address">{{getCurrentLabelValue('lblAddress')}}:</label>
               <div class="col-md-10">

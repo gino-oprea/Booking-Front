@@ -6,7 +6,8 @@ export class CompanyFilter
     public idCategory?: number,
     public idSubcategory?: number,
     public idCountry?: number,
-    public town?: string
+    public idCounty?: number,
+    public idCity?: number
   )
   { }
 }

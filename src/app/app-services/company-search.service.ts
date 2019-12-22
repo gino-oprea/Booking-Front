@@ -23,7 +23,9 @@ export class CompanySearchService
     params = params.append('idCategory', flt.idCategory != null ? flt.idCategory.toString() : null); 
     params = params.append('idSubcategory', flt.idSubcategory != null ? flt.idSubcategory.toString() : null);
     params = params.append('idCountry', flt.idCountry != null ? flt.idCountry.toString() : null);
-    params = params.append('town', flt.town != null ? flt.town.toString() : null);
+    params = params.append('idCounty', flt.idCounty != null ? flt.idCounty.toString() : null);
+    params = params.append('idCity', flt.idCity != null ? flt.idCity.toString() : null);
+    //params = params.append('town', flt.town != null ? flt.town.toString() : null);
 
     let options = {
       headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),

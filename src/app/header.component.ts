@@ -12,6 +12,8 @@ import { Country } from './objects/country';
 import { CountriesService } from './app-services/countries.service';
 import { Token } from './objects/token';
 import * as jwt_decode from 'jwt-decode';
+import { County } from './objects/county';
+import { City } from './objects/city';
 
 @Component({
   selector: 'bf-header',
@@ -28,9 +30,11 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
   searchString: string = "";
   countriesDic: Country[] = [];
-  townsDic: string[] = [];
-  selectedCountryId: number = 1;  
-  selectedTownId: number = 0;  
+  countiesDic: County[] = [];
+  citiesDic: City[] = [];
+  selectedCountryId: number = 1;
+  selectedCountyId: number = 0;
+  selectedCityId: number = 0;  
   
   constructor(private injector: Injector,
     private confirmationService: ConfirmationService,
@@ -74,8 +78,9 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
   ngOnInit() 
   {
-    this.loadCountries();
-    this.loadTowns();
+    //this.loadCountries();
+    this.loadCounties();
+    this.loadCities();
   }
   loadCountries()
   {
@@ -91,22 +96,44 @@ export class HeaderComponent extends BaseComponent implements OnInit
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
-  }
-  loadTowns()
+  }  
+  loadCounties()
   {
-    this.selectedTownId = 0;//pentru ca n-am id-uri pentru orase, doar indexuri
-    this.townsDic = [];
-    this.countriesService.getTowns(this.selectedCountryId).subscribe(result =>
+    this.countiesDic = [];
+    this.countriesService.getCounties(this.selectedCountryId).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       else
       {
-        this.townsDic = <string[]>gro.objList;
+        this.countiesDic = <County[]>gro.objList;
       }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
+    });
+  }
+  loadCities()
+  {    
+    if (this.selectedCountyId != 0)
+    {
+      this.selectedCityId = 0;
+      this.citiesDic = [];
+      this.countriesService.getCities(this.selectedCountyId).subscribe(result =>
+      {
+        let gro = <GenericResponseObject>result;
+        if (gro.error != '')
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        else
+        {
+          this.citiesDic = <City[]>gro.objList;
+        }
+      },
+        err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
+    }
+    else
+    {
+      this.selectedCityId = 0;
+      this.citiesDic = [];      
+    }
   }
   getMyAccountText()
   {
@@ -204,7 +231,8 @@ export class HeaderComponent extends BaseComponent implements OnInit
       queryParams: {
         name: this.searchString.trim(),
         idCountry: this.selectedCountryId != 1 ? this.selectedCountryId : null,
-        town: this.selectedTownId != 0 ? this.townsDic[this.selectedTownId - 1] : null
+        idCounty: this.selectedCountyId != 0 ? this.selectedCountyId : null,
+        idCity: this.selectedCityId != 0 ? this.selectedCityId : null
       }
     });    
   }

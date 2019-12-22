@@ -16,6 +16,8 @@ import { WorkingDay } from '../../objects/working-day';
 import { GenericDictionaryItem } from '../../objects/generic-dictionary-item';
 import { ImageService } from '../../app-services/image.service';
 import { Booking } from '../../objects/booking';
+import { County } from '../../objects/county';
+import { City } from '../../objects/city';
 
 
 @Component({
@@ -36,7 +38,11 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   workingHours: WorkingHours;
   workingHoursOriginal: WorkingHours;
   specialDayWorkingHours: WorkingHours;
+
   countries: SelectItem[];
+  counties: SelectItem[];
+  cities: SelectItem[];
+
   gMapOverlays: any[] = [];
   specialDays: any[] = [];
   displayDialog: boolean = false;
@@ -113,7 +119,9 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     };
 
     this.loadCategories(null);
-    this.loadCountriesDic();
+
+    //this.loadCountriesDic();
+    
 
     this.reloadCompany();
     this.loadCompanyImages();
@@ -123,7 +131,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -163,7 +171,11 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   ngOnInit()
   {
     super.ngOnInit();
+
     this.initForm();
+
+    this.loadCounties();
+    this.loadCities();
 
     this.reloadCompanySpecialDays();
   }
@@ -205,8 +217,12 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       'description': new FormControl(this.company == null ? '' : this.company.description),
       'category': new FormControl(this.company == null ? '' : this.company.idCategory, Validators.required),
       'subcategory': new FormControl(this.company == null ? '' : this.company.idSubcategory, Validators.required),
-      'country': new FormControl(this.company == null ? '' : this.company.idCountry, Validators.required),
-      'town': new FormControl(this.company == null ? '' : this.company.town, Validators.required),
+      //'country': new FormControl(this.company == null ? '' : this.company.idCountry, Validators.required),
+
+      'county': new FormControl(this.company == null ? '' : this.company.idCounty, Validators.required),
+      'city': new FormControl(this.company == null ? '' : this.company.idCity, Validators.required),
+
+      //'town': new FormControl(this.company == null ? '' : '', Validators.required),
       'address': new FormControl(this.company == null ? '' : this.company.address, Validators.required),
       'email': new FormControl(this.company == null ? '' : this.company.email, [Validators.required,
       Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]),
@@ -224,7 +240,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       if (gro.error != '')
       {
         //this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
@@ -244,7 +260,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       if (gro.error != '')
       {
         //this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
@@ -276,7 +292,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -317,35 +333,37 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company special days', ''));
   }
   onSaveForm()
-  {    
-      this.company.name = this.genDetailsForm.controls['name'].value;
-      this.company.description = this.genDetailsForm.controls['description'].value;
-      this.company.idCategory = parseInt(this.genDetailsForm.controls['category'].value);
-      this.company.idSubcategory = parseInt(this.genDetailsForm.controls['subcategory'].value);
-      this.company.idCountry = parseInt(this.genDetailsForm.controls['country'].value);
-      this.company.town = this.genDetailsForm.controls['town'].value;
-      this.company.address = this.genDetailsForm.controls['address'].value;
-      this.company.email = this.genDetailsForm.controls['email'].value;
-      this.company.phone = this.genDetailsForm.controls['phone'].value;
+  {
+    this.company.name = this.genDetailsForm.controls['name'].value;
+    this.company.description = this.genDetailsForm.controls['description'].value;
+    this.company.idCategory = parseInt(this.genDetailsForm.controls['category'].value);
+    this.company.idSubcategory = parseInt(this.genDetailsForm.controls['subcategory'].value);
+    //this.company.idCountry = parseInt(this.genDetailsForm.controls['country'].value);
+    this.company.idCounty = parseInt(this.genDetailsForm.controls['county'].value);
+    this.company.idCity = parseInt(this.genDetailsForm.controls['city'].value);
+    //this.company.town = this.genDetailsForm.controls['town'].value;
+    this.company.address = this.genDetailsForm.controls['address'].value;
+    this.company.email = this.genDetailsForm.controls['email'].value;
+    this.company.phone = this.genDetailsForm.controls['phone'].value;
 
-      //se pun null ca se se updateze doar cele de sus
-      this.company.lat = null;
-      this.company.lng = null;
+    //se pun null ca se se updateze doar cele de sus
+    this.company.lat = null;
+    this.company.lng = null;
 
-      this.companyService.updateCompany(this.company).subscribe(result =>
+    this.companyService.updateCompany(this.company).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
       {
-        let gro = <GenericResponseObject>result;
-        if (gro.error != '')
-        {
-          //this.showPageMessage('error', 'Error', gro.error);
-          this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true, gro.error);
-        }
-        else
-        {
-          //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
-          this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblSaved'));
-        }
-      });   
+        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true, gro.error);
+      }
+      else
+      {
+        //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
+        this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblSaved'));
+      }
+    });
   }
   loadCountriesDic()
   {
@@ -354,7 +372,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       else
       {
         this.countriesDic = <Country[]>gro.objList;
@@ -365,6 +383,51 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
+  }
+  loadCounties()
+  {
+    this.counties = [];
+    this.counties.push({ label: "Select", value: 0 });
+    this.countriesService.getCounties(1).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+      else
+      {
+        let c = <County[]>gro.objList;
+
+        for (var i = 0; i < c.length; i++)
+        {
+          this.counties.push({ label: c[i].name, value: c[i].id });
+        }
+      }
+    });
+  }
+  loadCities()
+  {
+    if (this.genDetailsForm.controls['county'].value != 0)
+    {
+      this.cities = [{ label: "Select", value: 0 }];
+      this.countriesService.getCities(this.genDetailsForm.controls['county'].value).subscribe(result =>
+      {
+        let gro = <GenericResponseObject>result;
+        if (gro.error != '')
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        else
+        {
+          let c = <City[]>gro.objList;
+
+          for (var i = 0; i < c.length; i++)
+          {
+            this.cities.push({ label: c[i].name, value: c[i].id });
+          }
+        }
+      },
+        err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
+    }
+    else
+      this.cities = [{ label: "Select", value: 0 }];
   }
   getCountryObj(idCountry: number): Country
   {
@@ -383,7 +446,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -407,7 +470,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -442,7 +505,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       if (gro.error != '')
       {
         //this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
       }
       else
       {
@@ -453,7 +516,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   }
   addressAutocomplete()
   {
-    let country: Country = this.getCountryObj(this.genDetailsForm.controls['country'].value);
+    //let country: Country = this.getCountryObj(this.genDetailsForm.controls['country'].value);
 
     let searchBox = new google.maps.places.Autocomplete(this.address.nativeElement);
     // if (country)
@@ -486,7 +549,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
                 if (results[0].address_components[i].types[j] == 'locality')
                 {
                   town = results[0].address_components[i].long_name;
-                  this.genDetailsForm.controls['town'].setValue(town);
+                  //this.genDetailsForm.controls['town'].setValue(town);
                   break loop1;
                 }
               }
@@ -533,7 +596,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
             else
               //this.showPageMessage('error', 'Error', gro.error);
 
-            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+              this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
           }
           else
           {
@@ -562,7 +625,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
 
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -588,16 +651,16 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true); 
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
         this.workingHours = WorkingHours.DeepCopy(this.workingHoursOriginal);
         if (gro.objList != null && gro.objList.length > 0)
         {
           this.affectedBookings = gro.objList;
-          this.displayAffectedBookings = true;          
+          this.displayAffectedBookings = true;
         }
       }
       else
-      {        
+      {
         this.logAction(this.idCompany, false, Actions.Edit, '', 'edit company working hours');
       }
     },
@@ -631,7 +694,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
@@ -656,7 +719,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -737,7 +800,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
           let gro = <GenericResponseObject>result;
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+            this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
             
             if (gro.objList != null && gro.objList.length > 0)
             {
@@ -773,7 +836,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
           //this.showPageMessage('error', 'Error', gro.error);
         }
         else
@@ -788,7 +851,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
               let gro = <GenericResponseObject>result;
               if (gro.error != '')
               {
-                this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+                this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
                 //this.showPageMessage('error', 'Error', gro.error);
 
               }
@@ -811,7 +874,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       this.reloadCompanySpecialDays();
     }
   }
-  onBookingRemoved(event:string)
+  onBookingRemoved(event: string)
   {
     this.displayAffectedBookings = false;
     if (event == "removed")
@@ -830,7 +893,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
