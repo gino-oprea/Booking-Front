@@ -214,7 +214,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   {
     this.genDetailsForm = new FormGroup({
       'name': new FormControl(this.company == null ? '' : this.company.name, Validators.required),
-      'description': new FormControl(this.company == null ? '' : this.company.description),
+      'description_ro': new FormControl(this.company == null ? '' : this.company.description_RO),
+      'description_en': new FormControl(this.company == null ? '' : this.company.description_EN),
       'category': new FormControl(this.company == null ? '' : this.company.idCategory, Validators.required),
       'subcategory': new FormControl(this.company == null ? '' : this.company.idSubcategory, Validators.required),
       //'country': new FormControl(this.company == null ? '' : this.company.idCountry, Validators.required),
@@ -335,7 +336,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   onSaveForm()
   {
     this.company.name = this.genDetailsForm.controls['name'].value;
-    this.company.description = this.genDetailsForm.controls['description'].value;
+    this.company.description_RO = this.genDetailsForm.controls['description_ro'].value;
+    this.company.description_EN = this.genDetailsForm.controls['description_en'].value;
     this.company.idCategory = parseInt(this.genDetailsForm.controls['category'].value);
     this.company.idSubcategory = parseInt(this.genDetailsForm.controls['subcategory'].value);
     //this.company.idCountry = parseInt(this.genDetailsForm.controls['country'].value);

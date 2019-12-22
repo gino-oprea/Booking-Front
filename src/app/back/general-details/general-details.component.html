@@ -21,14 +21,24 @@
               </div>
             </div>
 
-            <div class="form-group" style="height: 34%;">
-              <label class="col-md-2 control-label" for="description">{{getCurrentLabelValue('lblDescription')}}:</label>
+            <div class="form-group" style="height: 15%;">
+              <label class="col-md-2 control-label" for="description_ro">Description RO:</label>
               <div class="col-md-10" style="height: 100%">
-                <textarea id="description" [ngClass]="{'valid-control':genDetailsForm.controls['description'].valid,
-                        'invalid-control':!genDetailsForm.controls['description'].valid}" formControlName="description"
-                  type="text" class="form-control input-md" style="height: 100%;padding: 3px;"></textarea>
+                <textarea id="description_ro" [ngClass]="{'valid-control':genDetailsForm.controls['description_ro'].valid,
+                        'invalid-control':!genDetailsForm.controls['description_ro'].valid}" formControlName="description_ro"
+                  type="text" class="form-control input-md" style="height: 100%;padding: 3px;resize: none;"></textarea>
               </div>
             </div>
+
+            <div class="form-group" style="height: 15%;">
+              <label class="col-md-2 control-label" for="description_en">Description EN:</label>
+              <div class="col-md-10" style="height: 100%">
+                <textarea id="description_en" [ngClass]="{'valid-control':genDetailsForm.controls['description_en'].valid,
+                                    'invalid-control':!genDetailsForm.controls['description_en'].valid}" formControlName="description_en"
+                  type="text" class="form-control input-md" style="height: 100%;padding: 3px;resize: none;"></textarea>
+              </div>
+            </div>
+
             <div class="form-group" style="height: 6%;">
               <label class="col-md-2 control-label" for="category">{{getCurrentLabelValue('lblCategory')}}:</label>
               <div class="col-md-10">
