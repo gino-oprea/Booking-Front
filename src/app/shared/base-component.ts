@@ -15,7 +15,7 @@ import { Token } from '../objects/token';
 
 export class BaseComponent implements OnInit, OnDestroy
 {
-    
+
     autoLoginTimeout;
 
     idCompany: number = null;
@@ -40,7 +40,7 @@ export class BaseComponent implements OnInit, OnDestroy
 
     calendarLocale_RO: any;
     calendarLocale_EN: any;
-    
+
 
     constructor(injector: Injector, lbls: string[]) 
     {
@@ -56,11 +56,11 @@ export class BaseComponent implements OnInit, OnDestroy
             this.pageLabels = lbls;
             if (this.pageLabels.length > 0)
                 this.getPageLabelsFromServer(this.pageLabels);
-            
-            
-        
+
+
+
             this.loginService.emmitLoginChange();
-            
+
             this.calendarLocale_RO = {
                 firstDay: 1,
                 dayNames: ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"],
@@ -79,7 +79,7 @@ export class BaseComponent implements OnInit, OnDestroy
                 monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                 buttonText: { today: 'today' }
             };
-           
+
 
             this.subscription = this.labelsService.cultureSubject.subscribe(culture =>
             {
@@ -172,8 +172,11 @@ export class BaseComponent implements OnInit, OnDestroy
             log.logErrorMessage = errMsg;
             log.logInfoMessage = infoMsg;
 
-            
-            if (showPageMessage || idAction == Actions.Login || idAction == Actions.Logout)//doar daca e actiune a userului pe pagina trebuie logat - requesturile la API se logheaza oricum din backend
+
+            if (showPageMessage
+                || idAction == Actions.Login
+                || idAction == Actions.Logout
+                || idAction == Actions.View)//doar daca e actiune a userului pe pagina trebuie logat - requesturile la API se logheaza oricum din backend
             {
                 this.loggerService.setLog(log).subscribe((data: any) =>
                 {
@@ -181,7 +184,7 @@ export class BaseComponent implements OnInit, OnDestroy
                     //console.log(gro);
                 },
                     err => console.log(err));
-            
+
                 if (showPageMessage)
                 {
                     let severity: string = PageMessageType.Success;
@@ -189,7 +192,7 @@ export class BaseComponent implements OnInit, OnDestroy
                         severity = PageMessageType.Error;
                     if (isWarning)
                         severity = PageMessageType.Warn;
-                
+
                     this.showPageMessage(severity, severity, pageMessage);
                 }
             }

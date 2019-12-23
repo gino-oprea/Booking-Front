@@ -18,6 +18,8 @@ import { ImageService } from '../../app-services/image.service';
 import { Booking } from '../../objects/booking';
 import { County } from '../../objects/county';
 import { City } from '../../objects/city';
+import { Observable } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -118,13 +120,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       right: 'today,prev,next'
     };
 
-    this.loadCategories(null);
 
-    //this.loadCountriesDic();
-    
-
-    this.reloadCompany();
-    this.loadCompanyImages();
 
     this.companyService.getCompanyWorkingHours(this.idCompany).subscribe(result =>
     {
@@ -171,13 +167,93 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   ngOnInit()
   {
     super.ngOnInit();
-
     this.initForm();
-
-    this.loadCounties();
-    this.loadCities();
-
+    this.initCompanyAndForm();
     this.reloadCompanySpecialDays();
+  }
+  initCompanyAndForm()
+  {
+    const combined1 = forkJoin(
+      this.companyService.getCompany(this.loginService.getCurrentUser().id, this.idCompany),
+      this.companyService.getActivityCategories(),
+      this.countriesService.getCounties(1)
+    );
+
+    combined1.subscribe(results =>
+    {
+      const [resultCompany, resultCategories, resultCounties] = results;
+      this.loadCompany(resultCompany);
+      this.initCategories(resultCategories);
+      this.initCounties(resultCounties);
+
+      const combined2 = forkJoin(
+        this.companyService.getActivitySubCategories(!this.company.idCategory ? 0 : this.company.idCategory),
+        this.countriesService.getCities(!this.company.idCounty ? 0 : this.company.idCounty)
+      );
+
+      combined2.subscribe(results2 =>
+      {
+        const [resultSubCategories, resultCities] = results2;
+        this.initSubCategories(resultSubCategories);
+        this.initCities(resultCities);
+
+        this.initForm();
+      });
+    });
+  }
+  initCounties(gro: GenericResponseObject)
+  {
+    this.counties = [];
+    this.counties.push({ label: "Select", value: 0 });
+
+    if (gro.error != '')
+      this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+    else
+    {
+      let c = <County[]>gro.objList;
+
+      for (var i = 0; i < c.length; i++)
+      {
+        this.counties.push({ label: c[i].name, value: c[i].id });
+      }
+    }
+  }
+  initCities(gro: GenericResponseObject)
+  {
+    this.cities = [{ label: "Select", value: 0 }];
+    if (gro.error != '')
+      this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+    else
+    {
+      let c = <City[]>gro.objList;
+
+      for (var i = 0; i < c.length; i++)
+      {
+        this.cities.push({ label: c[i].name, value: c[i].id });
+      }
+    }
+  }
+  initCategories(gro: GenericResponseObject)
+  {
+    if (gro.error != '')
+    {
+      this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+    }
+    else
+    {
+      this.categories = <GenericDictionaryItem[]>gro.objList;
+    }
+  }
+  initSubCategories(gro: GenericResponseObject)
+  {
+    if (gro.error != '')
+    {
+      this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+    }
+    else
+    {
+      this.subcategories = <GenericDictionaryItem[]>gro.objList;
+    }
   }
   selectTab(title: string)
   {
@@ -253,37 +329,35 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company images', ''));
   }
-  reloadCompany()
+  loadCompany(gro: GenericResponseObject)
   {
-    this.companyService.getCompany(this.loginService.getCurrentUser().id, this.idCompany).subscribe(result =>
+    // this.companyService.getCompany(this.loginService.getCurrentUser().id, this.idCompany).subscribe(result =>
+    // {
+    //   let gro = <GenericResponseObject>result;
+    if (gro.error != '')
     {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
+      //this.showPageMessage('error', 'Error', gro.error);
+      this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+    }
+    else
+    {
+      if (gro.objList.length > 0)
       {
-        //this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-      }
-      else
-      {
-        if (gro.objList.length > 0)
+        this.company = <Company>gro.objList[0];
+
+        if (this.company.lat != null)
         {
-          this.company = <Company>gro.objList[0];
-          this.loadCategories(this.company.idCategory);
-          if (this.company.lat != null)
-          {
-            let gmap = this.map.getMap();
-            gmap.setOptions({
-              center: { lat: this.company.lat, lng: this.company.lng },
-              zoom: 18
-            });
-            this.gMapOverlays = [];
-            this.gMapOverlays.push(new google.maps.Marker({ position: { lat: this.company.lat, lng: this.company.lng }, draggable: true }))
-          }
-          this.initForm();
+          let gmap = this.map.getMap();
+          gmap.setOptions({
+            center: { lat: this.company.lat, lng: this.company.lng },
+            zoom: 18
+          });
+          this.gMapOverlays = [];
+          this.gMapOverlays.push(new google.maps.Marker({ position: { lat: this.company.lat, lng: this.company.lng }, draggable: true }))
         }
       }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company', ''));
+    }
+    //});
   }
   reloadCompanySpecialDays()
   {
@@ -386,51 +460,27 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
   }
-  loadCounties()
+
+  onLoadCities(idCounty)
   {
-    this.counties = [];
-    this.counties.push({ label: "Select", value: 0 });
-    this.countriesService.getCounties(1).subscribe(result =>
+    this.cities = [{ label: "Select", value: 0 }];
+    this.countriesService.getCities(idCounty).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       else
       {
-        let c = <County[]>gro.objList;
+        let c = <City[]>gro.objList;
 
         for (var i = 0; i < c.length; i++)
         {
-          this.counties.push({ label: c[i].name, value: c[i].id });
+          this.cities.push({ label: c[i].name, value: c[i].id });
         }
       }
     });
   }
-  loadCities()
-  {
-    if (this.genDetailsForm.controls['county'].value != 0)
-    {
-      this.cities = [{ label: "Select", value: 0 }];
-      this.countriesService.getCities(this.genDetailsForm.controls['county'].value).subscribe(result =>
-      {
-        let gro = <GenericResponseObject>result;
-        if (gro.error != '')
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        else
-        {
-          let c = <City[]>gro.objList;
 
-          for (var i = 0; i < c.length; i++)
-          {
-            this.cities.push({ label: c[i].name, value: c[i].id });
-          }
-        }
-      },
-        err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
-    }
-    else
-      this.cities = [{ label: "Select", value: 0 }];
-  }
   getCountryObj(idCountry: number): Country
   {
     for (var i = 0; i < this.countriesDic.length; i++)
@@ -441,47 +491,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       }
     }
   }
-  loadCategories(selectedIdCategory: number)
-  {
-    this.companyService.getActivityCategories().subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
-      }
-      else
-      {
-        this.categories = <GenericDictionaryItem[]>gro.objList;
-        if (this.categories.length > 0)
-        {
-          if (selectedIdCategory == null)
-            this.loadSubCategories(this.categories[0].id);
-          else
-            this.loadSubCategories(selectedIdCategory);
-        }
-      }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting category types', ''));
-  }
-  loadSubCategories(idCategory: number)
-  {
-    this.companyService.getActivitySubCategories(idCategory).subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
-      }
-      else
-      {
-        this.subcategories = <GenericDictionaryItem[]>gro.objList;
-      }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting subcategory types', ''));
-  }
+
 
   handleMapClick(event)
   {
@@ -643,7 +653,23 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   }
   onChangeCategory(event)
   {
-    this.loadSubCategories(event.target.value);
+    this.companyService.getActivitySubCategories(event.target.value).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+      }
+      else
+      {
+        this.subcategories = <GenericDictionaryItem[]>gro.objList;
+
+        if (this.company)
+          if (!this.subcategories.find(d => d.id == this.company.idSubcategory))
+            if (this.genDetailsForm)
+              this.genDetailsForm.controls['subcategory'].setValue(this.subcategories[0].id);
+      }
+    });
   }
   onUpdateWorkingHours(value: WorkingHours)
   {
@@ -803,7 +829,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
           if (gro.error != '')
           {
             this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
-            
+
             if (gro.objList != null && gro.objList.length > 0)
             {
               this.affectedBookings = gro.objList;
