@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { AppSettings } from './app-settings';
 import { CommonServiceMethods } from './common-service-methods';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class UsersService
@@ -33,12 +33,24 @@ export class UsersService
         };
         return this.http.get<User>(AppSettings.API_ENDPOINT + 'users/getbyemail/' + email, options);
     }
-    getUserByEmailForUserRegistration(email: string): Observable<User>
+    getUsersForBookingAutocomplete(idCompany: number,email: string, phone: string): Observable<User[]>
+    {
+        let params = new HttpParams();
+        params = params.append('email', email != null ? email : "");
+        params = params.append('phone', phone != null ? phone : "");
+
+        let options = {
+            headers: null,
+            params: params
+        };
+        return this.http.get<User[]>(AppSettings.API_ENDPOINT + 'users/GetUsersForBookingAutocomplete/' + idCompany.toString(), options);
+    }
+    getUserByEmailForUserRegistration(email: string): Observable<GenericResponseObject>
     {
         let options = {
             headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
         };
-        return this.http.get<User>(AppSettings.API_ENDPOINT + 'users/GetByEmailForRegistration/' + email, options);
+        return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/GetByEmailForRegistration/' + email, options);
     }
     registerUser(user: User): Observable<GenericResponseObject>
     {
@@ -61,54 +73,7 @@ export class UsersService
     {
         return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/CheckPassword/' + idUser.toString() + '/' + password);
     }
-    // login(email: string, password: string): Observable<User>
-    // {
-    //     let usr = new User();
-    //     usr.email = email;
-    //     usr.password = password;
-
-    //     const body = JSON.stringify(usr);
-    //     const headers = new HttpHeaders({
-    //         'Content-Type': 'application/json'
-    //     });
-
-    //     return this.http.post(AppSettings.API_ENDPOINT + 'users/login', body, { headers: headers }).pipe(
-    //         map((response: Response) =>
-    //         {
-    //             let user = <User>response;
-    //             if (user.error == '')
-    //             //&& (<User>response.json()).idRole == 1)//doar pentru admin
-    //             {
-    //                 localStorage.setItem('b_front_auth_user', JSON.stringify(user));
-    //                 //this.loggedIn = true;
-    //             }
-
-    //             return response as User;
-    //         }));
-    // }
-    // isAuthenticated()
-    // {
-    //     return this.loggedIn;
-    //     //return !!localStorage.getItem('b_front_auth_user');
-    // }
-    // getCurrentUser():User
-    // {
-    //     if (!!localStorage.getItem('b_front_auth_user'))
-    //     {
-    //         return <User>JSON.parse(localStorage.getItem('b_front_auth_user'));
-    //     }
-    //     else
-    //         return null;    
-    // }
-    // emmitLoginChange()
-    // {
-    //     this.loginSubject.next('login change');
-    // }
-    // logout()
-    // {
-    //     localStorage.removeItem('b_front_auth_user');
-    //     this.loggedIn = false;
-    // }
+    
     editUser(user: User, updateMode: number): Observable<any>
     {
         const body = JSON.stringify(user);

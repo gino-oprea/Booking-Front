@@ -1,24 +1,18 @@
 //import { EntityWithLevel } from '../../objects/entity-with-level';
 import { Component, Injector, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'app/shared/base-component';
-import { DurationType, LevelType, WebSites, Actions, MessageType } from '../../enums/enums';
+import { WebSites, Actions, MessageType } from '../../enums/enums';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { WorkingDay } from '../../objects/working-day';
-
+import { Observable, Subscription } from 'rxjs';
 import { BookingService } from '../../app-services/booking.service';
 import { Booking } from '../../objects/booking';
 import { BookingEntity } from 'app/objects/booking-entity';
-import { GenericResponseObject } from '../../objects/generic-response-object';
-import { BookingFilter } from 'app/objects/booking-filter';
-import { Entity } from 'app/objects/entity';
-import { CommonServiceMethods } from '../../app-services/common-service-methods';
 import { AutoAssignedEntityCombination } from 'app/objects/auto-assigned-entity-combination';
-import { SelectBookingHourTransferObject } from '../../company-booking/select-booking-hour-transfer-object';
-import { AutoAssignPayload } from '../../objects/auto-assign-payload';
 import { Message } from '../../objects/message';
-
-
-
+import { debounceTime } from 'rxjs/operators'; 
+import { User } from '../../objects/user';
+import { GenericResponseObject } from '../../objects/generic-response-object';
 
 
 @Component({
@@ -40,6 +34,8 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
   
   @Input() autoAssignedEntityCombination: AutoAssignedEntityCombination;
   
+  phoneChangeSubscription: Subscription;
+  emailChangeSubscription: Subscription;
 
   confirmBooking: FormGroup;
   en: any;
@@ -100,7 +96,47 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
       'startTime': new FormControl({ value: date, disabled: true }),
       'endTime': new FormControl({ value: new Date(date.getTime() + serviceDuration), disabled: true })
     });
+
+    if (this.isAdminAddBooking)
+    {
+      this.setupAutocomplete();
+    }
   } 
+  
+  setupAutocomplete()
+  {
+    this.phoneChangeSubscription = this.confirmBooking.controls['phone'].valueChanges.pipe(debounceTime(400)).subscribe(result =>
+    {
+      this.usersService.getUsersForBookingAutocomplete(this.idCompany, null, result.toString()).subscribe(u =>
+      {
+        let gro = <GenericResponseObject>u;
+        if (gro.objList.length > 0)
+          this.populateFormWithUserData(gro.objList[0]);
+      });
+    });
+
+    this.emailChangeSubscription = this.confirmBooking.controls['email'].valueChanges.pipe(debounceTime(400)).subscribe(result =>
+    {
+      this.usersService.getUsersForBookingAutocomplete(this.idCompany, result.toString(), null).subscribe(u =>
+      {
+        let gro = <GenericResponseObject>u;
+        if (gro.objList.length > 0)
+          this.populateFormWithUserData(gro.objList[0]);
+      });
+    });
+  }
+  populateFormWithUserData(user: User)
+  {
+    this.phoneChangeSubscription.unsubscribe();
+    this.emailChangeSubscription.unsubscribe();
+
+    this.confirmBooking.controls['firstName'].setValue(user.firstName);
+    this.confirmBooking.controls['lastName'].setValue(user.lastName);    
+    this.confirmBooking.controls['phone'].setValue(user.phone);    
+    this.confirmBooking.controls['email'].setValue(user.email);
+    
+    this.setupAutocomplete();
+  }
 
   saveBooking()
   {
