@@ -164,6 +164,10 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   loadDurationArray(type: DurationType)
   {
     this.durationArray = CommonServiceMethods.getDurationArray(type);
+    if (this.selectedEntity)
+      if (!this.durationArray.find(d => d == this.selectedEntity.defaultServiceDuration))
+        if (this.genDetailsForm)
+          this.genDetailsForm.controls['duration'].setValue(this.durationArray[0]);
   }
   initFormAddEntity()
   {
