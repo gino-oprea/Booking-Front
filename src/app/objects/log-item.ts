@@ -19,6 +19,13 @@ export class LogItem
     public logErrorMessage: string;
     public logInfoMessage: string;
 
+    public apiHost: string;
+    public apiPath: string;
+    public apiMethod: string;
+    public apiRequestBody: string;
+    public apiCallDurationMilliseconds: number;
+    public authToken: string;
+
     public error: string;
     public errorDetailed: string;
 
@@ -40,6 +47,13 @@ export class LogItem
         this.logDate = null;
         this.logErrorMessage = "";
         this.logInfoMessage = "";
+
+        this.apiHost = "";
+        this.apiPath = "";
+        this.apiMethod = "";
+        this.apiRequestBody = "";
+        this.apiCallDurationMilliseconds = null;
+        this.authToken = "";
 
         this.error = "";
         this.errorDetailed = "";

@@ -25,14 +25,14 @@ export class BaseComponent implements OnInit, OnDestroy
     pageLabels: string[] = [];
 
     loginService: LoginService;
-    usersService: UsersService;      
+    usersService: UsersService;
     loggerService: LoggerService;
     labelsService: LabelsService;
     router: Router;
     route: ActivatedRoute;
     currentLabels: Label[] = [];
 
-    currentCulture: string = !!localStorage.getItem('b_front_culture') ? localStorage.getItem('b_front_culture') : 'RO'; 
+    currentCulture: string = !!localStorage.getItem('b_front_culture') ? localStorage.getItem('b_front_culture') : 'RO';
     currentUser: User = null;
     subscription: Subscription;
     userSubscription: Subscription;
@@ -42,7 +42,7 @@ export class BaseComponent implements OnInit, OnDestroy
     calendarLocale_EN: any;
     
 
-    constructor(injector: Injector,lbls:string[]) 
+    constructor(injector: Injector, lbls: string[]) 
     {
         try
         {
@@ -83,7 +83,7 @@ export class BaseComponent implements OnInit, OnDestroy
 
             this.subscription = this.labelsService.cultureSubject.subscribe(culture =>
             {
-                this.currentCulture = culture;  
+                this.currentCulture = culture;
                 this.onChangeCulture();
             });
             this.userSubscription = this.loginService.loginSubject.subscribe(res =>
@@ -128,7 +128,7 @@ export class BaseComponent implements OnInit, OnDestroy
             },
             err => console.log(err));
     }
-    getCurrentLabelValue(keyName:string):string
+    getCurrentLabelValue(keyName: string): string
     {
         let currLabel = new Label();
         for (let i = 0; i < this.currentLabels.length; i++)
@@ -141,22 +141,23 @@ export class BaseComponent implements OnInit, OnDestroy
         }
         if (this.currentCulture == 'EN')
             return currLabel.en;
-         else
-             return currLabel.ro;       
+        else
+            return currLabel.ro;
     }
     getCurrentCalendarLocale()
     {
         if (this.currentCulture == 'EN')
             return this.calendarLocale_EN;
-         else
-             return this.calendarLocale_RO;   
+        else
+            return this.calendarLocale_RO;
     }
     onChangeCulture()
     {
 
     }
 
-    logAction(idCompany: number, isError: boolean, idAction: number, errMsg: string, infoMsg: string, showPageMessage: boolean = false, pageMessage:string = errMsg, isWarning: boolean = false)
+    logAction(idCompany: number, isError: boolean, idAction: number, errMsg: string, infoMsg: string,
+        showPageMessage: boolean = false, pageMessage: string = errMsg, isWarning: boolean = false)
     {
         try
         {
@@ -171,24 +172,26 @@ export class BaseComponent implements OnInit, OnDestroy
             log.logErrorMessage = errMsg;
             log.logInfoMessage = infoMsg;
 
-            //console.log(log);
-
-            this.loggerService.setLog(log).subscribe((data: any) =>
-            {
-                let gro = <GenericResponseObject>data;
-                //console.log(gro);
-            },
-                err => console.log(err));
             
-            if (showPageMessage)
+            if (showPageMessage || idAction == Actions.Login || idAction == Actions.Logout)//doar daca e actiune a userului pe pagina trebuie logat - requesturile la API se logheaza oricum din backend
             {
-                let severity: string = PageMessageType.Success;
-                if (isError)
-                    severity = PageMessageType.Error;
-                if (isWarning)
-                    severity = PageMessageType.Warn;
+                this.loggerService.setLog(log).subscribe((data: any) =>
+                {
+                    let gro = <GenericResponseObject>data;
+                    //console.log(gro);
+                },
+                    err => console.log(err));
+            
+                if (showPageMessage)
+                {
+                    let severity: string = PageMessageType.Success;
+                    if (isError)
+                        severity = PageMessageType.Error;
+                    if (isWarning)
+                        severity = PageMessageType.Warn;
                 
-                this.showPageMessage(severity, severity, pageMessage);               
+                    this.showPageMessage(severity, severity, pageMessage);
+                }
             }
         }
         catch (e)
@@ -235,8 +238,8 @@ export class BaseComponent implements OnInit, OnDestroy
 
     showPageMessage(severity: string, summary: string, message: string)
     {
-      this.pageMsgs = [];
-      this.pageMsgs.push({ severity: severity, summary: summary, detail: message });
+        this.pageMsgs = [];
+        this.pageMsgs.push({ severity: severity, summary: summary, detail: message });
     }
 
     ngOnDestroy(): void 

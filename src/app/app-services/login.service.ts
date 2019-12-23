@@ -61,7 +61,7 @@ export class LoginService
             localStorage.setItem('b_front_auth_user', JSON.stringify(user));
             this.loggedIn = true;
 
-            component.logAction(null, false, Actions.Login, "", "");
+            //component.logAction(null, false, Actions.Login, "", "");
             
             this.emmitLoginChange();
 

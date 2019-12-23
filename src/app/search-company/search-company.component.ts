@@ -36,7 +36,7 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
 
   ngOnInit() 
   {
-    this.logAction(null, false, Actions.View, "", "");
+    super.ngOnInit();
 
     this.route.queryParams.subscribe((queryParams: Params) =>
     {

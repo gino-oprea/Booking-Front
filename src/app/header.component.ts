@@ -148,12 +148,14 @@ export class HeaderComponent extends BaseComponent implements OnInit
     return myAccountText;
   }
   onLogin()
-  {       
+  {   
     this.loginService.login(
       this.loginForm.controls['email'].value,
       this.loginForm.controls['password'].value, this).subscribe((token: Token) =>
       {
-        this.loginForm.reset();        
+        this.logAction(null, false, Actions.Login, "", "Login user " + this.loginForm.controls['email'].value);
+
+        this.loginForm.reset();            
       },
         err =>
         {
@@ -163,10 +165,11 @@ export class HeaderComponent extends BaseComponent implements OnInit
         });
   }
   onLogout()
-  {
-    this.logAction(null, false, Actions.Logout, "", "");
+  {    
     try//
     {
+      this.logAction(null, false, Actions.Logout, "", "Logout user: " + this.loginService.getCurrentUser().email);
+
       this.loginService.logout();      
       this.router.navigate(['/searchcompany']);
       //this.router.navigate(['/login']);

@@ -35,4 +35,11 @@ export class CompanySearchService
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyFront', options);
   }
 
+  getCompany(idUser: number, idCompany: number)
+  {
+    let options = {
+      headers: null
+    };
+    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyFront/' + idUser + '/' + idCompany, options);
+  }
 }

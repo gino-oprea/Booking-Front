@@ -2,11 +2,11 @@ import { Component, OnInit, Injector, ViewChild, OnChanges, SimpleChanges, After
 import { BaseComponent } from '../shared/base-component';
 import { WebSites, Actions } from '../enums/enums';
 import { basename } from 'path';
-import { CompanyService } from '../app-services/company.service';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { Company } from '../objects/company';
 import { Image } from '../objects/image';
 import { ImageService } from '../app-services/image.service';
+import { CompanySearchService } from 'app/app-services/company-search.service';
 
 @Component({
   selector: 'bf-company-details',
@@ -35,7 +35,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
   
 
   constructor(private injector: Injector,
-    private companyService: CompanyService,
+    private companyService: CompanySearchService,
     private imageService: ImageService)
   {
     super(injector,
@@ -79,7 +79,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
 
   loadCompany()
   {
-    this.companyService.getCompany(this.loginService.getCurrentUser().id, this.idCompany).subscribe(result =>
+    this.companyService.getCompany(null, this.idCompany).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
