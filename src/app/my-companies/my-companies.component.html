@@ -6,36 +6,38 @@
             <div *ngIf="company.image" class="span2">
                 <!--<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle">-->
                 <img [src]="company.image.length==0 ? COMP_IMG : domSanitizationService.bypassSecurityTrustUrl('data:image/png;base64,'+company.image[0].img)"
-                style="height: 120px;height: 120px;">
+                    style="height: 120px;height: 120px;">
             </div>
 
             <div class="span8">
                 <h3>{{company.name}}</h3>
                 <h6>Email: {{company.email}}</h6>
                 <h6>{{getCurrentLabelValue('lblPhone')}}: {{company.phone}}</h6>
-                <h6>{{getCurrentLabelValue('lblTown')}}: {{company.town}}</h6>
+                <h6>{{getCurrentLabelValue('lblTown')}}: {{company.cityName}}</h6>
             </div>
             <div class="span2">
                 <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="toggleCompanyEnabled($event, company)"
-                 [(ngModel)]="company.isEnabled"></p-inputSwitch>
+                    [(ngModel)]="company.isEnabled"></p-inputSwitch>
             </div>
 
             <div class="span2">
-                <div class="btn-group">                    
+                <div class="btn-group">
                     <!--<button type="button" pButton icon="fa-edit" label="{{getCurrentLabelValue('lblEdit')}}" (click)="editCompany(company.id)"></button>-->
-                    <input type="button" value="{{getCurrentLabelValue('lblEdit')}}" class="btn btn-primary" (click)="editCompany(company.id)">
+                    <input type="button" value="{{getCurrentLabelValue('lblEdit')}}" class="btn btn-primary"
+                        (click)="editCompany(company.id)">
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid well span6 col-md-3" style="margin:3px; height: 88%;cursor: pointer;" (click)="onAddCompany()">
+    <div class="container-fluid well span6 col-md-3" style="margin:3px; height: 88%;cursor: pointer;"
+        (click)="onAddCompany()">
         <img [src]="PLUS_IMG" style="height: 70%;width: 70%;
         position: absolute;margin: auto;top: 0;left: 0;right: 0;bottom: 0;">
     </div>
 </div>
 
-<p-dialog header="{{getCurrentLabelValue('lblSubscriptions')}}" [(visible)]="showSubscriptionDialog" modal="modal" width="1000"
-    responsive="true">
+<p-dialog header="{{getCurrentLabelValue('lblSubscriptions')}}" [(visible)]="showSubscriptionDialog" modal="modal"
+    width="1000" responsive="true">
     <div *ngFor="let subscription of subscriptions; let i=index" class="col-md-3">
         <div class="row" style="border-bottom:1px #e6e6e6 solid;background-color: #2399e5; margin-right:1px;">
             <label class="col-sm-4 control-label">{{subscription.subscriptionName}}</label>
@@ -43,29 +45,38 @@
 
         <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
             <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblMonthlyBookings')}}:</div>
-            <div class="col-md-3" style="padding: 5px">{{subscription.monthlyBookingsNo==null?getCurrentLabelValue('lblUnlimited'):subscription.monthlyBookingsNo}}</div>
+            <div class="col-md-3" style="padding: 5px">
+                {{subscription.monthlyBookingsNo==null?getCurrentLabelValue('lblUnlimited'):subscription.monthlyBookingsNo}}
+            </div>
         </div>
 
         <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
             <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblLevels')}}:</div>
-            <div class="col-md-3" style="padding: 5px">{{subscription.levelsNo==null?getCurrentLabelValue('lblUnlimited'):subscription.levelsNo}}</div>
+            <div class="col-md-3" style="padding: 5px">
+                {{subscription.levelsNo==null?getCurrentLabelValue('lblUnlimited'):subscription.levelsNo}}</div>
         </div>
 
         <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
             <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblEntitiesPerLevel')}}:</div>
-            <div class="col-md-3" style="padding: 5px">{{subscription.entitiesPerLevelNo==null?getCurrentLabelValue('lblUnlimited'):subscription.entitiesPerLevelNo}}</div>
+            <div class="col-md-3" style="padding: 5px">
+                {{subscription.entitiesPerLevelNo==null?getCurrentLabelValue('lblUnlimited'):subscription.entitiesPerLevelNo}}
+            </div>
         </div>
 
         <div class="row" style="background-color: #f5f5f5;margin-right: 1px;">
             <div class="col-sm-12" style="margin-left: 10px;">
-                <label class="radio"> 
+                <label class="radio">
                     <input type="radio" name="price" id="rbOneMonth" [(ngModel)]="selectedSubscriptionPrice"
-                    [value]="subscription.monthlyPrice==null ? subscription.id+'|monthly_0' : subscription.id+'|monthly_'+subscription.monthlyPrice" style="cursor: pointer;"> 
-                    {{getCurrentLabelValue('lblOneMonth')}} ({{subscription.monthlyPrice==null ? 0 : subscription.monthlyPrice}} EUR) </label>
-                <label class="radio"> 
-                    <input type="radio" name="price" id="rbOneYear" style="cursor: pointer;" [(ngModel)]="selectedSubscriptionPrice"
-                    [value]="subscription.yearlyPrice==null ? subscription.id+'|yearly_0' : subscription.id+'|yearly_'+subscription.yearlyPrice"> 
-                {{getCurrentLabelValue('lblOneYear')}} ({{subscription.yearlyPrice==null ? 0 : subscription.yearlyPrice}} EUR)</label>
+                        [value]="subscription.monthlyPrice==null ? subscription.id+'|monthly_0' : subscription.id+'|monthly_'+subscription.monthlyPrice"
+                        style="cursor: pointer;">
+                    {{getCurrentLabelValue('lblOneMonth')}}
+                    ({{subscription.monthlyPrice==null ? 0 : subscription.monthlyPrice}} EUR) </label>
+                <label class="radio">
+                    <input type="radio" name="price" id="rbOneYear" style="cursor: pointer;"
+                        [(ngModel)]="selectedSubscriptionPrice"
+                        [value]="subscription.yearlyPrice==null ? subscription.id+'|yearly_0' : subscription.id+'|yearly_'+subscription.yearlyPrice">
+                    {{getCurrentLabelValue('lblOneYear')}}
+                    ({{subscription.yearlyPrice==null ? 0 : subscription.yearlyPrice}} EUR)</label>
             </div>
         </div>
     </div>
@@ -75,6 +86,6 @@
             <button type="button" pButton icon="fa-check" (click)="chooseSubscription()" label="OK"></button>
         </div>
     </footer>
-    </p-dialog>
+</p-dialog>
 
-    <p-growl [value]="pageMsgs"></p-growl>
+<p-growl [value]="pageMsgs"></p-growl>
