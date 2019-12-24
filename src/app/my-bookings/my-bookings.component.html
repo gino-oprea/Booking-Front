@@ -6,13 +6,24 @@
       [ngClass]="{'selected': (selectedBooking!=null ? booking.id == selectedBooking.id : false)}">{{booking.startDate | date:'dd MMM y'}}</li>
     </ol>
   </div>
-  <div *ngIf="selectedBooking" class="col-md-10">
-      <div class="row" style="padding-left:20px;padding-right: 20px;">
+  <div *ngIf="selectedBooking" class="col-md-3">
+    <div *ngFor="let entity of selectedBooking.entities">
+      <div class="label label-default">{{entity.entityName_EN}}</div>
+      <div>
+        <img *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
+          style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
+        <img *ngIf="entity.images.length==0" [src]="COMP_IMG"
+          style="height: auto;width: auto;max-height: 100px;max-width: 100%;">
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selectedBooking" class="col-md-7">
+      <!-- <div class="row" style="padding-left:20px;padding-right: 20px;">
           <h4 *ngFor="let entity of selectedBooking.entities" style="display: inline-block; padding-left:5px;padding-right: 5px;">
             <span class="label label-default">{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</span>
           </h4>          
         </div>
-        <br>
+        <br> -->
         <form class="form-horizontal" style="height: 100%; width:100%;">          
           <div>            
             <div class="ui-grid ui-grid-responsive ui-fluid">

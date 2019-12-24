@@ -1,3 +1,4 @@
+import { Image } from './image';
 export class EntityWithLevel
 {
   constructor(
@@ -8,6 +9,7 @@ export class EntityWithLevel
     public entityDescription_EN?: string,
     public entityDefaultServiceDuration?: number,
     public entityIdDurationType?: number,
+    public images?: Image[],
 
     public idLevel?: number,
     public idCompany?: number,

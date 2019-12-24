@@ -16,13 +16,19 @@ import { BookingEntity } from '../../objects/booking-entity';
 import { PotentialBooking } from '../../objects/potential-booking';
 import { Message } from '../../objects/message';
 import { Booking } from '../../objects/booking';
+import { ImageService } from '../../app-services/image.service';
+import { forkJoin } from 'rxjs';
+import { Image } from '../../objects/image';
 
 @Component({
   selector: 'bf-bookings',
   templateUrl: './bookings.component.html',
   styleUrls: ['./bookings.component.css']
 })
-export class BookingsComponent extends BaseComponent implements OnInit {
+export class BookingsComponent extends BaseComponent implements OnInit 
+{
+  public COMP_IMG = require("../../img/company.jpg");
+
   bookingDefaultDuration: BookingDefaultDuration;
   showCalendarBooking: boolean;
   selectedFilter: BookingFilter;// = new BookingFilter(null, null, new Date());
@@ -44,6 +50,7 @@ export class BookingsComponent extends BaseComponent implements OnInit {
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
+    private imageService: ImageService,
     private entitiesService: EntitiesService) {
     super(injector, []);
     this.site = WebSites.Back;
@@ -92,6 +99,7 @@ export class BookingsComponent extends BaseComponent implements OnInit {
         if (this.timeslotBookings.length > 0)
         {
           this.selectedBooking = this.timeslotBookings[0];
+          this.setupSelectedBookingImages();
           this.selectTab('edit');
         }
         else
@@ -269,9 +277,31 @@ export class BookingsComponent extends BaseComponent implements OnInit {
     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
   }
 
-  selectBooking(booking: Booking) {
+  selectBooking(booking: Booking) 
+  {
     this.selectedBooking = booking;
+    this.setupSelectedBookingImages();    
   }
+  setupSelectedBookingImages()
+  {
+    //setup images
+    let requests = [];
+    for (let i = 0; i < this.selectedBooking.entities.length; i++)
+    {
+      const entity = this.selectedBooking.entities[i];
+      requests.push(this.imageService.getEntityImages(entity.idEntity));
+    }
+
+    forkJoin(requests).subscribe((imageResults: GenericResponseObject[]) =>
+    {
+      for (let i = 0; i < imageResults.length; i++) 
+      {
+        const images = <Image[]>imageResults[i].objList;
+        this.selectedBooking.entities[i].images = images;
+      }
+    });
+  }
+
   deleteBooking() {
     this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => 
     {

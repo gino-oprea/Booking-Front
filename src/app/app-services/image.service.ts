@@ -44,7 +44,7 @@ export class ImageService
   getEntityImages(idEntity: number)
   {
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null
     };
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Image/GetEntityImages/' + idEntity, options);
   }

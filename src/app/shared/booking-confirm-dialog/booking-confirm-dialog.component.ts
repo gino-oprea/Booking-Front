@@ -13,6 +13,7 @@ import { Message } from '../../objects/message';
 import { debounceTime } from 'rxjs/operators'; 
 import { User } from '../../objects/user';
 import { GenericResponseObject } from '../../objects/generic-response-object';
+import { ImageService } from '../../app-services/image.service';
 
 
 @Component({
@@ -30,9 +31,10 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
 
   @Input() isAdminAddBooking: boolean;  
   @Input() existingBooking: Booking;
- 
   
   @Input() autoAssignedEntityCombination: AutoAssignedEntityCombination;
+
+  public COMP_IMG = require("../../img/company.jpg");
   
   phoneChangeSubscription: Subscription;
   emailChangeSubscription: Subscription;
@@ -41,7 +43,8 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
   en: any;
 
   constructor(private injector: Injector,
-  private bookingService:BookingService)
+    private bookingService: BookingService,
+  private imageService:ImageService)
   {
     super(injector, []);
     this.site = WebSites.Front;
@@ -189,8 +192,23 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
         message = new Message(MessageType.Error, err.status + ' ' + err.statusText);
 
         this.bookingSaved.emit(message);
-      });
-
-    
+      });    
   }
+  // loadEntityImages()
+  // {
+  //   this.imageService.getEntityImages(this.selectedEntity.id).subscribe(result =>
+  //   {
+  //     let gro = <GenericResponseObject>result;
+  //     if (gro.error != '')
+  //     {
+  //       this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+  //       //this.showPageMessage('error', 'Error', gro.error);
+  //     }
+  //     else
+  //     {
+  //       this.images = <Image[]>gro.objList;
+  //     }
+  //   },
+  //     err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entities images', ''));
+  // }
 }

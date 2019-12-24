@@ -1,9 +1,22 @@
-<div *ngIf="autoAssignedEntityCombination" class="row" style="padding-left:20px;padding-right: 20px;">
+
+<div *ngIf="autoAssignedEntityCombination" class="col-md-3">
+  <div *ngFor="let entity of autoAssignedEntityCombination.entityCombination">
+    <div class="label label-default">{{entity.entityName_EN}}</div>
+    <div>
+      <img *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
+        style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
+      <img *ngIf="entity.images.length==0" [src]="COMP_IMG"
+        style="height: auto;width: auto;max-height: 100px;max-width: 100%;">
+    </div>
+  </div>  
+</div>
+<div class="col-md-9">
+<!-- <div *ngIf="autoAssignedEntityCombination" class="row" style="padding-left:20px;padding-right: 20px;">
   <h4 *ngFor="let entity of autoAssignedEntityCombination.entityCombination" style="display: inline-block; padding-left:5px;padding-right: 5px;">
     <span class="label label-default">{{entity.entityName_EN}}</span>
   </h4>
 </div>
-<br>
+<br> -->
 <form *ngIf="autoAssignedEntityCombination!=null" class="form-horizontal" style="height: 100%; width:100%;" id="addLevel-form" [formGroup]="confirmBooking" (ngSubmit)="saveBooking()">
   <div class="ui-grid ui-grid-responsive ui-fluid">
     <div class="ui-grid-row">
@@ -121,5 +134,5 @@
     </div>
   </footer>
 </form>
-
+</div>
 <p-growl [value]="pageMsgs"></p-growl>

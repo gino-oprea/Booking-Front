@@ -6,6 +6,9 @@ import { Booking } from '../objects/booking';
 import { UsersService } from '../app-services/users.service';
 import { BookingService } from '../app-services/booking.service';
 import { GenericResponseObject } from '../objects/generic-response-object';
+import { forkJoin } from 'rxjs';
+import { Image } from '../objects/image';
+import { ImageService } from '../app-services/image.service';
 
 @Component({
   selector: 'bf-my-bookings',
@@ -18,8 +21,11 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
   selectedBooking: Booking;
   displayConfirmDialog: boolean = false;
 
+  public COMP_IMG = require("../img/company.jpg");
+
   constructor(private injector: Injector,
-    private bookingService: BookingService)
+    private bookingService: BookingService,
+  private imageService:ImageService)
   {
     super(injector,
       [
@@ -54,7 +60,10 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
       {
         this.bookings = <Booking[]>gro.objList;
         if (this.bookings.length > 0)
+        {
           this.selectedBooking = this.bookings[0];
+          this.setupSelectedBookingImages();
+        }
         else
           this.selectedBooking = null;
         //console.log(this.bookings);
@@ -66,6 +75,26 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
   selectBooking(booking: Booking)
   {
     this.selectedBooking = booking;
+    this.setupSelectedBookingImages();
+  }
+  setupSelectedBookingImages()
+  {
+    //setup images
+    let requests = [];
+    for (let i = 0; i < this.selectedBooking.entities.length; i++)
+    {
+      const entity = this.selectedBooking.entities[i];
+      requests.push(this.imageService.getEntityImages(entity.idEntity));
+    }
+
+    forkJoin(requests).subscribe((imageResults: GenericResponseObject[]) =>
+    {
+      for (let i = 0; i < imageResults.length; i++) 
+      {
+        const images = <Image[]>imageResults[i].objList;
+        this.selectedBooking.entities[i].images = images;
+      }
+    });
   }
 
   // deleteBooking()

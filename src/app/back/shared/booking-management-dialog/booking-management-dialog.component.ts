@@ -4,13 +4,18 @@ import { WebSites, Actions } from '../../../enums/enums';
 import { Booking } from '../../../objects/booking';
 import { BookingService } from '../../../app-services/booking.service';
 import { GenericResponseObject } from '../../../objects/generic-response-object';
+import { forkJoin } from 'rxjs';
+import { ImageService } from '../../../app-services/image.service';
+import { Image } from '../../../objects/image';
 
 @Component({
   selector: 'bf-booking-management-dialog',
   templateUrl: './booking-management-dialog.component.html',
   styleUrls: ['./booking-management-dialog.component.css']
 })
-export class BookingManagementDialogComponent extends BaseComponent implements OnInit, OnChanges {
+export class BookingManagementDialogComponent extends BaseComponent implements OnInit, OnChanges 
+{
+  public COMP_IMG = require("../../../img/company.jpg");
 
   @Input() idCompany: number;
   @Input() bookings: Booking[] = [];
@@ -20,7 +25,8 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   selectedBooking: Booking;
 
   constructor(private injector: Injector,
-  private bookingService:BookingService)
+    private bookingService: BookingService,
+    private imageService: ImageService)
   {
     super(injector, []);
 
@@ -36,12 +42,35 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   {
     super.ngOnInit();
     if (this.bookings.length > 0)
+    {
       this.selectedBooking = this.bookings[0];
+      this.setupSelectedBookingImages();
+    }
   }
 
   selectBooking(booking: Booking)
   {
     this.selectedBooking = booking;
+    this.setupSelectedBookingImages();
+  }
+  setupSelectedBookingImages()
+  {
+    //setup images
+    let requests = [];
+    for (let i = 0; i < this.selectedBooking.entities.length; i++)
+    {
+      const entity = this.selectedBooking.entities[i];
+      requests.push(this.imageService.getEntityImages(entity.idEntity));
+    }
+
+    forkJoin(requests).subscribe((imageResults: GenericResponseObject[]) =>
+    {
+      for (let i = 0; i < imageResults.length; i++) 
+      {
+        const images = <Image[]>imageResults[i].objList;
+        this.selectedBooking.entities[i].images = images;
+      }
+    });
   }
   deleteBooking()
   {

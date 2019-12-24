@@ -23,6 +23,10 @@
             <option value="-1">Select {{level.levelName_EN}} / Reset</option>
             <option *ngFor="let entity of level.entities" [value]="entity.id">{{entity.entityName_EN}}</option>
           </select>
+          <div *ngIf="getSelectedImage(level.id)!=null">
+            <img [src]="'data:image/png;base64,'+getSelectedImage(level.id)"
+              style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">              
+          </div>
         </div>
       </div>
     </div>

@@ -11,6 +11,9 @@ import { SelectedEntityPerLevel } from '../../objects/selected-entity-per-level'
 import { BookingFilter } from '../../objects/booking-filter';
 import { SimpleChanges } from '@angular/core';
 import { CommonServiceMethods } from '../../app-services/common-service-methods';
+import { ImageService } from '../../app-services/image.service';
+import { GenericResponseObject } from 'app/objects/generic-response-object';
+import { Image } from '../../objects/image';
 
 class SelectedCharacteristic
 {
@@ -45,7 +48,8 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
-    private levelLinkingService: LevelLinkingService)
+    private levelLinkingService: LevelLinkingService,
+    private imageService: ImageService)
   {
     super(injector, []);
     this.site = WebSites.Front;
@@ -275,7 +279,10 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
     {
       let ents = this.selectedEntities.filter(e => e.idLevel != idSelectedLevel);
       for (let j = 0; j < ents.length; j++)
+      {
         ents[j].idEntity = -1;//deselect
+        ents[j].images = null;
+      }
     }
   }
   setupFilterObjectForEmit(filteredEntititesPerLevel: Entity[][])
@@ -315,25 +322,38 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   {
     //reset invalid selections
     this.resetInvalidSelections(idLevel);
-
     this.resetSelectedCharacteristics(idLevel, false);
-
-
-    //se reseteaza si selectia de caracteristici
-    //let selEnts = this.selectedEntities.find(e => e.idLevel == idLevel);
-    // if (selEnts.idEntity == -1)
-    //   this.resetSelectedCharacteristics(idLevel, true);
-    ////
-
-
     let filteredEntititesPerLevel = this.getFilteredEntitiesPerLevel();
-
     this.setupFilterObjectForEmit(filteredEntititesPerLevel);
-
     this.setupFilterObjectForDropdowns(filteredEntititesPerLevel, idLevel);
 
-    this.applyFilter();
+    this.loadEntityImages(this.selectedEntities.find(e => e.idLevel == idLevel).idEntity);
 
+    this.applyFilter();
+  }
+  getSelectedImage(idLevel: number): string
+  {
+    let images: Image[] = this.selectedEntities.find(e => e.idLevel == idLevel).images;
+    if (images && images.length > 0)
+      return this.selectedEntities.find(e => e.idLevel == idLevel).images[0].img;
+    else
+      return null;
+  }
+  loadEntityImages(idEntity: number)
+  {
+    this.imageService.getEntityImages(idEntity).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);        
+      }
+      else
+      {
+        let images = <Image[]>gro.objList;
+        this.selectedEntities.find(e => e.idEntity == idEntity).images = images;
+      }
+    });
   }
   getFilteredEntitiesPerLevel(): Entity[][]
   {
