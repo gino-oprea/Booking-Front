@@ -169,6 +169,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     super.ngOnInit();
     this.initForm();
     this.initCompanyAndForm();
+    this.loadCompanyImages();
     this.reloadCompanySpecialDays();
   }
   initCompanyAndForm()
