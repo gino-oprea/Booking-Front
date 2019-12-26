@@ -13,19 +13,20 @@ export enum Actions
     Login = 5,
     Search = 6,
     Logout = 7,
-    View = 8
+    View = 8,
+    Cancel = 9
 }
 export enum FieldType
 {
     Numeric = 1,
     Text = 2
-}    
+}
 export enum DurationType
 {
     Minutes = 1,
     Hours = 2,
     Days = 3
-}    
+}
 export enum LevelType
 {
     GenericStructure = 1,

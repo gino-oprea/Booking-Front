@@ -51,7 +51,8 @@ export class BookingsComponent extends BaseComponent implements OnInit
   constructor(private injector: Injector,
     private bookingService: BookingService,
     private imageService: ImageService,
-    private entitiesService: EntitiesService) {
+    private entitiesService: EntitiesService)
+  {
     super(injector, []);
     this.site = WebSites.Back;
     this.pageName = "Bookings";
@@ -62,23 +63,28 @@ export class BookingsComponent extends BaseComponent implements OnInit
     };
 
     let parentRoute: ActivatedRoute = this.route.parent;
-    this.routeSubscription = parentRoute.params.subscribe((params: any) => {
-      if (params.hasOwnProperty('id')) {
+    this.routeSubscription = parentRoute.params.subscribe((params: any) =>
+    {
+      if (params.hasOwnProperty('id'))
+      {
         this.idCompany = +params['id'];
       }
     });
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     super.ngOnInit();
     this.getBookingDefaultDuration();
   }
 
-  filterChanged(value: BookingFilter) {
+  filterChanged(value: BookingFilter)
+  {
     this.selectedFilter = new BookingFilter(value.filteredLevels, value.allEntitiesPossibleCombinations, value.date);
   }
 
-  onShiftWeek(value: Date) {
+  onShiftWeek(value: Date)
+  {
     this.selectedFilter.date = value;
     this.shiftedDate = value;
   }
@@ -111,7 +117,8 @@ export class BookingsComponent extends BaseComponent implements OnInit
     });
   }
 
-  onSelectBookingHour(value: SelectBookingHourTransferObject) {
+  onSelectBookingHour(value: SelectBookingHourTransferObject)
+  {
     this.selectedBookingHourTransferObject = value;//JSON.parse(JSON.stringify(value));   
 
     let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
@@ -167,11 +174,14 @@ export class BookingsComponent extends BaseComponent implements OnInit
     }
   }
 
-  enableAddTab(doEnable: boolean) {
-    if (doEnable) {
+  enableAddTab(doEnable: boolean)
+  {
+    if (doEnable)
+    {
       this.isAddTabEnabled = true;
     }
-    else {
+    else
+    {
       this.isAddTabEnabled = false;
     }
   }
@@ -196,31 +206,39 @@ export class BookingsComponent extends BaseComponent implements OnInit
       }
     });
   }
-  calculateDefaultDuration() {
+  calculateDefaultDuration()
+  {
     let duration = this.bookingDefaultDuration.defaultDuration;
     let durType = this.bookingDefaultDuration.durationType;
 
-    if (durType == DurationType.Hours || durType == DurationType.Minutes) {
+    if (durType == DurationType.Hours || durType == DurationType.Minutes)
+    {
       this.showCalendarBooking = false;
     }
-    else {
+    else
+    {
       this.showCalendarBooking = true;
     }
   }
 
-  searchBooking() {
-    if (this.searchString.trim() != "") {
+  searchBooking()
+  {
+    if (this.searchString.trim() != "")
+    {
       this.bookingSearchFilter = new BookingSearchFilter(this.searchString, this.searchType);
     }
   }
 
-  clearSearchBooking() {
+  clearSearchBooking()
+  {
     this.searchString = "";
     this.bookingSearchFilter = null;
   }
 
-  onCloseManageBookingsDialog() {
-    if (this.autoAssignedEntityCombination) {
+  onCloseManageBookingsDialog()
+  {
+    if (this.autoAssignedEntityCombination)
+    {
       let startTime: Date;
       let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
       let h = selectedTime.split(':')[0];
@@ -230,7 +248,8 @@ export class BookingsComponent extends BaseComponent implements OnInit
       startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), parseInt(h), parseInt(m), 0, 0);
 
       let bookingEntities: BookingEntity[] = [];
-      this.autoAssignedEntityCombination.entityCombination.forEach(e => {
+      this.autoAssignedEntityCombination.entityCombination.forEach(e =>
+      {
         bookingEntities.push(new BookingEntity(e.id, false, e.idLevel, e.isMultipleBooking));
       });
 
@@ -238,14 +257,18 @@ export class BookingsComponent extends BaseComponent implements OnInit
         CommonServiceMethods.getDateTimeString(date), null,
         CommonServiceMethods.getDateTimeString(startTime), null, null);
 
-      if (this.autoAssignedEntityCombination.idPotentialBooking != null) {
-        this.bookingService.removePotentialBooking(this.autoAssignedEntityCombination.idPotentialBooking).subscribe(result => {
+      if (this.autoAssignedEntityCombination.idPotentialBooking != null)
+      {
+        this.bookingService.removePotentialBooking(this.autoAssignedEntityCombination.idPotentialBooking).subscribe(result =>
+        {
           let gro = <GenericResponseObject>result;
-          if (gro.error != '') {
+          if (gro.error != '')
+          {
             console.log(gro);
-            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
+            this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
           }
-          else {
+          else
+          {
             console.log('potential booking removed from server singleton')
           }
         },
@@ -254,12 +277,15 @@ export class BookingsComponent extends BaseComponent implements OnInit
     }
   }
 
-  selectTab(title: string) {
-    if (title == 'add') {
+  selectTab(title: string)
+  {
+    if (title == 'add')
+    {
       this.tabs.add.active = true;
       this.tabs.edit.active = false;
     }
-    if (title == 'edit') {
+    if (title == 'edit')
+    {
       this.tabs.add.active = false;
       this.tabs.edit.active = true;
     }
@@ -280,7 +306,7 @@ export class BookingsComponent extends BaseComponent implements OnInit
   selectBooking(booking: Booking) 
   {
     this.selectedBooking = booking;
-    this.setupSelectedBookingImages();    
+    this.setupSelectedBookingImages();
   }
   setupSelectedBookingImages()
   {
@@ -302,17 +328,18 @@ export class BookingsComponent extends BaseComponent implements OnInit
     });
   }
 
-  deleteBooking() {
+  deleteBooking()
+  {
     this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => 
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '') 
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
       }
       else 
       {
-        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");        
+        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
         this.getTimeslotBookings(this.selectedBookingDate);
         this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
       }
@@ -325,11 +352,11 @@ export class BookingsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+        this.logAction(this.idCompany, true, Actions.Cancel, gro.error, gro.errorDetailed, true);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking canceled");    
+        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking canceled");
         this.getTimeslotBookings(this.selectedBookingDate);
         this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
       }
