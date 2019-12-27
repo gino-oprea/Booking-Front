@@ -142,9 +142,23 @@
             </div>
           </div>
           <br>
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-3">
+                <label style="padding: 5px;" for="status">Status:</label>
+              </div>
+              <div class="col-md-1">
+                <span>{{getBookingStatusString(selectedBooking.idStatus)}}</span>
+              </div>
+            </div>
+          </div>
+          <br>
         </div>
         <footer>
           <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button class="btn btn-success" (click)="setBookingHonored()">
+              <i class="fa fa-check"> Honored</i>
+            </button>
             <button class="btn btn-warning" (click)="cancelBooking()">
               <i class="fa fa-remove"> Cancel booking</i>
             </button>

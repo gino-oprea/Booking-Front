@@ -1,13 +1,13 @@
 export class CompanyClient
 {
   constructor(
-    email?: string,
-    phone?: string,
-    firstName?: string,
-    lastName?: string,
-    totalBookings?: number,
-    activeBookings?: number,
-    honoredBookings?: number,
-    canceledBookings?: number
+    public email?: string,
+    public phone?: string,
+    public firstName?: string,
+    public lastName?: string,
+    public totalBookings?: number,
+    public activeBookings?: number,
+    public honoredBookings?: number,
+    public canceledBookings?: number
   ) { }
 }

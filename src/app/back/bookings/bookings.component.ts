@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { BaseComponent } from '../../shared/base-component';
-import { WebSites, Actions, DurationType, MessageType } from '../../enums/enums';
+import { WebSites, Actions, DurationType, MessageType, BookingStatus } from '../../enums/enums';
 import { ActivatedRoute } from '@angular/router';
 import { BookingDefaultDuration } from '../../objects/booking-default-duration';
 import { BookingFilter } from '../../objects/booking-filter';
@@ -361,6 +361,25 @@ export class BookingsComponent extends BaseComponent implements OnInit
         this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
       }
     });
+  }
+  setBookingHonored()
+  {
+    this.bookingService.setBookingStatus(this.selectedBooking, BookingStatus.Honored).subscribe(gro =>
+    {
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+      }
+      else
+      {
+        this.logAction(this.idCompany, false, Actions.Edit, "", "", true, "Booking honored");
+        this.selectedBooking.idStatus = BookingStatus.Honored;
+      }
+    });
+  }
+  getBookingStatusString(idStatus: number)
+  {
+    return BookingStatus[idStatus];
   }
 
 }

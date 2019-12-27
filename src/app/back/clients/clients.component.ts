@@ -4,6 +4,7 @@ import { WebSites, Actions } from '../../enums/enums';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../app-services/client.service';
 import { CompanyClient } from 'app/objects/company-client';
+import { NonAuthGuard } from '../../route-guards/non-auth.guard';
 
 @Component({
   selector: 'bf-clients',
@@ -13,12 +14,13 @@ import { CompanyClient } from 'app/objects/company-client';
 export class ClientsComponent extends BaseComponent implements OnInit
 {
   clients: CompanyClient[] = [];
+  displayLatestBookings = false;
+  selectedPhone: string = null;
 
   constructor(private injector: Injector,
     private clientService: ClientService) 
   {
     super(injector, []);
-
     this.site = WebSites.Back;
     this.pageName = "Clients";
 
@@ -41,10 +43,10 @@ export class ClientsComponent extends BaseComponent implements OnInit
   loadClients()
   {
     this.clientService.getCompanyClients(this.idCompany).subscribe(gro =>
-    { 
+    {
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {

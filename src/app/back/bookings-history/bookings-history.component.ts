@@ -1,24 +1,29 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { BaseComponent } from '../../shared/base-component';
 import { BookingService } from '../../app-services/booking.service';
 import { WebSites, Actions, BookingStatus } from '../../enums/enums';
 import { ActivatedRoute } from '@angular/router';
 import { Booking } from 'app/objects/booking';
 import { CommonServiceMethods } from 'app/app-services/common-service-methods';
+import { NonAuthGuard } from '../../route-guards/non-auth.guard';
 
 @Component({
   selector: 'bf-bookings-history',
   templateUrl: './bookings-history.component.html',
   styleUrls: ['./bookings-history.component.css']
 })
-export class BookingsHistoryComponent extends BaseComponent implements OnInit 
+export class BookingsHistoryComponent extends BaseComponent implements OnInit, OnChanges
 {
+
+  @Input() isDialog: boolean = false;
+  @Input() phone: string = null;
+
   en: any;
   confirmDeleteBookingMessage: string = "Are you sure you want to delete this booking?";
   displayConfirmDeleteBooking: boolean = false;
   bookings: Booking[] = [];
   idBooking: number;
-  
+
   currentDate = new Date();
   startDate: Date = new Date(new Date().setDate(this.currentDate.getDate() - 7));
   endDate: Date = new Date(new Date().setDate(this.currentDate.getDate() + 7));
@@ -53,7 +58,10 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit
   ngOnInit() 
   {
     super.ngOnInit();
-
+    this.loadBookings();
+  }
+  ngOnChanges(changes: SimpleChanges): void
+  {
     this.loadBookings();
   }
   loadBookings()
@@ -62,16 +70,19 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit
     let endDateString = CommonServiceMethods.getDateString(this.endDate);
 
     this.bookingService.getBookings(this.idCompany, startDateString, endDateString, true).subscribe(gro =>
-    { 
+    {
       if (gro.error != '')
       {
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
-      {        
-        this.bookings = <Booking[]>gro.objList;           
+      {
+        if (this.phone == null)
+          this.bookings = <Booking[]>gro.objList;
+        else
+          this.bookings = <Booking[]>gro.objList.filter(b => b.phone == this.phone);
       }
-    });    
+    });
   }
   getBookingEntitiesCombinationString(booking: Booking)
   {
@@ -91,7 +102,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit
     return BookingStatus[idStatus];
   }
   getBookingTimeString(booking: Booking)
-  {    
+  {
     let startTimeString = CommonServiceMethods.getTimeString(new Date(booking.startTime));
     let endTimeString = CommonServiceMethods.getTimeString(new Date(booking.endTime));
 
@@ -169,7 +180,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit
         });
         break;
     }
-    
+
   }
 
 }

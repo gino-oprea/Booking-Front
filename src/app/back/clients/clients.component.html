@@ -8,25 +8,28 @@
       <ng-template pTemplate="header">
         <tr>
           <th style="width:150px;text-align:center" [ngSwitch]="'email'">Email
-            <input *ngSwitchCase="'email'" pInputText type="text" (input)="dt.filter($event.target.value, 'email', 'contains')">
+            <input *ngSwitchCase="'email'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'email', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center"  [ngSwitch]="'phone'">Phone
-          <input *ngSwitchCase="'phone'" pInputText type="text" (input)="dt.filter($event.target.value, 'phone', 'contains')">
-        </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">Phone
+            <input *ngSwitchCase="'phone'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'phone', 'contains')" style="width: 130px;">
+          </th>
           <th style="width:150px;text-align:center" [ngSwitch]="'firstName'">Name
-            <input *ngSwitchCase="'firstName'" pInputText type="text" (input)="dt.filter($event.target.value, 'firstName', 'contains')">
+            <input *ngSwitchCase="'firstName'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'firstName', 'contains')" style="width: 130px;">
           </th>
           <th style="width:150px;text-align:center">Total bookings</th>
           <th style="width:150px;text-align:center">Active bookings</th>
           <th style="width:150px;text-align:center">Honored bookings</th>
-          <th style="width:150px;text-align:center">Canceled bookings</th>          
+          <th style="width:150px;text-align:center">Canceled bookings</th>
           <th style="width:150px;text-align:center">
             <!-- <button type="button" class="btn btn-primary">
               <i class="fa fa-search">View bookings</i>
             </button> -->
           </th>
         </tr>
-      </ng-template>   
+      </ng-template>
       <ng-template pTemplate="body" let-client>
         <tr [pSelectableRow]="client">
           <td style="width:150px;text-align:center">{{client.email}}</td>
@@ -37,8 +40,9 @@
           <td style="width:150px;text-align:center">{{client.honoredBookings}}</td>
           <td style="width:150px;text-align:center">{{client.canceledBookings}}</td>
           <td style="width:150px;text-align:center">
-            <button type="button" class="btn btn-primary">
-            <i class="fa fa-search">View bookings</i>
+            <button type="button" class="btn btn-primary"
+              (click)="selectedPhone=client.phone; displayLatestBookings=true">
+              <i class="fa fa-search"> View bookings</i>
             </button>
           </td>
         </tr>
@@ -46,3 +50,10 @@
     </p-table>
   </div>
 </div>
+
+<p-dialog header="Latest bookings" [(visible)]="displayLatestBookings" [responsive]="true" showEffect="fade"
+  [modal]="true" [style]="{width: '900px',  height: '500px'}" [contentStyle]="{'min-height':'500px'}">
+  <bf-bookings-history [isDialog]="true" [phone]="selectedPhone"></bf-bookings-history>
+</p-dialog>
+
+<p-growl [value]="pageMsgs"></p-growl>
