@@ -1,0 +1,48 @@
+<legend style="margin-bottom: 10px;">Clients</legend>
+<div class="row" style="height: 100%;">
+  <div class="col-md-12" style="height: 100%;">
+    <p-table #dt [value]="clients" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
+      <!-- <ng-template pTemplate="caption">
+        Entities
+      </ng-template> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:150px;text-align:center" [ngSwitch]="'email'">Email
+            <input *ngSwitchCase="'email'" pInputText type="text" (input)="dt.filter($event.target.value, 'email', 'contains')">
+          </th>
+          <th style="width:150px;text-align:center"  [ngSwitch]="'phone'">Phone
+          <input *ngSwitchCase="'phone'" pInputText type="text" (input)="dt.filter($event.target.value, 'phone', 'contains')">
+        </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'firstName'">Name
+            <input *ngSwitchCase="'firstName'" pInputText type="text" (input)="dt.filter($event.target.value, 'firstName', 'contains')">
+          </th>
+          <th style="width:150px;text-align:center">Total bookings</th>
+          <th style="width:150px;text-align:center">Active bookings</th>
+          <th style="width:150px;text-align:center">Honored bookings</th>
+          <th style="width:150px;text-align:center">Canceled bookings</th>          
+          <th style="width:150px;text-align:center">
+            <!-- <button type="button" class="btn btn-primary">
+              <i class="fa fa-search">View bookings</i>
+            </button> -->
+          </th>
+        </tr>
+      </ng-template>   
+      <ng-template pTemplate="body" let-client>
+        <tr [pSelectableRow]="client">
+          <td style="width:150px;text-align:center">{{client.email}}</td>
+          <td style="width:150px;text-align:center">{{client.phone}}</td>
+          <td style="width:150px;text-align:center">{{client.firstName +' '+ client.lastName}}</td>
+          <td style="width:150px;text-align:center">{{client.totalBookings}}</td>
+          <td style="width:150px;text-align:center">{{client.activeBookings}}</td>
+          <td style="width:150px;text-align:center">{{client.honoredBookings}}</td>
+          <td style="width:150px;text-align:center">{{client.canceledBookings}}</td>
+          <td style="width:150px;text-align:center">
+            <button type="button" class="btn btn-primary">
+            <i class="fa fa-search">View bookings</i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -20,6 +20,6 @@ export class Booking
     public isPaidFull?: boolean,
     public clientRating?: number,
     public clientReview?: string,
-    public isCaceled?: boolean
+    public idStatus?: number
   ) { }
 }

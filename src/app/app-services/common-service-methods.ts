@@ -70,6 +70,14 @@ export class CommonServiceMethods
       
     return dateString;
   }
+  public static getTimeString(date: Date)
+  {    
+    var hour = date.getHours();
+    var minutes = date.getMinutes().toString().length < 2 ? "0" + date.getMinutes().toString() : date.getMinutes().toString();
+
+    var dateString = hour + ":" + minutes;
+    return dateString;
+  }
   public static getDateTimeString(date: Date)
   {    
     var month = date.getMonth() + 1; //months from 1-12

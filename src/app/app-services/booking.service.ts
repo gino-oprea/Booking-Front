@@ -18,6 +18,22 @@ export class BookingService {
 
   constructor(private httpClient: HttpClient, private usersService: UsersService) { }
 
+  getBookings(idCompany: number, dateStart:string, dateEnd: string, includeCanceled:boolean = false): Observable<GenericResponseObject>
+  {
+    let params = new HttpParams();    
+    params = params.append('dateStart', dateStart);    
+    params = params.append('dateEnd', dateEnd);
+    params = params.append('includeCanceled', includeCanceled.toString());
+    
+
+    let options = {
+      headers: null,
+      params: params
+    };
+
+    return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookings/' + idCompany.toString(), options);
+  }
+
   getLevelsAsFilters(idCompany: number, weekDates: string[]): Observable<GenericResponseObject> {
     let params = new HttpParams();
     for (var i = 0; i < weekDates.length; i++) {
@@ -91,6 +107,27 @@ export class BookingService {
     };
 
     return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking', body, options);
+  }
+  setBookingStatus(booking: Booking, idStatus:number): Observable<GenericResponseObject>
+  {
+    let sDate = CommonServiceMethods.addUserDateOffset(new Date(booking.startDate));
+    let eDate = booking.endDate != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endDate)) : null;
+    let sTime = booking.startTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.startTime)) : null;
+    let eTime = booking.endTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endTime)) : null;
+
+    booking.startDate = sDate;
+    booking.endDate = eDate;
+    booking.startTime = sTime;
+    booking.endTime = eTime;
+
+    const body = JSON.stringify(booking);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });    
+
+    let options = {
+      headers: headers
+    };
+
+    return this.httpClient.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/SetBookingStatus/' + idStatus.toString(), body, options);
   }
   removePotentialBooking(idPotentialBooking: number) {
     //const body = JSON.stringify(potentialBooking);

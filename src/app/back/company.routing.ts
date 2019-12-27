@@ -12,6 +12,7 @@ import { BookingsComponent } from './bookings/bookings.component';
 import { FullCalendarComponent } from '../shared/full-calendar/full-calendar.component';
 import { TimetablesComponent } from './timetables/timetables.component';
 import { BookingsHistoryComponent } from './bookings-history/bookings-history.component';
+import { ClientsComponent } from './clients/clients.component';
 
 
 export const COMPANY_ROUTES: Routes = [
@@ -26,6 +27,7 @@ export const COMPANY_ROUTES: Routes = [
       { path: 'entities/:idLevel/:idEntity', component: EntitiesComponent },
       { path: 'bookings', component: BookingsComponent },
       { path: 'bookings-history', component: BookingsHistoryComponent },
+      { path: 'clients', component: ClientsComponent },
       { path: 'level-linking', component: LevelLinkingComponent },
       { path: 'subscription', component: SubscriptionComponent },
       { path: 'reviews', component: FullCalendarComponent }

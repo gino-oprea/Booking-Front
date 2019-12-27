@@ -127,11 +127,11 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+        this.logAction(this.idCompany, true, Actions.Cancel, gro.error, gro.errorDetailed, true);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking canceled");    
+        this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");    
         this.getBookings();
       }
     });

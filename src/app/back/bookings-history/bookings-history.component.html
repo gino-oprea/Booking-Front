@@ -1,1 +1,72 @@
-<p>bookings-history works!</p>
+<legend style="margin-bottom: 10px;">Booking History</legend>
+<div class="row" style="height: 7%;">
+  <div class="col-md-5">
+    <span>Start Date: </span>
+    <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate" (onSelect)="loadBookings()"
+      [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
+      <span>    End Date: </span>
+      <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate" readonlyInput="true" (onSelect)="loadBookings()"
+        dateFormat="dd.M.yy"></p-calendar>
+  </div>  
+</div>
+<div class="row" style="height: 93%;">
+  <div class="col-md-12" style="height: 100%;">
+    <p-table #dt [value]="bookings" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
+      <!-- <ng-template pTemplate="caption">
+        Entities
+      </ng-template> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:150px;text-align:center">Date</th>
+          <th style="width:150px;text-align:center">Time</th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'email'">Email
+            <input *ngSwitchCase="'email'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'email', 'contains')">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">Phone
+            <input *ngSwitchCase="'phone'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'phone', 'contains')">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'firstName'">Name
+            <input *ngSwitchCase="'firstName'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'firstName', 'contains')">
+          </th>
+          <th style="width:250px;text-align:center">Entities</th>
+          <th style="width:150px;text-align:center">Status</th>
+          <th style="width:100px;text-align:center">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-booking>
+        <tr [pSelectableRow]="booking">
+          <td style="width:150px;text-align:center">{{booking.startDate | date:'dd MMM yyyy'}}</td>
+          <td style="width:150px;text-align:center">{{getBookingTimeString(booking)}}</td>
+          <td style="width:150px;text-align:center">{{booking.email}}</td>
+          <td style="width:150px;text-align:center">{{booking.phone}}</td>
+          <td style="width:150px;text-align:center">{{booking.firstName +' '+ booking.lastName}}</td>
+          <td style="width:250px;text-align:center">{{getBookingEntitiesCombinationString(booking)}}</td>
+          <td style="width:150px;text-align:center">
+            <button type="button" class="btn" (click)="toggleBookingStatus(booking)"
+            [ngClass]="{'btn-primary': booking.idStatus == 1, 'btn-success': booking.idStatus == 2, 'btn-secondary': booking.idStatus == 3}">
+              {{getBookingStatusString(booking.idStatus)}}
+            </button>            
+          </td>
+          <td style="width:100px;text-align:center">
+            <button type="button" class="btn btn-danger" (click)="displayConfirmDeleteBooking=true;idBooking=booking.id;">
+              <i class="fa fa-remove"> Delete</i>
+            </button>
+          </td>
+        </tr>
+
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog header="Confirm" [(visible)]="displayConfirmDeleteBooking" [responsive]="true" showEffect="fade" [modal]="true"
+  width="350">
+  <bf-generic-confirm-dialog [confirmMessage]="confirmDeleteBookingMessage" (onConfirm)="onConfirmDelete($event)">
+  </bf-generic-confirm-dialog>
+</p-dialog>
+
+<p-growl [value]="pageMsgs"></p-growl>

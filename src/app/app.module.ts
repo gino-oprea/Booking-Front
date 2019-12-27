@@ -49,6 +49,7 @@ import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
 import { LoginService } from './app-services/login.service';
+import { ClientService } from './app-services/client.service';
 
 
 @NgModule({
@@ -101,6 +102,7 @@ import { LoginService } from './app-services/login.service';
     CompanyActiveSubscriptionService,
     CompanySearchService,
     BookingService,
+    ClientService,
     AuthGuard,
     NonAuthGuard,
     CompanyBookingGuard,

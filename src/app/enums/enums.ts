@@ -45,6 +45,12 @@ export enum BookingFilterType
     Name = 2,
     Email = 3
 }
+export enum BookingStatus
+{
+    Active = 1,
+    Honored = 2,
+    Canceled = 3
+}
 export enum PageMessageType
 {
     Info = "info",
