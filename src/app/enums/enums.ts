@@ -58,3 +58,10 @@ export enum PageMessageType
     Error = "error",
     Success = "success"
 }
+export enum UserRoleEnum
+{
+    Master = 1,
+    CompanyOwner = 2,
+    Employee = 3,
+    Client = 4
+}

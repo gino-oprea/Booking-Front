@@ -1,4 +1,4 @@
-import { Actions, WebSites } from '../enums/enums';
+import { Actions, WebSites, UserRoleEnum } from '../enums/enums';
 import { Message } from 'primeng/primeng';
 import { UsersService } from '../app-services/users.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -75,7 +75,7 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
       user.password = (<FormGroup>this.myForm.controls['passwords']).controls['password'].value;
 
       console.log(user);
-      this.usersService.registerUser(user, 2).subscribe((response: GenericResponseObject) =>
+      this.usersService.registerUser(user, UserRoleEnum.Client).subscribe((response: GenericResponseObject) =>
       {
         console.log(response);
         let gro = response;
