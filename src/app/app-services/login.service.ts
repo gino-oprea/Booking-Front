@@ -65,7 +65,7 @@ export class LoginService
             
             this.emmitLoginChange();
 
-            this.usersService.editUser(user, 1).subscribe((data) =>//updateaza data ultimului login
+            this.usersService.editUser(user,null, 1).subscribe((data) =>//updateaza data ultimului login
             {
               let gro = (<GenericResponseObject>data);
               console.log(gro);

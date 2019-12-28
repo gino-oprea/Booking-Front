@@ -52,7 +52,7 @@ export class UsersService
         };
         return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/GetByEmailForRegistration/' + email, options);
     }
-    registerUser(user: User): Observable<GenericResponseObject>
+    registerUser(user: User, idRole: number): Observable<GenericResponseObject>
     {
         const body = JSON.stringify(user);
         const headers = new HttpHeaders({
@@ -63,7 +63,7 @@ export class UsersService
             headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
         };
 
-        return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users', body, options);
+        return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/' + idRole.toString(), body, options);
     }
     activateUser(activationKey: string): Observable<User>
     {
@@ -74,15 +74,20 @@ export class UsersService
         return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/CheckPassword/' + idUser.toString() + '/' + password);
     }
     
-    editUser(user: User, updateMode: number): Observable<any>
+    editUser(user: User, idRole: number, updateMode: number): Observable<any>
     {
         const body = JSON.stringify(user);
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
 
+        let params = new HttpParams();
+        params = params.append('idRole', idRole != null ? idRole.toString() : null);
+        
+
         let options = {
-            headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
+            headers: headers,
+            params: params
         };
 
         return this.http.put(AppSettings.API_ENDPOINT + 'users/' + updateMode.toString(),

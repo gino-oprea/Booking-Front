@@ -69,13 +69,13 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
       user.email = this.myForm.controls['email'].value;
       user.firstName = this.myForm.controls['firstname'].value;
       user.lastName = this.myForm.controls['lastname'].value;
-      user.idRole = 2;
+      //user.idRole = 2;
       user.isEnabled = false;
       user.phone = this.myForm.controls['phone'].value;
       user.password = (<FormGroup>this.myForm.controls['passwords']).controls['password'].value;
 
       console.log(user);
-      this.usersService.registerUser(user).subscribe((response: GenericResponseObject) =>
+      this.usersService.registerUser(user, 2).subscribe((response: GenericResponseObject) =>
       {
         console.log(response);
         let gro = response;

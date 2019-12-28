@@ -61,7 +61,7 @@ export class MyAccountComponent extends BaseComponent implements OnInit
         this.user.password = '';
         
         //update mode 2 -update tot
-        this.usersService.editUser(this.user, 2).subscribe((response: any) =>
+        this.usersService.editUser(this.user, null, 2).subscribe((response: any) =>
         {
           console.log(response);
           let gro = <GenericResponseObject>JSON.parse(response._body);

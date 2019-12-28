@@ -1,9 +1,11 @@
+import { UserRole } from './user-role';
 export class User
 {
   constructor(
     public id?: number,
     public email?: string,
-    public idRole?: number,
+    //public idRole?: number,
+    public roles?: UserRole[],
     public firstName?: string,
     public lastName?: string,
     public phone?: string,
