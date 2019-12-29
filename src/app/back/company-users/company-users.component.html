@@ -9,12 +9,7 @@
           <th style="width:150px;text-align:center">Email</th>
           <th style="width:150px;text-align:center">Phone</th>
           <th style="width:150px;text-align:center">Name</th>
-          <th style="width:150px;text-align:center">Role</th>
-          <th style="width:50px;text-align:center">
-            <button type="button" class="btn btn-primary">
-              <i class="fa fa-plus"></i>
-            </button>
-          </th>
+          <th style="width:150px;text-align:center">Role</th>          
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
@@ -22,12 +17,7 @@
           <td style="width:150px;text-align:center">{{user.email}}</td>
           <td style="width:150px;text-align:center">{{user.phone}}</td>
           <td style="width:150px;text-align:center">{{user.firstName +' '+ user.lastName}}</td>
-          <td style="width:150px;text-align:center">{{user.roles[0].roleName}}</td>
-          <td style="width:50px;text-align:center">
-            <!-- <button type="button" class="btn btn-primary">
-              <i class="fa fa-edit"></i>
-            </button> -->
-          </td>
+          <td style="width:150px;text-align:center">{{user.roles[0].roleName}}</td>          
         </tr>
       </ng-template>
     </p-table>
@@ -87,30 +77,34 @@
         <div class="col-md-2" style="padding: 1px;">
           <label class="control-label" for="ddlRoles">Role:</label>
         </div>
-        <div class="col-md-4" style="text-align: left;padding: 1px">
-          <!-- <p-dropdown id="ddlRoles" [options]="roles" formControlName="idRole"></p-dropdown> -->
-          <select formControlName="role" style="height: 100%;width: 100%;">
+        <div class="col-md-4" style="text-align: left;padding: 1px">          
+          <select formControlName="role" style="height: 100%;width: 100%;" (change)="onChangeRole($event)">
             <option *ngFor="let r of roles" [value]="r.idRole">
               {{r.roleName}}</option>
           </select>
-        </div>
+        </div> 
         <div class="col-md-2" style="padding: 1px">
+          <label *ngIf="showLinkedEntities" class="control-label" for="ddlEntities">Linked to:</label>
         </div>
         <div class="col-md-4" style="padding: 1px">
+          <select *ngIf="showLinkedEntities" formControlName="entity" style="height: 100%;width: 100%;">
+            <option value="0">None</option>
+            <option *ngFor="let e of entities" [value]="e.id">
+              {{e.entityName_RO}}</option>
+          </select>
         </div>
       </div>
       <div class="row" style="height: 7%;">
-        <!-- <div class="col-md-4" style="padding: 1px">
+        <div *ngIf="!isAdd" class="col-md-4" style="padding: 1px;">
+          <input type="button" value="Add" (click)="onAdd()" class="form-control btn-primary">
+        </div>
+        <div class="col-md-4" style="padding: 1px">
           <input [disabled]="!userForm.valid" type="submit" value="Save" class="btn btn-success from-control"
             style="width: 100%">
+        </div>        
+        <div *ngIf="selectedUser" class="col-md-4" style="padding: 1px;">
+          <input type="button" value="Delete" (click)="onDelete()" class="form-control btn-danger">
         </div>
-        <div *ngIf="!isAdd" class="col-md-4" style="padding: 1px;">
-          <input type="button" value="Reset password" (click)="onResetPassword()" class="form-control btn-primary">
-        </div>
-        <div *ngIf="!isAdd" class="col-md-4" style="text-align: left;padding: 1px">
-          <input type="button" value="Resend activation link" (click)="onResendActivationLink()"
-            class="form-control btn-primary">
-        </div> -->
       </div>
     </form>
   </div>

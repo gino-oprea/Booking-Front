@@ -31,7 +31,7 @@ export class UsersService
         let options = {
             headers: null
         };
-        return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/GetCompanyUsers/' + idCompany.toString(), options);
+        return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyUsers/GetCompanyUsers/' + idCompany.toString(), options);
     }
     getUserByEmail(email: string): Observable<User>
     {

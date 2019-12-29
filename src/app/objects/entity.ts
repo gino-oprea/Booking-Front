@@ -21,6 +21,7 @@ export class Entity
     public maximumMultipleBookings?: number,
     public isEnabled?: boolean,
     public childEntityIds?: number[],
+    public linkedIdUser?: number,
 
     public workingHours?: WorkingHours
   ) { }
