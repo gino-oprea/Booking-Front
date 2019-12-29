@@ -1,0 +1,119 @@
+<legend style="margin-bottom: 10px;">Users</legend>
+
+<div class="row" style="height: 100%;">
+  <div class="col-md-6" style="height: 100%;">
+    <p-table [value]="users" selectionMode="single" selectionMode="single" [(selection)]="selectedUser"
+      (onRowSelect)="onRowSelect($event)" [responsive]="true" scrollable="true" scrollHeight="99%">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:150px;text-align:center">Email</th>
+          <th style="width:150px;text-align:center">Phone</th>
+          <th style="width:150px;text-align:center">Name</th>
+          <th style="width:150px;text-align:center">Role</th>
+          <th style="width:50px;text-align:center">
+            <button type="button" class="btn btn-primary">
+              <i class="fa fa-plus"></i>
+            </button>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr [pSelectableRow]="user">
+          <td style="width:150px;text-align:center">{{user.email}}</td>
+          <td style="width:150px;text-align:center">{{user.phone}}</td>
+          <td style="width:150px;text-align:center">{{user.firstName +' '+ user.lastName}}</td>
+          <td style="width:150px;text-align:center">{{user.roles[0].roleName}}</td>
+          <td style="width:50px;text-align:center">
+            <!-- <button type="button" class="btn btn-primary">
+              <i class="fa fa-edit"></i>
+            </button> -->
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="col-md-6" style="height: 100%;">
+    <div class="row" style="height: 7%;">
+      <div class="col-md-2" style="padding: 1px">
+        <label class="control-label">Creation date:</label>
+      </div>
+      <div class="col-md-4" style="text-align: left;padding: 1px;">
+        {{selectedUser? (selectedUser.creationDate | date:'dd MMM yyyy HH:mm:ss') :''}}
+      </div>
+      <div class="col-md-2" style="padding: 1px">
+        <label class="control-label">Last login:</label>
+      </div>
+      <div class="col-md-4" style="text-align: left;padding: 1px">
+        {{selectedUser? (selectedUser.lastLoginDate | date:'dd MMM yyyy HH:mm:ss'):''}}
+      </div>
+    </div>
+    <form class="form-horizontal" style="margin-right: 10px;" id="user-form" [formGroup]="userForm"
+      (ngSubmit)="onSave()">
+      <div class="row" style="height: 7%">
+        <div class="col-md-2" style="padding: 1px;">
+          <label class="control-label" for="firstName">First name:</label>
+        </div>
+        <div class="col-md-4" style="text-align: left;padding: 1px">
+          <input id="firstName" [ngClass]="{'valid-control':userForm.controls['firstName'].valid,
+                        'invalid-control':!userForm.controls['firstName'].valid}" formControlName="firstName"
+            type="text" class="form-control">
+        </div>
+        <div class="col-md-2" style="padding: 1px">
+          <label class="control-label" for="lastName">Last name:</label>
+        </div>
+        <div class="col-md-4" style="text-align: left;padding: 1px">
+          <input type="text" id="lastName" [ngClass]="{'valid-control':userForm.controls['lastName'].valid,
+                        'invalid-control':!userForm.controls['lastName'].valid}" formControlName="lastName"
+            class="form-control">
+        </div>
+      </div>
+      <div class="row" style="height: 7%">
+        <div class="col-md-2" style="padding: 1px;">
+          <label class="control-label" for="phone">Phone:</label>
+        </div>
+        <div class="col-md-4" style="text-align: left;padding: 1px">
+          <input id="phone" type="text" formControlName="phone" [ngClass]="{'valid-control':userForm.controls['phone'].valid,
+                        'invalid-control':!userForm.controls['phone'].valid}" class="form-control">
+        </div>
+        <div class="col-md-2" style="padding: 1px">
+          <label class="control-label" for="email">Email:</label>
+        </div>
+        <div class="col-md-4" style="text-align: left;padding: 1px">
+          <input type="text" id="email" formControlName="email" [ngClass]="{'valid-control':userForm.controls['email'].valid,
+                        'invalid-control':!userForm.controls['email'].valid}" class="form-control">
+        </div>
+      </div>
+      <div class="row" style="height: 7%">
+        <div class="col-md-2" style="padding: 1px;">
+          <label class="control-label" for="ddlRoles">Role:</label>
+        </div>
+        <div class="col-md-4" style="text-align: left;padding: 1px">
+          <!-- <p-dropdown id="ddlRoles" [options]="roles" formControlName="idRole"></p-dropdown> -->
+          <select formControlName="role" style="height: 100%;width: 100%;">
+            <option *ngFor="let r of roles" [value]="r.idRole">
+              {{r.roleName}}</option>
+          </select>
+        </div>
+        <div class="col-md-2" style="padding: 1px">
+        </div>
+        <div class="col-md-4" style="padding: 1px">
+        </div>
+      </div>
+      <div class="row" style="height: 7%;">
+        <!-- <div class="col-md-4" style="padding: 1px">
+          <input [disabled]="!userForm.valid" type="submit" value="Save" class="btn btn-success from-control"
+            style="width: 100%">
+        </div>
+        <div *ngIf="!isAdd" class="col-md-4" style="padding: 1px;">
+          <input type="button" value="Reset password" (click)="onResetPassword()" class="form-control btn-primary">
+        </div>
+        <div *ngIf="!isAdd" class="col-md-4" style="text-align: left;padding: 1px">
+          <input type="button" value="Resend activation link" (click)="onResendActivationLink()"
+            class="form-control btn-primary">
+        </div> -->
+      </div>
+    </form>
+  </div>
+</div>
+
+<p-growl [value]="pageMsgs"></p-growl>

@@ -31,6 +31,9 @@ import { TimetablesComponent } from './timetables/timetables.component';
 import { BookingManagementDialogComponent } from './shared/booking-management-dialog/booking-management-dialog.component';
 import { BookingsHistoryComponent } from './bookings-history/bookings-history.component';
 import { ClientsComponent } from './clients/clients.component';
+import { CompanyUsersComponent } from './company-users/company-users.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CompanyLogsComponent } from './company-logs/company-logs.component';
 
 
 @NgModule({
@@ -64,7 +67,10 @@ import { ClientsComponent } from './clients/clients.component';
     TimetablesComponent,
     BookingManagementDialogComponent,
     BookingsHistoryComponent,
-    ClientsComponent    
+    ClientsComponent,
+    CompanyUsersComponent,
+    DashboardComponent,
+    CompanyLogsComponent    
   ],
   providers: [
     CompanyGuard

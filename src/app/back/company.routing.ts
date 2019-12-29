@@ -13,6 +13,9 @@ import { FullCalendarComponent } from '../shared/full-calendar/full-calendar.com
 import { TimetablesComponent } from './timetables/timetables.component';
 import { BookingsHistoryComponent } from './bookings-history/bookings-history.component';
 import { ClientsComponent } from './clients/clients.component';
+import { CompanyUsersComponent } from './company-users/company-users.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CompanyLogsComponent } from './company-logs/company-logs.component';
 
 
 export const COMPANY_ROUTES: Routes = [
@@ -28,9 +31,12 @@ export const COMPANY_ROUTES: Routes = [
       { path: 'bookings', component: BookingsComponent },
       { path: 'bookings-history', component: BookingsHistoryComponent },
       { path: 'clients', component: ClientsComponent },
+      { path: 'company-users', component: CompanyUsersComponent },
       { path: 'level-linking', component: LevelLinkingComponent },
-      { path: 'subscription', component: SubscriptionComponent },
-      { path: 'reviews', component: FullCalendarComponent }
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'company-logs', component: CompanyLogsComponent }
+      //{ path: 'subscription', component: SubscriptionComponent },
+      //{ path: 'reviews', component: FullCalendarComponent }
     ]
   }
 ];

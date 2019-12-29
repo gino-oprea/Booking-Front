@@ -23,7 +23,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
   selectedWhId: number;
   selectedWorkingHours: WorkingHours;
   originalWokingHours: WorkingHours;
-  companyWorkingHours: WorkingHours;  
+  companyWorkingHours: WorkingHours;
   isAddCustomWHMode = true;
   addCustomWHForm: FormGroup;
 
@@ -76,7 +76,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
         this.logAction(this.idCompany, false, Actions.Search, '', 'load company working hours');
         this.companyWorkingHours = gro.objList[0];
         this.companyWorkingHours.id = 0;
-        this.companyWorkingHours.name = 'Company working hours';        
+        this.companyWorkingHours.name = 'Company working hours';
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company working hours for entity', ''));
@@ -89,13 +89,13 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
         this.logAction(this.idCompany, false, Actions.Search, '', 'load company entities');
-        this.entities = gro.objList;    
-        
+        this.entities = gro.objList;
+
         this.loadCustomWorkingHours(null);
       }
     });
@@ -116,33 +116,17 @@ export class TimetablesComponent extends BaseComponent implements OnInit
 
         if (this.selectedWhId == null)
         {
-          // for (var i = 0; i < this.customWorkingHours.length; i++) 
-          // {
-          //   if (!this.isCustomWorkingHoursDisabled(this.customWorkingHours[i].id))
-          //   {
-          this.selectedWhId = this.customWorkingHours[0].id;
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
-          this.originalWokingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
-          //     break;
-          //   }
-          // }
+          if (this.customWorkingHours.length > 0)
+          {
+            this.selectedWhId = this.customWorkingHours[0].id;
+            this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
+            this.originalWokingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
+          }
         }
       }
     });
   }
-  // isCustomWorkingHoursDisabled(idWH:number):boolean
-  // {
-  //   let isDisabled: boolean = false;
-  //   for (var i = 0; i < this.entities.length; i++)
-  //   {
-  //     if (this.entities[i].hasCustomWorkingHours && this.entities[i].idCustomWorkingHours == idWH)
-  //     {
-  //       isDisabled = true;
-  //       break;
-  //     }
-  //   }
-  //   return isDisabled;
-  // }
+
   onDdlChangeWH()
   {
     for (var i = 0; i < this.customWorkingHours.length; i++) 
@@ -251,11 +235,11 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit custom working hours', false, 'Saved');        
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit custom working hours', false, 'Saved');
         this.loadCustomWorkingHours(null);
       }
     },
@@ -268,7 +252,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
       }
       else
       {

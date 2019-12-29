@@ -26,6 +26,13 @@ export class UsersService
         };
         return this.http.get<User[]>(AppSettings.API_ENDPOINT + 'users', options);
     }
+    getCompanyUsers(idCompany: number): Observable<GenericResponseObject>
+    {
+        let options = {
+            headers: null
+        };
+        return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/GetCompanyUsers/' + idCompany.toString(), options);
+    }
     getUserByEmail(email: string): Observable<User>
     {
         let options = {
@@ -33,7 +40,7 @@ export class UsersService
         };
         return this.http.get<User>(AppSettings.API_ENDPOINT + 'users/getbyemail/' + email, options);
     }
-    getUsersForBookingAutocomplete(idCompany: number,email: string, phone: string): Observable<User[]>
+    getUsersForBookingAutocomplete(idCompany: number, email: string, phone: string): Observable<User[]>
     {
         let params = new HttpParams();
         params = params.append('email', email != null ? email : "");
@@ -73,7 +80,7 @@ export class UsersService
     {
         return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/CheckPassword/' + idUser.toString() + '/' + password);
     }
-    
+
     editUser(user: User, idRole: number, updateMode: number): Observable<any>
     {
         const body = JSON.stringify(user);
@@ -83,7 +90,7 @@ export class UsersService
 
         let params = new HttpParams();
         params = params.append('idRole', idRole != null ? idRole.toString() : null);
-        
+
 
         let options = {
             headers: headers,
@@ -109,7 +116,7 @@ export class UsersService
     }
     resetUserPasswordByEmail(email: string): Observable<GenericResponseObject>
     {
-        return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/ResetPasswordWithEmail/' + email, null);        
+        return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/ResetPasswordWithEmail/' + email, null);
     }
     resendUserActivationLink(userId: number): Observable<GenericResponseObject>
     {
