@@ -1,6 +1,7 @@
 <div class="row">
   <div *ngFor="let level of filteredLevelsForDropdowns">
-    <div *ngIf="level.isFrontOption" style="margin:2px;padding:2px;" class="container-fluid well span6 col-md-12">
+    <div *ngIf="level.isFrontOption && !(isFilteredByEmployeeRole && level.idLevelType == 3 && currentUserIsEmployee)"
+      style="margin:2px;padding:2px;" class="container-fluid well span6 col-md-12">
       <div class="row-fluid">
         <div class="span8">
           <h5>{{level.levelName_EN}}</h5>
@@ -25,7 +26,7 @@
           </select>
           <div *ngIf="getSelectedImage(level.id)!=null">
             <img [src]="'data:image/png;base64,'+getSelectedImage(level.id)"
-              style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">              
+              style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
           </div>
         </div>
       </div>

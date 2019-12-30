@@ -4,7 +4,7 @@ import { BaseComponent } from 'app/shared/base-component';
 import { LevelAsFilter } from '../../objects/level-as-filter';
 import { BookingService } from '../../app-services/booking.service';
 import { LevelLinkingService } from '../../app-services/level-linking.service';
-import { WebSites, Actions, FieldType } from '../../enums/enums';
+import { WebSites, Actions, FieldType, UserRoleEnum, LevelType } from '../../enums/enums';
 import { EntitiesLink } from '../../objects/entities-link';
 import { Entity } from '../../objects/entity';
 import { SelectedEntityPerLevel } from '../../objects/selected-entity-per-level';
@@ -14,6 +14,8 @@ import { CommonServiceMethods } from '../../app-services/common-service-methods'
 import { ImageService } from '../../app-services/image.service';
 import { GenericResponseObject } from 'app/objects/generic-response-object';
 import { Image } from '../../objects/image';
+import { CompanyUsersService } from '../../app-services/company-users.service';
+import { CompanyUser } from '../../objects/user';
 
 class SelectedCharacteristic
 {
@@ -33,6 +35,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
 {
   @Input() idCompany: number;
   @Input() selectedDate: Date = new Date();
+  @Input() isFilteredByEmployeeRole: boolean = false;
   @Output() filterChanged = new EventEmitter<BookingFilter>();
 
   en: any;
@@ -44,12 +47,15 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   filteredLevelsForDropdowns: LevelAsFilter[];//obiectul legat la interfata
   selectedCharacteristics: SelectedCharacteristic[] = [];
 
+  companyUsers: CompanyUser[] = [];
+  currentUserIsEmployee: boolean = false;
 
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
     private levelLinkingService: LevelLinkingService,
-    private imageService: ImageService)
+    private imageService: ImageService,
+    private companyUsersService: CompanyUsersService)
   {
     super(injector, []);
     this.site = WebSites.Front;
@@ -72,7 +78,48 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   ngOnChanges(changes: SimpleChanges): void
   {
     if (this.idCompany)
-      this.loadAllLevels();
+    {
+      this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
+      {
+        if (gro.error != "")
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        else
+        {
+          this.companyUsers = <CompanyUser[]>gro.objList;
+        }
+        this.loadAllLevels();
+      });
+    }
+  }
+  filterByUserRole()
+  {
+    let user = this.loginService.getCurrentUser();
+    if (user)
+      if (user.roles)
+        if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
+        {
+          let companyUserLoggedIn = this.companyUsers.find(cu => cu.id == user.id)
+          if (companyUserLoggedIn)
+          {
+            let idEntityLinked = companyUserLoggedIn.linkedIdEntity;
+            if (idEntityLinked)
+            {
+              this.currentUserIsEmployee = true;
+
+              let employeesLevel = this.levels.find(l => l.idLevelType == LevelType.Employee)
+
+              let selectedEntitySet = new SelectedEntityPerLevel(employeesLevel.id, idEntityLinked, employeesLevel.idLevelType);
+              this.selectedEntities.push(selectedEntitySet);
+
+              for (let i = employeesLevel.entities.length - 1; i >= 0; i--)
+              {
+                const empEnt = employeesLevel.entities[i];
+                if (empEnt.id != idEntityLinked)
+                  employeesLevel.entities.splice(i, 1);
+              }
+            }
+          }
+        }
   }
   loadAllLevels()
   {
@@ -88,6 +135,10 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
       else
       {
         this.levels = <LevelAsFilter[]>gro.objList;
+
+        if (this.isFilteredByEmployeeRole)
+          this.filterByUserRole();
+
         //console.log(this.levels);
         this.initFilteredEntities();
         this.initSelectedEntities();
@@ -188,11 +239,12 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   }
   initSelectedEntities()
   {
-    this.selectedEntities = [];
+    //this.selectedEntities = [];
     for (var i = 0; i < this.levels.length; i++)
     {
       let entity = new SelectedEntityPerLevel(this.levels[i].id, -1, this.levels[i].idLevelType);
-      this.selectedEntities.push(entity);
+      if (this.selectedEntities.find(se => se.idLevel == this.levels[i].id) == null)
+        this.selectedEntities.push(entity);
     }
   }
   initSelectedCharacteristics()
@@ -346,7 +398,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
