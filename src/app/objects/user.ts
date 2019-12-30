@@ -19,3 +19,13 @@ export class User
     public errorDetailed?: string
   ) { }
 }
+
+export class CompanyUser extends User
+{
+  constructor(    
+    public linkedIdEntity?:number
+  )
+  { 
+    super();
+  }
+}

@@ -26,13 +26,7 @@ export class UsersService
         };
         return this.http.get<User[]>(AppSettings.API_ENDPOINT + 'users', options);
     }
-    getCompanyUsers(idCompany: number): Observable<GenericResponseObject>
-    {
-        let options = {
-            headers: null
-        };
-        return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyUsers/GetCompanyUsers/' + idCompany.toString(), options);
-    }
+    
     getUserByEmail(email: string): Observable<User>
     {
         let options = {

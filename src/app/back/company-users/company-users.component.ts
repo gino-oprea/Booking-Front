@@ -4,15 +4,14 @@ import { WebSites, Actions, UserRoleEnum, LevelType } from '../../enums/enums';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'app/objects/user';
-import { UsersService } from '../../app-services/users.service';
-import { SelectItem } from 'primeng/primeng';
 import { UserRole } from '../../objects/user-role';
 import { Entity } from '../../objects/entity';
-
 import { Company } from '../../objects/company';
 import { LevelsService } from '../../app-services/levels.service';
 import { Level } from '../../objects/level';
 import { EntitiesService } from '../../app-services/entities.service';
+import { CompanyUsersService } from '../../app-services/company-users.service';
+import { CompanyUser } from '../../objects/user';
 
 @Component({
   selector: 'bf-company-users',
@@ -22,8 +21,8 @@ import { EntitiesService } from '../../app-services/entities.service';
 export class CompanyUsersComponent extends BaseComponent implements OnInit
 {
   userForm: FormGroup;
-  users: User[] = [];
-  selectedUser: User;
+  users: CompanyUser[] = [];
+  selectedUser: CompanyUser;
   roles: UserRole[];
   entities: Entity[];
   showLinkedEntities: boolean = true;
@@ -31,8 +30,9 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
 
 
   constructor(private injector: Injector,
-    private levelsService: LevelsService,
-  private entitiesService:EntitiesService)
+    private levelsService: LevelsService,    
+    private entitiesService: EntitiesService,
+    private companyUsersService: CompanyUsersService,)
   {
     super(injector, []);
 
@@ -77,15 +77,22 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
 
     this.showLinkedEntities = (this.userForm.controls["role"].value == UserRoleEnum.Employee);
   }
-  loadUsers()
+  loadUsers(idSelectedUser: number = null)
   {
-    this.usersService.getCompanyUsers(this.idCompany).subscribe(gro =>
+    this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
     {
       if (gro.error != "")
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       else
       {
-        this.users = <User[]>gro.objList;
+        this.users = <CompanyUser[]>gro.objList;
+        if (idSelectedUser)
+          this.selectedUser = this.users.find(u => u.id == idSelectedUser);
+        else
+          if (this.users.length > 0)
+            this.selectedUser = this.users[0];
+        
+        this.setSelectedUserOnForm();
       }
     });
   }
@@ -126,10 +133,28 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
     this.userForm.controls["lastName"].setValue(this.selectedUser.lastName);
     this.userForm.controls["phone"].setValue(this.selectedUser.phone);
     this.userForm.controls["email"].setValue(this.selectedUser.email);
-    this.userForm.controls["role"].setValue(this.selectedUser.roles[0].idRole);
+    this.userForm.controls["role"].setValue(this.selectedUser.roles.find(r => r.idCompany == this.idCompany).idRole);
 
     this.showLinkedEntities = (this.userForm.controls["role"].value == UserRoleEnum.Employee);
-    //de pus si entitatea la care e legat
+    this.userForm.controls['entity'].setValue(this.selectedUser.linkedIdEntity != null ? this.selectedUser.linkedIdEntity : '0');
+  }
+  getUserFromForm():CompanyUser
+  {
+    let companyUser = new CompanyUser();
+    if (this.selectedUser)
+    {
+      companyUser.id = this.selectedUser.id;
+    }
+    
+    companyUser.firstName = this.userForm.controls['firstName'].value;
+    companyUser.lastName = this.userForm.controls['lastName'].value;
+    companyUser.phone = this.userForm.controls['phone'].value;
+    companyUser.email = this.userForm.controls['email'].value;
+    let role = new UserRole(parseInt(this.userForm.controls['role'].value), null, this.idCompany);
+    companyUser.roles = [role];
+    companyUser.linkedIdEntity = parseInt(this.userForm.controls['entity'].value) != 0 ? parseInt(this.userForm.controls['entity'].value) : null;
+
+    return companyUser;
   }
   onChangeRole(event)
   {
@@ -137,7 +162,10 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
     if (idRole == UserRoleEnum.Employee)
       this.showLinkedEntities = true;
     else
+    {
       this.showLinkedEntities = false;
+      this.userForm.controls['entity'].setValue(0);
+    }
   }
   onAdd()
   {
@@ -147,14 +175,50 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
   }
   onSave()
   {
+    let companyUser = this.getUserFromForm();
 
+    if (this.isAdd)//add
+    {      
+      this.companyUsersService.addCompanyUser(companyUser, this.idCompany).subscribe(gro =>
+      {
+        if (gro.error != '')
+        {
+          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
+          this.loadUsers();
+        }
+        else
+        {
+          this.logAction(this.idCompany, false, Actions.Add, '', 'success', true);
+          var idUser = <number>gro.objList[0];
+          this.loadUsers(idUser);
+        }
+       });
+    }
+    else//edit
+    {
+      this.companyUsersService.editCompanyUser(companyUser, this.idCompany).subscribe(gro =>
+      {
+        if (gro.error != '')
+          this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        else
+        {
+          this.logAction(this.idCompany, false, Actions.Add, '', 'success', true);          
+        }
+        this.loadUsers(companyUser.id);
+      });
+    }
   }
   onDelete()
   {
-    
-  }
-  onResetPassword()
-  {
-    
-  }
+    this.companyUsersService.deleteCompanyUser(this.selectedUser.id, this.idCompany).subscribe(gro =>
+    { 
+      if (gro.error != '')
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+      else
+      {
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'success', true);      
+        this.loadUsers();
+      }
+    });
+  }  
 }

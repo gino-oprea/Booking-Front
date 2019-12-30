@@ -66,10 +66,10 @@
                         'invalid-control':!userForm.controls['phone'].valid}" class="form-control">
         </div>
         <div class="col-md-2" style="padding: 1px">
-          <label class="control-label" for="email">Email:</label>
+          <label *ngIf="isAdd" class="control-label" for="email">Email:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">
-          <input type="text" id="email" formControlName="email" [ngClass]="{'valid-control':userForm.controls['email'].valid,
+          <input *ngIf="isAdd" type="text" id="email" formControlName="email" [ngClass]="{'valid-control':userForm.controls['email'].valid,
                         'invalid-control':!userForm.controls['email'].valid}" class="form-control">
         </div>
       </div>
@@ -83,15 +83,24 @@
               {{r.roleName}}</option>
           </select>
         </div> 
-        <div class="col-md-2" style="padding: 1px">
+        <div class="col-md-2" style="padding: 1px">          
+        </div>
+        <div class="col-md-4" style="padding: 1px">          
+        </div>      </div>
+      <div class="row" style="height: 7%">
+        <div class="col-md-2" style="padding: 1px;">
           <label *ngIf="showLinkedEntities" class="control-label" for="ddlEntities">Linked to:</label>
         </div>
-        <div class="col-md-4" style="padding: 1px">
+        <div class="col-md-4" style="text-align: left;padding: 1px">
           <select *ngIf="showLinkedEntities" formControlName="entity" style="height: 100%;width: 100%;">
             <option value="0">None</option>
             <option *ngFor="let e of entities" [value]="e.id">
               {{e.entityName_RO}}</option>
           </select>
+        </div>
+        <div class="col-md-2" style="padding: 1px">          
+        </div>
+        <div class="col-md-4" style="padding: 1px">          
         </div>
       </div>
       <div class="row" style="height: 7%;">

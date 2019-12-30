@@ -50,6 +50,7 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
 import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
 import { LoginService } from './app-services/login.service';
 import { ClientService } from './app-services/client.service';
+import { CompanyUsersService } from './app-services/company-users.service';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { ClientService } from './app-services/client.service';
     ConfirmationService,
     HoursMatrixService,
     UsersService,
+    CompanyUsersService,
     LoginService,
     GeneralSettingsService,
     LabelsService,
@@ -102,7 +104,7 @@ import { ClientService } from './app-services/client.service';
     CompanyActiveSubscriptionService,
     CompanySearchService,
     BookingService,
-    ClientService,
+    ClientService,    
     AuthGuard,
     NonAuthGuard,
     CompanyBookingGuard,
