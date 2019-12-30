@@ -1,8 +1,10 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, Injector, OnInit, OnDestroy } from '@angular/core';
 import { BaseComponent } from '../shared/base-component';
-import { WebSites, Actions } from '../enums/enums';
+import { WebSites, Actions, UserRoleEnum } from '../enums/enums';
 import { Subscription } from 'rxjs';
+import { User } from 'app/objects/user';
+
 
 @Component({
   selector: 'bf-company',
@@ -12,6 +14,7 @@ import { Subscription } from 'rxjs';
 export class CompanyComponent extends BaseComponent implements OnInit
 {  
   sidebarShow: boolean = false;
+  currentUser: User;
   
   constructor(private injector: Injector)
   {
@@ -31,6 +34,15 @@ export class CompanyComponent extends BaseComponent implements OnInit
   ngOnInit() 
   {
     super.ngOnInit();
+    this.currentUser = this.loginService.getCurrentUser();
+  }
+  hasRolePermission(requiredRole: string): boolean
+  {    
+    let role = this.currentUser.roles.find(r => r.idCompany == this.idCompany);    
+    if (role.idRole <= UserRoleEnum[requiredRole])
+      return true;
+    else
+      return false;
   }
  
   toggleSideBar()

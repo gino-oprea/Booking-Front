@@ -51,6 +51,7 @@ import { AuthInterceptorService } from './interceptors/auth-interceptor.service'
 import { LoginService } from './app-services/login.service';
 import { ClientService } from './app-services/client.service';
 import { CompanyUsersService } from './app-services/company-users.service';
+import { RoleGuard } from './route-guards/role.guard';
 
 
 @NgModule({
@@ -108,6 +109,7 @@ import { CompanyUsersService } from './app-services/company-users.service';
     AuthGuard,
     NonAuthGuard,
     CompanyBookingGuard,
+    RoleGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
