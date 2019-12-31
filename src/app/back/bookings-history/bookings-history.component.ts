@@ -1,11 +1,13 @@
 import { Component, OnInit, Injector, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { BaseComponent } from '../../shared/base-component';
 import { BookingService } from '../../app-services/booking.service';
-import { WebSites, Actions, BookingStatus } from '../../enums/enums';
+import { WebSites, Actions, BookingStatus, UserRoleEnum } from '../../enums/enums';
 import { ActivatedRoute } from '@angular/router';
 import { Booking } from 'app/objects/booking';
 import { CommonServiceMethods } from 'app/app-services/common-service-methods';
 import { NonAuthGuard } from '../../route-guards/non-auth.guard';
+import { CompanyUsersService } from 'app/app-services/company-users.service';
+import { CompanyUser } from '../../objects/user';
 
 @Component({
   selector: 'bf-bookings-history',
@@ -18,6 +20,9 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   @Input() isDialog: boolean = false;
   @Input() phone: string = null;
 
+  currentUserIsEmployee: boolean = false;
+  idEntityLinkedToUser: number = null;
+
   en: any;
   confirmDeleteBookingMessage: string = "Are you sure you want to delete this booking?";
   displayConfirmDeleteBooking: boolean = false;
@@ -29,7 +34,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   endDate: Date = new Date(new Date().setDate(this.currentDate.getDate() + 7));
 
   constructor(private injector: Injector,
-    private bookingService: BookingService)
+    private bookingService: BookingService,
+    private companyUsersService: CompanyUsersService)
   {
     super(injector, []);
 
@@ -58,7 +64,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   ngOnInit() 
   {
     super.ngOnInit();
-    this.loadBookings();
+    //this.loadBookings();
+    this.filterByUserRoleAndLoadBookings()
   }
   ngOnChanges(changes: SimpleChanges): void
   {
@@ -81,9 +88,12 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
           this.bookings = <Booking[]>gro.objList;
         else
           this.bookings = <Booking[]>gro.objList.filter(b => b.phone == this.phone);
+        
+        if (this.currentUserIsEmployee && this.idEntityLinkedToUser != null)
+          this.bookings = this.bookings.filter(b => b.entities.find(e => e.idEntity == this.idEntityLinkedToUser) != null)
       }
     });
-  }
+  }  
   getBookingEntitiesCombinationString(booking: Booking)
   {
     let combString = '';
@@ -181,6 +191,39 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
         break;
     }
 
+  }
+
+  filterByUserRoleAndLoadBookings()
+  {
+    let user = this.loginService.getCurrentUser();
+    if (user)
+      if (user.roles)
+        if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
+        {
+          this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
+          {
+            if (gro.error != "")
+              this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+            else
+            {
+              let companyUsers = <CompanyUser[]>gro.objList;
+
+              let companyUserLoggedIn = companyUsers.find(cu => cu.id == user.id)
+              if (companyUserLoggedIn)
+              {
+                this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;
+                if (this.idEntityLinkedToUser)
+                  this.currentUserIsEmployee = true;
+              }
+            }
+
+            this.loadBookings();
+          });
+        }
+        else
+        {
+          this.loadBookings();
+        }
   }
 
 }

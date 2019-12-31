@@ -10,7 +10,7 @@
   <div *ngIf="selectedBooking" class="col-md-3">
     <div *ngFor="let entity of selectedBooking.entities">
       <div class="label label-default">{{entity.entityName_EN}}</div>
-      <div>
+      <div *ngIf="entity.images">
         <img *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
           style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
         <img *ngIf="entity.images.length==0" [src]="COMP_IMG"
@@ -95,10 +95,27 @@
           </div>
         </div>
         <br>
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-3">
+              <label style="padding: 5px;" for="status">Status:</label>
+            </div>
+            <div class="col-md-1">
+              <span>{{getBookingStatusString(selectedBooking.idStatus)}}</span>
+            </div>
+          </div>
+        </div>
+        <br>
       </div>
       <footer>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-          <button class="btn btn-danger" (click)="deleteBooking()">
+          <button class="btn btn-success" (click)="setBookingHonored()" [disabled]="isButtonDisabledByRole()">
+            <i class="fa fa-check"> Honored</i>
+          </button>
+          <button class="btn btn-warning" (click)="cancelBooking()" [disabled]="isButtonDisabledByRole()">
+            <i class="fa fa-remove"> Cancel booking</i>
+          </button>
+          <button class="btn btn-danger" (click)="deleteBooking()" [disabled]="isButtonDisabledByRole()">
             <i class="fa fa-remove"> Delete</i>
           </button>
         </div>

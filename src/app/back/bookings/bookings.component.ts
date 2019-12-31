@@ -328,58 +328,64 @@ export class BookingsComponent extends BaseComponent implements OnInit
     });
   }
 
-  deleteBooking()
+  deleteBooking(event)
   {
-    this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => 
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '') 
-      {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
-      }
-      else 
-      {
-        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
-        this.getTimeslotBookings(this.selectedBookingDate);
-        this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
-      }
-    });
+    this.getTimeslotBookings(this.selectedBookingDate);
+    this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
+
+    // this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result => 
+    // {
+    //   let gro = <GenericResponseObject>result;
+    //   if (gro.error != '') 
+    //   {
+    //     this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+    //   }
+    //   else 
+    //   {
+    //     this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+    //     this.getTimeslotBookings(this.selectedBookingDate);
+    //     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
+    //   }
+    // });
   }
-  cancelBooking()
+  cancelBooking(event)
   {
-    this.bookingService.cancelBooking(this.selectedBooking.id).subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Cancel, gro.error, gro.errorDetailed, true);
-      }
-      else
-      {
-        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking canceled");
-        this.getTimeslotBookings(this.selectedBookingDate);
-        this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
-      }
-    });
+    this.getTimeslotBookings(this.selectedBookingDate);
+    this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
+
+    // this.bookingService.cancelBooking(this.selectedBooking.id).subscribe(result =>
+    // {
+    //   let gro = <GenericResponseObject>result;
+    //   if (gro.error != '')
+    //   {
+    //     this.logAction(this.idCompany, true, Actions.Cancel, gro.error, gro.errorDetailed, true);
+    //   }
+    //   else
+    //   {
+    //     this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking canceled");
+    //     this.getTimeslotBookings(this.selectedBookingDate);
+    //     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
+    //   }
+    // });
   }
-  setBookingHonored()
-  {
-    this.bookingService.setBookingStatus(this.selectedBooking, BookingStatus.Honored).subscribe(gro =>
-    {
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
-      }
-      else
-      {
-        this.logAction(this.idCompany, false, Actions.Edit, "", "", true, "Booking honored");
-        this.selectedBooking.idStatus = BookingStatus.Honored;
-      }
-    });
-  }
-  getBookingStatusString(idStatus: number)
-  {
-    return BookingStatus[idStatus];
-  }
+  // setBookingHonored()
+  // {
+  //   this.bookingService.setBookingStatus(this.selectedBooking, BookingStatus.Honored).subscribe(gro =>
+  //   {
+  //     if (gro.error != '')
+  //     {
+  //       this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+  //     }
+  //     else
+  //     {
+  //       this.logAction(this.idCompany, false, Actions.Edit, "", "", true, "Booking honored");
+  //       this.selectedBooking.idStatus = BookingStatus.Honored;
+  //     }
+  //   });
+  // }
+  // getBookingStatusString(idStatus: number)
+  // {
+  //   return BookingStatus[idStatus];
+  // }
 
 }

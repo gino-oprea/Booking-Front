@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, identity } from 'rxjs';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { AppSettings } from './app-settings';
 
@@ -11,10 +11,14 @@ export class ClientService {
 
   constructor(private http: HttpClient) { }
 
-  getCompanyClients(idCompany: number): Observable<GenericResponseObject>
+  getCompanyClients(idCompany: number, idEntity:number=null): Observable<GenericResponseObject>
   {
+    let params = new HttpParams();
+    params = params.append('idEntity', idEntity != null ? idEntity.toString() : null);
+
     let options = {
-      headers: null
+      headers: null,
+      params: params
     };
 
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Client/' + idCompany.toString(), options);
