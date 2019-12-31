@@ -5,6 +5,8 @@ export class LogItem
     public ip: string;
     public idUser: number;
     public email: string;
+    public userFirstName: string;
+    public userLastName: string;
     public phone: string;
     public lastLoginDate: Date;
     public idCompany: number;

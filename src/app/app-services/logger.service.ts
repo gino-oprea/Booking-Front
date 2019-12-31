@@ -8,6 +8,7 @@ import { AppSettings } from './app-settings';
 import { UsersService } from './users.service';
 import { CommonServiceMethods } from './common-service-methods';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { GenericResponseObject } from '../objects/generic-response-object';
 
 
 @Injectable()
@@ -47,7 +48,7 @@ export class LoggerService
     params = params.append('dateEnd', dateEnd.toISOString());
     params = params.append('errorMessage', errorMessage);
     params = params.append('infoMessage', infoMessage);
-    
+
     let options = {
       headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
@@ -55,11 +56,19 @@ export class LoggerService
 
     return this.http.get<LogItem[]>(AppSettings.API_ENDPOINT + 'logs/getFiltered', options);
   }
+  getCompanyLogs(idCompany: number): Observable<GenericResponseObject>
+  {
+    let options = {
+      headers: null
+    };
+
+    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'logs/GetCompanyLogs/' + idCompany.toString(), options);
+  }
   setLog(log: LogItem): Observable<any>
   {
     let ip = "";
 
-    
+
     // return this.http.get('https://api.ipify.org/?format=text', { responseType: 'text' }).pipe(
     //   switchMap((res: string) =>
     //   {
@@ -71,20 +80,20 @@ export class LoggerService
     //     //aici vom seta ip-ul
     //     log.ip = ip;
 
-        const body = JSON.stringify(log);
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json'
-        });
-        return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
-      // }),
-      // catchError((err: any) =>
-      // {
-      //   console.log(err);
-      //   const body = JSON.stringify(log);
-      //   const headers = new HttpHeaders({
-      //     'Content-Type': 'application/json'
-      //   });
-      //   return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
-      // }));
+    const body = JSON.stringify(log);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
+    // }),
+    // catchError((err: any) =>
+    // {
+    //   console.log(err);
+    //   const body = JSON.stringify(log);
+    //   const headers = new HttpHeaders({
+    //     'Content-Type': 'application/json'
+    //   });
+    //   return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
+    // }));
   }
 }

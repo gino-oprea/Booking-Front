@@ -1,1 +1,42 @@
-<p>company-logs works!</p>
+<legend style="margin-bottom: 10px;">Company Logs</legend>
+<div class="row" style="height: 100%;">
+  <div class="col-md-12" style="height: 100%;">
+    <p-table #dt [value]="companyLogs" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
+      <!-- <ng-template pTemplate="caption">
+        Entities
+      </ng-template> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:150px;text-align:center">Email</th>
+          <th style="width:150px;text-align:center">First Name</th>
+          <th style="width:150px;text-align:center">Last Name</th>
+          <th style="width:150px;text-align:center">Phone</th>
+          <th style="width:150px;text-align:center">Site Name</th>
+          <th style="width:150px;text-align:center">Page Name</th>
+          <th style="width:150px;text-align:center">Action Name</th>
+          <th style="width:150px;text-align:center">Info</th>
+          <th style="width:150px;text-align:center">Date</th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-log>
+        <tr [pSelectableRow]="companyLogs">
+          <td style="width:150px;text-align:center">{{log.email}}</td>
+          <td style="width:150px;text-align:center">{{log.userFirstName}}</td>
+          <td style="width:150px;text-align:center">{{log.userLastName}}</td>
+          <td style="width:150px;text-align:center">{{log.phone}}</td>
+          <td style="width:150px;text-align:center">{{log.siteName}}</td>
+          <td style="width:150px;text-align:center">{{log.pageName}}</td>
+          <td style="width:150px;text-align:center">{{log.actionName}}</td>
+          <td style="width:150px;text-align:center">{{log.logInfoMessage}}</td>
+          <td style="width:150px;text-align:center">{{log.logDate | date:'dd MMM yy HH:mm:ss' }}</td>
+
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+
+
+<p-growl [value]="pageMsgs"></p-growl>
