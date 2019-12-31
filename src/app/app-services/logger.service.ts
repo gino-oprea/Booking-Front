@@ -56,10 +56,15 @@ export class LoggerService
 
     return this.http.get<LogItem[]>(AppSettings.API_ENDPOINT + 'logs/getFiltered', options);
   }
-  getCompanyLogs(idCompany: number): Observable<GenericResponseObject>
+  getCompanyLogs(idCompany: number, dateStart: string, dateEnd: string): Observable<GenericResponseObject>
   {
+    let params = new HttpParams();
+    params = params.append('dateStart', dateStart);
+    params = params.append('dateEnd', dateEnd);
+
     let options = {
-      headers: null
+      headers: null,
+      params: params
     };
 
     return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'logs/GetCompanyLogs/' + idCompany.toString(), options);

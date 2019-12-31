@@ -1,5 +1,15 @@
 <legend style="margin-bottom: 10px;">Company Logs</legend>
-<div class="row" style="height: 100%;">
+<div class="row" style="height: 7%;">
+  <div class="col-md-5">
+    <span>Start Date: </span>
+    <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
+      (onSelect)="loadLogs()" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
+    <span> End Date: </span>
+    <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate"
+      readonlyInput="true" (onSelect)="loadLogs()" dateFormat="dd.M.yy"></p-calendar>
+  </div>
+</div>
+<div class="row" style="height: 93%;">
   <div class="col-md-12" style="height: 100%;">
     <p-table #dt [value]="companyLogs" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
       <!-- <ng-template pTemplate="caption">
@@ -7,20 +17,44 @@
       </ng-template> -->
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center">Email</th>
-          <th style="width:150px;text-align:center">First Name</th>
-          <th style="width:150px;text-align:center">Last Name</th>
-          <th style="width:150px;text-align:center">Phone</th>
-          <th style="width:150px;text-align:center">Site Name</th>
-          <th style="width:150px;text-align:center">Page Name</th>
-          <th style="width:150px;text-align:center">Action Name</th>
-          <th style="width:150px;text-align:center">Info</th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'email'">Email
+            <input *ngSwitchCase="'email'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'email', 'contains')" style="width: 130px;">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'userFirstName'">First Name
+            <input *ngSwitchCase="'userFirstName'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'userFirstName', 'contains')" style="width: 130px;">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'userLastName'">Last Name
+            <input *ngSwitchCase="'userLastName'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'userLastName', 'contains')" style="width: 130px;">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">Phone
+            <input *ngSwitchCase="'phone'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'phone', 'contains')" style="width: 130px;">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'siteName'">Site Name
+            <input *ngSwitchCase="'siteName'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'siteName', 'contains')" style="width: 130px;">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'pageName'">Page Name
+            <input *ngSwitchCase="'pageName'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'pageName', 'contains')" style="width: 130px;">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'actionName'">Action Name
+            <input *ngSwitchCase="'actionName'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'actionName', 'contains')" style="width: 130px;">
+          </th>
+          <th style="width:150px;text-align:center" [ngSwitch]="'logInfoMessage'">Info
+            <input *ngSwitchCase="'logInfoMessage'" pInputText type="text"
+              (input)="dt.filter($event.target.value, 'logInfoMessage', 'contains')" style="width: 130px;">
+          </th>
           <th style="width:150px;text-align:center">Date</th>
 
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-log>
-        <tr [pSelectableRow]="companyLogs">
+        <tr [pSelectableRow]="log">
           <td style="width:150px;text-align:center">{{log.email}}</td>
           <td style="width:150px;text-align:center">{{log.userFirstName}}</td>
           <td style="width:150px;text-align:center">{{log.userLastName}}</td>
@@ -29,7 +63,10 @@
           <td style="width:150px;text-align:center">{{log.pageName}}</td>
           <td style="width:150px;text-align:center">{{log.actionName}}</td>
           <td style="width:150px;text-align:center">{{log.logInfoMessage}}</td>
-          <td style="width:150px;text-align:center">{{log.logDate | date:'dd MMM yy HH:mm:ss' }}</td>
+          <td style="width:150px;text-align:center">
+            <!-- UTC to local date -->
+            {{log.logDate.toString()+'Z' | date:'dd MMM yy HH:mm:ss'}}
+          </td>
 
         </tr>
       </ng-template>
