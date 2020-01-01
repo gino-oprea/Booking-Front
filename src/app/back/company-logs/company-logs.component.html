@@ -1,13 +1,40 @@
 <legend style="margin-bottom: 10px;">Company Logs</legend>
 <div class="row" style="height: 7%;">
-  <div class="col-md-5">
+  <div class="col-md-10">
     <span>Start Date: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
       (onSelect)="loadLogs()" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
     <span> End Date: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate"
       readonlyInput="true" (onSelect)="loadLogs()" dateFormat="dd.M.yy"></p-calendar>
-  </div>
+      <span style="margin-left: 15px;"> Email:</span>
+      <input type="text" style="width: 150px;" [(ngModel)]="fiterEmail">
+      <span style="margin-left: 15px;"> Phone:</span>
+      <input type="text" style="width: 150px;" [(ngModel)]="filterPhone">
+      <span style="margin-left: 15px;"> Site:</span>
+      <select style="margin-left: 5px;" [(ngModel)]="selectedIdSite">
+        <option selected="true" value="null">Any</option>
+        <option value="1">Front</option>
+        <option value="2">Back</option>
+      </select>
+      <span style="margin-left: 15px;"> Page Name:</span>
+      <input type="text" style="width: 150px;" [(ngModel)]="filterPageName">
+      <span style="margin-left: 15px;"> Action:</span>
+      <select style="margin-left: 5px;" [(ngModel)]="selectedIdAction">
+        <option selected="true" value="null">Any</option>
+        <option value="1">Save</option>
+        <option value="2">Add</option>
+        <option value="3">Edit</option>
+        <option value="4">Delete</option>
+        <option value="5">Login</option>
+        <option value="6">Search</option>
+        <option value="7">Logout</option>
+        <option value="8">View</option>
+        <option value="9">Cancel</option>
+      </select>
+      <button class="btn btn-primary from-control" (click)="loadLogs()" style="margin-left: 15px;"><i
+          class="fa fa-search"></i> Search</button>
+  </div>  
 </div>
 <div class="row" style="height: 93%;">
   <div class="col-md-12" style="height: 100%;">

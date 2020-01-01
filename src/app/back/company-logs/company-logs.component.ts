@@ -20,6 +20,12 @@ export class CompanyLogsComponent extends BaseComponent implements OnInit
 
   companyLogs: LogItem[] = [];
 
+  selectedIdSite: number = 0;
+  selectedIdAction: number = 0;
+  fiterEmail: string = '';
+  filterPhone: string = '';
+  filterPageName: string = '';
+
   constructor(private injector: Injector)
   {
     super(injector, []);
@@ -57,7 +63,7 @@ export class CompanyLogsComponent extends BaseComponent implements OnInit
     let startDateString = CommonServiceMethods.getDateString(this.startDate);
     let endDateString = CommonServiceMethods.getDateString(this.endDate);
 
-    this.loggerService.getCompanyLogs(this.idCompany, startDateString, endDateString).subscribe(gro =>
+    this.loggerService.getCompanyLogs(this.idCompany, startDateString, endDateString,this.fiterEmail,this.filterPhone,this.selectedIdSite,this.filterPageName,this.selectedIdAction).subscribe(gro =>
     {
       if (gro.error != '')
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);

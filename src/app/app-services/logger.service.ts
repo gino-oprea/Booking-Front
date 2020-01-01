@@ -56,11 +56,21 @@ export class LoggerService
 
     return this.http.get<LogItem[]>(AppSettings.API_ENDPOINT + 'logs/getFiltered', options);
   }
-  getCompanyLogs(idCompany: number, dateStart: string, dateEnd: string): Observable<GenericResponseObject>
+  getCompanyLogs(idCompany: number, dateStart: string, dateEnd: string,
+    email: string,
+    phone: string,
+    idSite: number,
+    pageName: string,
+    idAction: number): Observable<GenericResponseObject>
   {
     let params = new HttpParams();
     params = params.append('dateStart', dateStart);
     params = params.append('dateEnd', dateEnd);
+    params = params.append('email', email.trim() == '' ? null : email);
+    params = params.append('phone', phone.trim() == '' ? null : phone);
+    params = params.append('idSite', !!idSite ? idSite.toString() : null);
+    params = params.append('pageName', pageName.trim() == '' ? null : pageName);
+    params = params.append('idAction', !!idAction ? idAction.toString() : null);
 
     let options = {
       headers: null,
