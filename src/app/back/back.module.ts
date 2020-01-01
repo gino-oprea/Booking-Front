@@ -1,4 +1,4 @@
-import {companyRouting} from './company.routing';
+import { companyRouting } from './company.routing';
 import { CompanyGuard } from '../route-guards/company.guard';
 import { LevelsComponent } from './levels/levels.component';
 import { NgModule } from '@angular/core';
@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import
 {
   CalendarModule,
-  CheckboxModule,  
+  CheckboxModule,
   DialogModule,
   DropdownModule,
   FileUploadModule,
@@ -17,6 +17,7 @@ import
   OrderListModule,
   ScheduleModule,
   TreeModule,
+  ChartModule
 } from 'primeng/primeng';
 import { TableModule } from 'primeng/table'
 import { EntitiesComponent } from './entities/entities.component';
@@ -53,6 +54,7 @@ import { CompanyLogsComponent } from './company-logs/company-logs.component';
     TableModule,
     CalendarModule,
     TreeModule,
+    ChartModule,
     SharedModule
   ],
   declarations: [
@@ -70,7 +72,7 @@ import { CompanyLogsComponent } from './company-logs/company-logs.component';
     ClientsComponent,
     CompanyUsersComponent,
     DashboardComponent,
-    CompanyLogsComponent    
+    CompanyLogsComponent
   ],
   providers: [
     CompanyGuard

@@ -14,7 +14,8 @@ import
   GMapModule,
   ButtonModule,
   DialogModule,
-  CalendarModule
+  CalendarModule,
+  ChartModule
 } from 'primeng/primeng';
 import { UsersService } from './app-services/users.service';
 import { UserRegistrationModule } from './user-registration/user-registration.module';
@@ -59,25 +60,26 @@ import { RoleGuard } from './route-guards/role.guard';
     AppComponent,
     HeaderComponent,
     MyBookingsComponent,
-    CompanyDetailsComponent      
+    CompanyDetailsComponent
   ],
   imports: [
     routing,
     BrowserAnimationsModule,
     BrowserModule,
-    FormsModule,    
-    
+    FormsModule,
+
     HttpClientModule,
     ReactiveFormsModule,
-    DropdownModule,  
+    DropdownModule,
     GrowlModule,
     GMapModule,
-    ConfirmDialogModule, 
+    ConfirmDialogModule,
     SharedModule,
     ButtonModule,
     DialogModule,
-    CalendarModule,    
-    
+    CalendarModule,
+    ChartModule,
+
     UserRegistrationModule,
     UserActivationModule,
     SearchCompanyModule,
@@ -105,7 +107,7 @@ import { RoleGuard } from './route-guards/role.guard';
     CompanyActiveSubscriptionService,
     CompanySearchService,
     BookingService,
-    ClientService,    
+    ClientService,
     AuthGuard,
     NonAuthGuard,
     CompanyBookingGuard,
