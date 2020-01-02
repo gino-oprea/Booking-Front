@@ -33,6 +33,8 @@ class SelectedCharacteristic
 })
 export class BookingFilter2Component extends BaseComponent implements OnInit, OnChanges
 {
+  @Input() isMoveBookingFilter: boolean = false;
+
   @Input() idCompany: number;
   @Input() selectedDate: Date = new Date();
   @Input() isFilteredByEmployeeRole: boolean = false;
@@ -140,8 +142,9 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
           this.filterByUserRole();
 
         //console.log(this.levels);
-        this.initFilteredEntities();
-        this.initSelectedEntities();
+        this.initFilteredEntities();       
+        this.initSelectedEntities();       
+          
         this.initSelectedCharacteristics();
         this.loadEntitiesLinking();
         //console.log(this.selectedEntities);
@@ -247,6 +250,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
         this.selectedEntities.push(entity);
     }
   }
+  
   initSelectedCharacteristics()
   {
     this.selectedCharacteristics = [];

@@ -4,10 +4,10 @@
       <li class="list-group-item" style="cursor:pointer" *ngFor="let booking of bookings; let i = index"
         (click)="selectBooking(booking)"
         [ngClass]="{'selected': (selectedBooking!=null ? booking.id == selectedBooking.id : false)}">
-        {{booking.email}}</li>
+        {{booking.email + " - " + booking.phone}}</li>
     </ol>
   </div>
-  <div *ngIf="selectedBooking" class="col-md-3">
+  <div *ngIf="selectedBooking" class="col-md-2">
     <div *ngFor="let entity of selectedBooking.entities">
       <div class="label label-default">{{entity.entityName_EN}}</div>
       <div *ngIf="entity.images">
@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="selectedBooking" class="col-md-6">
+  <div *ngIf="selectedBooking" class="col-md-4">
     <!-- <div class="row" style="padding-left:20px;padding-right: 20px;">
       <h4 *ngFor="let entity of selectedBooking.entities"
         style="display: inline-block; padding-left:5px;padding-right: 5px;">
@@ -31,7 +31,7 @@
       <div>
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
+            <div class="ui-grid-col-5">
               <label style="padding: 5px;" for="firstName">First Name:</label>
             </div>
             <div class="col-md-1">
@@ -42,7 +42,7 @@
         <br>
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
+            <div class="ui-grid-col-5">
               <label style="padding: 5px;" for="lastName">Last Name:</label>
             </div>
             <div class="col-md-1">
@@ -53,7 +53,7 @@
         <br>
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
+            <div class="ui-grid-col-5">
               <label style="padding: 5px;" for="phone">Phone:</label>
             </div>
             <div class="col-md-1">
@@ -64,7 +64,7 @@
         <br>
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
+            <div class="ui-grid-col-5">
               <label style="padding: 5px;" for="startTime">Date:</label>
             </div>
             <div class="col-md-1">
@@ -75,7 +75,7 @@
         <br>
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
+            <div class="ui-grid-col-5">
               <label style="padding: 5px;" for="startTime">Start Time:</label>
             </div>
             <div class="col-md-1">
@@ -86,7 +86,7 @@
         <br>
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
+            <div class="ui-grid-col-5">
               <label style="padding: 5px;" for="endTime">End Time:</label>
             </div>
             <div class="col-md-1">
@@ -97,7 +97,7 @@
         <br>
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-3">
+            <div class="ui-grid-col-5">
               <label style="padding: 5px;" for="status">Status:</label>
             </div>
             <div class="col-md-1">
@@ -112,15 +112,33 @@
           <button class="btn btn-success" (click)="setBookingHonored()" [disabled]="isButtonDisabledByRole()">
             <i class="fa fa-check"> Honored</i>
           </button>
-          <button class="btn btn-warning" (click)="cancelBooking()" [disabled]="isButtonDisabledByRole()">
+          <button class="btn btn-warning" (click)="cancelBooking()" [disabled]="isButtonDisabledByRole()"
+            style="margin-left: 5px;">
             <i class="fa fa-remove"> Cancel booking</i>
           </button>
-          <button class="btn btn-danger" (click)="deleteBooking()" [disabled]="isButtonDisabledByRole()">
+          <button class="btn btn-danger" (click)="deleteBooking()" [disabled]="isButtonDisabledByRole()"
+            style="margin-left: 5px;">
             <i class="fa fa-remove"> Delete</i>
           </button>
         </div>
       </footer>
     </form>
+  </div>
+  <div *ngIf="selectedBooking" class="col-md-3">
+    <span style="font-weight: bold;"> Move selected booking to:</span>
+    <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate" [isMoveBookingFilter]="true"
+      (filterChanged)="moveBookingfilterChanged($event)">
+    </bf-booking-filter2>
+    <div>New Start Time:
+    <select style="margin-top: 10px; height: 30px;">
+    <option *ngFor="let timeslot of moveBookingTimeslots" [value]="getDateStringWrapper(timeslot.startTime)">{{getTimeStringWrapper(timeslot.startTime)}}</option>      
+    </select>
+    </div>
+    <div>
+    <button class="btn btn-success" style="margin-top: 10px;" [disabled]="entityNotSelected" (click)="moveBooking()">
+      <i class="fa fa-check"> Move booking</i>
+    </button>
+    </div>
   </div>
 </div>
 

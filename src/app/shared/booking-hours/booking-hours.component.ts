@@ -145,7 +145,7 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     weekDates.push(this.getDateString(this.workingHours.saturday.date));
     weekDates.push(this.getDateString(this.workingHours.sunday.date));
 
-    this.bookingService.setUpBookingFilterEntitiesWorkingHours(this.idCompany, weekDates, this.selectedFilter.filteredLevels).subscribe(gro =>
+    this.bookingService.setUpBookingFilterEntitiesWorkingHours(this.idCompany, weekDates, this.selectedFilter.filteredLevels).subscribe(gro =>//call-ul asta e inutil -se face asta deja in backend -de verificat
     {
       if (gro.error != '')
       {

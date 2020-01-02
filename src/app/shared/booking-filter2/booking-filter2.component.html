@@ -8,10 +8,10 @@
         </div>
         <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2"
           style="margin-bottom: 5px;">
-          <select *ngIf="characteristic.isFrontOption" id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}"
+          <select *ngIf="characteristic.isFrontOption && !isMoveBookingFilter" id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}"
             [(ngModel)]="getSelectedCharacteristic(level.id,characteristic.id).selectedValue"
             (change)="doFilterEntitiesByCharacteristics(level.id)">
-            <option value="-1">Select {{characteristic.characteristicName_EN}} / Reset</option>
+            <option value="-1">Select {{characteristic.characteristicName_EN}} / Reset</option >
             <option *ngFor="let charactValue of characteristic.characteristicValues"
               [value]="charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN">
               {{charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN}}
@@ -24,7 +24,7 @@
             <option value="-1">Select {{level.levelName_EN}} / Reset</option>
             <option *ngFor="let entity of level.entities" [value]="entity.id">{{entity.entityName_EN}}</option>
           </select>
-          <div *ngIf="getSelectedImage(level.id)!=null">
+          <div *ngIf="getSelectedImage(level.id)!=null && !isMoveBookingFilter">
             <img [src]="'data:image/png;base64,'+getSelectedImage(level.id)"
               style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
           </div>
@@ -37,7 +37,7 @@
   <p-calendar [showIcon]="true" [(ngModel)]="selectedDate" (onSelect)="applyFilter()" [minDate]="today"
     placeholder="Date" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
 </div>
-<div class="row">
+<div *ngIf="!isMoveBookingFilter" class="row">
   <button class="btn btn-primary from-control" (click)="resetFilters()">
     <i class="fa fa-refresh"></i> Reset filters
   </button>
