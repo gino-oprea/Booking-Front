@@ -292,7 +292,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           if (this.isVariableWH)//daca e variable
           {
             let weekStartEnd = this.getWeekStartEndDates(this.selectedDateWorkingHours);
-            this.loadEntityVariableWorkingHours(this.selectedEntityId, weekStartEnd[0], weekStartEnd[1], true);
+            this.loadEntityVariableWorkingHours(this.selectedEntityId, weekStartEnd[0], weekStartEnd[1]);
           }
           if (!this.isCustomWH && !this.isVariableWH)//daca nu e nici custom nici variable
           {
@@ -331,38 +331,43 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting duration types', ''));
   }
-  loadEntityVariableWorkingHours(entityId: number, dateStart: Date, dateEnd: Date, setAsSelected: boolean)
+  loadEntityVariableWorkingHours(entityId: number, dateStart: Date, dateEnd: Date, mustEditEntity:boolean=false)
   {
     this.entitiesService.getEntityVariableWorkingHours(entityId, dateStart, dateEnd).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);        
       }
       else
       {
         this.logAction(this.idCompany, false, Actions.Search, '', 'get entity variable working hours idEntity: ' + entityId.toString());
         if (gro.objList.length > 0)
-        {
-          this.selectedWhId = -1;
+        {          
           this.variableWorkingHours = <WorkingHours>gro.objList[0];
-        }
-        else
-        {
-          this.selectedWhId = -1;
-          this.variableWorkingHours = this.getEmptyWorkingHours();//this.companyWorkingHours;          
-        }
-        if (setAsSelected)
-        {
           this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.variableWorkingHours);
           this.selectedWhId = this.doCustomWorkingHoursIdentification();
         }
+        else
+        {
+          this.selectedWhId = 0;
+          this.onDdlChangeWH();
+        }
+        
         this.assignCalendarDateForWorkingHours();
+
+        if (mustEditEntity)
+        {
+          this.selectedEntity.hasCustomWorkingHours = false;
+          this.selectedEntity.hasVariableProgramme = true;
+          this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
+          this.editEntity(this.selectedEntity, false, false);
+
+          //this.validateWorkingHours();
+        }
       }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entity variable working hours idEntity: ' + entityId.toString(), ''));
+    });
   }
   getEmptyWorkingHours(): WorkingHours
   {
@@ -670,7 +675,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     if (this.isVariableWH)
     {
       let weekStartEnd = this.getWeekStartEndDates(this.selectedDateWorkingHours);
-      this.loadEntityVariableWorkingHours(this.selectedEntityId, weekStartEnd[0], weekStartEnd[1], true);
+      this.loadEntityVariableWorkingHours(this.selectedEntityId, weekStartEnd[0], weekStartEnd[1]);
     }
     if (!this.isCustomWH && !this.isVariableWH)
     {
@@ -710,18 +715,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.editEntity(this.selectedEntity, false, false);
       }
 
-      this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
-      {
-        let gro = <GenericResponseObject>result;
-        if (gro.objList.length > 0)
-        {
-          this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
-          this.loadLevels(this.selectedLevelId);
-
-          this.affectedBookings = gro.objList;
-          this.displayAffectedBookings = true;
-        }
-      });
+      //this.validateWorkingHours();
     }
     if (this.isVariableWH) //daca e in modul variabil
     {
@@ -755,18 +749,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.addEntityVariableWorkingHours(wds);
 
 
-      this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
-      {
-        let gro = <GenericResponseObject>result;
-        if (gro.objList.length > 0)
-        {
-          this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
-          this.loadLevels(this.selectedLevelId);
-
-          this.affectedBookings = gro.objList;
-          this.displayAffectedBookings = true;
-        }
-      });
+      //this.validateWorkingHours();
     }
   }
   onIsCustomChange()
@@ -774,11 +757,13 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     if (this.isCustomWH)
     {
       this.isVariableWH = false;
+      this.selectedDateWorkingHours = new Date();
+
       this.assignCalendarDateForWorkingHours();
       if (this.customWorkingHours.length == 0)//trebuie adaugat
       {
         this.companyWorkingHours.name = 'Custom';
-        this.addEntityWorkingHours(this.idCompany, this.companyWorkingHours, true);
+        this.addEntityWorkingHours(this.idCompany, this.companyWorkingHours, true);//asta nu trebuie validat - e programul companiei
       }
       else//trebuie selectat primul existent(adica company working hours)
       {
@@ -816,18 +801,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.editEntity(this.selectedEntity, false, false);
     }
 
-    this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.objList.length > 0)
-      {
-        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
-        this.loadLevels(this.selectedLevelId);
-
-        this.affectedBookings = gro.objList;
-        this.displayAffectedBookings = true;
-      }
-    });
+    //this.validateWorkingHours();
   }
   onIsVariableChange()
   {
@@ -838,18 +812,24 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
       this.loadEntityVariableWorkingHours(this.selectedEntityId, this.selectedWorkingHours.monday.date, this.selectedWorkingHours.sunday.date, true);
 
-      this.selectedEntity.hasCustomWorkingHours = false;
-      this.selectedEntity.hasVariableProgramme = true;
-      this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
-      this.editEntity(this.selectedEntity, false, false);
+      // this.selectedEntity.hasCustomWorkingHours = false;
+      // this.selectedEntity.hasVariableProgramme = true;
+      // this.selectedEntity.workingHours = this.getWorkingHoursDeepCopy(this.selectedWorkingHours);
+      // this.editEntity(this.selectedEntity, false, false);
     }
     else
     {
       this.assignCalendarDateForWorkingHours();
       this.selectedEntity.hasVariableProgramme = false;
       this.onIsCustomChange();//salvarea in db a entitiatii se face aici        
+
+      //this.validateWorkingHours();
     }
 
+    
+  }
+  validateWorkingHoursFull()
+  {
     this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
@@ -863,6 +843,18 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
     });
   }
+  validateWorkingHoursFromResponse(response: GenericResponseObject)
+  {
+    if (response.objList.length > 0)
+    {
+      this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
+      this.loadLevels(this.selectedLevelId);
+
+      this.affectedBookings = response.objList;
+      this.displayAffectedBookings = true;
+    }
+  }
+
   getWeekStartEndDates(date: Date): Date[]
   {
     let weekDay = date.getDay();
@@ -1027,18 +1019,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
     this.selectedWhId = this.doCustomWorkingHoursIdentification();
 
-    this.entitiesService.validateWorkingHours(this.idCompany, this.selectedWorkingHours, this.selectedEntityId).subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.objList.length > 0)
-      {
-        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
-        this.loadLevels(this.selectedLevelId);
-
-        this.affectedBookings = gro.objList;
-        this.displayAffectedBookings = true;
-      }
-    });
+    //this.validateWorkingHours();
   }
   onSelectedDateChange()
   {
@@ -1053,6 +1034,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       if (gro.error != '')
       {
         this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        this.validateWorkingHoursFromResponse(gro);
       }
       else
       {
@@ -1094,7 +1076,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       if (gro.error != '')
       {
         this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        this.validateWorkingHoursFromResponse(gro);
       }
       else
       {
@@ -1112,7 +1094,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       if (gro.error != '')
       {
         this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
+        this.validateWorkingHoursFromResponse(gro);
       }
       else
       {

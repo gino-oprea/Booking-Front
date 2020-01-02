@@ -121,8 +121,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
           this.setDayDates();
           this.getHoursMatrix();
 
-           if (!this.refreshInterval)
-             this.refreshInterval = setInterval(() => { this.refreshMatrix() }, 20000);
+          //  if (!this.refreshInterval)
+          //    this.refreshInterval = setInterval(() => { this.refreshMatrix() }, 20000);
         }
       }
     }
