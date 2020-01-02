@@ -275,4 +275,8 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
     }
   }
+  onBookingMoved(event: string)
+  {
+    this.displayAffectedBookings = false;
+  }
 }

@@ -14,17 +14,18 @@ import { PotentialBooking } from '../objects/potential-booking';
 import { BookingSearchFilter } from '../objects/booking-search-filter';
 
 @Injectable()
-export class BookingService {
+export class BookingService
+{
 
   constructor(private httpClient: HttpClient, private usersService: UsersService) { }
 
-  getBookings(idCompany: number, dateStart:string, dateEnd: string, includeCanceled:boolean = false): Observable<GenericResponseObject>
+  getBookings(idCompany: number, dateStart: string, dateEnd: string, includeCanceled: boolean = false): Observable<GenericResponseObject>
   {
-    let params = new HttpParams();    
-    params = params.append('dateStart', dateStart);    
+    let params = new HttpParams();
+    params = params.append('dateStart', dateStart);
     params = params.append('dateEnd', dateEnd);
     params = params.append('includeCanceled', includeCanceled.toString());
-    
+
 
     let options = {
       headers: null,
@@ -34,9 +35,11 @@ export class BookingService {
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookings/' + idCompany.toString(), options);
   }
 
-  getLevelsAsFilters(idCompany: number, weekDates: string[]): Observable<GenericResponseObject> {
+  getLevelsAsFilters(idCompany: number, weekDates: string[]): Observable<GenericResponseObject>
+  {
     let params = new HttpParams();
-    for (var i = 0; i < weekDates.length; i++) {
+    for (var i = 0; i < weekDates.length; i++)
+    {
       params = params.append('weekDates', weekDates[i]);
     }
 
@@ -47,9 +50,11 @@ export class BookingService {
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Booking/GetBookingFilters/' + idCompany.toString(), options);
   }
-  setUpBookingFilterEntitiesWorkingHours(idCompany: number, weekDates: string[], levels: LevelAsFilter[]): Observable<GenericResponseObject> {
+  setUpBookingFilterEntitiesWorkingHours(idCompany: number, weekDates: string[], levels: LevelAsFilter[]): Observable<GenericResponseObject>
+  {
     let params = new HttpParams();
-    for (var i = 0; i < weekDates.length; i++) {
+    for (var i = 0; i < weekDates.length; i++)
+    {
       params = params.append('weekDates', weekDates[i]);
     }
 
@@ -65,19 +70,23 @@ export class BookingService {
     return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/SetUpBookingFilterEntitiesWorkingHours/'
       + idCompany.toString(), body, options);
   }
-  getBookingDefaultDuration(idCompany: number): Observable<GenericResponseObject> {
+  getBookingDefaultDuration(idCompany: number): Observable<GenericResponseObject>
+  {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Booking/GetBookingDefaultDuration/' + idCompany.toString(), options);
   }
-  getBookingRestrictions(idCompany: number, idEntities: number[], weekDates: string[]): Observable<GenericResponseObject> {
+  getBookingRestrictions(idCompany: number, idEntities: number[], weekDates: string[]): Observable<GenericResponseObject>
+  {
     let params = new HttpParams();
-    for (var i = 0; i < idEntities.length; i++) {
+    for (var i = 0; i < idEntities.length; i++)
+    {
       params = params.append('idEntities', idEntities[i].toString());
     }
-    for (var i = 0; i < weekDates.length; i++) {
+    for (var i = 0; i < weekDates.length; i++)
+    {
       params = params.append('weekDates', weekDates[i]);
     }
 
@@ -88,7 +97,29 @@ export class BookingService {
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingRestrictions/' + idCompany.toString(), options);
   }
-  addBooking(booking: Booking): Observable<GenericResponseObject> {
+  editBooking(booking: Booking): Observable<GenericResponseObject>
+  {
+    let sDate = CommonServiceMethods.addUserDateOffset(new Date(booking.startDate));
+    let eDate = booking.endDate != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endDate)) : null;
+    let sTime = booking.startTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.startTime)) : null;
+    let eTime = booking.endTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endTime)) : null;
+
+    booking.startDate = sDate;
+    booking.endDate = eDate;
+    booking.startTime = sTime;
+    booking.endTime = eTime;
+
+    const body = JSON.stringify(booking);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    let options = {
+      headers: headers
+    };
+
+    return this.httpClient.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking', body, options);
+  }
+  addBooking(booking: Booking): Observable<GenericResponseObject>
+  {
     let sDate = CommonServiceMethods.addUserDateOffset(booking.startDate);
     let eDate = booking.endDate != null ? CommonServiceMethods.addUserDateOffset(booking.endDate) : null;
     let sTime = booking.startTime != null ? CommonServiceMethods.addUserDateOffset(booking.startTime) : null;
@@ -108,7 +139,7 @@ export class BookingService {
 
     return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking', body, options);
   }
-  setBookingStatus(booking: Booking, idStatus:number): Observable<GenericResponseObject>
+  setBookingStatus(booking: Booking, idStatus: number): Observable<GenericResponseObject>
   {
     let sDate = CommonServiceMethods.addUserDateOffset(new Date(booking.startDate));
     let eDate = booking.endDate != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endDate)) : null;
@@ -121,7 +152,7 @@ export class BookingService {
     booking.endTime = eTime;
 
     const body = JSON.stringify(booking);
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });    
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
       headers: headers
@@ -129,7 +160,8 @@ export class BookingService {
 
     return this.httpClient.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/SetBookingStatus/' + idStatus.toString(), body, options);
   }
-  removePotentialBooking(idPotentialBooking: number) {
+  removePotentialBooking(idPotentialBooking: number)
+  {
     //const body = JSON.stringify(potentialBooking);
     //const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
@@ -139,7 +171,8 @@ export class BookingService {
     return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/RemovePotentialBooking/' + idPotentialBooking.toString(), options);
   }
   autoAssignEntitiesToBooking(idCompany: number, bookingDate: string, startTime: string,
-    autoAssignPayload: AutoAssignPayload): Observable<GenericResponseObject> {
+    autoAssignPayload: AutoAssignPayload): Observable<GenericResponseObject>
+  {
     let params = new HttpParams();
 
     params = params.append('bookingDate', bookingDate);
@@ -156,15 +189,19 @@ export class BookingService {
     return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/AutoAssignEntitiesToBooking/'
       + idCompany.toString(), body, options);
   }
-  generateHoursMatrix(idCompany: number, weekDates: string[], selectedLevels: LevelAsFilter[], searchFilter?: BookingSearchFilter): Observable<GenericResponseObject> {
+  generateHoursMatrix(idCompany: number, weekDates: string[], selectedLevels: LevelAsFilter[], searchFilter?: BookingSearchFilter): Observable<GenericResponseObject>
+  {
     let params = new HttpParams();
 
-    for (var i = 0; i < weekDates.length; i++) {
+    for (var i = 0; i < weekDates.length; i++)
+    {
       params = params.append('weekDates', weekDates[i]);
     }
 
-    if (searchFilter) {
-      if (searchFilter.searchString.trim() != "") {
+    if (searchFilter)
+    {
+      if (searchFilter.searchString.trim() != "")
+      {
         params = params.append('filterType', searchFilter.type.toString());
         params = params.append('searchString', searchFilter.searchString);
       }
@@ -200,14 +237,16 @@ export class BookingService {
 
   //   return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookings/' + idCompany.toString(), options);
   // }
-  getBookingsByUser(idUser: number): Observable<GenericResponseObject> {
+  getBookingsByUser(idUser: number): Observable<GenericResponseObject>
+  {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingsByUser/' + idUser.toString(), options);
   }
-  getBookingsByTimeSlot(idCompany: number, bookingDate: string): Observable<GenericResponseObject> {
+  getBookingsByTimeSlot(idCompany: number, bookingDate: string): Observable<GenericResponseObject>
+  {
     let params = new HttpParams();
 
     params = params.append('bookingDate', bookingDate);
@@ -219,7 +258,8 @@ export class BookingService {
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingsByTimeSlot/' + idCompany.toString(), options);
   }
-  removeBooking(idBooking: number) {
+  removeBooking(idBooking: number)
+  {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };

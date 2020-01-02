@@ -126,18 +126,21 @@
   </div>
   <div *ngIf="selectedBooking" class="col-md-3">
     <span style="font-weight: bold;"> Move selected booking to:</span>
-    <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate" [isMoveBookingFilter]="true"
-      (filterChanged)="moveBookingfilterChanged($event)">
+    <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate"
+      [isMoveBookingFilter]="true" (filterChanged)="moveBookingfilterChanged($event)">
     </bf-booking-filter2>
     <div>New Start Time:
-    <select style="margin-top: 10px; height: 30px;">
-    <option *ngFor="let timeslot of moveBookingTimeslots" [value]="getDateStringWrapper(timeslot.startTime)">{{getTimeStringWrapper(timeslot.startTime)}}</option>      
-    </select>
+      <select style="margin-top: 10px; height: 30px;" [(ngModel)]="selectedMoveTimeslot">
+        <option *ngFor="let timeslot of moveBookingTimeslots" [value]="getDateStringWrapper(timeslot.startTime)">
+          {{getTimeStringWrapper(timeslot.startTime)}}</option>
+      </select>
     </div>
     <div>
-    <button class="btn btn-success" style="margin-top: 10px;" [disabled]="entityNotSelected" (click)="moveBooking()">
-      <i class="fa fa-check"> Move booking</i>
-    </button>
+      <button class="btn btn-success" style="margin-top: 10px;"
+        [disabled]="entityNotSelected || isButtonDisabledByRole() || selectedMoveTimeslot==null"
+        (click)="editBooking()">
+        <i class="fa fa-check"> Move booking</i>
+      </button>
     </div>
   </div>
 </div>

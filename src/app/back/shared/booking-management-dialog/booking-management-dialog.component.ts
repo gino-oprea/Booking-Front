@@ -13,6 +13,7 @@ import { BookingFilter } from 'app/objects/booking-filter';
 import { LevelAsFilter } from 'app/objects/level-as-filter';
 import { Timeslot } from 'app/objects/timeslot';
 import { CommonServiceMethods } from '../../../app-services/common-service-methods';
+import { BookingEntity } from '../../../objects/booking-entity';
 
 @Component({
   selector: 'bf-booking-management-dialog',
@@ -28,11 +29,14 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
 
   @Output() bookingRemoved = new EventEmitter<string>();
   @Output() bookingCanceled = new EventEmitter<string>();
+  @Output() bookingMoved = new EventEmitter<string>();
 
   selectedBooking: Booking;
   moveBookingDate: Date = new Date();
   moveBookingTimeslots: Timeslot[];
+  selectedMoveTimeslot: string;
   entityNotSelected: boolean = true;
+  selectedMoveFilter: LevelAsFilter[];
 
   currentUserIsEmployee: boolean = false;
   idEntityLinkedToUser: number = null;
@@ -55,7 +59,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
     this.filterByUserRole();
   }
   ngOnChanges(changes: SimpleChanges): void 
-  {    
+  {
     if (this.bookings.length > 0)
     {
       this.selectedBooking = this.bookings[0];
@@ -101,10 +105,10 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       }
       else 
       {
-        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");      
+        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
         this.bookingRemoved.emit("removed");
       }
-    });    
+    });
   }
   cancelBooking()
   {
@@ -140,9 +144,42 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       }
     });
   }
-  moveBooking()
+  editBooking()
   {
-    
+    let selectedTimeslot = this.getSelectedMoveTimeslot();
+    this.selectedBooking.startDate = new Date(CommonServiceMethods.getDateString(selectedTimeslot.startTime));
+    this.selectedBooking.endDate = null;
+    console.log(CommonServiceMethods.getDateString(selectedTimeslot.startTime, true));
+    this.selectedBooking.startTime = new Date(CommonServiceMethods.getDateString(selectedTimeslot.startTime, true));
+    this.selectedBooking.endTime = new Date(CommonServiceMethods.getDateString(selectedTimeslot.endTime, true));
+    this.selectedBooking.entities = [];
+    for (let i = 0; i < this.selectedMoveFilter.length; i++)
+    {
+      const lvl = this.selectedMoveFilter[i];
+      this.selectedBooking.entities.push(new BookingEntity(
+        lvl.entities[0].id, false, lvl.id, lvl.isMultipleBooking, null, lvl.entities[0].entityName_RO, lvl.entities[0].entityName_EN,
+        lvl.levelName_RO, lvl.levelName_EN
+      ));
+    }
+
+    this.bookingService.editBooking(this.selectedBooking).subscribe(gro =>
+    {
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        this.bookingMoved.emit(gro.error);
+      }
+      else
+      {
+        this.logAction(this.idCompany, false, Actions.Edit, '', '', true, "Booking edited");
+        this.bookingMoved.emit("edited");
+      }
+    });
+  }
+  getSelectedMoveTimeslot(): Timeslot
+  {
+    let selectedTimeslot = this.moveBookingTimeslots.find(t => this.getDateStringWrapper(t.startTime) == this.selectedMoveTimeslot);
+    return selectedTimeslot;
   }
 
   getBookingStatusString(idStatus: number)
@@ -175,13 +212,13 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
               this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
             else
             {
-              let companyUsers = <CompanyUser[]>gro.objList;          
+              let companyUsers = <CompanyUser[]>gro.objList;
 
               let companyUserLoggedIn = companyUsers.find(cu => cu.id == user.id)
               if (companyUserLoggedIn)
               {
-                this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;     
-                if (this.idEntityLinkedToUser)                
+                this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;
+                if (this.idEntityLinkedToUser)
                   this.currentUserIsEmployee = true;
               }
             }
@@ -194,8 +231,8 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       this.entityNotSelected = true;
     else
       this.entityNotSelected = false;
-      
-    let selectedFilter = new BookingFilter(value.filteredLevels, value.allEntitiesPossibleCombinations, value.date);
+
+    this.selectedMoveFilter = value.filteredLevels;
 
     let weekDates: string[] = this.getWeekDatesAsStrings(value.date);
     this.loadTimeslots(value.filteredLevels, weekDates, value.date);
@@ -203,11 +240,13 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
 
   loadTimeslots(filter: LevelAsFilter[], weekDates: string[], selectedFilterDate: Date)
   {
+    this.selectedMoveTimeslot = null;
+
     this.bookingService.generateHoursMatrix(this.idCompany, weekDates, filter, null).subscribe(gro =>
     {
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
@@ -216,7 +255,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
           let hoursMatrix = <Timeslot[][][]>gro.objList;
           let selectedDayTimeslots = this.flattenTimeslotMatrix(hoursMatrix.filter(d =>
           {
-            return CommonServiceMethods.getDateString(new Date(d[0][0].startTime)) == CommonServiceMethods.getDateString(selectedFilterDate);              
+            return CommonServiceMethods.getDateString(new Date(d[0][0].startTime)) == CommonServiceMethods.getDateString(selectedFilterDate);
           }));
 
           this.moveBookingTimeslots = selectedDayTimeslots.filter(t => t.isSelectable && !t.isFullBooked);
@@ -224,7 +263,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       }
     });
   }
-  flattenTimeslotMatrix(matrix: Timeslot[][][]):Timeslot[]
+  flattenTimeslotMatrix(matrix: Timeslot[][][]): Timeslot[]
   {
     let timeslots: Timeslot[] = [];
 
@@ -239,7 +278,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
           let l3 = l2[k];
           l3.startTime = new Date(l3.startTime);
           l3.endTime = new Date(l3.endTime);
-          
+
           timeslots.push(l3);
         }
       }
@@ -294,7 +333,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
     thursdayDate.setHours(0, 0, 0, 0);
     fridayDate.setHours(0, 0, 0, 0);
     saturdayDate.setHours(0, 0, 0, 0);
-    sundayDate.setHours(0, 0, 0, 0);    
+    sundayDate.setHours(0, 0, 0, 0);
 
     let weekDates = [];
     weekDates.push(CommonServiceMethods.getDateString(mondayDate));

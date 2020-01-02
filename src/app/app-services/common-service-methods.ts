@@ -10,27 +10,27 @@ export class CommonServiceMethods
     let minutesUnit = 5;//asta trebuie sa vina din DB din setarile din back ale fiecarei companii
     let durationArray: number[] = [];
     if (durType == DurationType.Minutes)
-    {      
+    {
       for (let i = 1; i < 60 / minutesUnit; i++)      
       {
         durationArray.push(i * minutesUnit);
       }
-    } 
+    }
     if (durType == DurationType.Hours)
     {
       for (let i = 1; i < 24; i++) 
       {
         durationArray.push(i);
       }
-    } 
+    }
     if (durType == DurationType.Days)
     {
       for (let i = 1; i < 366; i++) 
       {
-        durationArray.push(i);        
+        durationArray.push(i);
       }
-    }  
-    return durationArray;  
+    }
+    return durationArray;
   }
 
   public static addUserDateOffset(date: Date): Date
@@ -48,30 +48,32 @@ export class CommonServiceMethods
     if (n != 0)
       inverted = -n;
     else
-      inverted = n;  
+      inverted = n;
 
     return inverted;
   }
-  public static getDateString(date: Date, withTime?:boolean)
-  {    
+  public static getDateString(date: Date, withTime?: boolean)
+  {
     var month = date.getMonth() + 1; //months from 1-12
     var day = date.getDate();
-    var year = date.getFullYear();     
-    
-    var dateString = year + "-" + month + "-" + day;
+    var year = date.getFullYear();
+
+    var dateString = year + "-" +
+      (month.toString().length < 2 ? "0" + month.toString() : month.toString()) + "-" +
+      (day.toString().length < 2 ? "0" + day.toString() : day.toString());
 
     if (withTime)
     {
-      var hour = date.getHours().toString().length<2? "0"+date.getHours().toString(): date.getHours().toString();
-      var minutes = date.getMinutes().toString().length<2? "0"+date.getMinutes().toString(): date.getMinutes().toString();
+      var hour = date.getHours().toString().length < 2 ? "0" + date.getHours().toString() : date.getHours().toString();
+      var minutes = date.getMinutes().toString().length < 2 ? "0" + date.getMinutes().toString() : date.getMinutes().toString();
 
       dateString = dateString + "T" + hour + ":" + minutes;
     }
-      
+
     return dateString;
   }
   public static getTimeString(date: Date)
-  {    
+  {
     var hour = date.getHours();
     var minutes = date.getMinutes().toString().length < 2 ? "0" + date.getMinutes().toString() : date.getMinutes().toString();
 
@@ -79,13 +81,13 @@ export class CommonServiceMethods
     return dateString;
   }
   public static getDateTimeString(date: Date)
-  {    
+  {
     var month = date.getMonth() + 1; //months from 1-12
     var day = date.getDate();
     var year = date.getFullYear();
     var hour = date.getHours();
     var minutes = date.getMinutes();
-    
+
     var dateString = year + "-" + month + "-" + day + " " + hour + ":" + minutes + ":00";
     return dateString;
   }
@@ -93,7 +95,7 @@ export class CommonServiceMethods
   computeDayColumnWidth(hoursMatrix: Timeslot[][][]): string
   {
     let width = '13.3%';
-    
+
     switch (hoursMatrix[0][0].length) 
     {
       case 12:

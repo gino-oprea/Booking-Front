@@ -121,8 +121,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
           this.setDayDates();
           this.getHoursMatrix();
 
-          //  if (!this.refreshInterval)
-          //    this.refreshInterval = setInterval(() => { this.refreshMatrix() }, 20000);
+          if (!this.refreshInterval)
+            this.refreshInterval = setInterval(() => { this.refreshMatrix() }, 20000);
         }
       }
     }
@@ -149,7 +149,7 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     {
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -160,7 +160,7 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
         {
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
             //this.showPageMessage('error', 'Error', gro.error);
           }
           else

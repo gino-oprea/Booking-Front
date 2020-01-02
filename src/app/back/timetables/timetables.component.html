@@ -1,7 +1,7 @@
 <legend style="margin-bottom: 10px;">Timetables</legend>
 <div class="row" style="height: 5%;margin-left: 5px;">
   <div class="col-md-2" style="padding:5px;">
-    <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%; width: 60%;">      
+    <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%; width: 60%;">
       <option *ngFor="let wh of customWorkingHours; let i=index;" [value]="wh.id">{{wh.name}}</option>
     </select>
     <button type="button" *ngIf="selectedWhId!=0 &&  selectedWhId!=-1" (click)="showAddEditCustomWHDialog(false)"
@@ -12,7 +12,8 @@
       <i class="fa fa-plus"></i>
     </button>
   </div>
-  <div class="col-md-4" style="padding:5px;">* Atentie! Modificarea unui orar afecteaza toate entitatile care au asociat orarul respectiv.</div>
+  <div class="col-md-4" style="padding:5px;">* Atentie! Modificarea unui orar afecteaza toate entitatile care au asociat
+    orarul respectiv.</div>
 </div>
 <div class="row" style="height: 95%;">
   <div class="col-md-12" style="height: 100%; overflow: auto;">
@@ -53,6 +54,6 @@
 <p-dialog header="Affected Bookings" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
   [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="affectedBookings"
-    (bookingRemoved)="onBookingRemoved($event)"></bf-booking-management-dialog>
+    (bookingRemoved)="onBookingRemoved($event)" (bookingMoved)="onBookingMoved($event)"></bf-booking-management-dialog>
 </p-dialog>
 <p-growl [value]="pageMsgs"></p-growl>

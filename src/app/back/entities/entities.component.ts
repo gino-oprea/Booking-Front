@@ -331,20 +331,20 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting duration types', ''));
   }
-  loadEntityVariableWorkingHours(entityId: number, dateStart: Date, dateEnd: Date, mustEditEntity:boolean=false)
+  loadEntityVariableWorkingHours(entityId: number, dateStart: Date, dateEnd: Date, mustEditEntity: boolean = false)
   {
     this.entitiesService.getEntityVariableWorkingHours(entityId, dateStart, dateEnd).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
         this.logAction(this.idCompany, false, Actions.Search, '', 'get entity variable working hours idEntity: ' + entityId.toString());
         if (gro.objList.length > 0)
-        {          
+        {
           this.variableWorkingHours = <WorkingHours>gro.objList[0];
           this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.variableWorkingHours);
           this.selectedWhId = this.doCustomWorkingHoursIdentification();
@@ -354,7 +354,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           this.selectedWhId = 0;
           this.onDdlChangeWH();
         }
-        
+
         this.assignCalendarDateForWorkingHours();
 
         if (mustEditEntity)
@@ -826,7 +826,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       //this.validateWorkingHours();
     }
 
-    
+
   }
   validateWorkingHoursFull()
   {
@@ -1451,6 +1451,10 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     {
       this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
     }
+  }
+  onBookingMoved(event: string)
+  {
+    this.displayAffectedBookings = false;
   }
 
   convertWeekDayIndex(jsIndex)

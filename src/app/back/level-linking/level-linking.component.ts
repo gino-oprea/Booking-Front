@@ -66,7 +66,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
@@ -87,7 +87,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -111,7 +111,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -139,7 +139,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
         let gro = <GenericResponseObject>result;
         if (gro.error != '')
         {
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
           //this.showPageMessage('error', 'Error', gro.error);
         }
         else
@@ -162,7 +162,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -226,7 +226,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -253,8 +253,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed,true);
-        
+        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
+
 
         if (gro.objList != null && gro.objList.length > 0)
         {
@@ -316,8 +316,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       {
         e.target.checked = !e.target.checked;
 
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
-        
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
+
         if (gro.objList != null && gro.objList.length > 0)
         {
           this.affectedBookings = gro.objList;
@@ -347,5 +347,8 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
     }
   }
-
+  onBookingMoved(event: string)
+  {
+    this.displayAffectedBookings = false;
+  }
 }
