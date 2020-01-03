@@ -38,6 +38,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   @Input() idCompany: number;
   @Input() selectedDate: Date = new Date();
   @Input() isFilteredByEmployeeRole: boolean = false;
+  @Input() doResetFilters: boolean = false;  
   @Output() filterChanged = new EventEmitter<BookingFilter>();
 
   en: any;
@@ -91,6 +92,13 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
         }
         this.loadAllLevels();
       });
+    }
+
+    if (changes['doResetFilters'])
+    {
+      if (changes['doResetFilters'].currentValue != changes['doResetFilters'].previousValue)
+        if (this.levels != null)
+          this.resetFilters();
     }
   }
   filterByUserRole()
@@ -240,13 +248,15 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
     this.filteredLevels = JSON.parse(JSON.stringify(this.levels));
     this.filteredLevelsForDropdowns = JSON.parse(JSON.stringify(this.levels));
   }
-  initSelectedEntities()
+  initSelectedEntities(isReset: boolean = false)
   {
-    //this.selectedEntities = [];
+    if (isReset)
+      this.selectedEntities = [];
+    
     for (var i = 0; i < this.levels.length; i++)
     {
       let entity = new SelectedEntityPerLevel(this.levels[i].id, -1, this.levels[i].idLevelType);
-      if (this.selectedEntities.find(se => se.idLevel == this.levels[i].id) == null)
+      if (this.selectedEntities.find(se => se.idLevel == this.levels[i].id) == null || isReset)
         this.selectedEntities.push(entity);
     }
   }
@@ -537,7 +547,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   }
   resetFilters()
   {
-    this.initSelectedEntities();
+    this.initSelectedEntities(true);
     this.initSelectedCharacteristics();
     this.initFilteredEntities();
     this.applyFilter();

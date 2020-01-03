@@ -263,10 +263,10 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding/editing entity custom hours', ''));
   }
 
-  onBookingRemoved(event: string)
+  onBookingRemoved(event: any)
   {
-    this.displayAffectedBookings = false;
-    if (event == "removed")
+    //this.displayAffectedBookings = false;
+    if (event.error == null)
     {
       this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
     }
@@ -275,12 +275,24 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
     }
   }
-  onBookingMoved(event: string)
+  onBookingMoved(event: any)
   {
-    this.displayAffectedBookings = false;
-    if (event == "edited")
+    //this.displayAffectedBookings = false;
+    if (event.error == null)
       this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
     else
       this.logAction(this.idCompany, true, Actions.Edit, event, event, true);
+  }
+  onBookingCanceled(event: any)
+  {
+    //this.displayAffectedBookings = false;
+    if (event.error == null)
+    {
+      this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");
+    }
+    else
+    {
+      this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
+    }
   }
 }

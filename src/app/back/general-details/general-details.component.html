@@ -228,7 +228,10 @@
 <p-dialog header="Affected Bookings" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
   [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="affectedBookings"
-    (bookingRemoved)="onBookingRemoved($event)" (bookingMoved)="onBookingMoved($event)"></bf-booking-management-dialog>
+    (bookingRemoved)="onBookingRemoved($event)" 
+    (bookingMoved)="onBookingMoved($event)"
+    (bookingCanceled)="onBookingCanceled($event)"
+    (onBookingsNone)="displayAffectedBookings=false;"></bf-booking-management-dialog>
 </p-dialog>
 
 <p-growl [value]="pageMsgs"></p-growl>

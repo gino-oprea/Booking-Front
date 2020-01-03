@@ -126,7 +126,7 @@
   </div>
   <div *ngIf="selectedBooking" class="col-md-3">
     <span style="font-weight: bold;"> Move selected booking to:</span>
-    <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate"
+    <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate" [doResetFilters]="doResetMoveFilter" 
       [isMoveBookingFilter]="true" (filterChanged)="moveBookingfilterChanged($event)">
     </bf-booking-filter2>
     <div>New Start Time:

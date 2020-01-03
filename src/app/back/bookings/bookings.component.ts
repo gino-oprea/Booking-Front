@@ -332,20 +332,36 @@ export class BookingsComponent extends BaseComponent implements OnInit
   {
     this.getTimeslotBookings(this.selectedBookingDate);
     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component   
+
+    if (event.error == null)
+    {
+      this.logAction(this.idCompany, false, Actions.Delete, '', '', true, 'Booking removed');
+    }
+    else
+      this.logAction(this.idCompany, true, Actions.Delete, event.error, event.error, true);
   }
   cancelBooking(event)
   {
     this.getTimeslotBookings(this.selectedBookingDate);
-    this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component   
+    this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component  
+    
+    if (event.error == null)
+    {
+      this.logAction(this.idCompany, false, Actions.Cancel, '', '', true, 'Booking canceled');
+    }
+    else
+      this.logAction(this.idCompany, true, Actions.Cancel, event.error, event.error, true);
   }
   editBooking(event)
   {
     this.getTimeslotBookings(this.selectedBookingDate);
     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component   
 
-    if (event == "edited")
+    if (event.error == null)
+    {
       this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+    }
     else
-      this.logAction(this.idCompany, true, Actions.Edit, event, event, true);
+      this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);
   }
 }

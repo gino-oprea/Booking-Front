@@ -48,7 +48,8 @@
   <div [hidden]="!tabs.edit.active">
     <p *ngIf="timeslotBookings.length==0">No bookings saved yet</p>
     <bf-booking-management-dialog [bookings]="timeslotBookings" [idCompany]="idCompany"
-      (bookingRemoved)="deleteBooking($event)" (bookingCanceled)="cancelBooking($event)"
+      (bookingRemoved)="deleteBooking($event)" 
+      (bookingCanceled)="cancelBooking($event)"
       (bookingMoved)="editBooking($event)"></bf-booking-management-dialog>
 
   </div>

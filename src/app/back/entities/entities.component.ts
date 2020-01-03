@@ -1064,8 +1064,9 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       {
         //this.showPageMessage('success', 'Success', 'Entity deleted');
         this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity ' + this.selectedEntityId, true, 'Entity deleted');
+        this.loadEntities(null);
       }
-      this.loadEntities(null);
+      
     });
   }
   addEntityWorkingHours(idCompany: number, workingHours: WorkingHours, isAfterAutoAdd: boolean)
@@ -1440,10 +1441,22 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
     this.displayDialogSpecialDays = false;
   }
-  onBookingRemoved(event: string)
+  onBookingCanceled(event: any)
   {
-    this.displayAffectedBookings = false;
-    if (event == "removed")
+    //this.displayAffectedBookings = false;
+    if (event.error == null)
+    {
+      this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");
+    }
+    else
+    {
+      this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
+    }
+  }
+  onBookingRemoved(event: any)
+  {
+    //this.displayAffectedBookings = false;
+    if (event.error == null)
     {
       this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
     }
@@ -1456,24 +1469,12 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   {
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
-      this.removeFromBookingsDialog(event.idBooking);
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');      
     }
     else
       this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);
   }
-  removeFromBookingsDialog(idBooking: number)
-  {
-    for (let i = 0; i < this.affectedBookings.length; i++)
-    {
-      const booking = this.affectedBookings[i];
-      if (booking.id == idBooking)
-      {
-        this.affectedBookings.splice(i, 1);
-        break;
-      }
-    }
-  }
+  
 
   convertWeekDayIndex(jsIndex)
   {
