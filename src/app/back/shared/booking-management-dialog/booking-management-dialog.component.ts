@@ -27,9 +27,9 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   @Input() idCompany: number;
   @Input() bookings: Booking[] = [];
 
-  @Output() bookingRemoved = new EventEmitter<string>();
-  @Output() bookingCanceled = new EventEmitter<string>();
-  @Output() bookingMoved = new EventEmitter<string>();
+  @Output() bookingRemoved = new EventEmitter<{ idBooking: number, error: string }>();
+  @Output() bookingCanceled = new EventEmitter<{ idBooking: number, error: string }>();
+  @Output() bookingMoved = new EventEmitter<{ idBooking: number, error: string }>();
 
   selectedBooking: Booking;
   moveBookingDate: Date = new Date();
@@ -95,37 +95,33 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   }
   deleteBooking()
   {
-    this.bookingService.removeBooking(this.selectedBooking.id).subscribe(result =>
+    this.bookingService.removeBooking(this.selectedBooking.id).subscribe(gro =>
     {
-      let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
-        this.bookingRemoved.emit(gro.error);
+        //this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        this.bookingRemoved.emit({ idBooking: null, error: gro.error });
       }
-      else 
+      else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
-        this.bookingRemoved.emit("removed");
+        //this.logAction(this.idCompany, false, Actions.Edit, '', '', true, "Booking edited");
+        this.bookingRemoved.emit({ idBooking: this.selectedBooking.id, error: null });
       }
     });
   }
   cancelBooking()
   {
-    this.bookingService.cancelBooking(this.selectedBooking.id).subscribe(result =>
+    this.bookingService.cancelBooking(this.selectedBooking.id).subscribe(gro =>
     {
-      let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Cancel, gro.error, gro.errorDetailed, true);
-        this.bookingCanceled.emit(gro.error);
+        //this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        this.bookingCanceled.emit({ idBooking: null, error: gro.error });
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");
-        this.bookingCanceled.emit("canceled");
-        // this.getTimeslotBookings(this.selectedBookingDate);
-        // this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
+        //this.logAction(this.idCompany, false, Actions.Edit, '', '', true, "Booking edited");
+        this.bookingCanceled.emit({ idBooking: this.selectedBooking.id, error: null });
       }
     });
   }
@@ -166,13 +162,13 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
     {
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
-        this.bookingMoved.emit(gro.error);
+        //this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        this.bookingMoved.emit({ idBooking: null, error: gro.error });
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, '', '', true, "Booking edited");
-        this.bookingMoved.emit("edited");
+        //this.logAction(this.idCompany, false, Actions.Edit, '', '', true, "Booking edited");
+        this.bookingMoved.emit({ idBooking: this.selectedBooking.id, error: null });
       }
     });
   }

@@ -278,5 +278,9 @@ export class TimetablesComponent extends BaseComponent implements OnInit
   onBookingMoved(event: string)
   {
     this.displayAffectedBookings = false;
+    if (event == "edited")
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+    else
+      this.logAction(this.idCompany, true, Actions.Edit, event, event, true);
   }
 }

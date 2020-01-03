@@ -342,5 +342,10 @@ export class BookingsComponent extends BaseComponent implements OnInit
   {
     this.getTimeslotBookings(this.selectedBookingDate);
     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component   
+
+    if (event == "edited")
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+    else
+      this.logAction(this.idCompany, true, Actions.Edit, event, event, true);
   }
 }

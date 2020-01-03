@@ -1452,9 +1452,27 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
     }
   }
-  onBookingMoved(event: string)
+  onBookingMoved(event: any)
   {
-    this.displayAffectedBookings = false;
+    if (event.error == null)
+    {
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+      this.removeFromBookingsDialog(event.idBooking);
+    }
+    else
+      this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);
+  }
+  removeFromBookingsDialog(idBooking: number)
+  {
+    for (let i = 0; i < this.affectedBookings.length; i++)
+    {
+      const booking = this.affectedBookings[i];
+      if (booking.id == idBooking)
+      {
+        this.affectedBookings.splice(i, 1);
+        break;
+      }
+    }
   }
 
   convertWeekDayIndex(jsIndex)
