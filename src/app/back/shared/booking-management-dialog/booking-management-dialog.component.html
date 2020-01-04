@@ -1,5 +1,5 @@
 <div>
-  <div class="col-md-3" style="height: 100%;">
+  <div *ngIf="bookings" class="col-md-3" style="height: 100%;">
     <ol style="padding:0px;">
       <li class="list-group-item" style="cursor:pointer" *ngFor="let booking of bookings; let i = index"
         (click)="selectBooking(booking)"
@@ -109,14 +109,14 @@
       </div>
       <footer>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-          <button class="btn btn-success" (click)="setBookingHonored()" [disabled]="isButtonDisabledByRole()">
+          <button *ngIf="showHonoredButton" class="btn btn-success" (click)="setBookingHonored()" [disabled]="isButtonDisabledByRole()">
             <i class="fa fa-check"> Honored</i>
           </button>
-          <button class="btn btn-warning" (click)="cancelBooking()" [disabled]="isButtonDisabledByRole()"
+          <button *ngIf="showCancelButton" class="btn btn-warning" (click)="cancelBooking()" [disabled]="isButtonDisabledByRole()"
             style="margin-left: 5px;">
             <i class="fa fa-remove"> Cancel booking</i>
           </button>
-          <button class="btn btn-danger" (click)="deleteBooking()" [disabled]="isButtonDisabledByRole()"
+          <button *ngIf="showDeleteButton" class="btn btn-danger" (click)="deleteBooking()" [disabled]="isButtonDisabledByRole()"
             style="margin-left: 5px;">
             <i class="fa fa-remove"> Delete</i>
           </button>

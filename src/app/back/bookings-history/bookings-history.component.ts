@@ -22,11 +22,13 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
 
   currentUserIsEmployee: boolean = false;
   idEntityLinkedToUser: number = null;
+  displayBookingDialog: boolean = false;
 
   en: any;
   confirmDeleteBookingMessage: string = "Are you sure you want to delete this booking?";
   displayConfirmDeleteBooking: boolean = false;
   bookings: Booking[] = [];
+  selectedBooking: Booking;
   idBooking: number;
 
   currentDate = new Date();
@@ -225,5 +227,16 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
           this.loadBookings();
         }
   }
-
+  
+  onBookingMoved(event)
+  {
+    if (event.error == null)
+    {
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+    }
+    else
+      this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);
+    
+    this.loadBookings();
+  }
 }

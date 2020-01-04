@@ -11,7 +11,9 @@
 </div>
 <div class="row" style="height: 93%;">
   <div class="col-md-12" style="height: 100%;">
-    <p-table #dt [value]="bookings" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
+    <p-table #dt [value]="bookings" selectionMode="single" [responsive]="true"
+      (onRowSelect)="!isDialog ? displayBookingDialog=true : displayBookingDialog=false" [(selection)]="selectedBooking"
+      scrollable="true" scrollHeight="99%">
       <!-- <ng-template pTemplate="caption">
         Entities
       </ng-template> -->
@@ -63,6 +65,16 @@
     </p-table>
   </div>
 </div>
+
+
+<p-dialog header="Selected Booking" [(visible)]="displayBookingDialog" [responsive]="true" showEffect="fade"
+  [modal]="true" width="1200">
+  <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="selectedBooking!=null ? [selectedBooking] : null"
+  [showDeleteButton]="false" [showCancelButton]="false" [showHonoredButton]="false"
+    (bookingMoved)="onBookingMoved($event)" (onBookingsNone)="displayBookingDialog=false;">
+  </bf-booking-management-dialog>
+</p-dialog>
+
 
 <p-dialog header="Confirm" [(visible)]="displayConfirmDeleteBooking" [responsive]="true" showEffect="fade"
   [modal]="true" width="350">

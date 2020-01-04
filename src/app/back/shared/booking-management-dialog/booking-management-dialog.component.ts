@@ -27,6 +27,10 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   @Input() idCompany: number;
   @Input() bookings: Booking[] = [];
 
+  @Input() showHonoredButton: boolean = true;
+  @Input() showCancelButton: boolean = true;
+  @Input() showDeleteButton: boolean = true;
+
   @Output() bookingRemoved = new EventEmitter<{ idBooking: number, error: string }>();
   @Output() bookingCanceled = new EventEmitter<{ idBooking: number, error: string }>();
   @Output() bookingMoved = new EventEmitter<{ idBooking: number, error: string }>();
@@ -62,7 +66,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   }
   ngOnChanges(changes: SimpleChanges): void 
   {
-    if (this.bookings.length > 0)
+    if (this.bookings && this.bookings.length > 0)
     {
       this.selectedBooking = this.bookings[0];
       this.setupSelectedBookingImages();
@@ -78,22 +82,25 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   }
   setupSelectedBookingImages()
   {
-    //setup images
-    let requests = [];
-    for (let i = 0; i < this.selectedBooking.entities.length; i++)
+    if (this.selectedBooking)
     {
-      const entity = this.selectedBooking.entities[i];
-      requests.push(this.imageService.getEntityImages(entity.idEntity));
-    }
-
-    forkJoin(requests).subscribe((imageResults: GenericResponseObject[]) =>
-    {
-      for (let i = 0; i < imageResults.length; i++) 
+      //setup images
+      let requests = [];
+      for (let i = 0; i < this.selectedBooking.entities.length; i++)
       {
-        const images = <Image[]>imageResults[i].objList;
-        this.selectedBooking.entities[i].images = images;
+        const entity = this.selectedBooking.entities[i];
+        requests.push(this.imageService.getEntityImages(entity.idEntity));
       }
-    });
+
+      forkJoin(requests).subscribe((imageResults: GenericResponseObject[]) =>
+      {
+        for (let i = 0; i < imageResults.length; i++) 
+        {
+          const images = <Image[]>imageResults[i].objList;
+          this.selectedBooking.entities[i].images = images;
+        }
+      });
+    }
   }
   deleteBooking()
   {
