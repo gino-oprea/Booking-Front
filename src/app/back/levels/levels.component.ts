@@ -89,7 +89,9 @@ export class LevelsComponent extends BaseComponent implements OnInit
   }
   loadDurationArray(type: DurationType)
   {
-    this.durationArray = CommonServiceMethods.getDurationArray(type);
+    this.durationArray = CommonServiceMethods.getDurationArray(type);    
+    if (this.durationArray.find(n => n.toString() == this.addLevelForm.controls['duration'].value) == null)
+      this.addLevelForm.controls['duration'].setValue(this.durationArray[0]);
   }
 
   loadLevels()

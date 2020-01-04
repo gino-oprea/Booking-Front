@@ -118,25 +118,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       left: '',
       center: 'title',
       right: 'today,prev,next'
-    };
-
-
-
-    this.companyService.getCompanyWorkingHours(this.idCompany).subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
-      }
-      else
-      {
-        this.workingHours = WorkingHours.DeepCopy(gro.objList[0]);
-        this.workingHoursOriginal = WorkingHours.DeepCopy(gro.objList[0]);
-      }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company working hours', ''));
+    };    
 
     this.mapOptions = {
       center: { lat: 45.951249, lng: 24.793491 },
@@ -171,6 +153,24 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     this.initCompanyAndForm();
     this.loadCompanyImages();
     this.reloadCompanySpecialDays();
+    this.loadCompanyWorkingHours();
+  }
+  loadCompanyWorkingHours()
+  {
+    this.companyService.getCompanyWorkingHours(this.idCompany).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        //this.showPageMessage('error', 'Error', gro.error);
+      }
+      else
+      {
+        this.workingHours = WorkingHours.DeepCopy(gro.objList[0]);
+        this.workingHoursOriginal = WorkingHours.DeepCopy(gro.objList[0]);
+      }
+    });
   }
   initCompanyAndForm()
   {

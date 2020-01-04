@@ -582,7 +582,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           {
             this.logAction(this.idCompany, false, Actions.Edit, '', 'image upload for entity ' + this.selectedEntity.id, true, 'image saved');
             //this.showPageMessage('success', 'Success', 'image saved');
-            this.loadEntities(this.selectedEntity.id);
+            this.loadEntityImages();
           }
         });
       }

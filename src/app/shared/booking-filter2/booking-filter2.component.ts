@@ -80,18 +80,19 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   }
   ngOnChanges(changes: SimpleChanges): void
   {
-    if (this.idCompany)
+    if (changes['idCompany'])
     {
-      this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
-      {
-        if (gro.error != "")
-          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        else
+      if (this.idCompany)
+        this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
         {
-          this.companyUsers = <CompanyUser[]>gro.objList;
-        }
-        this.loadAllLevels();
-      });
+          if (gro.error != "")
+            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+          else
+          {
+            this.companyUsers = <CompanyUser[]>gro.objList;
+          }
+          this.loadAllLevels();
+        });
     }
 
     if (changes['doResetFilters'])
@@ -386,14 +387,18 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   }
   doFilterEntities(idLevel: number)
   {
+    let selectedIdEntity = this.selectedEntities.find(e => e.idLevel == idLevel).idEntity
+    if (selectedIdEntity == -1)
+      this.selectedEntities.find(e => e.idLevel == idLevel).images = null;
+    else
+      this.loadEntityImages(this.selectedEntities.find(e => e.idLevel == idLevel).idEntity);
+    
     //reset invalid selections
     this.resetInvalidSelections(idLevel);
     this.resetSelectedCharacteristics(idLevel, false);
     let filteredEntititesPerLevel = this.getFilteredEntitiesPerLevel();
     this.setupFilterObjectForEmit(filteredEntititesPerLevel);
-    this.setupFilterObjectForDropdowns(filteredEntititesPerLevel, idLevel);
-
-    this.loadEntityImages(this.selectedEntities.find(e => e.idLevel == idLevel).idEntity);
+    this.setupFilterObjectForDropdowns(filteredEntititesPerLevel, idLevel);    
 
     this.applyFilter();
   }

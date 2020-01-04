@@ -113,8 +113,10 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit {
     this.shiftedDate = value;
   }
 
-  getAutoAssignedEntities() {
-    if (this.selectedBookingHourTransferObject.workingDay.workHours != "") {
+  getAutoAssignedEntities()
+  {
+    if (this.selectedBookingHourTransferObject.workingDay.workHours != "")
+    {
       //console.log(this.selectedBookingHourTransferObject.bookingDayTimeslots);
       let startTime: string = "";
       let selectedTime = this.selectedBookingHourTransferObject.workingDay.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
@@ -126,25 +128,25 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit {
       let bookingDate = CommonServiceMethods.getDateString(new Date(this.selectedBookingHourTransferObject.workingDay.date));
       let autoAssignPayload = new AutoAssignPayload(this.selectedFilter.filteredLevels, this.selectedBookingHourTransferObject.bookingDayTimeslots);
 
-      this.bookingService.autoAssignEntitiesToBooking(this.idCompany, bookingDate, startTime, autoAssignPayload).subscribe(gro => {
-        if (gro.error != '') {
-          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+      this.bookingService.autoAssignEntitiesToBooking(this.idCompany, bookingDate, startTime, autoAssignPayload).subscribe(gro =>
+      {
+        if (gro.error != '')
+        {
+          this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
           //this.showPageMessage('error', 'Error', gro.error);
         }
-        else {
+        else
+        {
           this.logAction(this.idCompany, false, Actions.Add, '', 'auto assign booking');
-          if (gro.objList != null) {
+          if (gro.objList != null)
+          {
             this.autoAssignedEntityCombination = <AutoAssignedEntityCombination>gro.objList[0];
             this.displayDialogConfirmBooking = true;
           }
           else
             this.showPageMessage("warn", "Warning", 'Selected combination duration does not fit in the remaining timeslots! Please select another timeslot!');
         }
-      },
-        err => {
-          this.logAction(this.idCompany, true, Actions.Add, 'http error auto assign booking', err.status + ' ' + err.statusText);
-          this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
-        });
+      });
     }
   }
   onCloseConfirmDialog() {

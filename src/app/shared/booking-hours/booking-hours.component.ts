@@ -145,7 +145,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     weekDates.push(this.getDateString(this.workingHours.saturday.date));
     weekDates.push(this.getDateString(this.workingHours.sunday.date));
 
-    this.bookingService.setUpBookingFilterEntitiesWorkingHours(this.idCompany, weekDates, this.selectedFilter.filteredLevels).subscribe(gro =>//call-ul asta e inutil -se face asta deja in backend -de verificat
+    this.bookingService.setUpBookingFilterEntitiesWorkingHours(this.idCompany, weekDates,
+      this.selectedFilter.filteredLevels).subscribe(gro =>//call-ul asta se foloseste pentru autoassign - cand se face shift week
     {
       if (gro.error != '')
       {
@@ -168,13 +169,12 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
             if (gro.objList.length > 0)
             {
               this.hoursMatrix = <Timeslot[][][]>gro.objList;
+              console.log(this.hoursMatrix);
             }
           }
-        },
-          err => this.logAction(this.idCompany, true, Actions.Search, 'http error generating booking hours matrix', ''));
+        });
       }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting filter working hours', ''));
+    });
   }
 
   getTimeslotValueAsString(timeslot: Timeslot): string
