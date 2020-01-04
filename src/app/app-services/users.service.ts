@@ -26,7 +26,7 @@ export class UsersService
         };
         return this.http.get<User[]>(AppSettings.API_ENDPOINT + 'users', options);
     }
-    
+
     getUserByEmail(email: string): Observable<User>
     {
         let options = {
@@ -49,7 +49,7 @@ export class UsersService
     getUserByEmailForUserRegistration(email: string): Observable<GenericResponseObject>
     {
         let options = {
-            headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
+            headers: null
         };
         return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/GetByEmailForRegistration/' + email, options);
     }
@@ -61,7 +61,7 @@ export class UsersService
         });
 
         let options = {
-            headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
+            headers: headers
         };
 
         return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/' + idRole.toString(), body, options);
