@@ -80,8 +80,9 @@ export class LoginService
               }
             });
           }
+          else
+            component.logAction(null, true, Actions.Login, user.error, user.errorDetailed, true, user.error);
         });
-
         return token;
       })
     );

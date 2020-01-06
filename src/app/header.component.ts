@@ -158,10 +158,8 @@ export class HeaderComponent extends BaseComponent implements OnInit
         this.loginForm.reset();            
       },
         err =>
-        {
-          console.log(err);
-          this.showPageMessage("error", "Error", err.message);
-          this.logAction(null, true, Actions.Login, "http request error", err.message);
+        {          
+          this.logAction(null, true, Actions.Login, "invalid login", 'invalid login', true);
         });
   }
   onLogout()

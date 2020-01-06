@@ -33,7 +33,8 @@ export class UserActivationComponent extends BaseComponent implements OnInit, On
 
   ngOnInit()
   {
-    this.logAction(null, false, Actions.View, "", "");
+    super.ngOnInit();
+    
     this.subscription = this.route.params.subscribe(
       (params: any) =>
       {
@@ -43,14 +44,14 @@ export class UserActivationComponent extends BaseComponent implements OnInit, On
           {
             if (result.error == '')
             {
-              this.title = this.getCurrentLabelValue('lblUserActivated');
-              this.logAction(null, false, Actions.Edit, "", "user " + result.email + " activated");
-              console.log(result);//aici se va face login si redirect catre prima pagina cu autentificare
+              // this.title = this.getCurrentLabelValue('lblUserActivated');
+              // this.logAction(null, false, Actions.Edit, "", "user " + result.email + " activated");
+              // console.log(result);//aici se va face login si redirect catre prima pagina cu autentificare
 
-              localStorage.setItem('b_front_auth_user', JSON.stringify(result));
-              this.loginService.loggedIn = true;
-              this.loginService.emmitLoginChange();
-              this.router.navigate(['/searchcompany']);
+              // localStorage.setItem('b_front_auth_user', JSON.stringify(result));
+              // this.loginService.loggedIn = true;
+              // this.loginService.emmitLoginChange();
+              this.router.navigate(['/login']);
             }
             else
             {
@@ -58,13 +59,7 @@ export class UserActivationComponent extends BaseComponent implements OnInit, On
               this.title = this.getCurrentLabelValue('lblUserCouldNotBeActivated');
               console.log(result);
             }
-          },
-            err =>
-            {
-              this.logAction(null, true,Actions.Edit, "http error while activating user", "");
-              console.log(err);
-            }
-          );
+          });
         }
         catch (e)
         {

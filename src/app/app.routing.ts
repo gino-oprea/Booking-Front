@@ -12,11 +12,13 @@ import { CompanyBookingComponent } from './company-booking/company-booking.compo
 import { CompanyBookingGuard } from './route-guards/company-booking.guard';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 const APP_ROUTES = [
     { path: '', redirectTo: 'searchcompany', pathMatch: 'full' },
     //{ path: '', component: SearchCompanyComponent },    
 
+    { path: 'login', component: UserLoginComponent, canActivate: [NonAuthGuard] },
     { path: 'register', component: UserRegistrationComponent, canActivate: [NonAuthGuard] },
     { path: 'useractivation/:activationKey', component: UserActivationComponent },
     { path: 'searchcompany', component: SearchCompanyComponent },

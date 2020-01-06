@@ -53,6 +53,7 @@ import { LoginService } from './app-services/login.service';
 import { ClientService } from './app-services/client.service';
 import { CompanyUsersService } from './app-services/company-users.service';
 import { RoleGuard } from './route-guards/role.guard';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { RoleGuard } from './route-guards/role.guard';
     AppComponent,
     HeaderComponent,
     MyBookingsComponent,
-    CompanyDetailsComponent
+    CompanyDetailsComponent,
+    UserLoginComponent
   ],
   imports: [
     routing,
