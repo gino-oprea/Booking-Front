@@ -44,6 +44,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
 
   refreshInterval;
 
+  isFirstLoad: boolean = true;
+
   commonMethods: CommonServiceMethods = new CommonServiceMethods();
 
   constructor(private injector: Injector,
@@ -54,38 +56,15 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     ]);
 
     this.site = WebSites.Front;
-    this.pageName = 'Company booking';
-
-    // this.routeSubscription = this.route.params.subscribe((params: any) =>
-    // {
-    //   if (params.hasOwnProperty('id'))
-    //   {
-    //     this.idCompany = +params['id'];
-    //   }     
-    // });
+    this.pageName = 'Company booking';    
 
     this.dayNames = ['lblMonday', 'lblTuesday', 'lblWednesday', 'lblThursday', 'lblFriday', 'lblSaturday', 'lblSunday'];
-    this.dayDates = [null, null, null, null, null, null, null];
-
-    // this.workingHours = new WorkingHours(0, this.idCompany, '',
-    // new WorkingDay('', null),
-    // new WorkingDay('', null),
-    // new WorkingDay('', null),
-    // new WorkingDay('', null),
-    // new WorkingDay('', null),
-    // new WorkingDay('', null),
-    // new WorkingDay('', null));
+    this.dayDates = [null, null, null, null, null, null, null];    
   }
 
   ngOnInit() 
   {
-    // this.router.events.subscribe((event) => 
-    // {
-    //   if (event instanceof NavigationStart) 
-    //   {        
-    //     clearInterval(this.refreshInterval);
-    //   }
-    // });
+    
   }
   ngOnDestroy(): void 
   {
@@ -161,15 +140,19 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
         {
           if (gro.error != '')
           {
-            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-            //this.showPageMessage('error', 'Error', gro.error);
+            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);            
           }
           else
           {
             if (gro.objList.length > 0)
             {
-              this.hoursMatrix = <Timeslot[][][]>gro.objList;
-              console.log(this.hoursMatrix);
+              this.hoursMatrix = <Timeslot[][][]>gro.objList;                 
+              
+              if (this.hoursMatrix.find(ttt => ttt.find(tt => tt.find(t => t.isSelectable))) == null && this.isFirstLoad)
+              {
+                this.isFirstLoad = false;
+                this.shiftWeek(WeekShiftType.Right)
+              }
             }
           }
         });
