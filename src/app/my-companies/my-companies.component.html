@@ -15,8 +15,8 @@
                 <h6>{{getCurrentLabelValue('lblPhone')}}: {{company.phone}}</h6>
                 <h6>{{getCurrentLabelValue('lblTown')}}: {{company.cityName}}</h6>
             </div>
-            <div class="span2">
-                <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="toggleCompanyEnabled($event, company)"
+            <div *ngIf="hasRolePermission('CompanyOwner', company.id)" class="span2">
+                <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="showToggleConfirm($event, company)"
                     [(ngModel)]="company.isEnabled"></p-inputSwitch>
             </div>
 
@@ -86,6 +86,12 @@
             <button type="button" pButton icon="fa-check" (click)="chooseSubscription()" label="OK"></button>
         </div>
     </footer>
+</p-dialog>
+
+<p-dialog header="Confirm" [(visible)]="displayConfirmToggleCompany" [responsive]="true" showEffect="fade" [modal]="true"
+    width="350">
+    <bf-generic-confirm-dialog [confirmMessage]="confirmToggleEntityMessage" (onConfirm)="onConfirmToggle($event)">
+    </bf-generic-confirm-dialog>
 </p-dialog>
 
 <p-growl [value]="pageMsgs"></p-growl>

@@ -4,7 +4,7 @@ import { SubscriptionObject } from '../objects/subscription-object';
 import { Component, OnInit, Injector } from '@angular/core';
 import { BaseComponent } from '../shared/base-component';
 import { Company } from '../objects/company';
-import { WebSites, Actions } from '../enums/enums';
+import { WebSites, Actions, UserRoleEnum } from '../enums/enums';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { CompanyService } from '../app-services/company.service';
 import { ImageService } from '../app-services/image.service';
@@ -21,7 +21,12 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   public COMP_IMG = require("./img/company.jpg");
 
   companies: Company[];
-  selectedCompany: any;
+
+  selectedCompany: Company;
+  selectedCompanyIsEnabled: boolean;
+  displayConfirmToggleCompany: boolean = false;
+  confirmToggleEntityMessage: string;
+
   showSubscriptionDialog = false;
   subscriptions: SubscriptionObject[] = [];
   selectedSubscriptionPrice: string;
@@ -163,10 +168,11 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   {
     this.router.navigate(['/company', idCompany, 'generaldetails']);
   }
-  toggleCompanyEnabled(e, company: Company)
+  toggleCompanyEnabled()//toggleCompanyEnabled(e, company: Company)
   {
-    let isEnabled = e.checked;
-
+    let isEnabled = this.selectedCompanyIsEnabled;//e.checked;
+    let company = this.selectedCompany;
+    
     company.isEnabled = isEnabled;
     //se pun null ca se se updateze doar cele de sus
     company.lat = null;
@@ -186,6 +192,32 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
         this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblSaved'));
       }
     });
+  }
+
+  hasRolePermission(requiredRole: string, idCompany: number): boolean
+  {
+    let currentUser = this.loginService.getCurrentUser();
+    let role = currentUser.roles.find(r => r.idCompany == idCompany);
+    if (role.idRole <= UserRoleEnum[requiredRole])
+      return true;
+    else
+      return false;
+  }
+  showToggleConfirm(e, company: Company)
+  {
+    this.selectedCompany = company;
+    this.selectedCompanyIsEnabled = e.checked;
+    this.confirmToggleEntityMessage = "Are you sure you want to " + (this.selectedCompanyIsEnabled ? "enable" : "disable") + " this company?";
+    this.displayConfirmToggleCompany = true;
+  }
+  onConfirmToggle(message)
+  {
+    if (message == "yes")
+      this.toggleCompanyEnabled();
+    else
+      this.selectedCompany.isEnabled = !this.selectedCompany.isEnabled;
+    
+    this.displayConfirmToggleCompany = false;
   }
 }
 
