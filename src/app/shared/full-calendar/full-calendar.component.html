@@ -24,7 +24,7 @@
       <tr *ngFor="let week of dayDates;let i = index">
         <td *ngFor="let dayDate of week" class="daySlot" 
           [ngClass]="{'daySlot':!slotIsCurrentDate(dayDate.dateNumber), 'daySlot-currentDay':slotIsCurrentDate(dayDate.dateNumber)}"
-          [ngStyle]="{'height': calendarRowHeight}" (click)="timeSlotClick(dayDate.dateNumber)"
+          [ngStyle]="{'height': calendarRowHeight}" (click)="timeSlotClick(dayDate)"
           cdkDropList 
           [id]="dayDate.yearNumber.toString()+'-'+(dayDate.monthNumber + 1).toString()+'-'+ dayDate.dateNumber.toString()" 
           [cdkDropListConnectedTo]="getSlotIdsAsString()" (cdkDropListDropped)="onEventDrop($event)">

@@ -137,12 +137,13 @@ export class FullCalendarComponent implements OnInit {
         if (weekNumber == 1)//prima saptamana
         {
           if ((j + 2) <= firstDayAsWeekDay)//pana am epuizat zilele din luna precedenta
-            days.push({
-              dateNumber: numberOfDaysInPreviousMonth - (firstDayAsWeekDay - (j + 2)),
-              monthNumber: this.getPreviousMonthAndYear().month,
-              yearNumber: this.getPreviousMonthAndYear().year,
-              isCurrentMonth: false
-            });
+            days.push(
+              {
+                dateNumber: numberOfDaysInPreviousMonth - (firstDayAsWeekDay - (j + 2)),
+                monthNumber: this.getPreviousMonthAndYear().month,
+                yearNumber: this.getPreviousMonthAndYear().year,
+                isCurrentMonth: false
+              });
           else
           {
             dayNumber++;
@@ -202,9 +203,9 @@ export class FullCalendarComponent implements OnInit {
     return monthNames[this.selectedMonth];
   }
 
-  timeSlotClick(dayNumber:number)
+  timeSlotClick(calendarSlot: CalendarSlot)
   {
-    let selectedDateSlot: Date = new Date(this.selectedYear, this.selectedMonth, dayNumber, 0, 0, 0, 0);
+    let selectedDateSlot: Date = new Date(calendarSlot.yearNumber, calendarSlot.monthNumber, calendarSlot.dateNumber, 0, 0, 0, 0);
     this.dateClick.emit(selectedDateSlot);
   }
   onEventClick(event: CalendarEvent)

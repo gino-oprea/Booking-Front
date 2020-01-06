@@ -83,16 +83,19 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
     if (changes['idCompany'])
     {
       if (this.idCompany)
-        this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
-        {
-          if (gro.error != "")
-            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-          else
+        if (this.isFilteredByEmployeeRole)
+          this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
           {
-            this.companyUsers = <CompanyUser[]>gro.objList;
-          }
-          this.loadAllLevels();
-        });
+            if (gro.error != "")
+              this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+            else
+            {
+              this.companyUsers = <CompanyUser[]>gro.objList;
+            }
+            this.loadAllLevels();
+          });
+        else
+          this.loadAllLevels();    
     }
 
     if (changes['doResetFilters'])
