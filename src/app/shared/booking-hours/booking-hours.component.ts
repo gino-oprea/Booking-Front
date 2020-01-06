@@ -146,9 +146,9 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
           {
             if (gro.objList.length > 0)
             {
-              this.hoursMatrix = <Timeslot[][][]>gro.objList;                 
+              this.hoursMatrix = <Timeslot[][][]>gro.objList;                  
               
-              if (this.hoursMatrix.find(ttt => ttt.find(tt => tt.find(t => t.isSelectable))) == null && this.isFirstLoad)
+              if (this.hoursMatrix.find(ttt => ttt.find(tt => tt.find(t => t.isSelectable)!=null)!=null) == null && this.isFirstLoad)
               {
                 this.isFirstLoad = false;
                 this.shiftWeek(WeekShiftType.Right)
