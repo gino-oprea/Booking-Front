@@ -37,7 +37,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   displayImageDialog = false;
 
   displayConfirmDeleteEntity = false;
-  confirmDeleteEntityMessage: string = "Are you sure you want to delete this entity?";
+  confirmDeleteEntityMessage: string = "Are you sure you want to delete this entity? Keep in mind that ALL bookings allocated to this entity will remain unallocated!";
   //displayDialogAddCustomWH = false;
 
   //isAddCustomWHMode = true;
@@ -549,7 +549,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   showConfirmDeleteDialog()
   {
     this.displayConfirmDeleteEntity = true;
-    this.confirmDeleteEntityMessage = "Are you sure you want to delete entity: " + this.selectedEntity.entityDescription_EN;
+    this.confirmDeleteEntityMessage = "Are you sure you want to delete entity: " + this.selectedEntity.entityName_EN +"? Keep in mind that ALL bookings allocated to this entity will remain unallocated!";
   }
   onConfirmDelete(message: string)
   {

@@ -32,7 +32,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   idBooking: number;
 
   currentDate = new Date();
-  startDate: Date = new Date(new Date().setDate(this.currentDate.getDate() - 7));
+  startDate: Date = new Date(new Date().setDate(this.currentDate.getDate()));
   endDate: Date = new Date(new Date().setDate(this.currentDate.getDate() + 7));
 
   constructor(private injector: Injector,
