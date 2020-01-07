@@ -94,7 +94,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       this.addLevelForm.controls['duration'].setValue(this.durationArray[0]);
   }
 
-  loadLevels()
+  loadLevels(idLevel:string = null)
   {
     this.levelsService.getLevels(this.idCompany).subscribe(result =>
     {
@@ -111,8 +111,9 @@ export class LevelsComponent extends BaseComponent implements OnInit
           this.levels = <Level[]>gro.objList;
 
           this.selectedLevel = this.levels[0].id.toString();
-          this.loadEntities(this.levels[0].id);
-          this.loadLevelCharacteristics(null, this.levels[0].id);
+          if (idLevel != null) this.selectedLevel = idLevel;
+          this.loadEntities(parseInt(this.selectedLevel));
+          this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
         }
       }
 
@@ -385,11 +386,12 @@ export class LevelsComponent extends BaseComponent implements OnInit
           }
           else
           {
+            let idLevelAdded = gro.objList[0];
             this.logAction(this.idCompany, false, Actions.Add, '', 'add level', true, 'Level added');
             //one time subscription - trebuie facut reload la levels abia dupa ce se emite noul token cu claim-urile corecte
             this.loginService.loginSubject.pipe(first()).subscribe(login =>
             {
-              this.loadLevels();
+              this.loadLevels(idLevelAdded);
             });
 
             this.autoLogin();//mai sus e pregatit subscriptionul ca sa prinda schimbarea de token si sa faca refresh la levels 

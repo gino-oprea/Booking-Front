@@ -961,11 +961,12 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
+        let idEntityAdded = gro.objList[0];
         this.logAction(this.idCompany, false, Actions.Add, '', 'add entity', true, 'Entity added');
         //one time subscription - trebuie facut reload la entities abia dupa ce se emite noul token cu claim-urile corecte
         this.loginService.loginSubject.pipe(first()).subscribe(login =>
         {
-          this.loadEntities(null);
+          this.loadEntities(idEntityAdded);
         });
 
         this.autoLogin();//mai sus e pregatit subscriptionul ca sa prinda schimbarea de token si sa faca refresh la entitati        
