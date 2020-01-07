@@ -36,7 +36,6 @@ import { CompanyUsersComponent } from './company-users/company-users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CompanyLogsComponent } from './company-logs/company-logs.component';
 
-
 @NgModule({
   imports: [
     CommonModule,

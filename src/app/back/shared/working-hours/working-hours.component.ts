@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnChanges, OnInit, Output, SimpleChanges,EventEmitter } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { WorkingHours } from '../../../objects/working-hours';
 import { BaseComponent } from '../../../shared/base-component';
 import { HoursMatrixService } from '../../../app-services/hours-matrix.service';
@@ -10,7 +10,7 @@ import { CommonServiceMethods } from '../../../app-services/common-service-metho
 @Component({
   selector: 'bf-working-hours',
   templateUrl: './working-hours.component.html',
-  styleUrls: ['./working-hours.component.css']  
+  styleUrls: ['./working-hours.component.css','./multi-select.css']  
 })
 export class WorkingHoursComponent extends BaseComponent implements OnInit, OnChanges
 {
@@ -20,15 +20,26 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
   @Input() disabled: boolean = false;
   @Output() selectTimeSlot = new EventEmitter<WorkingHours>();
 
+  @ViewChild('parentDiv', { static: false }) parentDiv: ElementRef;
+
   differ: any;
   hoursMatrix: any[] = [];
   dayNames: any[];
   dayDates: Date[];
   dayOff: any[];
 
+  isSelecting: boolean = false;  
+  selectorLeft: number = 0;
+  selectorTop: number = 0;  
+  initLeft: number = 0;
+  initTop: number = 0;
+  selectorW: number = 0;
+  selectorH: number = 0;
+  
+
   commonMethods: CommonServiceMethods = new CommonServiceMethods(); 
   
-  constructor(private injector: Injector, private hoursMatrixService:HoursMatrixService)
+  constructor(private injector: Injector, private hoursMatrixService: HoursMatrixService)
   {
     super(injector, [
       'lblMonday', 'lblTuesday', 'lblWednesday', 'lblThursday', 'lblFriday', 'lblSaturday', 'lblSunday'
@@ -50,11 +61,14 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
     this.dayDates = [null, null, null, null, null, null, null];
     
     this.dayOff = [false, false, false, false, false, false, false];
+    
+   
   }
+  
 
   ngOnInit() 
   {
-    //this.generateHoursMatrix();
+    
   }
   ngOnChanges(changes: SimpleChanges): void 
   {
@@ -100,163 +114,56 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
       }
     },
       err => console.log(err));
-  }
-  // generateHoursMatrix()
+  }  
+  // activateTimeSlot(dayIndex: number, hourRowIndex: number, timeslotIndex: number)
   // {
-  //   let days = 7;
-  //   if (this.singleDay != -1)
-  //     days = 1;
-
-  //   let hourlyIntervals = 2;
-  //   let intervalsPerDay = 24 * hourlyIntervals;
-
-  //   this.hoursMatrix = [];    
-  //   for (var i = 0; i < days; i++)
+  //   if (!this.disabled && this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelectable)
   //   {
-  //     let hoursIntervalsString = '';
-  //     let hoursIntervalBoundsString = '';
+  //     //alert(this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].val.toString());
+  //     if (!this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected)
+  //       this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = true;
+  //     else
+  //       this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = false;
 
-  //     if (this.workingHoursBounds != null)
-  //     {
-  //       if (this.singleDay == -1)
-  //       {
-  //         if (i == 0) { hoursIntervalBoundsString = this.workingHoursBounds.monday.workHours }
-  //         if (i == 1) { hoursIntervalBoundsString = this.workingHoursBounds.tuesday.workHours }
-  //         if (i == 2) { hoursIntervalBoundsString = this.workingHoursBounds.wednesday.workHours }
-  //         if (i == 3) { hoursIntervalBoundsString = this.workingHoursBounds.thursday.workHours }
-  //         if (i == 4) { hoursIntervalBoundsString = this.workingHoursBounds.friday.workHours }
-  //         if (i == 5) { hoursIntervalBoundsString = this.workingHoursBounds.saturday.workHours }
-  //         if (i == 6) { hoursIntervalBoundsString = this.workingHoursBounds.sunday.workHours }
-  //       }
-  //       else
-  //       {
-  //         if (this.singleDay == 0) { hoursIntervalBoundsString = this.workingHoursBounds.monday.workHours }
-  //         if (this.singleDay == 1) { hoursIntervalBoundsString = this.workingHoursBounds.tuesday.workHours }
-  //         if (this.singleDay == 2) { hoursIntervalBoundsString = this.workingHoursBounds.wednesday.workHours }
-  //         if (this.singleDay == 3) { hoursIntervalBoundsString = this.workingHoursBounds.thursday.workHours }
-  //         if (this.singleDay == 4) { hoursIntervalBoundsString = this.workingHoursBounds.friday.workHours }
-  //         if (this.singleDay == 5) { hoursIntervalBoundsString = this.workingHoursBounds.saturday.workHours }
-  //         if (this.singleDay == 6) { hoursIntervalBoundsString = this.workingHoursBounds.sunday.workHours }
-  //       }  
-  //     }
+  //     this.generateWorkingHoursIntervals();
+  //     //console.log(this.workingHours);
 
-  //     if (this.workingHours != null)
-  //     {
-  //       if (this.singleDay == -1)
-  //       {
-  //         if (i == 0) { hoursIntervalsString = this.workingHours.monday.workHours }
-  //         if (i == 1) { hoursIntervalsString = this.workingHours.tuesday.workHours }
-  //         if (i == 2) { hoursIntervalsString = this.workingHours.wednesday.workHours }
-  //         if (i == 3) { hoursIntervalsString = this.workingHours.thursday.workHours }
-  //         if (i == 4) { hoursIntervalsString = this.workingHours.friday.workHours }
-  //         if (i == 5) { hoursIntervalsString = this.workingHours.saturday.workHours }
-  //         if (i == 6) { hoursIntervalsString = this.workingHours.sunday.workHours }
-  //       }
-  //       else
-  //       {
-  //         if (this.singleDay == 0) { hoursIntervalsString = this.workingHours.monday.workHours }
-  //         if (this.singleDay == 1) { hoursIntervalsString = this.workingHours.tuesday.workHours }
-  //         if (this.singleDay == 2) { hoursIntervalsString = this.workingHours.wednesday.workHours }
-  //         if (this.singleDay == 3) { hoursIntervalsString = this.workingHours.thursday.workHours }
-  //         if (this.singleDay == 4) { hoursIntervalsString = this.workingHours.friday.workHours }
-  //         if (this.singleDay == 5) { hoursIntervalsString = this.workingHours.saturday.workHours }
-  //         if (this.singleDay == 6) { hoursIntervalsString = this.workingHours.sunday.workHours }
-  //       }
-  //     }
+  //     this.autoToggleDayOff();
 
-  //     this.hoursMatrix[i] = [];
-
-  //     let currentHourIteration = new Date();
-  //     currentHourIteration.setHours(0, 0, 0, 0);
-     
-  //     this.dayOff[i] = true;
-
-  //     for (var j = 0; j < 24; j++)
-  //     {
-  //       this.hoursMatrix[i][j] = [];
-        
-  //       let h = currentHourIteration.getHours().toString().length < 2 ? '0' + currentHourIteration.getHours().toString() : currentHourIteration.getHours().toString();
-  //       let m = currentHourIteration.getMinutes().toString().length < 2 ? '0' + currentHourIteration.getMinutes().toString() : currentHourIteration.getMinutes().toString();
-
-  //       let timeSlotObj1: any = new Object();
-  //       timeSlotObj1.val = h + ':' + m;
-
-  //       timeSlotObj1.isSelectable = true;
-  //       if (this.workingHoursBounds != null)
-  //         timeSlotObj1.isSelectable = this.checkTimeSlotInsideInterval(timeSlotObj1.val, hoursIntervalBoundsString);        
-
-  //       if (timeSlotObj1.isSelectable)
-  //         timeSlotObj1.isSelected = this.checkTimeSlotInsideInterval(timeSlotObj1.val, hoursIntervalsString);
-  //       else
-  //         timeSlotObj1.isSelected = false;  
-
-  //       this.hoursMatrix[i][j].push(timeSlotObj1);
-  //       currentHourIteration.setMinutes(currentHourIteration.getMinutes() + 30);
-        
-  //       h = currentHourIteration.getHours().toString().length < 2 ? '0' + currentHourIteration.getHours().toString() : currentHourIteration.getHours().toString();
-  //       m = currentHourIteration.getMinutes().toString().length < 2 ? '0' + currentHourIteration.getMinutes().toString() : currentHourIteration.getMinutes().toString();
-
-  //       let timeSlotObj2: any = new Object();
-  //       timeSlotObj2.val = h + ':' + m;
-
-  //       timeSlotObj2.isSelectable = true;
-  //       if (this.workingHoursBounds != null)
-  //         timeSlotObj2.isSelectable = this.checkTimeSlotInsideInterval(timeSlotObj2.val, hoursIntervalBoundsString);
-
-  //       if (timeSlotObj2.isSelectable)
-  //         timeSlotObj2.isSelected = this.checkTimeSlotInsideInterval(timeSlotObj2.val, hoursIntervalsString);
-  //       else
-  //         timeSlotObj2.isSelected = false;  
-
-  //       this.hoursMatrix[i][j].push(timeSlotObj2);
-  //       currentHourIteration.setMinutes(currentHourIteration.getMinutes() + 30);
-  //     }
-  //   }
-  //   this.autoToggleDayOff();
-  // }
-  // checkTimeSlotInsideInterval(timeSlot: string, intervalsString: string)//pentru aducerea datelor din DB si afisare
-  // {
-  //   let isSelected = false;
-  //   let intervals = intervalsString.split(';');
-  //   if (intervalsString != '')
-  //   {
-  //     for (var i = 0; i < intervals.length; i++)
-  //     {
-  //       let intervalStart = intervals[i].split(',')[0].substring(1);//eliminam paranteza patrata de la inceput
-  //       let intervalEnd = intervals[i].split(',')[1].substring(0, intervals[i].split(',')[1].length - 2);//eliminam paranteza patrata de la sfarsit
-      
-  //       let dateStart = new Date('2000-01-01 ' + intervalStart + ':00');
-  //       let dateEnd = new Date('2000-01-01 ' + intervalEnd + ':00');
-      
-  //       let timeToCheck = new Date('2000-01-01 ' + timeSlot + ':00');
-
-  //       if (timeToCheck.getTime() >= dateStart.getTime() &&
-  //         timeToCheck.getTime() < dateEnd.getTime())//trebuie sa fie mai mic strict decat finalul intervalului din cauza felului cum sunt gandite sloturile
-  //       {
-  //         isSelected = true;
-  //         break;
-  //       }
-  //     }
+  //     this.selectTimeSlot.emit(this.workingHours);
   //   }  
-  //   return isSelected;
   // }
-  activateTimeSlot(dayIndex: number, hourRowIndex: number, timeslotIndex: number)
+
+  activateMultipleTimeslots(timeslotsIds:string[])
   {
-    if (!this.disabled && this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelectable)
+    let selectableExists = false;
+
+    for (let i = 0; i < timeslotsIds.length; i++) 
     {
-      //alert(this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].val.toString());
-      if (!this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected)
-        this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = true;
-      else
-        this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = false;
+      let timeslotId = timeslotsIds[i];
+      let timeslotsIdElements = timeslotId.split('_');
 
+      let dayIndex = timeslotsIdElements[0];
+      let hourRowIndex = timeslotsIdElements[1];
+      let timeslotIndex = timeslotsIdElements[2];
+
+      if (!this.disabled && this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelectable)
+      {
+        selectableExists = true;
+
+        if (!this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected)
+          this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = true;
+        else
+          this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = false;
+      }       
+    }
+
+    if (selectableExists)
+    {
       this.generateWorkingHoursIntervals();
-      //console.log(this.workingHours);
-
       this.autoToggleDayOff();
-
       this.selectTimeSlot.emit(this.workingHours);
-    }  
+    }
   }
   generateWorkingHoursIntervals()//pentru salvare
   {
@@ -401,5 +308,105 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
     return val;
   }
 
-  
+  ///////////////
+
+  onMouseDown(e: MouseEvent)
+  {
+    this.isSelecting = true;  
+
+    //this.parentDiv.nativeElement.offsetLeft
+    //var x = (e.pageX - this.parentDiv.nativeElement.offsetLeft) + this.window.pageXOffset;  
+    
+    //var bodyRect = document.body.getBoundingClientRect();
+    var parentDivRect = document.getElementById('parentDiv').getBoundingClientRect();
+    var offsetTop = parentDivRect.top;// - bodyRect.top;
+    var offsetLeft = parentDivRect.left;// - bodyRect.left;
+
+    let pageX = e.pageX - offsetLeft + 15;// - 35;
+    let pageY = e.pageY - offsetTop; //- 138;
+
+    this.selectorLeft = pageX;
+    this.selectorTop = pageY;   
+
+    this.initLeft = pageX;
+    this.initTop = pageY;
+  }
+  onMouseUp(e: MouseEvent)
+  {
+    this.isSelecting = false;
+
+    this.selectorLeft = 0;
+    this.selectorTop = 0;
+    this.selectorH = 0;
+    this.selectorW = 0;
+
+    let selectedTimeslots = this.detectSelectedTimeslots();
+    this.activateMultipleTimeslots(selectedTimeslots)
+  }
+  detectSelectedTimeslots(): string[]
+  {
+    var timeslotSelectedIds:string[] = [];
+    for (let i = 0; i < this.hoursMatrix.length; i++) 
+    {
+      let days = this.hoursMatrix[i];
+      for (let j = 0; j < days.length; j++) 
+      {
+        let hours = days[j];
+        for (let k = 0; k < hours.length; k++) 
+        {
+          let timeslot = hours[k];
+          let timeslotId = i + '_' + j + '_' + k;
+
+          let selectionTop = document.getElementById('selectionDiv').getBoundingClientRect().top;
+          let selectionLeft = document.getElementById('selectionDiv').getBoundingClientRect().left;
+          let selectionHeight = document.getElementById('selectionDiv').getBoundingClientRect().height;//parseInt(document.getElementById('selectionDiv').style.height.replace('px',''));
+          let selectionWidth = document.getElementById('selectionDiv').getBoundingClientRect().width;//parseInt(document.getElementById('selectionDiv').style.width.replace('px', ''));
+
+          let timeslotTop = document.getElementById(timeslotId).getBoundingClientRect().top;
+          let timeslotLeft = document.getElementById(timeslotId).getBoundingClientRect().left;
+          let timeslotHeight = document.getElementById(timeslotId).getBoundingClientRect().height;//parseInt(document.getElementById(timeslotId).style.height.replace('px', ''));
+          let timeslotWidth = document.getElementById(timeslotId).getBoundingClientRect().width;//parseInt(document.getElementById(timeslotId).style.width.replace('px', ''));
+
+          if (selectionLeft < timeslotLeft + timeslotWidth &&
+            selectionLeft + selectionWidth > timeslotLeft &&
+            selectionTop < timeslotTop + timeslotHeight &&
+            selectionTop + selectionHeight > timeslotTop)
+            timeslotSelectedIds.push(timeslotId);
+        }
+      }      
+    }
+
+    return timeslotSelectedIds;
+  }
+  onMousemove(e:MouseEvent)
+  {
+    if (this.isSelecting)
+    { 
+      //var bodyRect = document.body.getBoundingClientRect();
+      var parentDivRect = document.getElementById('parentDiv').getBoundingClientRect();
+      var offsetTop = parentDivRect.top;// - bodyRect.top;
+      var offsetLeft = parentDivRect.left;// - bodyRect.left;
+
+      //asta nu merge bine pe pagina de company general details...nu e corecta formula pentru offset
+      let pageX = e.pageX - offsetLeft + 15;// - 35;
+      let pageY = e.pageY - offsetTop; //- 138;
+      
+      this.selectorW = Math.abs(this.initLeft - pageX);
+      this.selectorH = Math.abs(this.initTop - pageY);
+
+      if (pageX <= this.initLeft && pageY >= this.initTop)
+      {
+        this.selectorLeft = pageX;
+      }
+      else
+        if (pageY <= this.initTop && pageX >= this.initLeft)
+          this.selectorTop = pageY;
+        else
+          if (pageY < this.initTop && pageX < this.initLeft)
+          {
+            this.selectorLeft = pageX;
+            this.selectorTop = pageY;
+          }            
+    }
+  }
 }

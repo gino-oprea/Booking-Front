@@ -1,7 +1,15 @@
+<div id="parentDiv" (mousemove)=onMousemove($event) (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"> 
+
+  <div id='selectionDiv' class="ghost-select" [ngClass]="{'ghost-active': isSelecting}" 
+  [style.left]="selectorLeft.toString()+'px'" 
+  [style.top]="selectorTop.toString()+'px'" 
+  [style.height]="selectorH.toString()+'px'" 
+  [style.width]="selectorW.toString()+'px'"><span></span></div> 
+
 <ul class="slots-view">
   <!--style="vertical-align: bottom;margin-bottom: 2px;width:6%;"-->
   <li [ngStyle]="{'vertical-align': 'bottom','margin-bottom': '2px','width': (singleDay==-1 ? '6%' : '10%')}">
-    <div class="time-slots" style="margin-right: 0px;">
+    <div class="time-slots unselectable" style="margin-right: 0px;">
       <div class="hour-row">
         <div class="hour-title"><span><b>00:00:</b></span></div>
       </div>
@@ -78,24 +86,24 @@
   </li>
   <li *ngFor="let d of hoursMatrix; let i = index" 
   [ngStyle]="{'width': (singleDay==-1 ? commonMethods.computeDayColumnWidth(hoursMatrix) : '85%')}">
-    <div class="day-title">
+    <div class="day-title unselectable">
       <b>{{getCurrentLabelValue(dayNames[singleDay==-1 ? i : singleDay])}}</b>
       <div>{{(dayDates[i]!=null?(dayDates[i] | date:'dd.MMM.yyyy'):'')}}</div>
       <div>
         <p-inputSwitch [disabled]="disabled" [(ngModel)]="dayOff[i]" onLabel="On" offLabel="Off" (onChange)="onSetDayOff($event,i)"></p-inputSwitch>
       </div>
     </div>
-    <div class="time-slots">
+    <div class="time-slots unselectable">
       <div class="hour-row" *ngFor="let h of d; let j = index">
         <!-- <div class="time-select-div" [ngClass]="{'selected':h[0].isSelected,'disabled':!h[0].isSelectable}" (click)="activateTimeSlot(i,j,0)"><span>{{h[0].val}}</span></div>
         <div class="time-select-div" [ngClass]="{'selected':h[1].isSelected,'disabled':!h[1].isSelectable}" (click)="activateTimeSlot(i,j,1)"><span>{{h[1].val}}</span></div> -->
-        <div *ngFor="let ts of h; let k = index" class="time-select-div"
+        <div *ngFor="let ts of h; let k = index" class="time-select-div" [id] = "i + '_' + j + '_' + k"
         [ngStyle]="{'width': commonMethods.computeTimeslotWidth(hoursMatrix)}" style="margin-right: 2px;"
-        [ngClass]="{'selected':ts.isSelected,'disabled':!ts.isSelectable}" 
-        (click)="activateTimeSlot(i,j,k)">
+        [ngClass]="{'selected':ts.isSelected,'disabled':!ts.isSelectable}">
           <span>{{getTimeslotValueAsString(ts)}}</span> 
         </div> 
       </div>
     </div>
   </li>
 </ul>
+</div>
