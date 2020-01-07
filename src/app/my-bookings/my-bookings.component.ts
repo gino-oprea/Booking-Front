@@ -48,7 +48,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
   getBookings()
   {
     var currentUser = this.loginService.getCurrentUser();
-    this.bookingService.getBookingsByUser(currentUser.id).subscribe(result =>
+    this.bookingService.getBookingsByUser(currentUser.id, new Date()).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
@@ -72,9 +72,9 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting bookings', ''));
   }
 
-  selectBooking(booking: Booking)
+  selectBooking(event)//booking: Booking)
   {
-    this.selectedBooking = booking;
+    this.selectedBooking = event.data;// booking;
     this.setupSelectedBookingImages();
   }
   setupSelectedBookingImages()

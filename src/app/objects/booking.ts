@@ -5,6 +5,12 @@ export class Booking
   constructor(
     public id?: number,
     public idCompany?: number,
+    public companyName?: string,
+    public companyAddress?: string,
+    public companyEmail?: string,
+    public companyPhone?: string,
+    public lat?: number,
+    public lng?: number,
     public entities?: BookingEntity[],
     public idUser?: number,
     public firstName?: string,

@@ -237,10 +237,14 @@ export class BookingService
 
   //   return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookings/' + idCompany.toString(), options);
   // }
-  getBookingsByUser(idUser: number): Observable<GenericResponseObject>
+  getBookingsByUser(idUser: number, date:Date): Observable<GenericResponseObject>
   {
+    let params = new HttpParams();    
+    params = params.append('date', CommonServiceMethods.getDateString(date));    
+
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null,
+      params
     };
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingsByUser/' + idUser.toString(), options);

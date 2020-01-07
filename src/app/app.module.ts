@@ -54,6 +54,7 @@ import { ClientService } from './app-services/client.service';
 import { CompanyUsersService } from './app-services/company-users.service';
 import { RoleGuard } from './route-guards/role.guard';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { TableModule } from 'primeng/table';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
     DialogModule,
     CalendarModule,
     ChartModule,
+    TableModule,
 
     UserRegistrationModule,
     UserActivationModule,
