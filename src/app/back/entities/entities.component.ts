@@ -560,7 +560,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   }
   onUpload(fileInput: any)
   {
-    if (this.images.length < 5)
+    if (this.images.length < 1)
     {
       let fi = fileInput.target;
       if (fi.files && fi.files[0])
@@ -589,7 +589,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     }
     else
     {
-      this.showPageMessage('warn', 'Warning', 'only 5 images permitted');
+      this.showPageMessage('warn', 'Warning', 'only one image permitted');
     }
   }
 

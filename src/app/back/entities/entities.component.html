@@ -158,7 +158,7 @@
               <ul *ngIf="images.length>0" class="imgList">
                 <li *ngFor="let img of images; let i=index" style="padding-left: 1px;padding-right: 1px;">
                   <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)"
-                    style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
+                    style="cursor:pointer; height: auto;width: auto;max-height: 400px;max-width: 100%;">
                 </li>
               </ul>
               <img *ngIf="images.length==0" [src]="COMP_IMG"
