@@ -207,7 +207,7 @@
           formControlName="duration" [ngClass]="{'valid-control':addLevelForm.controls['duration'].valid,
                         'invalid-control':!addLevelForm.controls['duration'].valid}" class="form-control"> -->
           <select formControlName="duration" style="height: 100%;width: 100%;">
-            <option *ngFor="let d of durationArray" [value]="d">{{d}}</option>
+            <option *ngFor="let d of durationArray" [value]="d.value">{{d.label}}</option>
           </select>
         </div>
         <div class="col-md-4">

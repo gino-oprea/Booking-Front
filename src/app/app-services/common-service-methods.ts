@@ -3,33 +3,39 @@ import { HttpHeaders } from '@angular/common/http';
 import { UsersService } from './users.service';
 
 import { Timeslot } from '../objects/timeslot';
+import { ServiceDurationItem } from '../objects/service-duration-item';
+
 export class CommonServiceMethods
 {
-  public static getDurationArray(durType: DurationType): number[]
+  public static getDurationArray(durType: DurationType): ServiceDurationItem[]
   {
-    let minutesUnit = 5;//asta trebuie sa vina din DB din setarile din back ale fiecarei companii
-    let durationArray: number[] = [];
+    let minutesUnit = 15;//asta trebuie sa vina din DB din setarile din back ale fiecarei companii
+    let durationArray: ServiceDurationItem[] = [];
     if (durType == DurationType.Minutes)
     {
       for (let i = 1; i < 60 / minutesUnit; i++)      
       {
-        durationArray.push(i * minutesUnit);
+        durationArray.push({ value: i * minutesUnit, label: (i * minutesUnit).toString() });
       }
     }
     if (durType == DurationType.Hours)
     {
       for (let i = 1; i < 24; i++) 
       {
-        durationArray.push(i);
+        //durationArray.push(i);
+        for (let j = 0; j < 60 / minutesUnit; j++)      
+        {
+          durationArray.push({ value: j * minutesUnit + 60 * i, label: i.toString() + 'h:' + (j * minutesUnit).toString()+'min' });
+        }
       }
     }
-    if (durType == DurationType.Days)
-    {
-      for (let i = 1; i < 366; i++) 
-      {
-        durationArray.push(i);
-      }
-    }
+    // if (durType == DurationType.Days)
+    // {
+    //   for (let i = 1; i < 366; i++) 
+    //   {
+    //     durationArray.push(i);
+    //   }
+    // }
     return durationArray;
   }
 

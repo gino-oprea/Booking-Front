@@ -12,6 +12,7 @@ import { EntitiesService } from '../../app-services/entities.service';
 import { Entity } from '../../objects/entity';
 import { CommonServiceMethods } from '../../app-services/common-service-methods';
 import { first } from 'rxjs/operators';
+import { ServiceDurationItem } from '../../objects/service-duration-item';
 
 
 @Component({
@@ -51,7 +52,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
   selectedLevelCharacteristic: LevelAdditionalCharacteristic;
   //selectedLevelTypeForAdd: string = '1';
   selectedLevelTypeForEdit: string = '1';
-  durationArray: number[];
+  durationArray: ServiceDurationItem[];
 
 
   constructor(private injector: Injector,
@@ -90,8 +91,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
   loadDurationArray(type: DurationType)
   {
     this.durationArray = CommonServiceMethods.getDurationArray(type);    
-    if (this.durationArray.find(n => n.toString() == this.addLevelForm.controls['duration'].value) == null)
-      this.addLevelForm.controls['duration'].setValue(this.durationArray[0]);
+    if (this.durationArray.find(n => n.value.toString() == this.addLevelForm.controls['duration'].value) == null)
+      this.addLevelForm.controls['duration'].setValue(this.durationArray[0].value);
   }
 
   loadLevels(idLevel:string = null)

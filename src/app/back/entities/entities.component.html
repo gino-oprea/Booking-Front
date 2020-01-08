@@ -100,7 +100,7 @@
                   <!-- <input id="duration" type="text" formControlName="duration" [ngClass]="{'valid-control':genDetailsForm.controls['duration'].valid,
                         'invalid-control':!genDetailsForm.controls['duration'].valid}" class="form-control"> -->
                   <select formControlName="duration" style="height: 100%;width: 100%;">
-                    <option *ngFor="let d of durationArray" [value]="d">{{d}}</option>
+                    <option *ngFor="let d of durationArray" [value]="d.value">{{d.label}}</option>
                   </select>
                 </div>
                 <div class="col-md-6">

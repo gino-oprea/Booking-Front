@@ -20,6 +20,7 @@ import { ImageService } from '../../app-services/image.service';
 import { Booking } from '../../objects/booking';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { ServiceDurationItem } from '../../objects/service-duration-item';
 
 @Component({
   selector: 'bf-entities',
@@ -62,7 +63,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   levels: Level[] = [];
   entities: Entity[] = [];
   durationTypes: GenericDictionaryItem[] = [];
-  durationArray: number[];
+  durationArray: ServiceDurationItem[];
   isSave = true;
   isSaveCustomWH = true;
   isVariableWH = false;
@@ -164,10 +165,11 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   loadDurationArray(type: DurationType)
   {
     this.durationArray = CommonServiceMethods.getDurationArray(type);
-    if (this.selectedEntity)
-      if (!this.durationArray.find(d => d == this.selectedEntity.defaultServiceDuration))
-        if (this.genDetailsForm)
-          this.genDetailsForm.controls['duration'].setValue(this.durationArray[0]);
+    if (this.durationArray.length>0)
+      if (this.selectedEntity)
+        if (!this.durationArray.find(d => d.value == this.selectedEntity.defaultServiceDuration))
+          if (this.genDetailsForm)
+            this.genDetailsForm.controls['duration'].setValue(this.durationArray[0].value);
   }
   initFormAddEntity()
   {
