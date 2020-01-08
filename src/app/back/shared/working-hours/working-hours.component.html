@@ -1,6 +1,6 @@
 <div id="parentDiv" (mousemove)=onMousemove($event) (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"> 
 
-  <div id='selectionDiv' class="ghost-select" [ngClass]="{'ghost-active': isSelecting}" 
+  <div *ngIf="singleDay==-1" id='selectionDiv' class="ghost-select" [ngClass]="{'ghost-active': isSelecting}" 
   [style.left]="selectorLeft.toString()+'px'" 
   [style.top]="selectorTop.toString()+'px'" 
   [style.height]="selectorH.toString()+'px'" 
@@ -99,7 +99,7 @@
         <div class="time-select-div" [ngClass]="{'selected':h[1].isSelected,'disabled':!h[1].isSelectable}" (click)="activateTimeSlot(i,j,1)"><span>{{h[1].val}}</span></div> -->
         <div *ngFor="let ts of h; let k = index" class="time-select-div" [id] = "i + '_' + j + '_' + k"
         [ngStyle]="{'width': commonMethods.computeTimeslotWidth(hoursMatrix)}" style="margin-right: 2px;"
-        [ngClass]="{'selected':ts.isSelected,'disabled':!ts.isSelectable}">
+        [ngClass]="{'selected':ts.isSelected,'disabled':!ts.isSelectable}" (click)="activateTimeSlot(i,j,k)">
           <span>{{getTimeslotValueAsString(ts)}}</span> 
         </div> 
       </div>

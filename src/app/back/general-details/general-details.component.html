@@ -172,7 +172,7 @@
             </li>
           </ul>
           <div [hidden]="!subTabs.workingHours.active" style="height: 95%;overflow-x: auto;padding-top: 5px;">
-            <bf-working-hours [workingHours]="workingHours" (selectTimeSlot)="onUpdateWorkingHours($event)">
+            <bf-working-hours [IsCompanyWorkingHours]="true" [workingHours]="workingHours" (selectTimeSlot)="onUpdateWorkingHours($event)">
             </bf-working-hours>
           </div>
           <div [hidden]="!subTabs.specialDays.active" style="height: 95%;padding-top: 5px;">

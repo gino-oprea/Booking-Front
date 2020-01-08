@@ -14,6 +14,8 @@ import { CommonServiceMethods } from '../../../app-services/common-service-metho
 })
 export class WorkingHoursComponent extends BaseComponent implements OnInit, OnChanges
 {
+  @Input() IsCompanyWorkingHours: boolean = false;//manarie ca sa stiu cum sa hardcodez offsetul pozitiei mouse-ului pentru selectia multipla - trebuie rezolvat dupa design
+  
   @Input() singleDay: number = -1;//indexul zilei care vrem sa se genereze, daca e -1 se genereaza toata saptamana
   @Input() workingHours: WorkingHours = null;
   @Input() workingHoursBounds: WorkingHours = null;
@@ -115,24 +117,25 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
     },
       err => console.log(err));
   }  
-  // activateTimeSlot(dayIndex: number, hourRowIndex: number, timeslotIndex: number)
-  // {
-  //   if (!this.disabled && this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelectable)
-  //   {
-  //     //alert(this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].val.toString());
-  //     if (!this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected)
-  //       this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = true;
-  //     else
-  //       this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = false;
+  activateTimeSlot(dayIndex: number, hourRowIndex: number, timeslotIndex: number)
+  {
+    if (this.singleDay != -1)
+      if (!this.disabled && this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelectable)
+      {
+        //alert(this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].val.toString());
+        if (!this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected)
+          this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = true;
+        else
+          this.hoursMatrix[dayIndex][hourRowIndex][timeslotIndex].isSelected = false;
 
-  //     this.generateWorkingHoursIntervals();
-  //     //console.log(this.workingHours);
+        this.generateWorkingHoursIntervals();
+        //console.log(this.workingHours);
 
-  //     this.autoToggleDayOff();
+        this.autoToggleDayOff();
 
-  //     this.selectTimeSlot.emit(this.workingHours);
-  //   }  
-  // }
+        this.selectTimeSlot.emit(this.workingHours);
+      }
+  }
 
   activateMultipleTimeslots(timeslotsIds:string[])
   {
@@ -312,36 +315,44 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
 
   onMouseDown(e: MouseEvent)
   {
-    this.isSelecting = true;  
+    if (this.singleDay == -1)
+    {
+      this.isSelecting = true;
 
-    //this.parentDiv.nativeElement.offsetLeft
-    //var x = (e.pageX - this.parentDiv.nativeElement.offsetLeft) + this.window.pageXOffset;  
+      //this.parentDiv.nativeElement.offsetLeft
+      //var x = (e.pageX - this.parentDiv.nativeElement.offsetLeft) + this.window.pageXOffset;  
     
-    //var bodyRect = document.body.getBoundingClientRect();
-    var parentDivRect = document.getElementById('parentDiv').getBoundingClientRect();
-    var offsetTop = parentDivRect.top;// - bodyRect.top;
-    var offsetLeft = parentDivRect.left;// - bodyRect.left;
+      //var bodyRect = document.body.getBoundingClientRect();
+      var parentDivRect = document.getElementById('parentDiv').getBoundingClientRect();
+      var offsetTop = parentDivRect.top;// - bodyRect.top;
+      var offsetLeft = parentDivRect.left;// - bodyRect.left;
 
-    let pageX = e.pageX - offsetLeft + 15;// - 35;
-    let pageY = e.pageY - offsetTop; //- 138;
+      let pageX = e.pageX - offsetLeft + 15;// - 35;      
+      let pageY = e.pageY - offsetTop; //- 138;
+      if (this.IsCompanyWorkingHours)
+        pageY = e.pageY - offsetTop + 48; //- 138;
 
-    this.selectorLeft = pageX;
-    this.selectorTop = pageY;   
+      this.selectorLeft = pageX;
+      this.selectorTop = pageY;
 
-    this.initLeft = pageX;
-    this.initTop = pageY;
+      this.initLeft = pageX;
+      this.initTop = pageY;
+    }
   }
   onMouseUp(e: MouseEvent)
   {
-    this.isSelecting = false;
+    if (this.singleDay == -1)
+    {
+      this.isSelecting = false;
 
-    this.selectorLeft = 0;
-    this.selectorTop = 0;
-    this.selectorH = 0;
-    this.selectorW = 0;
+      this.selectorLeft = 0;
+      this.selectorTop = 0;
+      this.selectorH = 0;
+      this.selectorW = 0;
 
-    let selectedTimeslots = this.detectSelectedTimeslots();
-    this.activateMultipleTimeslots(selectedTimeslots)
+      let selectedTimeslots = this.detectSelectedTimeslots();
+      this.activateMultipleTimeslots(selectedTimeslots)
+    }
   }
   detectSelectedTimeslots(): string[]
   {
@@ -380,33 +391,38 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
   }
   onMousemove(e:MouseEvent)
   {
-    if (this.isSelecting)
-    { 
-      //var bodyRect = document.body.getBoundingClientRect();
-      var parentDivRect = document.getElementById('parentDiv').getBoundingClientRect();
-      var offsetTop = parentDivRect.top;// - bodyRect.top;
-      var offsetLeft = parentDivRect.left;// - bodyRect.left;
-
-      //asta nu merge bine pe pagina de company general details...nu e corecta formula pentru offset
-      let pageX = e.pageX - offsetLeft + 15;// - 35;
-      let pageY = e.pageY - offsetTop; //- 138;
-      
-      this.selectorW = Math.abs(this.initLeft - pageX);
-      this.selectorH = Math.abs(this.initTop - pageY);
-
-      if (pageX <= this.initLeft && pageY >= this.initTop)
+    if (this.singleDay == -1)
+    {
+      if (this.isSelecting)
       {
-        this.selectorLeft = pageX;
-      }
-      else
-        if (pageY <= this.initTop && pageX >= this.initLeft)
-          this.selectorTop = pageY;
+        //var bodyRect = document.body.getBoundingClientRect();
+        var parentDivRect = document.getElementById('parentDiv').getBoundingClientRect();
+        var offsetTop = parentDivRect.top;// - bodyRect.top;
+        var offsetLeft = parentDivRect.left;// - bodyRect.left;
+
+        //asta nu merge bine pe pagina de company general details...nu e corecta formula pentru offset
+        let pageX = e.pageX - offsetLeft + 15;// - 35;
+        let pageY = e.pageY - offsetTop; //- 138;
+        if (this.IsCompanyWorkingHours)
+          pageY = e.pageY - offsetTop + 48; //- 138;
+      
+        this.selectorW = Math.abs(this.initLeft - pageX);
+        this.selectorH = Math.abs(this.initTop - pageY);
+
+        if (pageX <= this.initLeft && pageY >= this.initTop)
+        {
+          this.selectorLeft = pageX;
+        }
         else
-          if (pageY < this.initTop && pageX < this.initLeft)
-          {
-            this.selectorLeft = pageX;
+          if (pageY <= this.initTop && pageX >= this.initLeft)
             this.selectorTop = pageY;
-          }            
+          else
+            if (pageY < this.initTop && pageX < this.initLeft)
+            {
+              this.selectorLeft = pageX;
+              this.selectorTop = pageY;
+            }
+      }
     }
   }
 }
