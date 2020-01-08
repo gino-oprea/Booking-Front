@@ -19,6 +19,7 @@ export class EntityWithLevel
     public idLevelType?: number,
     public isMultipleBooking?: boolean,
     public levelDefaultDuration?: number,
-    public levelIdDurationType?: number
+    public levelIdDurationType?: number,
+    public defaultServicePrice?: number
   ) { }
 }

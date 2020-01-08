@@ -76,7 +76,9 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
   {     
     let serviceDuration = 0;
     //if (this.selectedEntitiesWithLevel != null)
-      serviceDuration = this.autoAssignedEntityCombination.duration;//this.getDefaultDuration();
+    serviceDuration = this.autoAssignedEntityCombination.duration;//this.getDefaultDuration();
+    
+    let serviceWithPrice = this.autoAssignedEntityCombination.entityCombination.find(e => e.defaultServicePrice != null);
 
     let selectedTime = this.selectedDayTime.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
     let h = parseInt(selectedTime.split(':')[0]);
@@ -93,6 +95,7 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
       'lastName': new FormControl(this.currentUser != null && !this.isAdminAddBooking ? this.currentUser.lastName : '', Validators.required),
       'phone': new FormControl(this.currentUser != null && !this.isAdminAddBooking ? this.currentUser.phone : '', Validators.required),
       'email': new FormControl(this.currentUser != null && !this.isAdminAddBooking ? this.currentUser.email : ''),
+      'price': new FormControl(serviceWithPrice != null ? serviceWithPrice.defaultServicePrice + ' RON' : ''),
       'startDate': new FormControl(date),
       'endDate': new FormControl(endDate),
       'date': new FormControl({ value: date, disabled: true }),

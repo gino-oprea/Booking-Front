@@ -66,6 +66,17 @@
     </div>
   </div>
   <br>
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4">
+        <label style="padding: 5px;" for="price">Price:</label>
+      </div>
+      <div class="ui-grid-col-8">
+        <input type="text" id="price" formControlName="price" disabled="true" class="form-control">
+      </div>
+    </div>
+  </div>
+  <br>
   <div *ngIf="isBookingByDay">
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
@@ -89,6 +100,7 @@
       </div>
     </div>
     <br>
+    
   </div>
   <div *ngIf="!isBookingByDay">
     <div class="ui-grid ui-grid-responsive ui-fluid">
