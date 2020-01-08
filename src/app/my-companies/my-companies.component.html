@@ -29,14 +29,14 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid well span6 col-md-3" style="margin:3px; height: 88%;cursor: pointer;"
+    <!-- <div class="container-fluid well span6 col-md-3" style="margin:3px; height: 88%;cursor: pointer;"
         (click)="onAddCompany()">
         <img [src]="PLUS_IMG" style="height: 70%;width: 70%;
         position: absolute;margin: auto;top: 0;left: 0;right: 0;bottom: 0;">
-    </div>
+    </div> -->
 </div>
 
-<p-dialog header="{{getCurrentLabelValue('lblSubscriptions')}}" [(visible)]="showSubscriptionDialog" modal="modal"
+<!-- <p-dialog header="{{getCurrentLabelValue('lblSubscriptions')}}" [(visible)]="showSubscriptionDialog" modal="modal"
     width="1000" responsive="true">
     <div *ngFor="let subscription of subscriptions; let i=index" class="col-md-3">
         <div class="row" style="border-bottom:1px #e6e6e6 solid;background-color: #2399e5; margin-right:1px;">
@@ -86,7 +86,7 @@
             <button type="button" pButton icon="fa-check" (click)="chooseSubscription()" label="OK"></button>
         </div>
     </footer>
-</p-dialog>
+</p-dialog> -->
 
 <p-dialog header="Confirm" [(visible)]="displayConfirmToggleCompany" [responsive]="true" showEffect="fade" [modal]="true"
     width="350">
