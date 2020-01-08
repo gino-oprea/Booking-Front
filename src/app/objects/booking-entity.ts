@@ -5,6 +5,7 @@ export class BookingEntity
     public idEntity?: number,
     public isAutoAssigned?: boolean,    
     public idLevel?: number,    
+    public orderIndex?: number,
     public isMultipleBooking?: boolean,
     public images?: Image[],
     
