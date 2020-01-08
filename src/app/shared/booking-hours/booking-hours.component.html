@@ -9,7 +9,7 @@
         <i class="fa fa-angle-right"></i>
       </button>
     </div>
-    <div class="time-slots" style="margin-right: 0px;">
+    <div class="time-slots unselectable" style="margin-right: 0px;">
       <div class="hour-row">
         <div class="hour-title">
           <span>
@@ -182,11 +182,11 @@
   </li>
   <li *ngFor="let d of hoursMatrix; let i = index"
     [ngStyle]="{'width':commonMethods.computeDayColumnWidth(hoursMatrix)}">
-    <div class="day-title">
+    <div class="day-title unselectable">
       <b>{{getCurrentLabelValue(dayNames[i])}}</b>
       <div>{{(dayDates[i]!=null?(dayDates[i] | date:'dd.MMM.yyyy'):'')}}</div>
     </div>
-    <div class="time-slots">
+    <div class="time-slots unselectable">
       <div class="hour-row" *ngFor="let h of d; let j = index">
         <div *ngFor="let ts of h; let k = index" class="time-select-div"
           [ngStyle]="{'width': commonMethods.computeTimeslotWidth(hoursMatrix)}" style="margin-right: 2px;"

@@ -18,7 +18,7 @@ import { GenericDictionaryItem } from '../../objects/generic-dictionary-item';
 import { CommonServiceMethods } from '../../app-services/common-service-methods';
 import { ImageService } from '../../app-services/image.service';
 import { Booking } from '../../objects/booking';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ServiceDurationItem } from '../../objects/service-duration-item';
 
@@ -138,9 +138,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     };
 
 
-    this.loadCustomWorkingHours(null, false);
-    this.loadCompanyWorkingHours();
-    this.loadLevels(this.selectedLevelId);
+
   }
 
   ngOnInit() 
@@ -156,16 +154,32 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     };
 
-    this.selectedDateWorkingHours = new Date();
-
     this.initGenDetailsForm();
     this.initFormAddEntity();
-    // this.initFormCustomWH();
+
+    this.selectedDateWorkingHours = new Date();
+
+    // this.loadCustomWorkingHours(null, false);
+    // this.loadCompanyWorkingHours();
+
+    const combined1 = forkJoin(
+      this.entitiesService.getEntitiesWorkingHours(this.idCompany, null),
+      this.companyService.getCompanyWorkingHours(this.idCompany)
+    );
+
+    combined1.subscribe(results =>
+    {
+      const [resultCustomWorkingHours, resultCompanyWorkingHours] = results;
+
+      this.loadCustomWorkingHours(resultCustomWorkingHours, false);
+      this.loadCompanyWorkingHours(resultCompanyWorkingHours);
+      this.loadLevels(this.selectedLevelId);
+    });
   }
   loadDurationArray(type: DurationType)
   {
     this.durationArray = CommonServiceMethods.getDurationArray(type);
-    if (this.durationArray.length>0)
+    if (this.durationArray.length > 0)
       if (this.selectedEntity)
         if (!this.durationArray.find(d => d.value == this.selectedEntity.defaultServiceDuration))
           if (this.genDetailsForm)
@@ -178,38 +192,33 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       'addEntityName_EN': new FormControl('', Validators.required)
     });
   }
-  // initFormCustomWH()
-  // {
-  //   this.addCustomWHForm = new FormGroup({
-  //     'customWHName': new FormControl(this.isAddCustomWHMode ? '' : this.selectedWorkingHours.name, Validators.required)
-  //   });
-  // }
-  loadCustomWorkingHours(idWH: number, isAfterAutoAdd: boolean)
-  {
-    this.entitiesService.getEntitiesWorkingHours(this.idCompany, idWH).subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
-      }
-      else
-      {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'load custom working hours');
-        this.customWorkingHours = <WorkingHours[]>gro.objList;
 
-        if (isAfterAutoAdd)
-        {
-          this.selectedWhId = this.customWorkingHours[0].id;
-          this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
-          this.selectedEntity.idCustomWorkingHours = this.customWorkingHours[0].id;
-          this.selectedEntity.hasCustomWorkingHours = true;
-          this.selectedEntity.hasVariableProgramme = false;
-          this.editEntity(this.selectedEntity, false, false);
-        }
+  loadCustomWorkingHours(gro: GenericResponseObject, isAfterAutoAdd: boolean)//(idWH: number, isAfterAutoAdd: boolean)
+  {
+    // this.entitiesService.getEntitiesWorkingHours(this.idCompany, idWH).subscribe(result =>
+    // {
+    //   let gro = <GenericResponseObject>result;
+    if (gro.error != '')
+    {
+      this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+      //this.showPageMessage('error', 'Error', gro.error);
+    }
+    else
+    {
+      this.logAction(this.idCompany, false, Actions.Search, '', 'load custom working hours');
+      this.customWorkingHours = <WorkingHours[]>gro.objList;
+
+      if (isAfterAutoAdd)
+      {
+        this.selectedWhId = this.customWorkingHours[0].id;
+        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.customWorkingHours[0]);
+        this.selectedEntity.idCustomWorkingHours = this.customWorkingHours[0].id;
+        this.selectedEntity.hasCustomWorkingHours = true;
+        this.selectedEntity.hasVariableProgramme = false;
+        this.editEntity(this.selectedEntity, false, false);
       }
-    });
+    }
+    // });
   }
   loadLevels(levelId: number)
   {
@@ -235,8 +244,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         }
       }
 
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting levels', ''));
+    });
   }
   loadEntityImages()
   {
@@ -506,10 +514,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   {
     this.isSave = isSave;
   }
-  // setCustomWHSubmitType(isSave: boolean)
-  // {
-  //   this.isSaveCustomWH = isSave;
-  // }
+
   onSaveGenDetailsForm()
   {
     if (this.isSave)//daca e save
@@ -551,7 +556,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   showConfirmDeleteDialog()
   {
     this.displayConfirmDeleteEntity = true;
-    this.confirmDeleteEntityMessage = "Are you sure you want to delete entity: " + this.selectedEntity.entityName_EN +"? Keep in mind that ALL bookings allocated to this entity will remain unallocated!";
+    this.confirmDeleteEntityMessage = "Are you sure you want to delete entity: " + this.selectedEntity.entityName_EN + "? Keep in mind that ALL bookings allocated to this entity will remain unallocated!";
   }
   onConfirmDelete(message: string)
   {
@@ -982,28 +987,27 @@ export class EntitiesComponent extends BaseComponent implements OnInit
 
     this.displayDialogAddEntity = false;
   }
-  loadCompanyWorkingHours()
+  loadCompanyWorkingHours(gro: GenericResponseObject)
   {
-    this.companyService.getCompanyWorkingHours(this.idCompany).subscribe(result =>
+    // this.companyService.getCompanyWorkingHours(this.idCompany).subscribe(result =>
+    // {
+    //   let gro = <GenericResponseObject>result;
+    if (gro.error != '')
     {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
-      }
-      else
-      {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'load company working hours');
-        this.companyWorkingHours = gro.objList[0];
-        this.companyWorkingHours.id = 0;
-        this.companyWorkingHours.name = 'Company working hours';
+      this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+      //this.showPageMessage('error', 'Error', gro.error);
+    }
+    else
+    {
+      this.logAction(this.idCompany, false, Actions.Search, '', 'load company working hours');
+      this.companyWorkingHours = gro.objList[0];
+      this.companyWorkingHours.id = 0;
+      this.companyWorkingHours.name = 'Company working hours';
 
-        this.selectedWhId = 0;
-        this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
-      }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company working hours for entity', ''));
+      this.selectedWhId = 0;
+      this.selectedWorkingHours = this.getWorkingHoursDeepCopy(this.companyWorkingHours);
+    }
+    // });
 
   }
   onUpdateWorkingHours(wh: WorkingHours)
@@ -1069,7 +1073,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity ' + this.selectedEntityId, true, 'Entity deleted');
         this.loadEntities(null);
       }
-      
+
     });
   }
   addEntityWorkingHours(idCompany: number, workingHours: WorkingHours, isAfterAutoAdd: boolean)
@@ -1472,12 +1476,12 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   {
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');      
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
     }
     else
       this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);
   }
-  
+
 
   convertWeekDayIndex(jsIndex)
   {
