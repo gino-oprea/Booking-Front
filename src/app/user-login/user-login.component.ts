@@ -3,6 +3,7 @@ import { BaseComponent } from '../shared/base-component';
 import { WebSites, Actions } from '../enums/enums';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Token } from 'app/objects/token';
+import { GenericResponseObject } from '../objects/generic-response-object';
 
 @Component({
   selector: 'bf-user-login',
@@ -13,9 +14,20 @@ export class UserLoginComponent extends BaseComponent implements OnInit
 {
   myForm: FormGroup;
 
+  displayDialog: boolean = false;
+
   constructor(private injector: Injector)
   {
-    super(injector, []);
+    super(injector, [
+      'lblChangePassword',
+      'lblConfirmation',
+      'lblConfirmForgotPassword',
+      'lblResetPasswordEmailSent',
+      'lblForgotPassword',
+      'lblRegister',
+      'lblYes',
+      'lblNo'
+    ]);
     this.site = WebSites.Front;
     this.pageName = "User login";
   }
@@ -45,6 +57,41 @@ export class UserLoginComponent extends BaseComponent implements OnInit
         {
           this.logAction(null, true, Actions.Login, "invalid login", 'invalid login', true);
         });
+  }
+
+  onForgotPassword()
+  {
+    this.displayDialog = false;
+    try
+    {
+      this.usersService.resetUserPasswordByEmail(this.myForm.controls['email'].value)
+        .subscribe((response: GenericResponseObject) =>
+        {
+          if (response.info.indexOf('success') > -1)
+          {
+            this.showPageMessage("success", "Success", this.getCurrentLabelValue('lblResetPasswordEmailSent'));
+            this.logAction(null, false, Actions.Edit, "", "password reset");
+          }
+          else
+          {
+            this.showPageMessage("error", "Error", response.error);
+            this.logAction(null, true, Actions.Edit, response.error, "error forgot password: " + response.errorDetailed);
+          }
+        },
+          err => this.logAction(null, true, Actions.Edit, "http error resetting password", ""));
+    }
+    catch (e)
+    {
+      this.logAction(null, true, Actions.Edit, e.message, "error reset password");
+    }
+  }
+
+  displayConfirmDialog()
+  {
+    if (this.myForm.controls['email'].valid)
+      this.displayDialog = true;
+    else
+      this.showPageMessage("warn", "Warning", this.getCurrentLabelValue('lblInvalidEmail'));
   }
 
 }

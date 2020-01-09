@@ -24,10 +24,10 @@
                   <input type="password" formControlName="password" id="password" tabindex="2" class="form-control"
                     placeholder="Password">
                 </div>
-                <!-- <div class="form-group text-center">
-                  <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-                  <label for="remember"> Remember Me</label>
-                </div> -->
+                <div class="help-block text-right">
+                  <a style="cursor: pointer;" (click)="displayConfirmDialog()">
+                    {{getCurrentLabelValue('lblForgotPassword')}}</a>
+                </div>
                 <div class="form-group">
                   <div class="row">
                     <div class="col-sm-6 col-sm-offset-3">
@@ -37,11 +37,28 @@
                   </div>
                 </div>
               </form>
+            </div>  
+            
+            <div class="bottom text-center">
+              <a [routerLink]="['/register']" style="cursor: pointer;"><b>{{getCurrentLabelValue('lblRegister')}}</b></a>
             </div>
+            
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayDialog" modal="modal" width="300"
+  responsive="true">
+  <p>{{getCurrentLabelValue('lblConfirmForgotPassword')}}</p>
+  <footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton (click)="displayDialog=false" [label]="getCurrentLabelValue('lblNo')"></button>
+      <button type="button" pButton (click)="onForgotPassword()" [label]="getCurrentLabelValue('lblYes')"></button>
+    </div>
+  </footer>
+</p-dialog>
+
 <p-growl [value]="pageMsgs"></p-growl>
