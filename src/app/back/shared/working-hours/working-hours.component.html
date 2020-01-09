@@ -1,4 +1,25 @@
-<div id="parentDiv" (mousemove)=onMousemove($event) (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"> 
+<!-- <div > -->
+ 
+ 
+
+<ul class="slots-view" style="margin-bottom: 0px;">
+  <li [ngStyle]="{'vertical-align': 'bottom','margin-bottom': '2px','width': (singleDay==-1 ? '6%' : '10%')}">    
+  </li>
+  <li *ngFor="let d of hoursMatrix; let i = index"
+    [ngStyle]="{'width': (singleDay==-1 ? commonMethods.computeDayColumnWidth(hoursMatrix) : '85%')}">
+    <div class="day-title unselectable">
+      <b>{{getCurrentLabelValue(dayNames[singleDay==-1 ? i : singleDay])}}</b>
+      <div>{{(dayDates[i]!=null?(dayDates[i] | date:'dd.MMM.yyyy'):'')}}</div>
+      <div>
+        <p-inputSwitch [disabled]="disabled" [(ngModel)]="dayOff[i]" onLabel="On" offLabel="Off"
+          (onChange)="onSetDayOff($event,i)"></p-inputSwitch>
+      </div>
+    </div>
+  </li>
+</ul>
+
+
+<div id="parentDiv" (mousemove)=onMousemove($event) (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
 
   <div *ngIf="singleDay==-1" id='selectionDiv' class="ghost-select" [ngClass]="{'ghost-active': isSelecting}" 
   [style.left]="selectorLeft.toString()+'px'" 
@@ -86,13 +107,13 @@
   </li>
   <li *ngFor="let d of hoursMatrix; let i = index" 
   [ngStyle]="{'width': (singleDay==-1 ? commonMethods.computeDayColumnWidth(hoursMatrix) : '85%')}">
-    <div class="day-title unselectable">
+    <!-- <div class="day-title unselectable">
       <b>{{getCurrentLabelValue(dayNames[singleDay==-1 ? i : singleDay])}}</b>
       <div>{{(dayDates[i]!=null?(dayDates[i] | date:'dd.MMM.yyyy'):'')}}</div>
       <div>
         <p-inputSwitch [disabled]="disabled" [(ngModel)]="dayOff[i]" onLabel="On" offLabel="Off" (onChange)="onSetDayOff($event,i)"></p-inputSwitch>
       </div>
-    </div>
+    </div> -->
     <div class="time-slots unselectable">
       <div class="hour-row" *ngFor="let h of d; let j = index">
         <!-- <div class="time-select-div" [ngClass]="{'selected':h[0].isSelected,'disabled':!h[0].isSelectable}" (click)="activateTimeSlot(i,j,0)"><span>{{h[0].val}}</span></div>
@@ -107,3 +128,5 @@
   </li>
 </ul>
 </div>
+
+<!-- </div> -->

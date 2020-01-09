@@ -328,9 +328,9 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
       var offsetLeft = parentDivRect.left;// - bodyRect.left;
 
       let pageX = e.pageX - offsetLeft + 15;// - 35;      
-      let pageY = e.pageY - offsetTop; //- 138;
+      let pageY = e.pageY - offsetTop + 80; //- 138;
       if (this.IsCompanyWorkingHours)
-        pageY = e.pageY - offsetTop + 48; //- 138;
+        pageY = e.pageY - offsetTop + 48 + 80; //- 138;
 
       this.selectorLeft = pageX;
       this.selectorTop = pageY;
@@ -402,9 +402,9 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
 
         //asta nu merge bine pe pagina de company general details...nu e corecta formula pentru offset
         let pageX = e.pageX - offsetLeft + 15;// - 35;
-        let pageY = e.pageY - offsetTop; //- 138;
+        let pageY = e.pageY - offsetTop + 80; //- 138;
         if (this.IsCompanyWorkingHours)
-          pageY = e.pageY - offsetTop + 48; //- 138;
+          pageY = e.pageY - offsetTop + 48 + 80; //- 138;
       
         this.selectorW = Math.abs(this.initLeft - pageX);
         this.selectorH = Math.abs(this.initTop - pageY);
