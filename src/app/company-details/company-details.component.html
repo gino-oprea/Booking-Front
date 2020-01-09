@@ -67,8 +67,36 @@
           </textarea>
         </div>
       </div>
-    </form>
-  </div>
+      <div class="form-group" style="height: 6%;">
+        <label class="col-md-2 control-label" for="phone">Program</label>
+        <div class="col-md-10">
+          <ul *ngIf="companyWorkingHours">
+            <li>
+              Luni:  {{getWorkingHoursString(companyWorkingHours.monday.workHours.toString())}}
+            </li>
+            <li>
+              Marti:  {{getWorkingHoursString(companyWorkingHours.tuesday.workHours.toString())}}
+            </li>
+            <li>
+              Miercuri:  {{getWorkingHoursString(companyWorkingHours.wednesday.workHours.toString())}}
+            </li>
+            <li>
+              Joi:  {{getWorkingHoursString(companyWorkingHours.thursday.workHours.toString())}}
+            </li>
+            <li>
+              Vineri:  {{getWorkingHoursString(companyWorkingHours.friday.workHours.toString())}}
+            </li>
+            <li>
+              Sambata:  {{getWorkingHoursString(companyWorkingHours.saturday.workHours.toString())}}
+            </li>
+            <li>
+              Duminica:  {{getWorkingHoursString(companyWorkingHours.sunday.workHours.toString())}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      </form>
+      </div>
   <div class="col-md-6" style="height: 100%;">
     <div class="row" style="height: 25%;">
       <div class="col-md-12" style="height: 100%!important; overflow: auto;">
@@ -90,6 +118,7 @@
     </div>
   </div>
 </div>
+
 
 <p-dialog [(visible)]="displayImageDialog" [responsive]="true" showEffect="fade" [modal]="false" width="600"
   height="500">

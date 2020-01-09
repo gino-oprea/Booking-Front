@@ -7,6 +7,8 @@ import { Company } from '../objects/company';
 import { Image } from '../objects/image';
 import { ImageService } from '../app-services/image.service';
 import { CompanySearchService } from 'app/app-services/company-search.service';
+import { WorkingHours } from '../objects/working-hours';
+import { CompanyService } from '../app-services/company.service';
 
 @Component({
   selector: 'bf-company-details',
@@ -26,6 +28,8 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
   selectedImage: Image = null;
   displayImageDialog = false;
 
+  companyWorkingHours: WorkingHours;
+
   mapOptions = {
     center: { lat: 45.951249, lng: 24.793491 },
     zoom: 5
@@ -35,7 +39,8 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
   
 
   constructor(private injector: Injector,
-    private companyService: CompanySearchService,
+    private companySearchService: CompanySearchService,
+    private companyService: CompanyService,
     private imageService: ImageService)
   {
     super(injector,
@@ -68,6 +73,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
   {
     super.ngOnInit();    
     this.loadCompany();
+    this.loadCompanyWorkingHours();
     this.loadCompanyImages();    
   }
  
@@ -79,7 +85,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
 
   loadCompany()
   {
-    this.companyService.getCompany(null, this.idCompany).subscribe(result =>
+    this.companySearchService.getCompany(null, this.idCompany).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
@@ -108,6 +114,27 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company', ''));
+  }
+  loadCompanyWorkingHours()
+  {
+    this.companyService.getCompanyWorkingHours(this.idCompany).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')      
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);              
+      else              
+        this.companyWorkingHours = gro.objList[0];              
+    });
+  }
+  getWorkingHoursString(rawWH: string)
+  {
+    let whString: string = "";
+
+    let aux = rawWH.substring(1, rawWH.length - 1);
+
+    let re = /,/g;
+    whString = aux.replace(re, ' - ');
+    return whString;
   }
 
   loadCompanyImages()
