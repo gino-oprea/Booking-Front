@@ -579,7 +579,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           if (gro.error != '')
           {
             if (gro.error.indexOf('size limit') > -1)
-              this.showPageMessage('error', 'Error', 'size limit exceded');
+              this.showPageMessage('error', 'Error', 'Image size must not exceed 3 MB');
             else
               //this.showPageMessage('error', 'Error', gro.error);
 
