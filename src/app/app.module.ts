@@ -9,8 +9,7 @@ import
   DropdownModule,
   GrowlModule,
   ConfirmDialogModule,
-  ConfirmationService,
-  SharedModule,
+  ConfirmationService,  
   GMapModule,
   ButtonModule,
   DialogModule,
@@ -55,6 +54,7 @@ import { CompanyUsersService } from './app-services/company-users.service';
 import { RoleGuard } from './route-guards/role.guard';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { TableModule } from 'primeng/table';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -90,7 +90,7 @@ import { TableModule } from 'primeng/table';
     MyAccountModule,
     MyCompaniesModule,
     BackModule,
-    CompanyBookingModule
+    CompanyBookingModule    
   ],
   providers: [
     ConfirmationService,

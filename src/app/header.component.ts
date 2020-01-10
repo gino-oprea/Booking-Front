@@ -42,7 +42,10 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
   showSubscriptionDialog = false;
   subscriptions: SubscriptionObject[] = [];
-  selectedSubscriptionPrice: string;
+  selectedSubscriptionPrice: string;  
+
+  displayConfirmAddCompany: boolean = false;
+  confirmAddCompanyMessage: string = "This will create a new company. Are you sure?";
   
   constructor(private injector: Injector,
     private confirmationService: ConfirmationService,
@@ -263,9 +266,18 @@ export class HeaderComponent extends BaseComponent implements OnInit
   onAddNewCompany()
   {
     if (this.loginService.getCurrentUser() != null)
-      this.showSubscriptionDialog = true;
+      this.displayConfirmAddCompany = true;//this.showSubscriptionDialog = true;
     else
       this.router.navigate(['/login']);
+  }
+  onConfirmAddCompany(message)
+  {
+    if (message == "yes")
+    {
+      this.addNewCompany(this.subscriptions[0].id, 0, 12);
+    }
+
+    this.displayConfirmAddCompany = false;
   }
   loadSubscriptions()
   {

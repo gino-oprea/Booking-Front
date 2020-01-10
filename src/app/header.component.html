@@ -185,4 +185,10 @@
   </footer>
 </p-dialog>
 
+<p-dialog header="Confirm" [(visible)]="displayConfirmAddCompany" [responsive]="true" showEffect="fade" [modal]="true"
+  width="350">
+  <bf-generic-confirm-dialog [confirmMessage]="confirmAddCompanyMessage" (onConfirm)="onConfirmAddCompany($event)">
+  </bf-generic-confirm-dialog>
+</p-dialog>
+
 <p-growl [value]="pageMsgs"></p-growl>
