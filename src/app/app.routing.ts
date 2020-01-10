@@ -13,6 +13,7 @@ import { CompanyBookingGuard } from './route-guards/company-booking.guard';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.guard';
 
 const APP_ROUTES = [
     { path: '', redirectTo: 'searchcompany', pathMatch: 'full' },
@@ -22,7 +23,7 @@ const APP_ROUTES = [
     { path: 'register', component: UserRegistrationComponent, canActivate: [NonAuthGuard] },
     { path: 'useractivation/:activationKey', component: UserActivationComponent },
     { path: 'searchcompany', component: SearchCompanyComponent },
-    { path: 'companybooking/:id/:companyname', component: CompanyBookingComponent, canActivate: [CompanyBookingGuard] },
+    { path: 'companybooking/:id/:companyname', component: CompanyBookingComponent, canActivate: [CompanyAllowBookingGuard] },
     { path: 'companydetails/:id/:companyname', component: CompanyDetailsComponent, canActivate: [CompanyBookingGuard] },
     { path: 'myaccount', component: MyAccountComponent, canActivate: [AuthGuard] },
     { path: 'mybookings', component: MyBookingsComponent, canActivate: [AuthGuard] },

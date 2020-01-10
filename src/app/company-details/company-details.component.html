@@ -126,5 +126,6 @@
     style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">  
 </p-dialog>
 
-<button class="btn btn-primary from-control" (click)="goToBooking(idCompany,companyName)"><i
+<button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary from-control" (click)="goToBooking(idCompany,companyName)"><i
     class="fa fa-arrow-right"></i> Book now</button>
+<span *ngIf="company && !company.allowOnlineBookings">This company doesn't allow online bookings. Please contact them via e-mail or phone.</span>

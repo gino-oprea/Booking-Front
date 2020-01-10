@@ -108,8 +108,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
                 zoom: 18
               });
               this.gMapOverlays = [new google.maps.Marker({ position: { lat: this.company.lat, lng: this.company.lng }, draggable: false })];
-            }
-          
+            }          
         }
       }
     },

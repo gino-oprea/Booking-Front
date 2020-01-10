@@ -55,6 +55,7 @@ import { RoleGuard } from './route-guards/role.guard';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { TableModule } from 'primeng/table';
 import { SharedModule } from './shared/shared.module';
+import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.guard';
 
 
 @NgModule({
@@ -115,6 +116,7 @@ import { SharedModule } from './shared/shared.module';
     AuthGuard,
     NonAuthGuard,
     CompanyBookingGuard,
+    CompanyAllowBookingGuard,
     RoleGuard,
     {
       provide: HTTP_INTERCEPTORS,

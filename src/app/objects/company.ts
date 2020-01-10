@@ -27,6 +27,7 @@ export class Company
     public lng?: number,
     public image?: Image[],
     public dateCreated?: Date,
-    public isEnabled?: boolean
+    public isEnabled?: boolean,
+    public allowOnlineBookings?: boolean
   ) { }
 }
