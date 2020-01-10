@@ -35,6 +35,9 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   startDate: Date = new Date(new Date().setDate(this.currentDate.getDate()));
   endDate: Date = new Date(new Date().setDate(this.currentDate.getDate() + 7));
 
+  filterEntity: string='';
+  filterIdStatus: number=0;
+
   constructor(private injector: Injector,
     private bookingService: BookingService,
     private companyUsersService: CompanyUsersService)
@@ -90,6 +93,22 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
           this.bookings = <Booking[]>gro.objList;
         else
           this.bookings = <Booking[]>gro.objList.filter(b => b.phone == this.phone);
+        
+        this.bookings = <Booking[]>gro.objList.filter(b =>
+        {
+          let t: boolean = true;
+          
+          if (this.filterIdStatus.toString() != "0" && this.filterEntity.trim() != '')
+            t = (b.idStatus == parseInt(this.filterIdStatus.toString())) && this.getBookingEntitiesCombinationString(b).toLowerCase().indexOf(this.filterEntity.toLowerCase()) != -1;
+          else
+            if (this.filterIdStatus.toString() != "0" && this.filterEntity.trim() == '')
+              t = b.idStatus == parseInt(this.filterIdStatus.toString());
+            else
+              if (this.filterEntity.trim() != '' && this.filterIdStatus.toString() == "0")
+                t = this.getBookingEntitiesCombinationString(b).toLowerCase().indexOf(this.filterEntity.toLowerCase()) != -1;
+          
+          return t;
+        });
         
         if (this.currentUserIsEmployee && this.idEntityLinkedToUser != null)
           this.bookings = this.bookings.filter(b => b.entities.find(e => e.idEntity == this.idEntityLinkedToUser) != null)
@@ -239,4 +258,5 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
     
     this.loadBookings();
   }
+ 
 }

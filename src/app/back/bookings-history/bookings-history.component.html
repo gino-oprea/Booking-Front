@@ -1,12 +1,23 @@
 <legend *ngIf="!isDialog" style="margin-bottom: 10px;">Booking History</legend>
 <div *ngIf="!isDialog" class="row" style="height: 7%;">
-  <div class="col-md-5">
+  <div class="col-md-12">
     <span>Start Date: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
       (onSelect)="loadBookings()" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
     <span> End Date: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate"
       readonlyInput="true" (onSelect)="loadBookings()" dateFormat="dd.M.yy"></p-calendar>
+      <span>  Entities:</span>
+      <input type="text" style="width: 130px;" [(ngModel)]="filterEntity">
+      <span>  Status:</span>
+      <select style="margin-left: 5px;" [(ngModel)]="filterIdStatus">
+        <option selected="true" value="0">Any</option>
+        <option value="1">Active</option>
+        <option value="2">Honored</option>
+        <option value="3">Canceled</option>
+      </select>
+      <button class="btn btn-primary from-control" (click)="loadBookings()" style="margin-left: 15px;"><i
+          class="fa fa-search"></i> Search</button>
   </div>
 </div>
 <div class="row" style="height: 93%;">
