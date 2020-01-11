@@ -27,10 +27,15 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   selectedLevel: Level;
   selectedEntity: Entity;
 
+  levelMoveType: string;
+
   linkTreeData: TreeNode[] = [];
 
   displayAffectedBookings: boolean = false;
   affectedBookings: Booking[] = [];
+
+  displayConfirmMoveLevel: boolean = false;
+  confirmMoveLevelMessage: string = "Are you sure you want to move the level order? Entities linking may be affected."
 
 
   constructor(private injector: Injector,
@@ -248,24 +253,14 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       }
     }
 
-    this.levelLinkingService.removeEntitiesLinkingOnLevelOrderChange(this.selectedLevel.id, type == 'up' ? true : false).subscribe(result =>
+    this.levelLinkingService.setMoveLevelOrderIndex(this.selectedLevel.id, type == 'up' ? true : false).subscribe(gro =>
     {
-      let gro = <GenericResponseObject>result;
       if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
-
-
-        if (gro.objList != null && gro.objList.length > 0)
-        {
-          this.affectedBookings = gro.objList;
-          this.displayAffectedBookings = true;
-        }
-      }
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity links before level order change', true, 'links between selected level and others deleted!', true);
-        //this.showPageMessage('warn', 'Warning', 'links between selected level and others deleted!');
+        this.loadEntities();
+        this.loadTree();
 
         if (type == 'up')
         {
@@ -274,12 +269,10 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
             let aux = this.levels[currentIndex - 1];
 
             this.levels[currentIndex - 1] = this.selectedLevel;
-            this.levels[currentIndex - 1].orderIndex = this.levels[currentIndex - 1].orderIndex - 1;
-            this.updateLevel(this.levels[currentIndex - 1]);
+            this.levels[currentIndex - 1].orderIndex = this.levels[currentIndex - 1].orderIndex - 1;            
 
             this.levels[currentIndex] = aux;
-            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex + 1;
-            this.updateLevel(this.levels[currentIndex]);
+            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex + 1;            
           }
         }
         if (type == 'down')
@@ -289,22 +282,14 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
             let aux = this.levels[currentIndex + 1];
 
             this.levels[currentIndex + 1] = this.selectedLevel;
-            this.levels[currentIndex + 1].orderIndex = this.levels[currentIndex + 1].orderIndex + 1;
-            this.updateLevel(this.levels[currentIndex + 1]);
+            this.levels[currentIndex + 1].orderIndex = this.levels[currentIndex + 1].orderIndex + 1;           
 
             this.levels[currentIndex] = aux;
-            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex - 1;
-            this.updateLevel(this.levels[currentIndex]);
+            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex - 1;            
           }
         }
-
-        this.loadEntities();
       }
-
-      this.loadTree();
-
-    },
-      err => this.logAction(this.idCompany, true, Actions.Delete, 'http error deleting entity links before level order change', ''));
+    });
   }
   onLinkChange(e, ent: Entity)
   {
@@ -366,5 +351,12 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
     {
       this.logAction(this.idCompany, true, Actions.Delete, event, event, true);
     }
+  }
+  onConfirmMoveLevel(message)
+  {
+    if (message == "yes")
+      this.levelMove(this.levelMoveType);    
+
+    this.displayConfirmMoveLevel = false;
   }
 }

@@ -41,11 +41,19 @@ export class LevelLinkingService
 
     return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/' + isAdd.toString(), body, options);
   }
-  removeEntitiesLinkingOnLevelOrderChange(idLevelMoved: number, isMoveUp: boolean): Observable<GenericResponseObject>  
+  setMoveLevelOrderIndex(idLevelMoved: number, isMoveUp: boolean): Observable<GenericResponseObject>  
   {
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+      headers: null
     };
-    return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/' + idLevelMoved.toString() + '/' + isMoveUp.toString(), options);
+    return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/' + idLevelMoved.toString() + '/' + isMoveUp.toString(), null, options);
   }
+
+  // removeEntitiesLinkingOnLevelOrderChange(idLevelMoved: number, isMoveUp: boolean): Observable<GenericResponseObject>  
+  // {
+  //   let options = {
+  //     headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
+  //   };
+  //   return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'levellinking/' + idLevelMoved.toString() + '/' + isMoveUp.toString(), options);
+  // }
 }

@@ -6,14 +6,14 @@
       <div class="col-md-2">
         <div class="row">
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary" (click)="levelMove('up')"><i
+            <button type="button" class="btn btn-primary" (click)="displayConfirmMoveLevel=true; levelMoveType='up'"><i
                 class="fa fa-sort-up"></i></button>
           </div>
         </div>
         <br>
         <div class="row">
           <div class="col-md-12">
-            <button type="button" class="btn btn-primary" (click)="levelMove('down')"><i
+            <button type="button" class="btn btn-primary" (click)="displayConfirmMoveLevel=true; levelMoveType='down'"><i
                 class="fa fa-sort-down"></i></button>
           </div>
         </div>
@@ -78,6 +78,12 @@
     (bookingMoved)="onBookingMoved($event)"
     (bookingCanceled)="onBookingCanceled($event)"
     (onBookingsNone)="displayAffectedBookings=false;"></bf-booking-management-dialog>
+</p-dialog>
+
+<p-dialog header="Confirm" [(visible)]="displayConfirmMoveLevel" [responsive]="true" showEffect="fade" [modal]="true"
+  width="350">
+  <bf-generic-confirm-dialog [confirmMessage]="confirmMoveLevelMessage" (onConfirm)="onConfirmMoveLevel($event)">
+  </bf-generic-confirm-dialog>
 </p-dialog>
 
 <p-growl [value]="pageMsgs"></p-growl>
