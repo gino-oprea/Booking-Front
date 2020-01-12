@@ -56,15 +56,15 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     ]);
 
     this.site = WebSites.Front;
-    this.pageName = 'Company booking';    
+    this.pageName = 'Company booking';
 
     this.dayNames = ['lblMonday', 'lblTuesday', 'lblWednesday', 'lblThursday', 'lblFriday', 'lblSaturday', 'lblSunday'];
-    this.dayDates = [null, null, null, null, null, null, null];    
+    this.dayDates = [null, null, null, null, null, null, null];
   }
 
   ngOnInit() 
   {
-    
+
   }
   ngOnDestroy(): void 
   {
@@ -100,8 +100,8 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
           this.setDayDates();
           this.getHoursMatrix();
 
-          // if (!this.refreshInterval)
-          //   this.refreshInterval = setInterval(() => { this.refreshMatrix() }, 20000);
+          if (!this.refreshInterval)
+            this.refreshInterval = setInterval(() => { this.refreshMatrix() }, 20000);
         }
       }
     }
@@ -126,38 +126,38 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
 
     this.bookingService.setUpBookingFilterEntitiesWorkingHours(this.idCompany, weekDates,
       this.selectedFilter.filteredLevels).subscribe(gro =>//call-ul asta se foloseste pentru autoassign - cand se face shift week
-    {
-      if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
-      }
-      else
-      {
-        this.selectedFilter.filteredLevels = <LevelAsFilter[]>gro.objList;
-
-        this.bookingService.generateHoursMatrix(this.idCompany, weekDates, this.selectedFilter.filteredLevels, this.bookingSearchFilter).subscribe(gro =>
+        if (gro.error != '')
         {
-          if (gro.error != '')
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+          //this.showPageMessage('error', 'Error', gro.error);
+        }
+        else
+        {
+          this.selectedFilter.filteredLevels = <LevelAsFilter[]>gro.objList;
+
+          this.bookingService.generateHoursMatrix(this.idCompany, weekDates, this.selectedFilter.filteredLevels, this.bookingSearchFilter).subscribe(gro =>
           {
-            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);            
-          }
-          else
-          {
-            if (gro.objList.length > 0)
+            if (gro.error != '')
             {
-              this.hoursMatrix = <Timeslot[][][]>gro.objList;                  
-              
-              if (this.hoursMatrix.find(ttt => ttt.find(tt => tt.find(t => t.isSelectable)!=null)!=null) == null && this.isFirstLoad)
+              this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+            }
+            else
+            {
+              if (gro.objList.length > 0)
               {
-                this.isFirstLoad = false;
-                this.shiftWeek(WeekShiftType.Right)
+                this.hoursMatrix = <Timeslot[][][]>gro.objList;
+
+                if (this.hoursMatrix.find(ttt => ttt.find(tt => tt.find(t => t.isSelectable) != null) != null) == null && this.isFirstLoad)
+                {
+                  this.isFirstLoad = false;
+                  this.shiftWeek(WeekShiftType.Right)
+                }
               }
             }
-          }
-        });
-      }
-    });
+          });
+        }
+      });
   }
 
   getTimeslotValueAsString(timeslot: Timeslot): string
