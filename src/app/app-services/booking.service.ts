@@ -109,9 +109,9 @@ export class BookingService
       booking[i].startDate = sDate;
       booking[i].endDate = eDate;
       booking[i].startTime = sTime;
-      booking[i].endTime = eTime; 
+      booking[i].endTime = eTime;
     }
-    
+
 
     const body = JSON.stringify(booking);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -145,17 +145,20 @@ export class BookingService
   }
   setBookingStatus(booking: Booking, idStatus: number): Observable<GenericResponseObject>
   {
-    let sDate = CommonServiceMethods.addUserDateOffset(new Date(booking.startDate));
-    let eDate = booking.endDate != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endDate)) : null;
-    let sTime = booking.startTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.startTime)) : null;
-    let eTime = booking.endTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endTime)) : null;
+    //first clone the booking object 
+    let bookingClone = JSON.parse(JSON.stringify(booking));
 
-    booking.startDate = sDate;
-    booking.endDate = eDate;
-    booking.startTime = sTime;
-    booking.endTime = eTime;
+    let sDate = CommonServiceMethods.addUserDateOffset(new Date(bookingClone.startDate));
+    let eDate = bookingClone.endDate != null ? CommonServiceMethods.addUserDateOffset(new Date(bookingClone.endDate)) : null;
+    let sTime = bookingClone.startTime != null ? CommonServiceMethods.addUserDateOffset(new Date(bookingClone.startTime)) : null;
+    let eTime = bookingClone.endTime != null ? CommonServiceMethods.addUserDateOffset(new Date(bookingClone.endTime)) : null;
 
-    const body = JSON.stringify(booking);
+    bookingClone.startDate = sDate;
+    bookingClone.endDate = eDate;
+    bookingClone.startTime = sTime;
+    bookingClone.endTime = eTime;
+
+    const body = JSON.stringify(bookingClone);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     let options = {
@@ -241,10 +244,10 @@ export class BookingService
 
   //   return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookings/' + idCompany.toString(), options);
   // }
-  getBookingsByUser(idUser: number, date:Date): Observable<GenericResponseObject>
+  getBookingsByUser(idUser: number, date: Date): Observable<GenericResponseObject>
   {
-    let params = new HttpParams();    
-    params = params.append('date', CommonServiceMethods.getDateString(date));    
+    let params = new HttpParams();
+    params = params.append('date', CommonServiceMethods.getDateString(date));
 
     let options = {
       headers: null,

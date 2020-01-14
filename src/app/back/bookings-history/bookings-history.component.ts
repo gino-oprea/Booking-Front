@@ -8,6 +8,7 @@ import { CommonServiceMethods } from 'app/app-services/common-service-methods';
 import { NonAuthGuard } from '../../route-guards/non-auth.guard';
 import { CompanyUsersService } from 'app/app-services/company-users.service';
 import { CompanyUser } from '../../objects/user';
+import { GenericResponseObject } from '../../objects/generic-response-object';
 
 @Component({
   selector: 'bf-bookings-history',
@@ -27,6 +28,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   en: any;
   confirmDeleteBookingMessage: string = "Are you sure you want to delete this booking?";
   displayConfirmDeleteBooking: boolean = false;
+  displayStatusDialog: boolean = false;
   bookings: Booking[] = [];
   selectedBooking: Booking;
   idBooking: number;
@@ -35,8 +37,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   startDate: Date = new Date(new Date().setDate(this.currentDate.getDate()));
   endDate: Date = new Date(new Date().setDate(this.currentDate.getDate() + 7));
 
-  filterEntity: string='';
-  filterIdStatus: number=0;
+  filterEntity: string = '';
+  filterIdStatus: number = 0;
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
@@ -93,11 +95,11 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
           this.bookings = <Booking[]>gro.objList;
         else
           this.bookings = <Booking[]>gro.objList.filter(b => b.phone == this.phone);
-        
+
         this.bookings = <Booking[]>gro.objList.filter(b =>
         {
           let t: boolean = true;
-          
+
           if (this.filterIdStatus.toString() != "0" && this.filterEntity.trim() != '')
             t = (b.idStatus == parseInt(this.filterIdStatus.toString())) && this.getBookingEntitiesCombinationString(b).toLowerCase().indexOf(this.filterEntity.toLowerCase()) != -1;
           else
@@ -106,15 +108,15 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
             else
               if (this.filterEntity.trim() != '' && this.filterIdStatus.toString() == "0")
                 t = this.getBookingEntitiesCombinationString(b).toLowerCase().indexOf(this.filterEntity.toLowerCase()) != -1;
-          
+
           return t;
         });
-        
+
         if (this.currentUserIsEmployee && this.idEntityLinkedToUser != null)
           this.bookings = this.bookings.filter(b => b.entities.find(e => e.idEntity == this.idEntityLinkedToUser) != null)
       }
     });
-  }  
+  }
   getBookingEntitiesCombinationString(booking: Booking)
   {
     let combString = '';
@@ -161,57 +163,45 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
 
     this.displayConfirmDeleteBooking = false;
   }
-  toggleBookingStatus(booking: Booking)
+  setBookingStatus(idStatus: number)
   {
-    switch (booking.idStatus) 
+    let logMessage = '';
+    switch (idStatus)
     {
       case 1:
-        //set honored  
-        this.bookingService.setBookingStatus(booking, 2).subscribe(gro =>
-        {
-          if (gro.error != '')
-          {
-            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
-          }
-          else
-          {
-            this.logAction(this.idCompany, false, Actions.Edit, "", "", true, "Booking honored");
-            this.loadBookings();
-          }
-        });
+        logMessage = 'Booking is active';
         break;
       case 2:
-        //set canceled
-        this.bookingService.cancelBooking(booking.id).subscribe(gro =>
-        {
-          if (gro.error != '')
-          {
-            this.logAction(this.idCompany, true, Actions.Cancel, gro.error, gro.errorDetailed, true);
-          }
-          else
-          {
-            this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");
-            this.loadBookings();
-          }
-        });
+        logMessage = 'Booking is honored';
         break;
       case 3:
-        //set active
-        this.bookingService.setBookingStatus(booking, 1).subscribe(gro =>
-        {
-          if (gro.error != '')
-          {
-            this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
-          }
-          else
-          {
-            this.logAction(this.idCompany, false, Actions.Edit, "", "", true, "Booking active");
-            this.loadBookings();
-          }
-        });
+        logMessage = 'Booking is canceled';
         break;
     }
 
+    if (idStatus != 3)
+      this.bookingService.setBookingStatus(this.selectedBooking, idStatus).subscribe(gro =>
+      {
+        this.processBookingStatusResponse(gro, logMessage);
+        this.displayStatusDialog = false;
+      });
+    else
+      this.bookingService.cancelBooking(this.selectedBooking.id).subscribe(gro =>
+      {
+        this.processBookingStatusResponse(gro, logMessage);
+        this.displayStatusDialog = false;
+      });
+
+  }
+  private processBookingStatusResponse(gro: GenericResponseObject, logMessage: string)
+  {
+    if (gro.error != '')
+      this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+    else
+    {
+      this.logAction(this.idCompany, false, Actions.Edit, "", "", true, logMessage);
+      this.loadBookings();
+    }
   }
 
   filterByUserRoleAndLoadBookings()
@@ -246,7 +236,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
           this.loadBookings();
         }
   }
-  
+
   onBookingMoved(event)
   {
     if (event.error == null)
@@ -255,8 +245,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
     }
     else
       this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);
-    
+
     this.loadBookings();
   }
- 
+
 }
