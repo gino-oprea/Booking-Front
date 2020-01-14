@@ -119,7 +119,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   }
   cancelBooking()
   {
-    this.bookingService.cancelBooking(this.selectedBooking.id).subscribe(gro =>
+    this.bookingService.cancelBooking(this.selectedBooking.id, true).subscribe(gro =>
     {
       if (gro.error != '')
       {        
@@ -151,9 +151,11 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   {
     let selectedTimeslot = this.getSelectedMoveTimeslot();
 
+    let originalBooking = JSON.parse(JSON.stringify(this.selectedBooking));
+
     this.selectedBooking.idCompany = this.idCompany;
     this.selectedBooking.startDate = new Date(CommonServiceMethods.getDateString(selectedTimeslot.startTime));
-    this.selectedBooking.endDate = null;    
+    this.selectedBooking.endDate = null;
     this.selectedBooking.startTime = new Date(CommonServiceMethods.getDateString(selectedTimeslot.startTime, true));
     this.selectedBooking.endTime = new Date(CommonServiceMethods.getDateString(selectedTimeslot.endTime, true));
     this.selectedBooking.entities = [];
@@ -167,20 +169,20 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       ));
     }
 
-    this.bookingService.editBooking(this.selectedBooking).subscribe(gro =>
+    this.bookingService.editBooking([originalBooking, this.selectedBooking]).subscribe(gro =>
     {
       if (gro.error != '')
-      {        
+      {
         this.bookingMoved.emit({ idBooking: null, error: gro.error });
       }
       else
-      {       
+      {
         this.bookingMoved.emit({ idBooking: this.selectedBooking.id, error: null });
         this.removeFromBookingsDialog(this.selectedBooking.id);
       }
     });
 
-    this.doResetMoveFilter = !this.doResetMoveFilter;   
+    this.doResetMoveFilter = !this.doResetMoveFilter;
   }
   removeFromBookingsDialog(idBooking: number)
   {

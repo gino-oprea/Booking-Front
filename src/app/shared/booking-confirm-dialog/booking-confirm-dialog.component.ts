@@ -152,8 +152,16 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
     {
       if (this.autoAssignedEntityCombination.entityCombination[i].id != null)
       {
-        bookingEntities.push(new BookingEntity(this.autoAssignedEntityCombination.entityCombination[i].id, false));
-      }
+        //bookingEntities.push(new BookingEntity(this.autoAssignedEntityCombination.entityCombination[i].id, false));
+        bookingEntities.push(
+          {
+            idEntity: this.autoAssignedEntityCombination.entityCombination[i].id,
+            isAutoAssigned: false,
+            entityName_EN: this.autoAssignedEntityCombination.entityCombination[i].entityName_EN,
+            entityName_RO: this.autoAssignedEntityCombination.entityCombination[i].entityName_RO
+          }
+        );
+      }      
     }   
 
     let booking = new Booking();

@@ -97,17 +97,21 @@ export class BookingService
 
     return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingRestrictions/' + idCompany.toString(), options);
   }
-  editBooking(booking: Booking): Observable<GenericResponseObject>
+  editBooking(booking: Booking[]): Observable<GenericResponseObject>
   {
-    let sDate = CommonServiceMethods.addUserDateOffset(new Date(booking.startDate));
-    let eDate = booking.endDate != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endDate)) : null;
-    let sTime = booking.startTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.startTime)) : null;
-    let eTime = booking.endTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking.endTime)) : null;
+    for (let i = 0; i < booking.length; i++) 
+    {
+      let sDate = CommonServiceMethods.addUserDateOffset(new Date(booking[i].startDate));
+      let eDate = booking[i].endDate != null ? CommonServiceMethods.addUserDateOffset(new Date(booking[i].endDate)) : null;
+      let sTime = booking[i].startTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking[i].startTime)) : null;
+      let eTime = booking[i].endTime != null ? CommonServiceMethods.addUserDateOffset(new Date(booking[i].endTime)) : null;
 
-    booking.startDate = sDate;
-    booking.endDate = eDate;
-    booking.startTime = sTime;
-    booking.endTime = eTime;
+      booking[i].startDate = sDate;
+      booking[i].endDate = eDate;
+      booking[i].startTime = sTime;
+      booking[i].endTime = eTime; 
+    }
+    
 
     const body = JSON.stringify(booking);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -270,10 +274,14 @@ export class BookingService
 
     return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/' + idBooking.toString(), options);
   }
-  cancelBooking(idBooking: number)
+  cancelBooking(idBooking: number, withClientNotification: boolean = false)
   {
+    let params = new HttpParams();
+    params = params.append('withClientNotification', withClientNotification.toString());
+
     let options = {
-      headers: null
+      headers: null,
+      params: params
     };
 
     return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/CancelBooking/' + idBooking.toString(), options);
