@@ -144,7 +144,7 @@
     </div>
     <footer>
       <div>
-        <re-captcha #captchaRef="reCaptcha" (resolved)="onResolvedCaptcha($event)" siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
+        <re-captcha *ngIf="!isAdminAddBooking" #captchaRef="reCaptcha" (resolved)="onResolvedCaptcha($event)" siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
       </div>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="submit" [disabled]="!confirmBooking.valid || !validCaptcha" class="btn btn-success">

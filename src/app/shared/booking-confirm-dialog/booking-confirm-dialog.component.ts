@@ -37,7 +37,7 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
 
   @Input() resetCaptcha: boolean = false;
 
-  validCaptcha: boolean = false;
+  validCaptcha: boolean = true;
 
   public COMP_IMG = require("../../img/company.jpg");
   
@@ -103,7 +103,8 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
       'firstName': new FormControl(this.currentUser != null && !this.isAdminAddBooking ? this.currentUser.firstName : '', Validators.required),
       'lastName': new FormControl(this.currentUser != null && !this.isAdminAddBooking ? this.currentUser.lastName : '', Validators.required),
       'phone': new FormControl(this.currentUser != null && !this.isAdminAddBooking ? this.currentUser.phone : '', Validators.required),
-      'email': new FormControl(this.currentUser != null && !this.isAdminAddBooking ? this.currentUser.email : ''),
+      'email': new FormControl(this.currentUser != null && !this.isAdminAddBooking ? this.currentUser.email : '',
+        Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")),
       'price': new FormControl(serviceWithPrice != null ? serviceWithPrice.defaultServicePrice + ' RON' : ''),
       'startDate': new FormControl(date),
       'endDate': new FormControl(endDate),

@@ -96,7 +96,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
         else
           this.bookings = <Booking[]>gro.objList.filter(b => b.phone == this.phone);
 
-        this.bookings = <Booking[]>gro.objList.filter(b =>
+        this.bookings = this.bookings.filter(b =>
         {
           let t: boolean = true;
 
