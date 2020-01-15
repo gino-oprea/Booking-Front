@@ -44,7 +44,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit
   {
     this.passwordForm = new FormGroup({
       'currentPassword': new FormControl('', Validators.required, this.currentPasswordValidator.bind(this)),
-      'newPassword': new FormControl('', Validators.required),
+      'newPassword': new FormControl('', [Validators.required, Validators.pattern("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,})")]),
       'confirmNewPassword': new FormControl('', Validators.required)
     }, this.confirmPasswordValidator.bind(this));
   }

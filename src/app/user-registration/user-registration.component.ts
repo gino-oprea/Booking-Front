@@ -50,7 +50,7 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
         this.emailExistsValidator.bind(this)),
       'phone': new FormControl('', Validators.required),
       'passwords': new FormGroup({
-        'password': new FormControl('', Validators.required),
+        'password': new FormControl('', [Validators.required, Validators.pattern("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,})")]),
         'confirmpassword': new FormControl('', Validators.required)
       }, this.confirmPasswordValidator.bind(this))
     });
