@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, identity } from 'rxjs';
+import { Observable} from 'rxjs';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { AppSettings } from './app-settings';
 

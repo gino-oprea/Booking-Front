@@ -14,7 +14,7 @@
 <p-dialog header="Confirm Booking" (onHide)="onCloseConfirmDialog()" [(visible)]="displayDialogConfirmBooking" 
 [responsive]="true" showEffect="fade" [modal]="true"
   width="700">
-  <bf-booking-confirm-dialog [isBookingByDay]="showCalendarBooking" [selectedDayTime]="selectedBookingHourTransferObject?selectedBookingHourTransferObject.workingDay:null"
+  <bf-booking-confirm-dialog [resetCaptcha]="resetCaptcha" [isBookingByDay]="showCalendarBooking" [selectedDayTime]="selectedBookingHourTransferObject?selectedBookingHourTransferObject.workingDay:null"
   [autoAssignedEntityCombination]="autoAssignedEntityCombination" [idCompany]="idCompany" (bookingSaved)="bookingSaved($event)"></bf-booking-confirm-dialog>
 </p-dialog>
 

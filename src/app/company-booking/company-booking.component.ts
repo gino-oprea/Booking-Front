@@ -36,7 +36,7 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit {
   selectedBookingHourTransferObject: SelectBookingHourTransferObject;// = new SelectBookingHourTransferObject(new WorkingDay('', new Date()), []);
   autoAssignedEntityCombination: AutoAssignedEntityCombination;
   //entitiesWithLevel: EntityWithLevel[];
-
+  resetCaptcha: boolean = false;
 
 
   constructor(private injector: Injector,
@@ -104,7 +104,8 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit {
     this.displayDialogConfirmBooking = false;
     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component
   }
-  onSelectBookingHour(value: SelectBookingHourTransferObject) {
+  onSelectBookingHour(value: SelectBookingHourTransferObject) 
+  {
     this.selectedBookingHourTransferObject = value//JSON.parse(JSON.stringify(value));
     this.getAutoAssignedEntities();
   }
@@ -149,7 +150,9 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit {
       });
     }
   }
-  onCloseConfirmDialog() {
+  onCloseConfirmDialog() 
+  {
+    this.resetCaptcha = !this.resetCaptcha;
     //let idEntities: number[] = this.autoAssignedEntityCombination.entityCombination.map(e => e.id);
 
     let startTime: Date;

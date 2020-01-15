@@ -14,6 +14,7 @@ import { debounceTime } from 'rxjs/operators';
 import { User } from '../../objects/user';
 import { GenericResponseObject } from '../../objects/generic-response-object';
 import { ImageService } from '../../app-services/image.service';
+import { RecaptchaService } from '../../app-services/recaptcha.service';
 
 
 @Component({
@@ -34,17 +35,22 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
   
   @Input() autoAssignedEntityCombination: AutoAssignedEntityCombination;
 
+  @Input() resetCaptcha: boolean = false;
+
+  validCaptcha: boolean = false;
+
   public COMP_IMG = require("../../img/company.jpg");
   
   phoneChangeSubscription: Subscription;
-  emailChangeSubscription: Subscription;
+  emailChangeSubscription: Subscription;  
 
   confirmBooking: FormGroup;
   en: any;
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
-  private imageService:ImageService)
+    private imageService: ImageService,
+    private recaptchaService: RecaptchaService)
   {
     super(injector, []);
     this.site = WebSites.Front;
@@ -66,6 +72,9 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
   }
   ngOnChanges(changes: SimpleChanges): void 
   {   
+    if (changes['resetCaptcha'])
+      this.validCaptcha = false;
+      
     if (this.autoAssignedEntityCombination != null)
       this.initConfirmBookingForm();
   }
@@ -146,6 +155,8 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
 
   saveBooking()
   {
+    
+
     //console.log(this.confirmBooking.value);
     let bookingEntities: BookingEntity[] = [];
     for (let i = 0; i < this.autoAssignedEntityCombination.entityCombination.length; i++) 
@@ -194,7 +205,7 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
         message = new Message(MessageType.Success, 'booking saved');
       }
       
-      this.bookingSaved.emit(message);
+      this.bookingSaved.emit(message);      
     },
       err =>
       {
@@ -202,24 +213,19 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
         //this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
         message = new Message(MessageType.Error, err.status + ' ' + err.statusText);
 
-        this.bookingSaved.emit(message);
+        this.bookingSaved.emit(message);        
       });    
+  }  
+
+  onResolvedCaptcha(captchaResponse: string)
+  {
+    //console.log(`Resolved captcha with response: ${captchaResponse}`);
+    this.recaptchaService.checkCaptchaResponse(captchaResponse).subscribe(gro =>
+    {
+      if (gro.error != '')
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
+      else
+        this.validCaptcha = JSON.parse(gro.objList[0]).success;
+    });
   }
-  // loadEntityImages()
-  // {
-  //   this.imageService.getEntityImages(this.selectedEntity.id).subscribe(result =>
-  //   {
-  //     let gro = <GenericResponseObject>result;
-  //     if (gro.error != '')
-  //     {
-  //       this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-  //       //this.showPageMessage('error', 'Error', gro.error);
-  //     }
-  //     else
-  //     {
-  //       this.images = <Image[]>gro.objList;
-  //     }
-  //   },
-  //     err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting entities images', ''));
-  // }
 }

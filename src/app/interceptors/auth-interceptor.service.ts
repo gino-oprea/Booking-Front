@@ -12,13 +12,16 @@ export class AuthInterceptorService implements HttpInterceptor
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
   {
-    let token = this.loginService.getToken();
-    if (token != null)
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token.access_token}`
-        }
-      });
+    if (req.url.indexOf('ReCaptcha') == -1)
+    {
+      let token = this.loginService.getToken();
+      if (token != null)
+        req = req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token.access_token}`
+          }
+        });
+    }
 
     return next.handle(req);
   }

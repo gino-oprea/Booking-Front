@@ -56,6 +56,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { TableModule } from 'primeng/table';
 import { SharedModule } from './shared/shared.module';
 import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.guard';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.g
     MyAccountModule,
     MyCompaniesModule,
     BackModule,
-    CompanyBookingModule    
+    CompanyBookingModule,
+    RecaptchaModule
   ],
   providers: [
     ConfirmationService,

@@ -17,6 +17,8 @@ import { FullCalendarComponent } from './full-calendar/full-calendar.component';
 import { BookingFilter2Component } from './booking-filter2/booking-filter2.component';
 import { GenericConfirmDialogComponent } from './generic-confirm-dialog/generic-confirm-dialog.component';
 
+import { RecaptchaModule } from 'ng-recaptcha';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -27,7 +29,9 @@ import { GenericConfirmDialogComponent } from './generic-confirm-dialog/generic-
     ScheduleModule,
     CalendarModule,
     DialogModule,
-    DragDropModule
+    DragDropModule,
+
+    RecaptchaModule
   ],
   declarations: [
     BookingFilterComponent,
