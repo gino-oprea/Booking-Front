@@ -1,15 +1,28 @@
-
 <div class="container-fluid" style="height: 100%;">
-<div class="row">
-  <div class="col-md-12" style="padding: 0px">
-    <bf-header></bf-header>
+  <div class="row">
+    <div class="col-md-12" style="padding: 0px">
+      <bf-header></bf-header>
+    </div>
   </div>
-</div>
-<div class="row" style="height:80%;">  
-  <div class="col-md-12" style="height: 100%">
-    <router-outlet></router-outlet>
+  <div class="row" style="height:80%;">
+    <div class="col-md-12" style="height: 100%">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-</div>
+  <div *ngIf="showTermsAndConditionsDiv" class="footer">
+    <p>
+      Acest site foloseste cookie-uri pentru a imbunatati experienta utilizatorilor. Continuarea navigarii pe site
+      implica
+      acceptarea 
+      <a [routerLink]="['/cookiepolicy']" routerLinkActive="selectedCategory"><b style="color: red;"> politicii de utilizare a cookie-urilor</b> </a>
+      ,
+      <a [routerLink]="['/gdpr']" routerLinkActive="selectedCategory"><b style="color: red;"> politicii de prelucrare a datelor</b> </a>
+      si a 
+      <a [routerLink]="['/termsconditions']" routerLinkActive="selectedCategory"><b style="color: red;"> termenilor si conditiilor</b> </a>
+      </p>
+
+      <i style="position: absolute;right: 40px;top: 9px; cursor: pointer;" class="fa fa-close" (click)="showTermsAndConditionsDiv=false"></i>
+  </div>
 </div>
 
 <p-growl [value]="pageMsgs"></p-growl>
