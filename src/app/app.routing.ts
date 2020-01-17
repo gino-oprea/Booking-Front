@@ -15,15 +15,13 @@ import { CompanyDetailsComponent } from './company-details/company-details.compo
 import { UserLoginComponent } from './user-login/user-login.component';
 import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.guard';
 import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
-import { CookiePolicyComponent } from './terms-conditions/cookie-policy/cookie-policy.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions/terms-conditions.component';
 
 const APP_ROUTES = [
     { path: '', redirectTo: 'searchcompany', pathMatch: 'full' },
     //{ path: '', component: SearchCompanyComponent },    
 
-    { path: 'gdpr', component: GdprComponent },
-    { path: 'cookiepolicy', component: CookiePolicyComponent },
+    { path: 'gdpr', component: GdprComponent },    
     { path: 'termsconditions', component: TermsConditionsComponent },
 
     { path: 'login', component: UserLoginComponent, canActivate: [NonAuthGuard] },

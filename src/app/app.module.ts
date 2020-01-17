@@ -57,7 +57,6 @@ import { TableModule } from 'primeng/table';
 import { SharedModule } from './shared/shared.module';
 import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.guard';
 import { RecaptchaModule } from 'ng-recaptcha';
-import { CookiePolicyComponent } from './terms-conditions/cookie-policy/cookie-policy.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions/terms-conditions.component';
 import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
 
@@ -68,8 +67,7 @@ import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
     HeaderComponent,
     MyBookingsComponent,
     CompanyDetailsComponent,
-    UserLoginComponent,
-    CookiePolicyComponent,
+    UserLoginComponent,    
     TermsConditionsComponent,
     GdprComponent
   ],
