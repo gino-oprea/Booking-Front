@@ -46,6 +46,8 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
   displayConfirmAddCompany: boolean = false;
   confirmAddCompanyMessage: string = "This will create a new company. Are you sure?";
+
+  resetCaptcha: boolean = true;
   
   constructor(private injector: Injector,
     private confirmationService: ConfirmationService,
@@ -353,5 +355,9 @@ export class HeaderComponent extends BaseComponent implements OnInit
         }
       },
         err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding company', ''));
+  }
+  onCloseAddCompanyDialog()
+  {
+    this.resetCaptcha = !this.resetCaptcha;
   }
 }

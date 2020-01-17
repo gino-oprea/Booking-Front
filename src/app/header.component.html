@@ -188,9 +188,9 @@
   </footer>
 </p-dialog>
 
-<p-dialog header="Confirm" [(visible)]="displayConfirmAddCompany" [responsive]="true" showEffect="fade" [modal]="true"
+<p-dialog header="Confirm" [(visible)]="displayConfirmAddCompany" (onHide)="onCloseAddCompanyDialog()" [responsive]="true" showEffect="fade" [modal]="true"
   width="350">
-  <bf-generic-confirm-dialog [confirmMessage]="confirmAddCompanyMessage" (onConfirm)="onConfirmAddCompany($event)">
+  <bf-generic-confirm-dialog [confirmMessage]="confirmAddCompanyMessage" (onConfirm)="onConfirmAddCompany($event)" [useCaptcha]="true" [resetCaptcha]="resetCaptcha">
   </bf-generic-confirm-dialog>
 </p-dialog>
 
