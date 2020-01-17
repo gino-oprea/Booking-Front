@@ -16,6 +16,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.guard';
 import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions/terms-conditions.component';
+import { ContactComponent } from './contact/contact.component';
 
 const APP_ROUTES = [
     { path: '', redirectTo: 'searchcompany', pathMatch: 'full' },
@@ -23,6 +24,7 @@ const APP_ROUTES = [
 
     { path: 'gdpr', component: GdprComponent },    
     { path: 'termsconditions', component: TermsConditionsComponent },
+    { path: 'contact', component: ContactComponent },
 
     { path: 'login', component: UserLoginComponent, canActivate: [NonAuthGuard] },
     { path: 'register', component: UserRegistrationComponent, canActivate: [NonAuthGuard] },

@@ -28,6 +28,9 @@
       <button class="btn btn-primary from-control" (click)="doSearch()" style="margin-left: 5px;"><i
           class="fa fa-search"></i></button>
       <ul class="nav navbar-nav navbar-right">
+        <li style="margin-top: 5px;">
+        <a [routerLink]="['/contact']" routerLinkActive="selectedCategory"><b style="color: #4287f5;">Contact</b></a>
+        </li>
         <li style="margin-top: 10px;">
           <button class="btn btn-success from-control" style="margin-right: 5px;" (click)="onAddNewCompany()"><i
               class="fa fa-plus"></i> Create new

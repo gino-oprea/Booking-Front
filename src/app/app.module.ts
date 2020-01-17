@@ -59,6 +59,7 @@ import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.g
 import { RecaptchaModule } from 'ng-recaptcha';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions/terms-conditions.component';
 import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
+import { ContactComponent } from './contact/contact.component';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
     CompanyDetailsComponent,
     UserLoginComponent,    
     TermsConditionsComponent,
-    GdprComponent
+    GdprComponent,
+    ContactComponent
   ],
   imports: [
     routing,

@@ -1,0 +1,86 @@
+<legend style="margin-bottom: 10px;">Contact</legend>
+<div class="row" style="height: 100%;">
+  <div class="col-md-12" style="height: 100%;">
+   
+    <div style="height: 95%;padding: 5px;">
+      <div class="row" style="margin-right: 0px;height: 100%;">
+        <div class="col-md-6" style="height: 100%;">
+          <form class="form-horizontal" style="height: 100%" id="user-form" [formGroup]="contactForm"
+            (ngSubmit)="onSubmit()">
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="name">First Name:</label>
+              <div class="col-md-10">
+                <input type="text" id="firstName" formControlName="firstName" [ngClass]="{'valid-control':contactForm.controls['firstName'].valid,
+                        'invalid-control':!contactForm.controls['firstName'].valid}" class="form-control">
+              </div>
+            </div>
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="name">Last Name:</label>
+              <div class="col-md-10">
+                <input type="text" id="lastName" formControlName="lastName" [ngClass]="{'valid-control':contactForm.controls['lastName'].valid,
+                                    'invalid-control':!contactForm.controls['lastName'].valid}" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="name">E-mail:</label>
+              <div class="col-md-10">
+                <input type="text" id="email" formControlName="email" [ngClass]="{'valid-control':contactForm.controls['email'].valid,
+                                                'invalid-control':!contactForm.controls['email'].valid}"
+                  class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="name">Phone:</label>
+              <div class="col-md-10">
+                <input type="text" id="phone" formControlName="phone" [ngClass]="{'valid-control':contactForm.controls['phone'].valid,
+                                                            'invalid-control':!contactForm.controls['phone'].valid}"
+                  class="form-control">
+              </div>
+            </div>
+           
+
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="subject">Subject:</label>
+              <div class="col-md-10">                
+                <select formControlName="subject" style="height: 100%;width: 100%;">
+                  <option value="Feedback">Feedback</option>
+                  <option value="Request">Request</option>
+                  <option value="Complaint">Complaint</option>
+                  <option value="Suggestion">Suggestion</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>   
+            
+            <div class="form-group" style="height: 15%;">
+              <label class="col-md-2 control-label" for="message">Message:</label>
+              <div class="col-md-10" style="height: 100%">
+                <textarea id="message" [ngClass]="{'valid-control':contactForm.controls['message'].valid,
+                                                'invalid-control':!contactForm.controls['message'].valid}"
+                  formControlName="message" type="text" class="form-control input-md"
+                  style="height: 100%;padding: 3px;resize: none;"></textarea>
+              </div>
+            </div>
+            
+            <div style="margin-left: 170px;">
+              <re-captcha #captchaRef="reCaptcha" (resolved)="onResolvedCaptcha($event)"
+                siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
+            </div>
+
+            <div class="form-group" style="height: 6%;">
+              <label class="col-md-2 control-label" for="btnSubmit"></label>
+              <div class="col-md-10">
+                <button [disabled]="!contactForm.valid || !validCaptcha" type="submit" id="btnSubmit"
+                  class="btn btn-success from-control" style="width: 100%">
+                  <i class="fa fa-save"></i> Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>        
+      </div>
+    </div>    
+
+<p-growl [value]="pageMsgs"></p-growl>
