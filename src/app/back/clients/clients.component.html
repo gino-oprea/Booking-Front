@@ -51,8 +51,8 @@
   </div>
 </div>
 
-<p-dialog header="Latest bookings" [(visible)]="displayLatestBookings" [responsive]="true" showEffect="fade"
-  [modal]="true" [style]="{width: '900px',  height: '500px'}" [contentStyle]="{'min-height':'500px'}">
+<p-dialog appendTo="body" header="Latest bookings" [(visible)]="displayLatestBookings" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{width: '900px',  height: '500px'}" [contentStyle]="{'min-height':'500px'}">
   <bf-bookings-history [isDialog]="true" [phone]="selectedPhone"></bf-bookings-history>
 </p-dialog>
 

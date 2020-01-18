@@ -78,7 +78,7 @@
 </div>
 
 <p-dialog header="Change Status" [(visible)]="displayStatusDialog" [responsive]="true" showEffect="fade" [modal]="true"
-  width="400">
+  appendTo="body" width="400">
   <div>
     <button class="btn btn-success" (click)="setBookingStatus(2)">
       <i class="fa fa-check"> Honored</i>
