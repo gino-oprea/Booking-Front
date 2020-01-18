@@ -86,16 +86,16 @@ export class LevelsComponent extends BaseComponent implements OnInit
 
   ngOnInit() 
   {
-    this.logAction(this.idCompany, false, Actions.View, '', '');
+    super.ngOnInit();
   }
   loadDurationArray(type: DurationType)
   {
-    this.durationArray = CommonServiceMethods.getDurationArray(type);    
+    this.durationArray = CommonServiceMethods.getDurationArray(type);
     if (this.durationArray.find(n => n.value.toString() == this.addLevelForm.controls['duration'].value) == null)
       this.addLevelForm.controls['duration'].setValue(this.durationArray[0].value);
   }
 
-  loadLevels(idLevel:string = null)
+  loadLevels(idLevel: string = null)
   {
     this.levelsService.getLevels(this.idCompany).subscribe(result =>
     {
@@ -388,7 +388,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
           else
           {
             let idLevelAdded = gro.objList[0];
-            this.logAction(this.idCompany, false, Actions.Add, '', 'add level', true, 'Level added');
+            this.logAction(this.idCompany, false, Actions.Add, '', 'add level ' + newLevel.levelName_RO, true, 'Level added');
             //one time subscription - trebuie facut reload la levels abia dupa ce se emite noul token cu claim-urile corecte
             this.loginService.loginSubject.pipe(first()).subscribe(login =>
             {
@@ -426,7 +426,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           }
           else
           {
-            this.showPageMessage('success', 'Success', 'Level updated');
+            ///this.showPageMessage('success', 'Success', 'Level updated');
+            this.logAction(this.idCompany, false, Actions.Edit, '', 'edit level ' + levelToUpdate.levelName_RO, true, 'Level updated');
             this.loadLevels();
           }
         },
@@ -456,7 +457,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.showPageMessage('success', 'Success', 'Level removed');
+        //this.showPageMessage('success', 'Success', 'Level removed');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'Remove level ' + this.levels.find(l => l.id.toString() == this.selectedLevel), true, 'Level removed');
         this.loadLevels();
       }
     },
@@ -495,7 +497,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           }
           else
           {
-            this.showPageMessage('success', 'Success', 'Level characteristic added');
+            //this.showPageMessage('success', 'Success', 'Level characteristic added');
+            this.logAction(this.idCompany, false, Actions.Add, '', 'add level characteristic ' + newCharacteristic.characteristicName_RO, true, 'Level characteristic added');
             this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
           }
         },
@@ -523,7 +526,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           }
           else
           {
-            this.showPageMessage('success', 'Success', 'Level characteristic updated');
+            //this.showPageMessage('success', 'Success', 'Level characteristic updated');
+            this.logAction(this.idCompany, false, Actions.Edit, '', 'edit level characteristic' + characteristicToUpdate.characteristicName_RO, true, 'Characteristic updated');
             this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
           }
         },
@@ -546,7 +550,9 @@ export class LevelsComponent extends BaseComponent implements OnInit
         }
         else
         {
-          this.showPageMessage('success', 'Success', 'Characteristic removed');
+          //this.showPageMessage('success', 'Success', 'Characteristic removed');
+          this.logAction(this.idCompany, false, Actions.Delete, '', 'Remove level characteristic '
+            + this.selectedLevelCharacteristic.characteristicName_RO, true, 'Level characteristic removed');
           this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
         }
       },
@@ -579,7 +585,8 @@ export class LevelsComponent extends BaseComponent implements OnInit
           }
           else
           {
-            this.showPageMessage('success', 'Success', 'Entity added');
+            //this.showPageMessage('success', 'Success', 'Entity added');
+            this.logAction(this.idCompany, false, Actions.Add, '', 'add entity ' + newEntity.entityName_RO, true, 'Entity added');
             this.loadEntities(parseInt(this.selectedLevel));
             this.autoLogin();
           }

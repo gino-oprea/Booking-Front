@@ -107,11 +107,17 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
     this.bookingService.removeBooking(this.selectedBooking.id).subscribe(gro =>
     {
       if (gro.error != '')
-      {        
+      {
         this.bookingRemoved.emit({ idBooking: null, error: gro.error });
       }
       else
-      {       
+      {
+        let bookingLogInfo = this.selectedBooking.firstName + " " + this.selectedBooking.lastName + " "
+          + new Date(this.selectedBooking.startDate).toDateString() + " "
+          + new Date(this.selectedBooking.startTime).toTimeString();
+
+        this.logAction(this.idCompany, false, Actions.Delete, "", "Booking removed: " + bookingLogInfo);
+
         this.bookingRemoved.emit({ idBooking: this.selectedBooking.id, error: null });
         this.removeFromBookingsDialog(this.selectedBooking.id);
       }
@@ -122,11 +128,17 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
     this.bookingService.cancelBooking(this.selectedBooking.id, true).subscribe(gro =>
     {
       if (gro.error != '')
-      {        
+      {
         this.bookingCanceled.emit({ idBooking: null, error: gro.error });
       }
       else
-      {        
+      {
+        let bookingLogInfo = this.selectedBooking.firstName + " " + this.selectedBooking.lastName + " "
+          + new Date(this.selectedBooking.startDate).toDateString() + " "
+          + new Date(this.selectedBooking.startTime).toTimeString();
+
+        this.logAction(this.idCompany, false, Actions.Cancel, '', 'Booking canceled: ' + bookingLogInfo);
+
         this.bookingCanceled.emit({ idBooking: this.selectedBooking.id, error: null });
         this.removeFromBookingsDialog(this.selectedBooking.id);
       }
@@ -142,7 +154,11 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, "", "", true, "Booking honored");
+        let bookingLogInfo = this.selectedBooking.firstName + " " + this.selectedBooking.lastName + " "
+          + new Date(this.selectedBooking.startDate).toDateString() + " "
+          + new Date(this.selectedBooking.startTime).toTimeString();
+
+        this.logAction(this.idCompany, false, Actions.Edit, "", "Booking honored: " + bookingLogInfo);
         this.selectedBooking.idStatus = BookingStatus.Honored;
       }
     });
@@ -177,6 +193,12 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       }
       else
       {
+        let bookingLogInfo = this.selectedBooking.firstName + " " + this.selectedBooking.lastName + " "
+          + new Date(this.selectedBooking.startDate).toDateString() + " "
+          + new Date(this.selectedBooking.startTime).toTimeString();
+
+        this.logAction(this.idCompany, false, Actions.Edit, "", "Booking edited: " + bookingLogInfo);
+
         this.bookingMoved.emit({ idBooking: this.selectedBooking.id, error: null });
         this.removeFromBookingsDialog(this.selectedBooking.id);
       }

@@ -30,9 +30,9 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
 
 
   constructor(private injector: Injector,
-    private levelsService: LevelsService,    
+    private levelsService: LevelsService,
     private entitiesService: EntitiesService,
-    private companyUsersService: CompanyUsersService,)
+    private companyUsersService: CompanyUsersService, )
   {
     super(injector, []);
 
@@ -91,7 +91,7 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
         else
           if (this.users.length > 0)
             this.selectedUser = this.users[0];
-        
+
         this.setSelectedUserOnForm();
       }
     });
@@ -138,14 +138,14 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
     this.showLinkedEntities = (this.userForm.controls["role"].value == UserRoleEnum.Employee);
     this.userForm.controls['entity'].setValue(this.selectedUser.linkedIdEntity != null ? this.selectedUser.linkedIdEntity : '0');
   }
-  getUserFromForm():CompanyUser
+  getUserFromForm(): CompanyUser
   {
     let companyUser = new CompanyUser();
     if (this.selectedUser)
     {
       companyUser.id = this.selectedUser.id;
     }
-    
+
     companyUser.firstName = this.userForm.controls['firstName'].value;
     companyUser.lastName = this.userForm.controls['lastName'].value;
     companyUser.phone = this.userForm.controls['phone'].value;
@@ -178,7 +178,7 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
     let companyUser = this.getUserFromForm();
 
     if (this.isAdd)//add
-    {      
+    {
       this.companyUsersService.addCompanyUser(companyUser, this.idCompany).subscribe(gro =>
       {
         if (gro.error != '')
@@ -188,11 +188,11 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
         }
         else
         {
-          this.logAction(this.idCompany, false, Actions.Add, '', 'success', true);
+          this.logAction(this.idCompany, false, Actions.Add, '', 'Add user ' + companyUser.email, true);
           var idUser = <number>gro.objList[0];
           this.loadUsers(idUser);
         }
-       });
+      });
     }
     else//edit
     {
@@ -202,7 +202,7 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
           this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
         else
         {
-          this.logAction(this.idCompany, false, Actions.Add, '', 'success', true);          
+          this.logAction(this.idCompany, false, Actions.Add, '', 'Edit user ' + companyUser.email, true);
         }
         this.loadUsers(companyUser.id);
       });
@@ -211,14 +211,14 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
   onDelete()
   {
     this.companyUsersService.deleteCompanyUser(this.selectedUser.id, this.idCompany).subscribe(gro =>
-    { 
+    {
       if (gro.error != '')
         this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'success', true);      
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'Delete user ' + this.selectedUser.email, true);
         this.loadUsers();
       }
     });
-  }  
+  }
 }

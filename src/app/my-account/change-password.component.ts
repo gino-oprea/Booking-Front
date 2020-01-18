@@ -36,7 +36,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit
 
   ngOnInit()
   {
-    this.logAction(null, false, Actions.View, "", "");
+    super.ngOnInit();
     this.user = this.loginService.getCurrentUser();
     this.initForm();
   }
@@ -55,7 +55,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit
       this.user.password = this.passwordForm.controls['newPassword'].value;;
 
       //update mode 3 -update doar parola
-      this.usersService.editUser(this.user,null, 3).subscribe((response: any) =>
+      this.usersService.editUser(this.user, null, 3).subscribe((response: any) =>
       {
         console.log(response);
         let gro = <GenericResponseObject>response;
@@ -64,8 +64,8 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit
           localStorage.setItem('b_front_auth_user', JSON.stringify(this.user));
           this.loginService.emmitLoginChange();
 
-          this.showPageMessage("success", "Success", this.getCurrentLabelValue('lblYourPasswordChanged'));
-          this.logAction(null, false, Actions.Edit, "", "");
+          //this.showPageMessage("success", "Success", this.getCurrentLabelValue('lblYourPasswordChanged'));
+          this.logAction(null, false, Actions.Edit, "", "Password changed", true, "Password changed");
         }
         else
         {

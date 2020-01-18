@@ -3,9 +3,7 @@
   <div class="col-md-12" style="height: 100%;">
     Search by
     <select style="margin-left: 5px;" [(ngModel)]="searchType">
-      <option value="1">Phone</option>
-      <option value="2">Name</option>
-      <option value="3">E-mail</option>
+      <option *ngFor="let type of searchTypes" [value]="type.id">{{type.value}}</option>
     </select>
     <input type="text" style="margin-left: 5px; width: 150px; padding: 2px;" placeholder="search terms"
       [(ngModel)]="searchString">
@@ -48,8 +46,7 @@
   <div [hidden]="!tabs.edit.active">
     <p *ngIf="timeslotBookings.length==0">No bookings saved yet</p>
     <bf-booking-management-dialog [bookings]="timeslotBookings" [idCompany]="idCompany"
-      (bookingRemoved)="deleteBooking($event)" 
-      (bookingCanceled)="cancelBooking($event)"
+      (bookingRemoved)="deleteBooking($event)" (bookingCanceled)="cancelBooking($event)"
       (bookingMoved)="editBooking($event)"></bf-booking-management-dialog>
 
   </div>

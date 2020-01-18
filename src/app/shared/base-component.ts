@@ -173,35 +173,34 @@ export class BaseComponent implements OnInit, OnDestroy
             log.logInfoMessage = infoMsg;
 
 
-            if (showPageMessage
-                || idAction == Actions.Login
-                || idAction == Actions.Logout
-                || idAction == Actions.View)//doar daca e actiune a userului pe pagina trebuie logat - requesturile la API se logheaza oricum din backend
+            // if (showPageMessage
+            //     || idAction == Actions.Login
+            //     || idAction == Actions.Logout
+            //     || idAction == Actions.View)//doar daca e actiune a userului pe pagina trebuie logat - requesturile la API se logheaza oricum din backend
+            // {
+            this.loggerService.setLog(log).subscribe((data: any) =>
             {
-                this.loggerService.setLog(log).subscribe((data: any) =>
-                {
-                    let gro = <GenericResponseObject>data;
-                    //console.log(gro);
-                },
-                    err => console.log(err));
+                let gro = <GenericResponseObject>data;
+                //console.log(gro);
+            },
+                err => console.log(err));
 
-                if (showPageMessage)
-                {
-                    let severity: string = PageMessageType.Success;
-                    if (isError)
-                        severity = PageMessageType.Error;
-                    if (isWarning)
-                        severity = PageMessageType.Warn;
+            if (showPageMessage)
+            {
+                let severity: string = PageMessageType.Success;
+                if (isError)
+                    severity = PageMessageType.Error;
+                if (isWarning)
+                    severity = PageMessageType.Warn;
 
-                    this.showPageMessage(severity, severity, pageMessage);
-                }
+                this.showPageMessage(severity, severity, pageMessage);
             }
+            // }
         }
         catch (e)
         {
             console.log(e);
         }
-
     }
 
     autoLogin()

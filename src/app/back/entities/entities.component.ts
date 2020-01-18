@@ -205,7 +205,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     }
     else
     {
-      this.logAction(this.idCompany, false, Actions.Search, '', 'load custom working hours');
+      //this.logAction(this.idCompany, false, Actions.Search, '', 'load custom working hours');
       this.customWorkingHours = <WorkingHours[]>gro.objList;
 
       if (isAfterAutoAdd)
@@ -232,7 +232,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'load levels');
+        //this.logAction(this.idCompany, false, Actions.Search, '', 'load levels');
         this.levels = <Level[]>gro.objList;
         if (gro.objList.length > 0)
         {
@@ -253,7 +253,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        //this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
       }
       else
@@ -275,7 +275,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');
+        //this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');
         this.entities = <Entity[]>gro.objList;
         if (gro.objList.length > 0)
         {
@@ -352,7 +352,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'get entity variable working hours idEntity: ' + entityId.toString());
+        //this.logAction(this.idCompany, false, Actions.Search, '', 'get entity variable working hours idEntity: ' + entityId.toString());
         if (gro.objList.length > 0)
         {
           this.variableWorkingHours = <WorkingHours>gro.objList[0];
@@ -969,7 +969,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       else
       {
         let idEntityAdded = gro.objList[0];
-        this.logAction(this.idCompany, false, Actions.Add, '', 'add entity', true, 'Entity added');
+        this.logAction(this.idCompany, false, Actions.Add, '', 'add entity ' + newEntity.entityName_RO, true, 'Entity added');
         //one time subscription - trebuie facut reload la entities abia dupa ce se emite noul token cu claim-urile corecte
         this.loginService.loginSubject.pipe(first()).subscribe(login =>
         {
@@ -999,7 +999,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     }
     else
     {
-      this.logAction(this.idCompany, false, Actions.Search, '', 'load company working hours');
+      //this.logAction(this.idCompany, false, Actions.Search, '', 'load company working hours');
       this.companyWorkingHours = gro.objList[0];
       this.companyWorkingHours.id = 0;
       this.companyWorkingHours.name = 'Company working hours';
@@ -1045,7 +1045,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity idEntity:' + entity.id.toString(), showSuccessMessage, 'Entity saved');
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity ' + entity.entityName_RO, showSuccessMessage, 'Entity saved');
         if (isReloadEntities)
           this.loadEntities(entity.id);
       }
@@ -1070,7 +1070,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       else
       {
         //this.showPageMessage('success', 'Success', 'Entity deleted');
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity ' + this.selectedEntityId, true, 'Entity deleted');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity ' + entity.entityName_RO, true, 'Entity deleted');
         this.loadEntities(null);
       }
 
@@ -1088,7 +1088,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add, '', 'add entity working hours idEntity:' + this.selectedEntityId.toString());
+        this.logAction(this.idCompany, false, Actions.Add, '', 'add entity working hours entity:' + this.selectedEntity.entityName_RO);
         this.loadCustomWorkingHours(null, isAfterAutoAdd);
       }
     },
@@ -1106,7 +1106,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add, '', 'Added entity variable working hours');
+        this.logAction(this.idCompany, false, Actions.Add, '', 'Added entity variable working hours entity:' + this.selectedEntity.entityName_RO);
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding entity variable working hours idEntity: ' + this.selectedEntityId.toString(), ''));
@@ -1363,7 +1363,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           }
           else
           {
-            this.logAction(this.idCompany, false, Actions.Add, '', 'saved entity special day', true, this.getCurrentLabelValue('lblSaved'));
+            this.logAction(this.idCompany, false, Actions.Add, '', 'saved entity special day  entity:' + this.selectedEntity.entityName_RO, true, this.getCurrentLabelValue('lblSaved'));
             //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));            
           }
           this.loadEntitySpecialDays();
@@ -1410,7 +1410,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
               }
               else
               {
-                this.logAction(this.idCompany, false, Actions.Add, '', 'saved entity special day', true, this.getCurrentLabelValue('lblSaved'));
+                this.logAction(this.idCompany, false, Actions.Add, '', 'saved entity special day entity:' + this.selectedEntity.entityName_RO, true, this.getCurrentLabelValue('lblSaved'));
                 //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
               }
               this.loadEntitySpecialDays();
@@ -1439,7 +1439,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'deleted entity special day', true, '');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'deleted entity special day entity:' + this.selectedEntity.entityName_RO, true, '');
         //this.showPageMessage('success', 'Success', '');
         this.loadEntitySpecialDays();
       }

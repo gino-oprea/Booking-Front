@@ -72,7 +72,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
           {
             c.image = result.objList;
           })
-        });        
+        });
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting companies', ''));
@@ -80,10 +80,10 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
 
   ngOnInit()
   {
-    super.ngOnInit();   
+    super.ngOnInit();
   }
 
-  
+
   editCompany(idCompany)
   {
     this.router.navigate(['/company', idCompany, 'generaldetails']);
@@ -92,7 +92,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   {
     let isEnabled = this.selectedCompanyIsEnabled;//e.checked;
     let company = this.selectedCompany;
-    
+
     company.isEnabled = isEnabled;
     //se pun null ca se se updateze doar cele de sus
     company.lat = null;
@@ -109,7 +109,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
       else
       {
         //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
-        this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblSaved'));
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'Toggle company enabled', true, this.getCurrentLabelValue('lblSaved'));
       }
     });
   }
@@ -136,7 +136,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
       this.toggleCompanyEnabled();
     else
       this.selectedCompany.isEnabled = !this.selectedCompany.isEnabled;
-    
+
     this.displayConfirmToggleCompany = false;
   }
 
@@ -170,10 +170,10 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
     this.companyService.updateCompany(company).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
-      if (gro.error != '')              
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);      
-      else      
-        this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblSaved'));      
+      if (gro.error != '')
+        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+      else
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'Toggle company allow online bookings', true, this.getCurrentLabelValue('lblSaved'));
     });
   }
 }

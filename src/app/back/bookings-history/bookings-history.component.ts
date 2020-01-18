@@ -143,6 +143,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   }
   deleteBooking()
   {
+    this.selectedBooking = this.bookings.find(b => b.id == this.idBooking);
+
     this.bookingService.removeBooking(this.idBooking).subscribe(gro =>
     {
       if (gro.error != '')
@@ -151,7 +153,14 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete booking', true, 'Booking deleted');
+        //this.logAction(this.idCompany, false, Actions.Delete, '', 'delete booking', true, 'Booking deleted');
+
+        let bookingLogInfo = this.selectedBooking.firstName + " " + this.selectedBooking.lastName + " "
+          + new Date(this.selectedBooking.startDate).toDateString() + " "
+          + new Date(this.selectedBooking.startTime).toTimeString();
+
+        this.logAction(this.idCompany, false, Actions.Delete, "", "Booking removed: " + bookingLogInfo);
+
         this.loadBookings();
       }
     });
@@ -199,7 +208,13 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
       this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
     else
     {
-      this.logAction(this.idCompany, false, Actions.Edit, "", "", true, logMessage);
+      //this.logAction(this.idCompany, false, Actions.Edit, "", "", true, logMessage);
+      let bookingLogInfo = this.selectedBooking.firstName + " " + this.selectedBooking.lastName + " "
+        + new Date(this.selectedBooking.startDate).toDateString() + " "
+        + new Date(this.selectedBooking.startTime).toTimeString() + " " + logMessage;
+
+      this.logAction(this.idCompany, false, Actions.Edit, "", "Booking edited: " + bookingLogInfo, true);
+
       this.loadBookings();
     }
   }

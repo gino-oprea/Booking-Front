@@ -118,7 +118,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       left: '',
       center: 'title',
       right: 'today,prev,next'
-    };    
+    };
 
     this.mapOptions = {
       center: { lat: 45.951249, lng: 24.793491 },
@@ -438,7 +438,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       else
       {
         //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
-        this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblSaved'));
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'Edit company general details', true, this.getCurrentLabelValue('lblSaved'));
       }
     });
   }
@@ -613,7 +613,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
           }
           else
           {
-            this.logAction(this.idCompany, false, Actions.Edit, '', 'image upload', true, this.getCurrentLabelValue('lblSaved'));
+            this.logAction(this.idCompany, false, Actions.Edit, '', 'Company image upload', true, this.getCurrentLabelValue('lblSaved'));
             //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
             this.loadCompanyImages();
           }

@@ -55,7 +55,6 @@ export class TimetablesComponent extends BaseComponent implements OnInit
   ngOnInit()
   {
     super.ngOnInit();
-    this.logAction(this.idCompany, false, Actions.View, '', '');
 
     this.loadCompanyWorkingHours();
     this.loadEntitiesAndCustomWorkingHours();
@@ -73,7 +72,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'load company working hours');
+        //this.logAction(this.idCompany, false, Actions.Search, '', 'load company working hours');
         this.companyWorkingHours = gro.objList[0];
         this.companyWorkingHours.id = 0;
         this.companyWorkingHours.name = 'Company working hours';
@@ -93,7 +92,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'load company entities');
+        //this.logAction(this.idCompany, false, Actions.Search, '', 'load company entities');
         this.entities = gro.objList;
 
         this.loadCustomWorkingHours(null);
@@ -111,7 +110,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'load custom working hours');
+        //this.logAction(this.idCompany, false, Actions.Search, '', 'load custom working hours');
         this.customWorkingHours = <WorkingHours[]>gro.objList;
 
         if (this.selectedWhId == null)
@@ -198,7 +197,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
         }
         else
         {
-          this.logAction(this.idCompany, false, Actions.Delete, '', 'delete custom working hours ', true, 'Custom working hours removed');
+          this.logAction(this.idCompany, false, Actions.Delete, '', 'delete custom working hours', true, 'Custom working hours removed');
           this.selectedWhId = null;
           this.loadCustomWorkingHours(null);
         }

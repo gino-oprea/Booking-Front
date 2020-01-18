@@ -34,12 +34,13 @@ export class UserActivationComponent extends BaseComponent implements OnInit, On
   ngOnInit()
   {
     super.ngOnInit();
-    
+
     this.subscription = this.route.params.subscribe(
       (params: any) =>
       {
         this.activationKey = params['activationKey'];
-        try {
+        try
+        {
           this.usersService.activateUser(this.activationKey).subscribe((result: User) =>
           {
             if (result.error == '')
@@ -51,6 +52,7 @@ export class UserActivationComponent extends BaseComponent implements OnInit, On
               // localStorage.setItem('b_front_auth_user', JSON.stringify(result));
               // this.loginService.loggedIn = true;
               // this.loginService.emmitLoginChange();
+              this.logAction(this.idCompany, false, Actions.Edit, '', 'User activation ' + result.email);
               this.router.navigate(['/login']);
             }
             else
@@ -69,11 +71,11 @@ export class UserActivationComponent extends BaseComponent implements OnInit, On
       },
       err =>
       {
-        this.logAction(null, true,Actions.Edit, "http error while getting route activation key", "");
+        this.logAction(null, true, Actions.Edit, "http error while getting route activation key", "");
         console.log(err);
       }
     );
-    
+
   }
 
   ngOnDestroy(): void 

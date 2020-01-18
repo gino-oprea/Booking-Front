@@ -25,7 +25,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
-  private imageService:ImageService)
+    private imageService: ImageService)
   {
     super(injector,
       [
@@ -40,7 +40,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
 
   ngOnInit()
   {
-    this.logAction(null, false, Actions.View, "", "");
+    super.ngOnInit();
 
     this.getBookings();
   }
@@ -131,7 +131,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");    
+        this.logAction(this.idCompany, false, Actions.Cancel, "", "Booking canceled", true, "Booking canceled");
         this.getBookings();
       }
     });

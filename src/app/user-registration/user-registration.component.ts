@@ -20,7 +20,7 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
   myForm: FormGroup;
   pageMsgs: Message[] = [];
 
-  constructor(private injector:Injector) 
+  constructor(private injector: Injector) 
   {
     super(injector,
       [
@@ -58,12 +58,13 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
 
   ngOnInit()
   {
-    this.logAction(null, false, Actions.View, "", "");
+    super.ngOnInit();
   }
 
   onSubmit()
   {
-    try {
+    try
+    {
       //console.log(this.myForm);
       let user = new User();
       user.email = this.myForm.controls['email'].value;
@@ -79,11 +80,12 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
       {
         console.log(response);
         let gro = response;
-        if (gro.info.indexOf('success') > -1) {
-          this.showPageMessage("success","Success", this.getCurrentLabelValue('lblActivationLinkSent'));
+        if (gro.info.indexOf('success') > -1)
+        {
+          this.showPageMessage("success", "Success", this.getCurrentLabelValue('lblActivationLinkSent'));
           this.myForm.reset();
 
-          this.logAction(null, false, Actions.Add, "", "");
+          this.logAction(null, false, Actions.Add, "", "User registered " + user.email);
           //alert('success')
         }
         else
@@ -107,11 +109,13 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
 
   confirmPasswordValidator(group: FormGroup): { [s: string]: boolean }
   {
-    if (group.controls['password'].value === group.controls['confirmpassword'].value) {
+    if (group.controls['password'].value === group.controls['confirmpassword'].value)
+    {
       this.passwordsMatch = true;
       return null;
     }
-    else {
+    else
+    {
       this.passwordsMatch = false;
       return { pass: true };
     }
@@ -124,11 +128,13 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
       {
         this.usersService.getUserByEmailForUserRegistration(control.value).subscribe((data: User) =>
         {
-          if (data.error === 'User does not exist') {
+          if (data.error === 'User does not exist')
+          {
             this.emailExists = false;
             resolve(null);
           }
-          else {
+          else
+          {
             this.emailExists = true;
             resolve({ 'invalid': true });
           }
@@ -139,6 +145,6 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
     );
     return promise;
   }
-  
-  
+
+
 }

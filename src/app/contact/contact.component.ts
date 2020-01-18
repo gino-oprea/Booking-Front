@@ -15,14 +15,14 @@ import { RecaptchaService } from '../app-services/recaptcha.service';
 export class ContactComponent extends BaseComponent implements OnInit 
 {
   contactForm: FormGroup;
-  user: User; 
+  user: User;
 
   validCaptcha: boolean = false;
 
   constructor(private injector: Injector,
     private contactService: ContactService,
-  private recaptchaService:RecaptchaService)
-  { 
+    private recaptchaService: RecaptchaService)
+  {
     super(injector, []);
     this.site = WebSites.Front;
     this.pageName = "Contact";
@@ -41,14 +41,14 @@ export class ContactComponent extends BaseComponent implements OnInit
       'lastName': new FormControl(this.user != null ? this.user.lastName : '', Validators.required),
       'phone': new FormControl(this.user != null ? this.user.phone : '', Validators.required),
       'email': new FormControl(this.user != null ? this.user.email : '', [Validators.required,
-        Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]),
-      
+      Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]),
+
       'subject': new FormControl('Feedback', Validators.required),
       'message': new FormControl('', Validators.required),
-    });    
+    });
   }
 
-  getContactFromForm():ContactForm
+  getContactFromForm(): ContactForm
   {
     let contact: ContactForm = {
       firstName: this.contactForm.controls['firstName'].value,
@@ -65,11 +65,11 @@ export class ContactComponent extends BaseComponent implements OnInit
   onSubmit()
   {
     this.contactService.submitContactForm(this.getContactFromForm()).subscribe(gro =>
-    { 
+    {
       if (gro.error != '')
         this.logAction(null, true, Actions.Add, gro.error, gro.errorDetailed, true);
       else
-        this.logAction(null, false, Actions.Add, '', '', true, 'Message sent');
+        this.logAction(null, false, Actions.Add, '', 'Message sent', true, 'Message sent');
     });
   }
 

@@ -48,6 +48,12 @@ export class BookingsComponent extends BaseComponent implements OnInit
   tabs: any;
   isAddTabEnabled: boolean = true;
 
+  searchTypes: { id: number, value: string }[] = [
+    { id: 1, value: 'Phone' },
+    { id: 2, value: 'Name' },
+    { id: 3, value: 'E-mail' },
+  ];
+
   constructor(private injector: Injector,
     private bookingService: BookingService,
     private imageService: ImageService,
@@ -155,7 +161,7 @@ export class BookingsComponent extends BaseComponent implements OnInit
           }
           else
           {
-            this.logAction(this.idCompany, false, Actions.Add, '', 'auto assign booking');
+            //this.logAction(this.idCompany, false, Actions.Add, '', 'auto assign booking');
             if (gro.objList != null)
             {
               this.autoAssignedEntityCombination = <AutoAssignedEntityCombination>gro.objList[0];
@@ -226,6 +232,8 @@ export class BookingsComponent extends BaseComponent implements OnInit
     if (this.searchString.trim() != "")
     {
       this.bookingSearchFilter = new BookingSearchFilter(this.searchString, this.searchType);
+      this.logAction(this.idCompany, false, Actions.Search, '',
+        'Search booking, search filter: ' + this.searchString + ' search type: ' + this.searchTypes.find(s => s.id == this.searchType).value);
     }
   }
 
@@ -335,22 +343,27 @@ export class BookingsComponent extends BaseComponent implements OnInit
 
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Delete, '', '', true, 'Booking removed');
+      //this.logAction(this.idCompany, false, Actions.Delete, '', 'Booking removed', true, 'Booking removed');
+      this.showPageMessage("success", "success", 'Booking removed');
     }
     else
-      this.logAction(this.idCompany, true, Actions.Delete, event.error, event.error, true);
+      //this.logAction(this.idCompany, true, Actions.Delete, event.error, event.error, true);
+      this.showPageMessage("success", "success", 'Success');
+
   }
   cancelBooking(event)
   {
     this.getTimeslotBookings(this.selectedBookingDate);
     this.selectedFilter = JSON.parse(JSON.stringify(this.selectedFilter));//this triggers onChanges in booking-hours component  
-    
+
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Cancel, '', '', true, 'Booking canceled');
+      //this.logAction(this.idCompany, false, Actions.Cancel, '', 'Booking canceled', true, 'Booking canceled');
+      this.showPageMessage("success", "success", 'Booking canceled');
     }
     else
       this.logAction(this.idCompany, true, Actions.Cancel, event.error, event.error, true);
+
   }
   editBooking(event)
   {
@@ -359,7 +372,8 @@ export class BookingsComponent extends BaseComponent implements OnInit
 
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+      //this.logAction(this.idCompany, false, Actions.Edit, '', 'Booking edited', true, 'Booking edited');
+      this.showPageMessage("success", "success", 'Booking edited');
     }
     else
       this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);

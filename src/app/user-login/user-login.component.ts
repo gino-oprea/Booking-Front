@@ -40,7 +40,7 @@ export class UserLoginComponent extends BaseComponent implements OnInit
       'email': new FormControl('', Validators.required),
       'password': new FormControl('', Validators.required)
     });
-    
+
   }
 
   onSubmit()
@@ -49,7 +49,10 @@ export class UserLoginComponent extends BaseComponent implements OnInit
       this.myForm.controls['password'].value, this).subscribe((token: Token) =>
       {
         if (token)
+        {
+          this.logAction(null, false, Actions.Login, "", "Login user " + this.myForm.controls['email'].value);
           this.router.navigate(['/searchcompany']);
+        }
         else
           this.logAction(null, true, Actions.Login, 'Invalid login', '', true);
       },

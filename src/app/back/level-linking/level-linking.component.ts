@@ -60,7 +60,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
 
   ngOnInit()
   {
-    this.logAction(this.idCompany, false, Actions.View, '', '');
+    super.ngOnInit()
     this.loadTree();
   }
   loadTree()
@@ -121,7 +121,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');
+        //this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');
 
         this.entities = <Entity[]>gro.objList;
         if (gro.objList.length > 0)
@@ -149,7 +149,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
         }
         else
         {
-          this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');
+          //this.logAction(this.idCompany, false, Actions.Search, '', 'load entities');
           this.nextEntities = <Entity[]>gro.objList;
         }
       },
@@ -224,23 +224,23 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
     this.selectedEntity = entity;
     this.loadEntitiesLinking(this.selectedEntity.id);
   }
-  updateLevel(level: Level)
-  {
-    this.levelsService.updateLevel(level).subscribe(result =>
-    {
-      let gro = <GenericResponseObject>result;
-      if (gro.error != '')
-      {
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
-        //this.showPageMessage('error', 'Error', gro.error);
-      }
-      else
-      {
-        //this.showPageMessage('success', 'Saved', '');
-      }
-    },
-      err => this.logAction(this.idCompany, true, Actions.Edit, 'http error changing level order index', ''));
-  }
+  // updateLevel(level: Level)
+  // {
+  //   this.levelsService.updateLevel(level).subscribe(result =>
+  //   {
+  //     let gro = <GenericResponseObject>result;
+  //     if (gro.error != '')
+  //     {
+  //       this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+  //       //this.showPageMessage('error', 'Error', gro.error);
+  //     }
+  //     else
+  //     {
+  //       //this.showPageMessage('success', 'Saved', '');
+  //     }
+  //   },
+  //     err => this.logAction(this.idCompany, true, Actions.Edit, 'http error changing level order index', ''));
+  // }
   levelMove(type: string)
   {
     let currentIndex;
@@ -269,10 +269,10 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
             let aux = this.levels[currentIndex - 1];
 
             this.levels[currentIndex - 1] = this.selectedLevel;
-            this.levels[currentIndex - 1].orderIndex = this.levels[currentIndex - 1].orderIndex - 1;            
+            this.levels[currentIndex - 1].orderIndex = this.levels[currentIndex - 1].orderIndex - 1;
 
             this.levels[currentIndex] = aux;
-            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex + 1;            
+            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex + 1;
           }
         }
         if (type == 'down')
@@ -282,10 +282,10 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
             let aux = this.levels[currentIndex + 1];
 
             this.levels[currentIndex + 1] = this.selectedLevel;
-            this.levels[currentIndex + 1].orderIndex = this.levels[currentIndex + 1].orderIndex + 1;           
+            this.levels[currentIndex + 1].orderIndex = this.levels[currentIndex + 1].orderIndex + 1;
 
             this.levels[currentIndex] = aux;
-            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex - 1;            
+            this.levels[currentIndex].orderIndex = this.levels[currentIndex].orderIndex - 1;
           }
         }
       }
@@ -355,7 +355,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   onConfirmMoveLevel(message)
   {
     if (message == "yes")
-      this.levelMove(this.levelMoveType);    
+      this.levelMove(this.levelMoveType);
 
     this.displayConfirmMoveLevel = false;
   }

@@ -10,7 +10,7 @@ import { Booking } from '../../objects/booking';
 import { BookingEntity } from 'app/objects/booking-entity';
 import { AutoAssignedEntityCombination } from 'app/objects/auto-assigned-entity-combination';
 import { Message } from '../../objects/message';
-import { debounceTime } from 'rxjs/operators'; 
+import { debounceTime } from 'rxjs/operators';
 import { User } from '../../objects/user';
 import { GenericResponseObject } from '../../objects/generic-response-object';
 import { ImageService } from '../../app-services/image.service';
@@ -30,9 +30,9 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
   @Input() isBookingByDay: boolean;
   @Input() selectedDayTime: WorkingDay;
 
-  @Input() isAdminAddBooking: boolean;  
+  @Input() isAdminAddBooking: boolean;
   @Input() existingBooking: Booking;
-  
+
   @Input() autoAssignedEntityCombination: AutoAssignedEntityCombination;
 
   @Input() resetCaptcha: boolean = false;
@@ -40,9 +40,9 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
   validCaptcha: boolean = true;
 
   public COMP_IMG = require("../../img/company.jpg");
-  
+
   phoneChangeSubscription: Subscription;
-  emailChangeSubscription: Subscription;  
+  emailChangeSubscription: Subscription;
 
   confirmBooking: FormGroup;
   en: any;
@@ -68,25 +68,25 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
 
   ngOnInit() 
   {
-    
+
   }
   ngOnChanges(changes: SimpleChanges): void 
-  {   
+  {
     if (changes['resetCaptcha'])
       this.validCaptcha = false;
-      
+
     if (this.autoAssignedEntityCombination != null)
       this.initConfirmBookingForm();
   }
-  
-  
+
+
 
   initConfirmBookingForm()
-  {     
+  {
     let serviceDuration = 0;
     //if (this.selectedEntitiesWithLevel != null)
     serviceDuration = this.autoAssignedEntityCombination.duration;//this.getDefaultDuration();
-    
+
     let serviceWithPrice = this.autoAssignedEntityCombination.entityCombination.find(e => e.defaultServicePrice != null);
 
     let selectedTime = this.selectedDayTime.workHours.split(',')[0].substring(1);//eliminam paranteza patrata de la inceput    
@@ -95,7 +95,7 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
 
     let endDate = new Date(this.selectedDayTime.date);
     endDate.setDate(endDate.getDate() + 1);
-    
+
     let date = new Date(this.selectedDayTime.date);
     date.setHours(h, m, 0);
 
@@ -117,8 +117,8 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
     {
       this.setupAutocomplete();
     }
-  } 
-  
+  }
+
   setupAutocomplete()
   {
     this.phoneChangeSubscription = this.confirmBooking.controls['phone'].valueChanges.pipe(debounceTime(400)).subscribe(result =>
@@ -147,17 +147,15 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
     this.emailChangeSubscription.unsubscribe();
 
     this.confirmBooking.controls['firstName'].setValue(user.firstName);
-    this.confirmBooking.controls['lastName'].setValue(user.lastName);    
-    this.confirmBooking.controls['phone'].setValue(user.phone);    
+    this.confirmBooking.controls['lastName'].setValue(user.lastName);
+    this.confirmBooking.controls['phone'].setValue(user.phone);
     this.confirmBooking.controls['email'].setValue(user.email);
-    
+
     this.setupAutocomplete();
   }
 
   saveBooking()
   {
-    
-
     //console.log(this.confirmBooking.value);
     let bookingEntities: BookingEntity[] = [];
     for (let i = 0; i < this.autoAssignedEntityCombination.entityCombination.length; i++) 
@@ -173,8 +171,8 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
             entityName_RO: this.autoAssignedEntityCombination.entityCombination[i].entityName_RO
           }
         );
-      }      
-    }   
+      }
+    }
 
     let booking = new Booking();
     booking.idCompany = this.idCompany;
@@ -187,26 +185,30 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
     booking.email = this.confirmBooking.controls['email'].value;
     booking.startDate = this.confirmBooking.controls['date'].value;
     booking.startTime = this.confirmBooking.controls['startTime'].value;
-    booking.endTime = this.confirmBooking.controls['endTime'].value;       
+    booking.endTime = this.confirmBooking.controls['endTime'].value;
 
     var message: Message = null;
     this.bookingService.addBooking(booking).subscribe(gro =>
     {
-      
+
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
         //this.showPageMessage('error', 'Error', gro.error);
         message = new Message(MessageType.Error, gro.error);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add, '', 'add booking');
+        let bookingLogInfo = booking.firstName + " " + booking.lastName + " "
+          + new Date(booking.startDate).toDateString() + " "
+          + new Date(booking.startTime).toTimeString();
+
+        this.logAction(this.idCompany, false, Actions.Add, '', 'add booking: ' + bookingLogInfo);
         //this.showPageMessage('success', 'Success', 'booking saved');
         message = new Message(MessageType.Success, 'booking saved');
       }
-      
-      this.bookingSaved.emit(message);      
+
+      this.bookingSaved.emit(message);
     },
       err =>
       {
@@ -214,9 +216,9 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
         //this.showPageMessage('error', 'Error', err.status + ' ' + err.statusText);
         message = new Message(MessageType.Error, err.status + ' ' + err.statusText);
 
-        this.bookingSaved.emit(message);        
-      });    
-  }  
+        this.bookingSaved.emit(message);
+      });
+  }
 
   onResolvedCaptcha(captchaResponse: string)
   {
