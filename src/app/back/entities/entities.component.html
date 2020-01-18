@@ -119,13 +119,13 @@
                         'invalid-control':!genDetailsForm.controls['price'].valid}" class="form-control">
                 </div>
               </div>
-              <div *ngIf="selectedLevel.isMultipleBooking" class="form-group" style="height: 6%;">
+              <!-- <div *ngIf="selectedLevel.isMultipleBooking" class="form-group" style="height: 6%;">
                 <label class="col-md-4 control-label" for="max_bookings">Maximum bookings no:</label>
                 <div class="col-md-8">
                   <input id="max_bookings" type="text" formControlName="max_bookings" placeholder="unlimited" [ngClass]="{'valid-control':genDetailsForm.controls['max_bookings'].valid,
                         'invalid-control':!genDetailsForm.controls['max_bookings'].valid}" class="form-control">
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <div class="form-group" style="height: 6%;">
@@ -305,10 +305,9 @@
 <p-dialog header="Affected Bookings" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
   [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="affectedBookings"
-    (bookingRemoved)="onBookingRemoved($event)" 
-    (bookingMoved)="onBookingMoved($event)" 
-    (bookingCanceled)="onBookingCanceled($event)"
-    (onBookingsNone)="displayAffectedBookings=false;"></bf-booking-management-dialog>
+    (bookingRemoved)="onBookingRemoved($event)" (bookingMoved)="onBookingMoved($event)"
+    (bookingCanceled)="onBookingCanceled($event)" (onBookingsNone)="displayAffectedBookings=false;">
+  </bf-booking-management-dialog>
 </p-dialog>
 <p-dialog header="Confirm" [(visible)]="displayConfirmDeleteEntity" [responsive]="true" showEffect="fade" [modal]="true"
   width="350">
