@@ -17,7 +17,7 @@ import { Image } from '../objects/image';
 })
 export class SearchCompanyComponent extends BaseComponent implements OnInit 
 {
-  private COMP_IMG = require("./img/company.jpg");
+  protected COMP_IMG = require("./img/company.jpg");
 
   companies: Company[] = [];
   images: Image[] = [];
@@ -25,7 +25,7 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
   constructor(private injector: Injector,
     private companySearchService: CompanySearchService,
     private imageService: ImageService,
-    private domSanitizationService: DomSanitizer)
+    protected domSanitizationService: DomSanitizer)
   {
     super(injector,
       [
