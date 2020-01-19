@@ -1,45 +1,49 @@
-<legend style="margin-bottom: 10px;">Company Details</legend>
-<div  class="row" style="margin-right: 0px;height: 100%;">
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblCompanyDetails')}}</legend>
+<div class="row" style="margin-right: 0px;height: 100%;">
   <div *ngIf="company" class="col-md-6" style="height: 100%;">
     <form class="form-horizontal" style="height: 100%" id="user-form">
       <div class="form-group" style="height: 6%;">
         <label class="col-md-2 control-label" for="name">{{getCurrentLabelValue('lblName')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.name}}</textarea>
+          <textarea type="text" class="form-control input-md readonly-textarea"
+            readonly="readonly">{{company.name}}</textarea>
         </div>
       </div>
 
       <div class="form-group" style="height: 15%;">
-        <label class="col-md-2 control-label" for="description">Description:</label>
+        <label class="col-md-2 control-label" for="description">{{getCurrentLabelValue('lblDescription')}}:</label>
         <div class="col-md-10" style="height: 100%">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.description_RO}}</textarea>
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">
+            {{currentCulture == 'EN' ? company.description_EN : company.description_RO}}</textarea>
         </div>
       </div>
 
       <div class="form-group" style="height: 6%;">
         <label class="col-md-2 control-label" for="category">{{getCurrentLabelValue('lblCategory')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.categoryName_RO}}
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">
+            {{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}
           </textarea>
         </div>
       </div>
       <div class="form-group" style="height: 6%;">
         <label class="col-md-2 control-label" for="subcategory">{{getCurrentLabelValue('lblSubCategory')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.subcategoryName_EN}}
+          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">
+            {{currentCulture == 'EN' ? company.subcategoryName_EN : company.subcategoryName_RO}}
           </textarea>
         </div>
       </div>
 
       <div class="form-group" style="height: 6%;">
-        <label class="col-md-2 control-label" for="county">Judet:</label>
+        <label class="col-md-2 control-label" for="county">{{getCurrentLabelValue('lblCounty')}}:</label>
         <div class="col-md-10">
           <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.countyName}}
           </textarea>
         </div>
       </div>
       <div class="form-group" style="height: 6%;">
-        <label class="col-md-2 control-label" for="city">Localitate:</label>
+        <label class="col-md-2 control-label" for="city">{{getCurrentLabelValue('lblCity')}}:</label>
         <div class="col-md-10">
           <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.cityName}}
           </textarea>
@@ -68,35 +72,35 @@
         </div>
       </div>
       <div class="form-group" style="height: 6%;">
-        <label class="col-md-2 control-label" for="phone">Program</label>
+        <label class="col-md-2 control-label" for="phone">{{getCurrentLabelValue('lblWorkingHours')}}</label>
         <div class="col-md-10">
           <ul *ngIf="companyWorkingHours">
             <li>
-              Luni:  {{getWorkingHoursString(companyWorkingHours.monday.workHours.toString())}}
+              Luni: {{getWorkingHoursString(companyWorkingHours.monday.workHours.toString())}}
             </li>
             <li>
-              Marti:  {{getWorkingHoursString(companyWorkingHours.tuesday.workHours.toString())}}
+              Marti: {{getWorkingHoursString(companyWorkingHours.tuesday.workHours.toString())}}
             </li>
             <li>
-              Miercuri:  {{getWorkingHoursString(companyWorkingHours.wednesday.workHours.toString())}}
+              Miercuri: {{getWorkingHoursString(companyWorkingHours.wednesday.workHours.toString())}}
             </li>
             <li>
-              Joi:  {{getWorkingHoursString(companyWorkingHours.thursday.workHours.toString())}}
+              Joi: {{getWorkingHoursString(companyWorkingHours.thursday.workHours.toString())}}
             </li>
             <li>
-              Vineri:  {{getWorkingHoursString(companyWorkingHours.friday.workHours.toString())}}
+              Vineri: {{getWorkingHoursString(companyWorkingHours.friday.workHours.toString())}}
             </li>
             <li>
-              Sambata:  {{getWorkingHoursString(companyWorkingHours.saturday.workHours.toString())}}
+              Sambata: {{getWorkingHoursString(companyWorkingHours.saturday.workHours.toString())}}
             </li>
             <li>
-              Duminica:  {{getWorkingHoursString(companyWorkingHours.sunday.workHours.toString())}}
+              Duminica: {{getWorkingHoursString(companyWorkingHours.sunday.workHours.toString())}}
             </li>
           </ul>
         </div>
       </div>
-      </form>
-      </div>
+    </form>
+  </div>
   <div class="col-md-6" style="height: 100%;">
     <div class="row" style="height: 25%;">
       <div class="col-md-12" style="height: 100%!important; overflow: auto;">
@@ -112,8 +116,9 @@
     </div>
     <br>
     <div class="row" style="height: 65%;">
-      <div class="col-md-12" style="height: 100%;">        
-        <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'100%'}" [overlays]="gMapOverlays"></p-gmap>
+      <div class="col-md-12" style="height: 100%;">
+        <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'100%'}" [overlays]="gMapOverlays">
+        </p-gmap>
       </div>
     </div>
   </div>
@@ -123,9 +128,10 @@
 <p-dialog [(visible)]="displayImageDialog" [responsive]="true" showEffect="fade" [modal]="false" width="600"
   height="500">
   <img *ngIf="selectedImage!=null" [src]="'data:image/png;base64,'+selectedImage.img"
-    style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">  
+    style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">
 </p-dialog>
 
-<button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary from-control" (click)="goToBooking(idCompany,companyName)"><i
-    class="fa fa-arrow-right"></i> Book now</button>
-<span *ngIf="company && !company.allowOnlineBookings">This company doesn't allow online bookings. Please contact them via e-mail or phone.</span>
+<button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary from-control"
+  (click)="goToBooking(idCompany,companyName)"><i class="fa fa-arrow-right"></i>
+  {{getCurrentLabelValue('lblBookNow')}}</button>
+<span *ngIf="company && !company.allowOnlineBookings">{{getCurrentLabelValue('lblCompanyNotAllowBookings')}}.</span>

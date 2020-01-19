@@ -1,4 +1,4 @@
-<legend style="margin-bottom: 10px;">Companies</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblCompanies')}}</legend>
 <div class="row" style="height: 100%;">
   <div class="col-md-12" style="height:100%;overflow: auto;">
     <div class="row" (click)="goToCompanyDetails(company.id,company.name)"
@@ -12,10 +12,11 @@
           </div>
           <div class="col-md-9">
             <h3 style="margin-top: 0px;">{{company.name}}</h3>
-            <h6>Category: {{company.categoryName_EN}}</h6>
+            <h6>{{getCurrentLabelValue('lblCategory')}}:
+              {{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}</h6>
             <h6>Email: {{company.email}}</h6>
-            <h6>City: {{company.cityName}}</h6>
-            <h6>Address: {{company.address}}</h6>
+            <h6>{{getCurrentLabelValue('lblCity')}}: {{company.cityName}}</h6>
+            <h6>{{getCurrentLabelValue('lblAddress')}}: {{company.address}}</h6>
           </div>
         </div>
       </div>

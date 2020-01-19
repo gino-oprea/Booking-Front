@@ -1,4 +1,4 @@
-import { SelectItem,ConfirmationService } from 'primeng/primeng';
+import { SelectItem, ConfirmationService } from 'primeng/primeng';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from './shared/base-component';
@@ -28,7 +28,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
 {
 
   cultures: SelectItem[];
-  selectedCulture: string = !!localStorage.getItem('b_front_culture') ? localStorage.getItem('b_front_culture') : 'RO'; 
+  selectedCulture: string = !!localStorage.getItem('b_front_culture') ? localStorage.getItem('b_front_culture') : 'RO';
   loginForm: FormGroup;
   displayDialog: boolean = false;
 
@@ -38,29 +38,29 @@ export class HeaderComponent extends BaseComponent implements OnInit
   citiesDic: City[] = [];
   selectedCountryId: number = 1;
   selectedCountyId: number = 0;
-  selectedCityId: number = 0;  
+  selectedCityId: number = 0;
 
   showSubscriptionDialog = false;
   subscriptions: SubscriptionObject[] = [];
-  selectedSubscriptionPrice: string;  
+  selectedSubscriptionPrice: string;
 
   displayConfirmAddCompany: boolean = false;
   confirmAddCompanyMessage: string = "This will create a new company. Are you sure?";
 
   resetCaptcha: boolean = true;
-  
+
   constructor(private injector: Injector,
     private confirmationService: ConfirmationService,
     private companySearchService: CompanySearchService,
     private countriesService: CountriesService,
-    private subscriptionsService: SubscriptionsService,    
+    private subscriptionsService: SubscriptionsService,
     private companyService: CompanyService)
-  {    
+  {
     super(injector,
       [
         'lblSearch',
         'lblSearchCompany',
-        'lblInvalidEmail',  
+        'lblInvalidEmail',
         'lblPassword',
         'lblRegister',
         'lblForgotPassword',
@@ -74,7 +74,11 @@ export class HeaderComponent extends BaseComponent implements OnInit
         'lblResetPasswordEmailSent',
         'lblYes',
         'lblNo',
-        
+        'lblCreateNewCompany',
+        'lblAllCounties',
+        'lblAllCities',
+        'lblConfirmCreateNewCompany',
+
         'lblMonthlyBookings',
         'lblLevels',
         'lblEntitiesPerLevel',
@@ -91,16 +95,16 @@ export class HeaderComponent extends BaseComponent implements OnInit
     this.site = WebSites.Front;
     this.pageName = "Site Header Menu";
 
-    this.cultures = [{ label: 'RO', value: 'RO' }, { label: 'EN', value: 'EN' }];    
+    this.cultures = [{ label: 'RO', value: 'RO' }, { label: 'EN', value: 'EN' }];
 
     console.log(this.currentUser);
-    
+
     this.loginForm = new FormGroup({
       'email': new FormControl('', [Validators.required,
       Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]),
       'password': new FormControl('', [Validators.required])
-    });        
-   }
+    });
+  }
 
   ngOnInit() 
   {
@@ -117,14 +121,14 @@ export class HeaderComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed,true);
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       else
       {
-        this.countriesDic = <Country[]>gro.objList;        
+        this.countriesDic = <Country[]>gro.objList;
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
-  }  
+  }
   loadCounties()
   {
     this.countiesDic = [];
@@ -140,7 +144,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
     });
   }
   loadCities()
-  {    
+  {
     if (this.selectedCountyId != 0)
     {
       this.selectedCityId = 0;
@@ -160,7 +164,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
     else
     {
       this.selectedCityId = 0;
-      this.citiesDic = [];      
+      this.citiesDic = [];
     }
   }
   getMyAccountText()
@@ -172,31 +176,31 @@ export class HeaderComponent extends BaseComponent implements OnInit
     }
     else
       myAccountText = 'Login';
-    
+
     return myAccountText;
   }
   onLogin()
-  {   
+  {
     this.loginService.login(
       this.loginForm.controls['email'].value,
       this.loginForm.controls['password'].value, this).subscribe((token: Token) =>
       {
         this.logAction(null, false, Actions.Login, "", "Login user " + this.loginForm.controls['email'].value);
 
-        this.loginForm.reset();            
+        this.loginForm.reset();
       },
         err =>
-        {          
+        {
           this.logAction(null, true, Actions.Login, "invalid login", 'invalid login', true);
         });
   }
   onLogout()
-  {    
+  {
     try//
     {
       this.logAction(null, false, Actions.Logout, "", "Logout user: " + this.loginService.getCurrentUser().email);
 
-      this.loginService.logout();      
+      this.loginService.logout();
       this.router.navigate(['/searchcompany']);
       //this.router.navigate(['/login']);
     }
@@ -221,18 +225,19 @@ export class HeaderComponent extends BaseComponent implements OnInit
     {
       this.logAction(null, true, Actions.Search, e.message, 'error changing culture');
     }
-  }  
+  }
   displayConfirmDialog()
   {
     if (this.loginForm.controls['email'].valid)
       this.displayDialog = true;
     else
-      this.showPageMessage("warn", "Warning", this.getCurrentLabelValue('lblInvalidEmail'));  
+      this.showPageMessage("warn", "Warning", this.getCurrentLabelValue('lblInvalidEmail'));
   }
   onForgotPassword()
   {
     this.displayDialog = false;
-    try {
+    try
+    {
       this.usersService.resetUserPasswordByEmail(this.loginForm.controls['email'].value)
         .subscribe((response: GenericResponseObject) =>
         {
@@ -247,15 +252,16 @@ export class HeaderComponent extends BaseComponent implements OnInit
             this.logAction(null, true, Actions.Edit, response.error, "error forgot password: " + response.errorDetailed);
           }
         },
-        err => this.logAction(null, true, Actions.Edit, "http error resetting password", ""));
+          err => this.logAction(null, true, Actions.Edit, "http error resetting password", ""));
     }
-    catch (e) {
+    catch (e)
+    {
       this.logAction(null, true, Actions.Edit, e.message, "error reset password");
     }
   }
 
   doSearch()
-  {      
+  {
     this.router.navigate(['/searchcompany'], {
       queryParams: {
         name: this.searchString.trim(),
@@ -263,7 +269,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
         idCounty: this.selectedCountyId != 0 ? this.selectedCountyId : null,
         idCity: this.selectedCityId != 0 ? this.selectedCityId : null
       }
-    });    
+    });
   }
   onAddNewCompany()
   {

@@ -38,10 +38,11 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   @Input() idCompany: number;
   @Input() selectedDate: Date = new Date();
   @Input() isFilteredByEmployeeRole: boolean = false;
-  @Input() doResetFilters: boolean = false;  
+  @Input() doResetFilters: boolean = false;
   @Output() filterChanged = new EventEmitter<BookingFilter>();
 
   en: any;
+  ro: any;
   today: Date = new Date();
   levels: LevelAsFilter[];
   allEntityCombinations: Entity[][] = [];
@@ -60,7 +61,9 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
     private imageService: ImageService,
     private companyUsersService: CompanyUsersService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblResetFilters'
+    ]);
     this.site = WebSites.Front;
     this.pageName = 'Booking filters';
 
@@ -71,6 +74,14 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
       dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
       monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    };
+    this.ro = {
+      firstDayOfWeek: 1,
+      dayNames: ["Duminica", "Luni", "Marti", "Miercuri", "Joi", "Vineri", "Sambata"],
+      dayNamesShort: ["Du", "Lu", "Ma", "Mi", "Jo", "Vi", "Sa"],
+      dayNamesMin: ["Du", "Lu", "Ma", "Mi", "Jo", "Vi", "Sa"],
+      monthNames: ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"],
+      monthNamesShort: ["Ian", "Feb", "Mar", "Apr", "Mai", "Iun", "Iul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     };
   }
 
@@ -95,7 +106,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
             this.loadAllLevels();
           });
         else
-          this.loadAllLevels();    
+          this.loadAllLevels();
     }
 
     if (changes['doResetFilters'])
@@ -154,9 +165,9 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
           this.filterByUserRole();
 
         //console.log(this.levels);
-        this.initFilteredEntities();       
-        this.initSelectedEntities();       
-          
+        this.initFilteredEntities();
+        this.initSelectedEntities();
+
         this.initSelectedCharacteristics();
         this.loadEntitiesLinking();
         //console.log(this.selectedEntities);
@@ -256,7 +267,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   {
     if (isReset)
       this.selectedEntities = [];
-    
+
     for (var i = 0; i < this.levels.length; i++)
     {
       let entity = new SelectedEntityPerLevel(this.levels[i].id, -1, this.levels[i].idLevelType);
@@ -264,7 +275,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
         this.selectedEntities.push(entity);
     }
   }
-  
+
   initSelectedCharacteristics()
   {
     this.selectedCharacteristics = [];
@@ -395,13 +406,13 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
       this.selectedEntities.find(e => e.idLevel == idLevel).images = null;
     else
       this.loadEntityImages(this.selectedEntities.find(e => e.idLevel == idLevel).idEntity);
-    
+
     //reset invalid selections
     this.resetInvalidSelections(idLevel);
     this.resetSelectedCharacteristics(idLevel, false);
     let filteredEntititesPerLevel = this.getFilteredEntitiesPerLevel();
     this.setupFilterObjectForEmit(filteredEntititesPerLevel);
-    this.setupFilterObjectForDropdowns(filteredEntititesPerLevel, idLevel);    
+    this.setupFilterObjectForDropdowns(filteredEntititesPerLevel, idLevel);
 
     this.applyFilter();
   }

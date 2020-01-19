@@ -9,7 +9,7 @@
   </div>
   <div *ngIf="selectedBooking" class="col-md-2">
     <div *ngFor="let entity of selectedBooking.entities">
-      <div class="label label-default">{{entity.entityName_EN}}</div>
+      <div class="label label-default">{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</div>
       <div *ngIf="entity.images">
         <img *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
           style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
@@ -32,7 +32,7 @@
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
             <div class="ui-grid-col-5">
-              <label style="padding: 5px;" for="firstName">First Name:</label>
+              <label style="padding: 5px;" for="firstName">{{getCurrentLabelValue('lblFirstName')}}:</label>
             </div>
             <div class="col-md-1">
               <span>{{selectedBooking.firstName}}</span>
@@ -43,7 +43,7 @@
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
             <div class="ui-grid-col-5">
-              <label style="padding: 5px;" for="lastName">Last Name:</label>
+              <label style="padding: 5px;" for="lastName">{{getCurrentLabelValue('lblLastName')}}:</label>
             </div>
             <div class="col-md-1">
               <span>{{selectedBooking.lastName}}</span>
@@ -54,7 +54,7 @@
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
             <div class="ui-grid-col-5">
-              <label style="padding: 5px;" for="phone">Phone:</label>
+              <label style="padding: 5px;" for="phone">{{getCurrentLabelValue('lblPhone')}}:</label>
             </div>
             <div class="col-md-1">
               <span>{{selectedBooking.phone}}</span>
@@ -65,7 +65,7 @@
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
             <div class="ui-grid-col-5">
-              <label style="padding: 5px;" for="startTime">Date:</label>
+              <label style="padding: 5px;" for="startTime">{{getCurrentLabelValue('lblDate')}}:</label>
             </div>
             <div class="col-md-1">
               <span>{{selectedBooking.startDate | date:'dd.MMM.yyyy'}}</span>
@@ -76,7 +76,7 @@
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
             <div class="ui-grid-col-5">
-              <label style="padding: 5px;" for="startTime">Start Time:</label>
+              <label style="padding: 5px;" for="startTime">{{getCurrentLabelValue('lblStartTime')}}:</label>
             </div>
             <div class="col-md-1">
               <span>{{selectedBooking.startTime | date:'HH:mm'}}</span>
@@ -87,7 +87,7 @@
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
             <div class="ui-grid-col-5">
-              <label style="padding: 5px;" for="endTime">End Time:</label>
+              <label style="padding: 5px;" for="endTime">{{getCurrentLabelValue('lblEndTime')}}:</label>
             </div>
             <div class="col-md-1">
               <span>{{selectedBooking.endTime | date:'HH:mm'}}</span>
@@ -109,27 +109,29 @@
       </div>
       <footer>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-          <button *ngIf="showHonoredButton" class="btn btn-success" (click)="setBookingHonored()" [disabled]="isButtonDisabledByRole()">
-            <i class="fa fa-check"> Honored</i>
+          <button *ngIf="showHonoredButton" class="btn btn-success" (click)="setBookingHonored()"
+            [disabled]="isButtonDisabledByRole()">
+            <i class="fa fa-check"> {{getCurrentLabelValue('lblHonored')}}</i>
           </button>
-          <button *ngIf="showCancelButton" class="btn btn-warning" (click)="cancelBooking()" [disabled]="isButtonDisabledByRole()"
-            style="margin-left: 5px;">
-            <i class="fa fa-remove"> Cancel booking</i>
+          <button *ngIf="showCancelButton" class="btn btn-warning" (click)="cancelBooking()"
+            [disabled]="isButtonDisabledByRole()" style="margin-left: 5px;">
+            <i class="fa fa-remove"> {{getCurrentLabelValue('lblCancelBooking')}}</i>
           </button>
-          <button *ngIf="showDeleteButton" class="btn btn-danger" (click)="deleteBooking()" [disabled]="isButtonDisabledByRole()"
-            style="margin-left: 5px;">
-            <i class="fa fa-remove"> Delete</i>
+          <button *ngIf="showDeleteButton" class="btn btn-danger" (click)="deleteBooking()"
+            [disabled]="isButtonDisabledByRole()" style="margin-left: 5px;">
+            <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
           </button>
         </div>
       </footer>
     </form>
   </div>
   <div *ngIf="selectedBooking" class="col-md-3">
-    <span style="font-weight: bold;"> Move selected booking to:</span>
-    <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate" [doResetFilters]="doResetMoveFilter" 
-      [isMoveBookingFilter]="true" (filterChanged)="moveBookingfilterChanged($event)">
+    <span style="font-weight: bold;"> {{getCurrentLabelValue('lblMoveSelectedBookingTo')}}:</span>
+    <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate"
+      [doResetFilters]="doResetMoveFilter" [isMoveBookingFilter]="true"
+      (filterChanged)="moveBookingfilterChanged($event)">
     </bf-booking-filter2>
-    <div>New Start Time:
+    <div>{{getCurrentLabelValue('lblNewStartTime')}}:
       <select style="margin-top: 10px; height: 30px;" [(ngModel)]="selectedMoveTimeslot">
         <option *ngFor="let timeslot of moveBookingTimeslots" [value]="getDateStringWrapper(timeslot.startTime)">
           {{getTimeStringWrapper(timeslot.startTime)}}</option>
@@ -139,7 +141,7 @@
       <button class="btn btn-success" style="margin-top: 10px;"
         [disabled]="entityNotSelected || isButtonDisabledByRole() || selectedMoveTimeslot==null"
         (click)="editBooking()">
-        <i class="fa fa-check"> Move booking</i>
+        <i class="fa fa-check"> {{getCurrentLabelValue('lblMoveBooking')}}</i>
       </button>
     </div>
   </div>

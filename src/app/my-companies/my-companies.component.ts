@@ -52,7 +52,9 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
       'lblUnlimited',
       'lblPhone',
       'lblTown',
-      'lblEdit'
+      'lblEdit',
+      'lblAllowOnlineBookings',
+      'lblEnabled'
     ]);
     this.site = WebSites.Back;
     this.pageName = "My companies";

@@ -8,21 +8,26 @@
         </div>
         <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2"
           style="margin-bottom: 5px;">
-          <select *ngIf="characteristic.isFrontOption && !isMoveBookingFilter" id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}"
+          <select *ngIf="characteristic.isFrontOption && !isMoveBookingFilter"
+            id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}"
             [(ngModel)]="getSelectedCharacteristic(level.id,characteristic.id).selectedValue"
             (change)="doFilterEntitiesByCharacteristics(level.id)">
-            <option value="-1">Select {{characteristic.characteristicName_EN}} / Reset</option >
+            <option value="-1">Select
+              {{currentCulture=='EN'? characteristic.characteristicName_EN:characteristic.characteristicName_RO}} /
+              Reset</option>
             <option *ngFor="let charactValue of characteristic.characteristicValues"
-              [value]="charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN">
-              {{charactValue.idFieldType==1? charactValue.numericValue : charactValue.textValue_EN}}
+              [value]="charactValue.idFieldType==1? charactValue.numericValue :(currentCulture == 'EN'? charactValue.textValue_EN: charactValue.textValue_RO)">
+              {{charactValue.idFieldType==1? charactValue.numericValue : (currentCulture =='EN'? charactValue.textValue_EN : charactValue.textValue_RO)}}
             </option>
           </select>
         </div>
         <div class="span2">
           <select style="height: 30px;width: 200px; border-color: blue;" id="ddlLevelEntities"
             [(ngModel)]="getSelectedEntitiesByIdLevel(level.id).idEntity" (change)="doFilterEntities(level.id)">
-            <option value="-1">Select {{level.levelName_EN}} / Reset</option>
-            <option *ngFor="let entity of level.entities" [value]="entity.id">{{entity.entityName_EN}}</option>
+            <option value="-1">Select {{currentCulture == 'EN' ? level.levelName_EN : level.levelName_RO}} / Reset
+            </option>
+            <option *ngFor="let entity of level.entities" [value]="entity.id">
+              {{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</option>
           </select>
           <div *ngIf="getSelectedImage(level.id)!=null && !isMoveBookingFilter">
             <img [src]="'data:image/png;base64,'+getSelectedImage(level.id)"
@@ -35,11 +40,12 @@
 </div>
 <div class="row">
   <p-calendar [showIcon]="true" [(ngModel)]="selectedDate" (onSelect)="applyFilter()" [minDate]="today"
-    placeholder="Date" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
+    placeholder="Date" [locale]="currentCulture == 'EN' ? en :ro" readonlyInput="true" dateFormat="dd.M.yy">
+  </p-calendar>
 </div>
 <div *ngIf="!isMoveBookingFilter" class="row">
   <button class="btn btn-primary from-control" (click)="resetFilters()">
-    <i class="fa fa-refresh"></i> Reset filters
+    <i class="fa fa-refresh"></i> {{getCurrentLabelValue('lblResetFilters')}}
   </button>
 </div>
 

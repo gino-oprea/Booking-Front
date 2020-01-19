@@ -16,15 +16,17 @@
                 <h6>{{getCurrentLabelValue('lblTown')}}: {{company.cityName}}</h6>
             </div>
 
-            <span>Enabled</span>
+            <span *ngIf="hasRolePermission('CompanyOwner', company.id)">{{getCurrentLabelValue('lblEnabled')}}</span>
             <div *ngIf="hasRolePermission('CompanyOwner', company.id)" class="span2">
                 <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="showToggleConfirm($event, company)"
                     [(ngModel)]="company.isEnabled"></p-inputSwitch>
             </div>
 
-            <span>Allow online bookings</span>
+            <span
+                *ngIf="hasRolePermission('CompanyOwner', company.id)">{{getCurrentLabelValue('lblAllowOnlineBookings')}}</span>
             <div *ngIf="hasRolePermission('CompanyOwner', company.id)" class="span2">
-                <p-inputSwitch (onChange)="showAllowBookingsConfirm($event, company)" [(ngModel)]="company.allowOnlineBookings"></p-inputSwitch>
+                <p-inputSwitch (onChange)="showAllowBookingsConfirm($event, company)"
+                    [(ngModel)]="company.allowOnlineBookings"></p-inputSwitch>
             </div>
 
             <div class="span2">
@@ -35,18 +37,19 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 
-<p-dialog header="Confirm" [(visible)]="displayConfirmToggleCompany" [responsive]="true" showEffect="fade" [modal]="true"
-    width="350">
+<p-dialog header="Confirm" [(visible)]="displayConfirmToggleCompany" [responsive]="true" showEffect="fade"
+    [modal]="true" width="350">
     <bf-generic-confirm-dialog [confirmMessage]="confirmToggleEntityMessage" (onConfirm)="onConfirmToggle($event)">
     </bf-generic-confirm-dialog>
 </p-dialog>
 
 <p-dialog header="Confirm" [(visible)]="displayConfirmAllowBookingsCompany" [responsive]="true" showEffect="fade"
     [modal]="true" width="350">
-    <bf-generic-confirm-dialog [confirmMessage]="confirmAllowBookingsMessage" (onConfirm)="onConfirmAllowBookings($event)">
+    <bf-generic-confirm-dialog [confirmMessage]="confirmAllowBookingsMessage"
+        (onConfirm)="onConfirmAllowBookings($event)">
     </bf-generic-confirm-dialog>
 </p-dialog>
 

@@ -52,7 +52,17 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
     private bookingService: BookingService)
   {
     super(injector, [
-      'lblMonday', 'lblTuesday', 'lblWednesday', 'lblThursday', 'lblFriday', 'lblSaturday', 'lblSunday'
+      'lblMonday',
+      'lblTuesday',
+      'lblWednesday',
+      'lblThursday',
+      'lblFriday',
+      'lblSaturday',
+      'lblSunday',
+      'lblTimeslotFullBooked',
+      'lblTimeslotHasBookings',
+      'lblTimeslotAvailable',
+      'lblTimeslotDisabled'
     ]);
 
     this.site = WebSites.Front;

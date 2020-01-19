@@ -17,9 +17,9 @@ import { CompanyService } from '../app-services/company.service';
 })
 export class CompanyDetailsComponent extends BaseComponent implements OnInit
 {
-  
+
   @ViewChild('map', { static: false }) map;
- 
+
   public COMP_IMG = require("../img/company.jpg");
 
   companyName: string = '';
@@ -36,7 +36,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
   };
   gMapOverlays: any[] = [];
 
-  
+
 
   constructor(private injector: Injector,
     private companySearchService: CompanySearchService,
@@ -44,14 +44,20 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
     private imageService: ImageService)
   {
     super(injector,
-      [ 'lblName',
+      ['lblName',
         'lblDescription',
         'lblCategory',
         'lblSubCategory',
         'lblCountry',
-        'lblTown',
+        'lblCity',
+        'lblCounty',
+        'lblWorkingHours',
         'lblAddress',
-        'lblPhone']
+        'lblPhone',
+        'lblCompanyDetails',
+        'lblCompanyNotAllowBookings',
+        'lblBookNow'
+      ]
     );
     this.site = WebSites.Front;
     this.pageName = "Company Details Front";
@@ -71,12 +77,12 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
 
   ngOnInit() 
   {
-    super.ngOnInit();    
+    super.ngOnInit();
     this.loadCompany();
     this.loadCompanyWorkingHours();
-    this.loadCompanyImages();    
+    this.loadCompanyImages();
   }
- 
+
 
   goToBooking(companyId: number, companyName: string)
   {
@@ -98,7 +104,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
         if (gro.objList.length > 0)
         {
           this.company = <Company>gro.objList[0];
-          
+
           if (this.map)
             if (this.company.lat != null)
             {
@@ -108,7 +114,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
                 zoom: 18
               });
               this.gMapOverlays = [new google.maps.Marker({ position: { lat: this.company.lat, lng: this.company.lng }, draggable: false })];
-            }          
+            }
         }
       }
     },
@@ -119,10 +125,10 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
     this.companyService.getCompanyWorkingHours(this.idCompany).subscribe(result =>
     {
       let gro = <GenericResponseObject>result;
-      if (gro.error != '')      
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);              
-      else              
-        this.companyWorkingHours = gro.objList[0];              
+      if (gro.error != '')
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+      else
+        this.companyWorkingHours = gro.objList[0];
     });
   }
   getWorkingHoursString(rawWH: string)
@@ -142,14 +148,14 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-      {        
+      {
         this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
       }
       else
       {
         if (gro.objList.length > 0)
         {
-          this.images = <Image[]>gro.objList;          
+          this.images = <Image[]>gro.objList;
         }
       }
     },

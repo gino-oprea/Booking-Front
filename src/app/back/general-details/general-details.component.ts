@@ -100,7 +100,10 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       'lblDetails',
       'lblTimeSettings',
       'lblOnlyFiveImagesPermitted',
-      'lblOnlyOneMBfilesPermitted'
+      'lblOnlyOneMBfilesPermitted',
+      'lblDescription',
+      'lblCounty',
+      'lblCity'
     ]);
     this.site = WebSites.Back;
     this.pageName = "Company General Details";

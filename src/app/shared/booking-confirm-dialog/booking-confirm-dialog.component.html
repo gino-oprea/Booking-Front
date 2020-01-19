@@ -1,6 +1,6 @@
 <div *ngIf="autoAssignedEntityCombination" class="col-md-3">
   <div *ngFor="let entity of autoAssignedEntityCombination.entityCombination">
-    <div class="label label-default">{{entity.entityName_EN}}</div>
+    <div class="label label-default">{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</div>
     <div>
       <img *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
         style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
@@ -21,7 +21,7 @@
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="firstName">First Name:</label>
+          <label style="padding: 5px;" for="firstName">{{getCurrentLabelValue('lblFirstName')}}:</label>
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="firstName" formControlName="firstName" [ngClass]="{'valid-control':confirmBooking.controls['firstName'].valid,
@@ -33,7 +33,7 @@
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="lastName">Last Name:</label>
+          <label style="padding: 5px;" for="lastName">{{getCurrentLabelValue('lblLastName')}}:</label>
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="lastName" formControlName="lastName" [ngClass]="{'valid-control':confirmBooking.controls['lastName'].valid,
@@ -45,7 +45,7 @@
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="phone">Phone:</label>
+          <label style="padding: 5px;" for="phone">{{getCurrentLabelValue('lblPhone')}}:</label>
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="phone" formControlName="phone" [ngClass]="{'valid-control':confirmBooking.controls['phone'].valid,
@@ -69,7 +69,7 @@
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="price">Price:</label>
+          <label style="padding: 5px;" for="price">{{getCurrentLabelValue('lblPrice')}}:</label>
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="price" style="background-color: #91f291;" formControlName="price" disabled="true"
@@ -82,7 +82,7 @@
       <div class="ui-grid ui-grid-responsive ui-fluid">
         <div class="ui-grid-row">
           <div class="ui-grid-col-4">
-            <label style="padding: 5px;" for="startDate">Start Date:</label>
+            <label style="padding: 5px;" for="startDate">{{getCurrentLabelValue('lblStartDate')}}:</label>
           </div>
           <div class="col-md-8">
             <p-calendar [showIcon]="true" formControlName="startDate" [locale]="en" placeholder="Date"
@@ -94,7 +94,7 @@
       <div class="ui-grid ui-grid-responsive ui-fluid">
         <div class="ui-grid-row">
           <div class="ui-grid-col-4">
-            <label style="padding: 5px;" for="endDate">End Date:</label>
+            <label style="padding: 5px;" for="endDate">{{getCurrentLabelValue('lblEndDate')}}:</label>
           </div>
           <div class="col-md-8">
             <p-calendar [showIcon]="true" formControlName="endDate" [locale]="en" placeholder="Date"
@@ -109,7 +109,7 @@
       <div class="ui-grid ui-grid-responsive ui-fluid">
         <div class="ui-grid-row">
           <div class="ui-grid-col-4">
-            <label style="padding: 5px;" for="date">Date:</label>
+            <label style="padding: 5px;" for="date">{{getCurrentLabelValue('lblDate')}}:</label>
           </div>
           <div class="col-md-8">
             <p-calendar formControlName="date" [locale]="en" placeholder="Date" dateFormat="dd.M.yy"></p-calendar>
@@ -120,7 +120,7 @@
       <div class="ui-grid ui-grid-responsive ui-fluid">
         <div class="ui-grid-row">
           <div class="ui-grid-col-4">
-            <label style="padding: 5px;" for="startTime">Start Time:</label>
+            <label style="padding: 5px;" for="startTime">{{getCurrentLabelValue('lblStartTime')}}:</label>
           </div>
           <div class="col-md-8">
             <p-calendar formControlName="startTime" hourFormat="24" [locale]="en" [stepMinute]="30" placeholder="Date"
@@ -132,7 +132,7 @@
       <div class="ui-grid ui-grid-responsive ui-fluid">
         <div class="ui-grid-row">
           <div class="ui-grid-col-4">
-            <label style="padding: 5px;" for="endTime">End Time:</label>
+            <label style="padding: 5px;" for="endTime">{{getCurrentLabelValue('lblEndTime')}}:</label>
           </div>
           <div class="col-md-8">
             <p-calendar formControlName="endTime" hourFormat="24" [locale]="en" placeholder="Date" [timeOnly]="true">
@@ -144,11 +144,12 @@
     </div>
     <footer>
       <div>
-        <re-captcha *ngIf="!isAdminAddBooking" #captchaRef="reCaptcha" (resolved)="onResolvedCaptcha($event)" siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
+        <re-captcha *ngIf="!isAdminAddBooking" #captchaRef="reCaptcha" (resolved)="onResolvedCaptcha($event)"
+          siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
       </div>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="submit" [disabled]="!confirmBooking.valid || !validCaptcha" class="btn btn-success">
-          <i class="fa fa-check"> Confirm</i>
+          <i class="fa fa-check"> {{getCurrentLabelValue('lblConfirmation')}}</i>
         </button>
       </div>
     </footer>

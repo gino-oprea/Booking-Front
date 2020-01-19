@@ -52,7 +52,23 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
     private imageService: ImageService,
     private companyUsersService: CompanyUsersService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblAffectedBookings',
+      'lblFirstName',
+      'lblLastName',
+      'lblPhone',
+      'lblDate',
+      'lblStartTime',
+      'lblEndTime',
+      'lblHonored',
+      'lblCancel',
+      'lblBooking',
+      'lblDelete',
+      'lblNewStartTime',
+      'lblMoveSelectedBookingTo',
+      'lblMoveBooking',
+      'lblCancelBooking'
+    ]);
 
     this.site = WebSites.Back;
     this.pageName = "Booking management dialog";

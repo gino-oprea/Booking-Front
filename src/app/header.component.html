@@ -14,12 +14,12 @@
       </select> -->
 
       <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountyId" (change)="loadCities()">
-        <option value="0">All Counties</option>
+        <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
         <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}</option>
       </select>
 
       <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCityId">
-        <option value="0">All cities</option>
+        <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
         <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}</option>
       </select>
 
@@ -29,12 +29,11 @@
           class="fa fa-search"></i></button>
       <ul class="nav navbar-nav navbar-right">
         <li style="margin-top: 5px;">
-        <a [routerLink]="['/contact']" routerLinkActive="selectedCategory"><b style="color: #4287f5;">Contact</b></a>
+          <a [routerLink]="['/contact']" routerLinkActive="selectedCategory"><b style="color: #4287f5;">Contact</b></a>
         </li>
         <li style="margin-top: 10px;">
           <button class="btn btn-success from-control" style="margin-right: 5px;" (click)="onAddNewCompany()"><i
-              class="fa fa-plus"></i> Create new
-            company</button>
+              class="fa fa-plus"></i> {{getCurrentLabelValue('lblCreateNewCompany')}}</button>
         </li>
         <li style="margin-top: 10px;">
           <p-dropdown [options]="cultures" [style]="{'width':'100px'}" [(ngModel)]="selectedCulture"
@@ -188,9 +187,10 @@
   </footer>
 </p-dialog>
 
-<p-dialog header="Confirm" [(visible)]="displayConfirmAddCompany" (onHide)="onCloseAddCompanyDialog()" [responsive]="true" showEffect="fade" [modal]="true"
-  width="350">
-  <bf-generic-confirm-dialog [confirmMessage]="confirmAddCompanyMessage" (onConfirm)="onConfirmAddCompany($event)" [useCaptcha]="true" [resetCaptcha]="resetCaptcha">
+<p-dialog header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmAddCompany"
+  (onHide)="onCloseAddCompanyDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="350">
+  <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblConfirmCreateNewCompany')"
+    (onConfirm)="onConfirmAddCompany($event)" [useCaptcha]="true" [resetCaptcha]="resetCaptcha">
   </bf-generic-confirm-dialog>
 </p-dialog>
 

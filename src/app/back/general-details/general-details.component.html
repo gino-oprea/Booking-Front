@@ -23,7 +23,8 @@
             </div>
 
             <div class="form-group" style="height: 15%;">
-              <label class="col-md-2 control-label" for="description_ro">Description RO:</label>
+              <label class="col-md-2 control-label" for="description_ro">{{getCurrentLabelValue('lblDescription')}}
+                RO:</label>
               <div class="col-md-10" style="height: 100%">
                 <textarea id="description_ro" [ngClass]="{'valid-control':genDetailsForm.controls['description_ro'].valid,
                         'invalid-control':!genDetailsForm.controls['description_ro'].valid}"
@@ -33,7 +34,8 @@
             </div>
 
             <div class="form-group" style="height: 15%;">
-              <label class="col-md-2 control-label" for="description_en">Description EN:</label>
+              <label class="col-md-2 control-label" for="description_en">{{getCurrentLabelValue('lblDescription')}}
+                EN:</label>
               <div class="col-md-10" style="height: 100%">
                 <textarea id="description_en" [ngClass]="{'valid-control':genDetailsForm.controls['description_en'].valid,
                                     'invalid-control':!genDetailsForm.controls['description_en'].valid}"
@@ -72,14 +74,14 @@
               </div>
             </div> -->
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="county">Judet:</label>
+              <label class="col-md-2 control-label" for="county">{{getCurrentLabelValue('lblCounty')}}:</label>
               <div class="col-md-10">
                 <p-dropdown [options]="counties" formControlName="county" [style]="{'width':'100%'}" [filter]="true"
                   (onChange)="onLoadCities(this.genDetailsForm.controls['county'].value)"></p-dropdown>
               </div>
             </div>
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="city">Localitate:</label>
+              <label class="col-md-2 control-label" for="city">{{getCurrentLabelValue('lblCity')}}:</label>
               <div class="col-md-10">
                 <p-dropdown [options]="cities" formControlName="city" [style]="{'width':'100%'}" [filter]="true">
                 </p-dropdown>
@@ -172,7 +174,8 @@
             </li>
           </ul>
           <div [hidden]="!subTabs.workingHours.active" style="height: 95%;overflow-x: auto;padding-top: 5px;">
-            <bf-working-hours [IsCompanyWorkingHours]="true" [workingHours]="workingHours" (selectTimeSlot)="onUpdateWorkingHours($event)">
+            <bf-working-hours [IsCompanyWorkingHours]="true" [workingHours]="workingHours"
+              (selectTimeSlot)="onUpdateWorkingHours($event)">
             </bf-working-hours>
           </div>
           <div [hidden]="!subTabs.specialDays.active" style="height: 95%;padding-top: 5px;">
@@ -228,10 +231,9 @@
 <p-dialog header="Affected Bookings" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
   [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="affectedBookings"
-    (bookingRemoved)="onBookingRemoved($event)" 
-    (bookingMoved)="onBookingMoved($event)"
-    (bookingCanceled)="onBookingCanceled($event)"
-    (onBookingsNone)="displayAffectedBookings=false;"></bf-booking-management-dialog>
+    (bookingRemoved)="onBookingRemoved($event)" (bookingMoved)="onBookingMoved($event)"
+    (bookingCanceled)="onBookingCanceled($event)" (onBookingsNone)="displayAffectedBookings=false;">
+  </bf-booking-management-dialog>
 </p-dialog>
 
 <p-growl [value]="pageMsgs"></p-growl>

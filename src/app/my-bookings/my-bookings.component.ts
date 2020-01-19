@@ -31,7 +31,17 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
       [
         'lblConfirmation',
         'lblYes',
-        'lblNo'
+        'lblNo',
+        'lblMyBookings',
+        'lblDate',
+        'lblCompanyName',
+        'lblStartTime',
+        'lblEndTime',
+        'lblAddress',
+        'lblPhone',
+        'lblCancel',
+        'lblBooking',
+        'lblConfirmCancelBooking'
       ]
     );
     this.site = WebSites.Front;

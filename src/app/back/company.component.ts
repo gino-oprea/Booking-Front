@@ -12,16 +12,29 @@ import { User } from 'app/objects/user';
   styleUrls: ['./company.component.css']
 })
 export class CompanyComponent extends BaseComponent implements OnInit
-{  
+{
   sidebarShow: boolean = false;
   currentUser: User;
-  
+
   constructor(private injector: Injector)
   {
-    super(injector, []);
+    super(injector, [
+      'lblDetails',
+      'lblGeneralDetails',
+      'lblLevels',
+      'lblEntities',
+      'lblTimetables',
+      'lblLevelLinking',
+      'lblBookings',
+      'lblBookingsHistory',
+      'lblClients',
+      'lblUsers',
+      'lblDashboard',
+      'lblLogs'
+    ]);
     this.site = WebSites.Back;
     this.pageName = "Company";
-       
+
     this.routeSubscription = this.route.params.subscribe((params: any) =>
     {
       if (params.hasOwnProperty('id'))
@@ -37,20 +50,20 @@ export class CompanyComponent extends BaseComponent implements OnInit
     this.currentUser = this.loginService.getCurrentUser();
   }
   hasRolePermission(requiredRole: string): boolean
-  {    
-    let role = this.currentUser.roles.find(r => r.idCompany == this.idCompany);    
+  {
+    let role = this.currentUser.roles.find(r => r.idCompany == this.idCompany);
     if (role.idRole <= UserRoleEnum[requiredRole])
       return true;
     else
       return false;
   }
- 
+
   toggleSideBar()
   {
     if (this.sidebarShow)
       this.sidebarShow = false;
     else
-      this.sidebarShow = true;  
+      this.sidebarShow = true;
   }
 
 }

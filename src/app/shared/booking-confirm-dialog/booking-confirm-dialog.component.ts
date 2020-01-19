@@ -52,7 +52,19 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
     private imageService: ImageService,
     private recaptchaService: RecaptchaService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblConfirmation',
+      'lblFirstName',
+      'lblLastName',
+      'lblPhone',
+      'lblPrice',
+      'lblDate',
+      'lblStartDate',
+      'lblEndDate',
+      'lblStartTime',
+      'lblEndTime',
+      'lblBooking'
+    ]);
     this.site = WebSites.Front;
     this.pageName = "Booking confirm dialog";
 

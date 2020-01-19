@@ -28,7 +28,12 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
     private domSanitizationService: DomSanitizer)
   {
     super(injector,
-      ['lblTest']
+      [
+        'lblCompanies',
+        'lblCategory',
+        'lblAddress',
+        'lblCity'
+      ]
     );
     this.site = WebSites.Front;
     this.pageName = "Search Company";

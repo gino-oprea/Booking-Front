@@ -1,4 +1,4 @@
-<legend style="margin-bottom: 10px;">My Bookings</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblMyBookings')}}</legend>
 <div *ngIf="bookings" class="row" style="height: 100%;">
   <div class="col-md-4" style="height: 100%; overflow: auto;">
     <!-- <ol style="padding:0px;">
@@ -7,24 +7,24 @@
     </ol> -->
 
     <p-table [value]="bookings" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%"
-    (onRowSelect)="selectBooking($event)" [(selection)]="selectedBooking">      
+      (onRowSelect)="selectBooking($event)" [(selection)]="selectedBooking">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center">Date</th>
-          <th style="width:150px;text-align:center">Company Name</th>         
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblDate')}}</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblCompanyName')}}</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-booking>
         <tr [pSelectableRow]="booking">
           <td style="width:150px;text-align:center">{{booking.startDate | date:'dd MMM yyyy'}}</td>
-          <td style="width:150px;text-align:center">{{booking.companyName}}</td>          
+          <td style="width:150px;text-align:center">{{booking.companyName}}</td>
         </tr>
       </ng-template>
     </p-table>
   </div>
   <div *ngIf="selectedBooking" class="col-md-2">
     <div *ngFor="let entity of selectedBooking.entities">
-      <div class="label label-default">{{entity.entityName_EN}}</div>
+      <div class="label label-default">{{currentCulture =='EN' ? entity.entityName_EN : entity.entityName_RO}}</div>
       <div>
         <img *ngIf="entity.images && entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
           style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
@@ -34,86 +34,87 @@
     </div>
   </div>
   <div *ngIf="selectedBooking" class="col-md-6">
-      <!-- <div class="row" style="padding-left:20px;padding-right: 20px;">
+    <!-- <div class="row" style="padding-left:20px;padding-right: 20px;">
           <h4 *ngFor="let entity of selectedBooking.entities" style="display: inline-block; padding-left:5px;padding-right: 5px;">
             <span class="label label-default">{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</span>
           </h4>          
         </div>
         <br> -->
-        <form class="form-horizontal" style="height: 100%; width:100%;">          
-          <div>            
-            <div class="ui-grid ui-grid-responsive ui-fluid">
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-2">
-                  <label style="padding: 5px;" for="startTime">Start Time:</label>
-                </div>
-                <div class="col-md-2">
-                  <span>{{selectedBooking.startTime | date:'HH:mm'}}</span>
-                </div>
-              </div>
-            </div>            
-            <div class="ui-grid ui-grid-responsive ui-fluid">
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-2">
-                  <label style="padding: 5px;" for="endTime">End Time:</label>
-                </div>
-                <div class="col-md-2">
-                  <span>{{selectedBooking.endTime | date:'HH:mm'}}</span>
-                </div>
-              </div>
-            </div> 
-
-            <div class="ui-grid ui-grid-responsive ui-fluid">
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-2">
-                  <label style="padding: 5px;" for="endTime">Address:</label>
-                </div>
-                <div class="col-md-6">
-                  <span>{{selectedBooking.companyAddress}}</span>
-                </div>
-              </div>
+    <form class="form-horizontal" style="height: 100%; width:100%;">
+      <div>
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+              <label style="padding: 5px;" for="startTime">{{getCurrentLabelValue('lblStartTime')}}:</label>
             </div>
-
-            <div class="ui-grid ui-grid-responsive ui-fluid">
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-2">
-                  <label style="padding: 5px;" for="endTime">Email:</label>
-                </div>
-                <div class="col-md-3">
-                  <span>{{selectedBooking.companyEmail}}</span>
-                </div>
-              </div>
+            <div class="col-md-2">
+              <span>{{selectedBooking.startTime | date:'HH:mm'}}</span>
             </div>
-
-            <div class="ui-grid ui-grid-responsive ui-fluid">
-              <div class="ui-grid-row">
-                <div class="ui-grid-col-2">
-                  <label style="padding: 5px;" for="endTime">Phone:</label>
-                </div>
-                <div class="col-md-3">
-                  <span>{{selectedBooking.companyPhone}}</span>
-                </div>
-              </div>
-            </div>
-            
           </div>
-          <footer>
-            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-              <button class="btn btn-danger" (click)="showConfirmDialog()">
-                <i class="fa fa-remove"> Cancel booking</i>
-              </button>
+        </div>
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+              <label style="padding: 5px;" for="endTime">{{getCurrentLabelValue('lblEndTime')}}:</label>
             </div>
-          </footer>
-        </form>                           
+            <div class="col-md-2">
+              <span>{{selectedBooking.endTime | date:'HH:mm'}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+              <label style="padding: 5px;" for="endTime">{{getCurrentLabelValue('lblAddress')}}:</label>
+            </div>
+            <div class="col-md-6">
+              <span>{{selectedBooking.companyAddress}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+              <label style="padding: 5px;" for="endTime">Email:</label>
+            </div>
+            <div class="col-md-3">
+              <span>{{selectedBooking.companyEmail}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-2">
+              <label style="padding: 5px;" for="endTime">{{getCurrentLabelValue('lblPhone')}}:</label>
+            </div>
+            <div class="col-md-3">
+              <span>{{selectedBooking.companyPhone}}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button class="btn btn-danger" (click)="showConfirmDialog()">
+            <i class="fa fa-remove"> {{getCurrentLabelValue('lblCancel')}} {{getCurrentLabelValue('lblBooking')}}</i>
+          </button>
+        </div>
+      </footer>
+    </form>
   </div>
 </div>
 
-<p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayConfirmDialog" modal="modal" width="300"
-  responsive="true">
-  <p>Sunteti sigur ca doriti sa anulati programarea?</p>
+<p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayConfirmDialog" modal="modal"
+  width="300" responsive="true">
+  <p>{{getCurrentLabelValue('lblConfirmCancelBooking')}}?</p>
   <footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton (click)="displayConfirmDialog=false" [label]="getCurrentLabelValue('lblNo')"></button>
+      <button type="button" pButton (click)="displayConfirmDialog=false"
+        [label]="getCurrentLabelValue('lblNo')"></button>
       <button type="button" pButton (click)="onCancelBooking()" [label]="getCurrentLabelValue('lblYes')"></button>
     </div>
   </footer>
