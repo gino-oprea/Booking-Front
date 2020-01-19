@@ -1,15 +1,17 @@
-<legend style="margin-bottom: 10px;">Entities</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblEntities')}}</legend>
 <div class="row" style="height: 5%;">
   <div class="col-md-6" style="height: 100%;">
     <div class="form-group" style="margin-bottom: 0px;">
       <div class="col-md-5" style="padding: 5px;">
         <select [(ngModel)]="selectedLevelId" (change)="onDdlChangeLevel()" style="height: 100%;width: 100%;">
-          <option *ngFor="let l of levels" [value]="l.id">{{l.levelName_EN}}</option>
+          <option *ngFor="let l of levels" [value]="l.id">{{currentCulture == 'EN' ? l.levelName_EN : l.levelName_RO}}
+          </option>
         </select>
       </div>
       <div class="col-md-6" style="padding: 5px;">
         <select [(ngModel)]="selectedEntityId" (change)="onDdlChangeEntity()" style="height: 100%;width: 100%;">
-          <option *ngFor="let e of entities" [value]="e.id">{{e.entityName_EN}}</option>
+          <option *ngFor="let e of entities" [value]="e.id">
+            {{currentCulture == 'EN' ? e.entityName_EN : e.entityName_RO}}</option>
         </select>
       </div>
       <div class="col-md-1" style="padding-left: 5px;padding-right: 0px;">
@@ -25,11 +27,11 @@
     <ul class="nav nav-tabs">
       <li (click)="selectTab('details')" [class.active]="tabs.details.active" style="cursor: pointer;">
         <a style="color: black">
-          <i class="fa fa-file-text-o"></i> Details</a>
+          <i class="fa fa-file-text-o"></i> {{getCurrentLabelValue('lblDetails')}}</a>
       </li>
       <li (click)="selectTab('timeSettings')" [class.active]="tabs.timeSettings.active" style="cursor: pointer;">
         <a style="color: black;">
-          <i class="fa fa-calendar-o"></i> Time Settings</a>
+          <i class="fa fa-calendar-o"></i> {{getCurrentLabelValue('lblTimeSettings')}}</a>
       </li>
     </ul>
     <div [hidden]="!tabs.details.active" style="height: 95%;padding: 5px;">
@@ -38,14 +40,14 @@
           <form class="form-horizontal" style="height: 100%" id="user-form" [formGroup]="genDetailsForm"
             (ngSubmit)="onSaveGenDetailsForm()">
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="name_ro">Name RO:</label>
+              <label class="col-md-2 control-label" for="name_ro">{{getCurrentLabelValue('lblName_RO')}}:</label>
               <div class="col-md-10">
                 <input type="text" id="name_ro" formControlName="name_ro" [ngClass]="{'valid-control':genDetailsForm.controls['name_ro'].valid,
                         'invalid-control':!genDetailsForm.controls['name_ro'].valid}" class="form-control">
               </div>
             </div>
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="name_en">Name EN:</label>
+              <label class="col-md-2 control-label" for="name_en">{{getCurrentLabelValue('lblName_EN')}}:</label>
               <div class="col-md-10">
                 <input type="text" id="name_en" formControlName="name_en" [ngClass]="{'valid-control':genDetailsForm.controls['name_en'].valid,
                         'invalid-control':!genDetailsForm.controls['name_en'].valid}" class="form-control">
@@ -53,7 +55,8 @@
             </div>
 
             <div class="form-group" style="height: 15%;">
-              <label class="col-md-2 control-label" for="description_ro">Description RO:</label>
+              <label class="col-md-2 control-label" for="description_ro">{{getCurrentLabelValue('lblDescription')}}
+                RO:</label>
               <div class="col-md-10" style="height: 100%">
                 <textarea id="description_ro" [ngClass]="{'valid-control':genDetailsForm.controls['description_ro'].valid,
                         'invalid-control':!genDetailsForm.controls['description_ro'].valid}"
@@ -62,7 +65,8 @@
               </div>
             </div>
             <div class="form-group" style="height: 15%;">
-              <label class="col-md-2 control-label" for="description_en">Description EN:</label>
+              <label class="col-md-2 control-label" for="description_en">{{getCurrentLabelValue('lblDescription')}}
+                EN:</label>
               <div class="col-md-10" style="height: 100%">
                 <textarea id="description_en" [ngClass]="{'valid-control':genDetailsForm.controls['description_en'].valid,
                         'invalid-control':!genDetailsForm.controls['description_en'].valid}"
@@ -75,7 +79,7 @@
               <div class="form-group" style="height: 25%;"
                 *ngFor="let characteristic of selectedEntity.characteristics; let i = index" [formGroupName]="i">
                 <label class="col-md-2 control-label"
-                  for="characteristic">{{characteristic.characteristicName_EN}}:</label>
+                  for="characteristic">{{currentCulture == 'EN' ? characteristic.characteristicName_EN : characteristic.characteristicName_RO}}:</label>
                 <div *ngIf="characteristic.idFieldType == 2" class="col-md-5" style="height: 100%">
                   <input type="text" id="characteristic" placeholder="english" formControlName="characteristic_value_en"
                     type="text" class="form-control valid-control">
@@ -92,10 +96,10 @@
             </div>
 
             <div *ngIf="selectedLevel">
-              <div *ngIf="selectedLevel.idLevelType == 2">*Nu se poate schimba durata unui serviciu pe care sunt deja
-                facute programari</div>
+              <div *ngIf="selectedLevel.idLevelType == 2">*{{getCurrentLabelValue('lblCantChangeServiceDuration')}}
+              </div>
               <div *ngIf="selectedLevel.idLevelType == 2" class="form-group" style="height: 6%;">
-                <label class="col-md-2 control-label" for="duration">Duration:</label>
+                <label class="col-md-2 control-label" for="duration">{{getCurrentLabelValue('lblDuration')}}:</label>
                 <div class="col-md-4">
                   <!-- <input id="duration" type="text" formControlName="duration" [ngClass]="{'valid-control':genDetailsForm.controls['duration'].valid,
                         'invalid-control':!genDetailsForm.controls['duration'].valid}" class="form-control"> -->
@@ -113,7 +117,7 @@
                 </div>
               </div>
               <div *ngIf="selectedLevel.idLevelType == 2" class="form-group" style="height: 6%;">
-                <label class="col-md-2 control-label" for="price">Price:</label>
+                <label class="col-md-2 control-label" for="price">{{getCurrentLabelValue('lblPrice')}}:</label>
                 <div class="col-md-10">
                   <input id="price" type="text" formControlName="price" [ngClass]="{'valid-control':genDetailsForm.controls['price'].valid,
                         'invalid-control':!genDetailsForm.controls['price'].valid}" class="form-control">
@@ -133,13 +137,13 @@
               <div class="col-md-5">
                 <button [disabled]="!genDetailsForm.valid" (click)="setEntitySubmitType(true)" type="submit"
                   id="btnSubmit" class="btn btn-success from-control" style="width: 100%">
-                  <i class="fa fa-save"></i> Save
+                  <i class="fa fa-save"></i> {{getCurrentLabelValue('lblSave')}}
                 </button>
               </div>
               <div class="col-md-5">
                 <button type="submit" (click)="setEntitySubmitType(false)" class="btn btn-danger from-control"
                   style="width: 100%">
-                  <i class="fa fa-remove"></i> Delete
+                  <i class="fa fa-remove"></i> {{getCurrentLabelValue('lblDelete')}}
                 </button>
               </div>
             </div>
@@ -150,7 +154,7 @@
             <div class="col-md-12">
               <input id=file type="file" (change)="onUpload($event)" class="inputfile" />
               <label for="file" class="btn btn-primary" style="margin-bottom: 2px;">
-                <i class="fa fa-upload"></i> Upload image</label>
+                <i class="fa fa-upload"></i> {{getCurrentLabelValue('lblUploadImage')}}</label>
             </div>
           </div>
           <div class="row" style="height: 92%;">
@@ -175,12 +179,12 @@
             <li (click)="selectSubTab('workingHours')" [class.active]="subTabs.workingHours.active"
               style="cursor: pointer;">
               <a style="color: black">
-                <i class="fa fa-clock-o"></i> Working hours</a>
+                <i class="fa fa-clock-o"></i> {{getCurrentLabelValue('lblWorkingHours')}}</a>
             </li>
             <li (click)="selectSubTab('specialDays')" [class.active]="subTabs.specialDays.active"
               style="cursor: pointer;">
               <a style="color: black;">
-                <i class="fa fa-calendar"></i> Special Days</a>
+                <i class="fa fa-calendar"></i> {{getCurrentLabelValue('lblSpecialDays')}}</a>
             </li>
           </ul>
           <div [hidden]="!subTabs.workingHours.active" style="height: 95%;padding-top: 5px;">
@@ -189,7 +193,7 @@
                 <div class="checkbox" style="margin: 0px 0px 0px 15px;padding: 5px;">
                   <label>
                     <input [(ngModel)]="isCustomWH" type="checkbox" (change)="onIsCustomChange()"
-                      value="">Custom</label>
+                      value="">{{getCurrentLabelValue('lblCustom')}}</label>
                 </div>
               </div>
 
@@ -197,12 +201,12 @@
                 <div class="checkbox" style="margin: 0px;padding: 5px;">
                   <label>
                     <input [(ngModel)]="isVariableWH" type="checkbox" (change)="onIsVariableChange()"
-                      value="">Variable</label>
+                      value="">{{getCurrentLabelValue('lblVariable')}}</label>
                 </div>
               </div>
               <div class="col-md-4" style="padding:5px;">
                 <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%;">
-                  <option value="0">Company working hours</option>
+                  <option value="0">{{getCurrentLabelValue('lblCompanyWorkingHours')}}</option>
                   <option *ngFor="let wh of customWorkingHours; let i=index;" [value]="wh.id">{{wh.name}}</option>
                 </select>
               </div>
@@ -232,14 +236,14 @@
   </div>
 </div>
 
-<p-dialog header="Add entity" [(visible)]="displayDialogAddEntity" [responsive]="true" showEffect="fade" [modal]="true"
-  width="400">
+<p-dialog header="{{getCurrentLabelValue('lblAddEntity')}}" [(visible)]="displayDialogAddEntity" [responsive]="true"
+  showEffect="fade" [modal]="true" width="400">
   <form class="form-horizontal" style="height: 100%" id="addEntity-form" [formGroup]="addEntityForm"
     (ngSubmit)="onAddEntityForm()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="addEntityName_RO">Entity name RO:</label>
+          <label style="padding: 5px;" for="addEntityName_RO">{{getCurrentLabelValue('lblEntityName_RO')}}:</label>
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="addEntityName_RO" formControlName="addEntityName_RO" [ngClass]="{'valid-control':addEntityForm.controls['addEntityName_RO'].valid,
@@ -251,7 +255,7 @@
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="addEntityName_EN">Entity name EN:</label>
+          <label style="padding: 5px;" for="addEntityName_EN">{{getCurrentLabelValue('lblEntityName_EN')}}:</label>
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="addEntityName_EN" formControlName="addEntityName_EN" [ngClass]="{'valid-control':addEntityForm.controls['addEntityName_EN'].valid,
@@ -262,7 +266,7 @@
     <footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="submit" [disabled]="!addEntityForm.valid" class="btn btn-success">
-          <i class="fa fa-check"> Save</i>
+          <i class="fa fa-check"> {{getCurrentLabelValue('lblSave')}}</i>
         </button>
       </div>
     </footer>
@@ -296,14 +300,14 @@
   <footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
       <button type="button" [value]="" class="btn btn-danger" (click)="deleteImage()">
-        <i class="fa fa-remove"></i> Delete
+        <i class="fa fa-remove"></i> {{getCurrentLabelValue('lblDelete')}}
       </button>
     </div>
   </footer>
 </p-dialog>
 
-<p-dialog header="Affected Bookings" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
-  [modal]="true" width="1200">
+<p-dialog header="{{getCurrentLabelValue('lblAffectedBookings')}}" [(visible)]="displayAffectedBookings"
+  [responsive]="true" showEffect="fade" [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="affectedBookings"
     (bookingRemoved)="onBookingRemoved($event)" (bookingMoved)="onBookingMoved($event)"
     (bookingCanceled)="onBookingCanceled($event)" (onBookingsNone)="displayAffectedBookings=false;">

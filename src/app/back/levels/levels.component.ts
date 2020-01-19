@@ -59,7 +59,28 @@ export class LevelsComponent extends BaseComponent implements OnInit
     private levelsService: LevelsService,
     private entitiesService: EntitiesService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblStructureLevels',
+      'lblEntities',
+      'lblLevelAdditionalCharacteristics',
+      'lblEntityName_RO',
+      'lblEntityName_EN',
+      'lblName_RO',
+      'lblName_EN',
+      'lblType',
+      'lblAllowUserOption',
+      'lblSave',
+      'lblDelete',
+      'lblAddLevelCharacteristic',
+      'lblEditLevelCharacteristic',
+      'lblAddEntity',
+      'lblAddLevel',
+      'lblEditLevel',
+      'lblLevelName_RO',
+      'lblLevelName_EN',
+      'lblDefaultDuration',
+      'lblMultipleBookings'
+    ]);
     this.site = WebSites.Back;
     this.pageName = "Levels";
 

@@ -91,12 +91,34 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     private entitiesService: EntitiesService)
   {
     super(injector, [
+      'lblEntities',
+      'lblDetails',
+      'lblTimeSettings',
       'lblSpecialDay',
       'lblSaved',
       'lblSave',
       'lblDelete',
       'lblRepeatEveryYear',
-      'lblSelectedDayAlreadySpecial'
+      'lblSelectedDayAlreadySpecial',
+      'lblCantChangeServiceDuration',
+      'lblDuration',
+      'lblPrice',
+      'lblName_RO',
+      'lblName_EN',
+      'lblDescription',
+      'lblUploadImage',
+      'lblAddEntity',
+      'lblEntityName_RO',
+      'lblEntityName_EN',
+      'lblWorkingHours',
+      'lblSpecialDays',
+      'lblCustom',
+      'lblVariable',
+      'lblCompanyWorkingHours',
+      'lblAddEntity',
+      'lblEntityName_RO',
+      'lblEntityName_EN',
+      'lblAffectedBookings'
     ]);
 
     this.site = WebSites.Back;
