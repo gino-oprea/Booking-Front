@@ -15,7 +15,8 @@ import { RecaptchaService } from '../app-services/recaptcha.service';
 export class ContactComponent extends BaseComponent implements OnInit 
 {
   contactForm: FormGroup;
-  user: User;
+  user: User;  
+  agree: boolean = false;
 
   validCaptcha: boolean = false;
 
@@ -23,7 +24,22 @@ export class ContactComponent extends BaseComponent implements OnInit
     private contactService: ContactService,
     private recaptchaService: RecaptchaService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblIHaveRead',
+      'lblPrivacyPolicy',
+      'lblAndIAgree',
+      'lblFirstName',
+      'lblLastName',
+      'lblEmail',
+      'lblPhone',
+      'lblSubject',
+      'lblMessage',
+      'lblSubmit',
+      'lblRequest',
+      'lblComplaint',
+      'lblSuggestion',
+      'lblOther'
+    ]);
     this.site = WebSites.Front;
     this.pageName = "Contact";
   }
@@ -45,6 +61,7 @@ export class ContactComponent extends BaseComponent implements OnInit
 
       'subject': new FormControl('Feedback', Validators.required),
       'message': new FormControl('', Validators.required),
+      'agree': new FormControl(false)
     });
   }
 
@@ -60,6 +77,10 @@ export class ContactComponent extends BaseComponent implements OnInit
     };
 
     return contact
+  }
+  isUserAgree()
+  {
+    this.agree = this.contactForm.controls['agree'].value;
   }
 
   onSubmit()

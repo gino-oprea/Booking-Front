@@ -15,7 +15,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-booking>
-        <tr [pSelectableRow]="booking">
+        <tr [pSelectableRow]="booking" [ngClass]="isFutureDate(booking.startDate) ? null : 'pastBooking'">
           <td style="width:150px;text-align:center">{{booking.startDate | date:'dd MMM yyyy'}}</td>
           <td style="width:150px;text-align:center">{{booking.companyName}}</td>
         </tr>
@@ -99,7 +99,7 @@
       </div>
       <footer>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-          <button class="btn btn-danger" (click)="showConfirmDialog()">
+          <button class="btn btn-danger" (click)="showConfirmDialog()" [disabled]="!isFutureDate(selectedBooking.startDate)">
             <i class="fa fa-remove"> {{getCurrentLabelValue('lblCancel')}} {{getCurrentLabelValue('lblBooking')}}</i>
           </button>
         </div>

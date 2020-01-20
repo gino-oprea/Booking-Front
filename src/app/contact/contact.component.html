@@ -8,14 +8,14 @@
           <form class="form-horizontal" style="height: 100%" id="user-form" [formGroup]="contactForm"
             (ngSubmit)="onSubmit()">
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="name">First Name:</label>
+              <label class="col-md-2 control-label" for="name">{{getCurrentLabelValue('lblFirstName')}}:</label>
               <div class="col-md-10">
                 <input type="text" id="firstName" formControlName="firstName" [ngClass]="{'valid-control':contactForm.controls['firstName'].valid,
                         'invalid-control':!contactForm.controls['firstName'].valid}" class="form-control">
               </div>
             </div>
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="name">Last Name:</label>
+              <label class="col-md-2 control-label" for="name">{{getCurrentLabelValue('lblLastName')}}:</label>
               <div class="col-md-10">
                 <input type="text" id="lastName" formControlName="lastName" [ngClass]="{'valid-control':contactForm.controls['lastName'].valid,
                                     'invalid-control':!contactForm.controls['lastName'].valid}" class="form-control">
@@ -23,7 +23,7 @@
             </div>
 
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="name">E-mail:</label>
+              <label class="col-md-2 control-label" for="name">{{getCurrentLabelValue('lblEmail')}}:</label>
               <div class="col-md-10">
                 <input type="text" id="email" formControlName="email" [ngClass]="{'valid-control':contactForm.controls['email'].valid,
                                                 'invalid-control':!contactForm.controls['email'].valid}"
@@ -32,7 +32,7 @@
             </div>
 
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="name">Phone:</label>
+              <label class="col-md-2 control-label" for="name">{{getCurrentLabelValue('lblPhone')}}:</label>
               <div class="col-md-10">
                 <input type="text" id="phone" formControlName="phone" [ngClass]="{'valid-control':contactForm.controls['phone'].valid,
                                                             'invalid-control':!contactForm.controls['phone'].valid}"
@@ -42,25 +42,34 @@
            
 
             <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="subject">Subject:</label>
+              <label class="col-md-2 control-label" for="subject">{{getCurrentLabelValue('lblSubject')}}:</label>
               <div class="col-md-10">                
                 <select formControlName="subject" style="height: 100%;width: 100%;">
                   <option value="Feedback">Feedback</option>
-                  <option value="Request">Request</option>
-                  <option value="Complaint">Complaint</option>
-                  <option value="Suggestion">Suggestion</option>
-                  <option value="Other">Other</option>
+                  <option value="Request">{{getCurrentLabelValue('lblRequest')}}</option>
+                  <option value="Complaint">{{getCurrentLabelValue('lblComplaint')}}</option>
+                  <option value="Suggestion">{{getCurrentLabelValue('lblSuggestion')}}</option>
+                  <option value="Other">{{getCurrentLabelValue('lblOther')}}</option>
                 </select>
               </div>
             </div>   
             
             <div class="form-group" style="height: 15%;">
-              <label class="col-md-2 control-label" for="message">Message:</label>
+              <label class="col-md-2 control-label" for="message">{{getCurrentLabelValue('lblMessage')}}:</label>
               <div class="col-md-10" style="height: 100%">
                 <textarea id="message" [ngClass]="{'valid-control':contactForm.controls['message'].valid,
                                                 'invalid-control':!contactForm.controls['message'].valid}"
                   formControlName="message" type="text" class="form-control input-md"
                   style="height: 100%;padding: 3px;resize: none;"></textarea>
+              </div>
+            </div>
+            
+            <div class="form-group" style="height: 5%; margin-left: 100px;">
+              <div class="checkbox" style="margin: 0px 0px 0px 15px;padding: 5px;">
+                <label>
+                  <input formControlName="agree"  type="checkbox" (change)="isUserAgree()">{{getCurrentLabelValue('lblIHaveRead')}}
+                  <a [routerLink]="['/gdpr']" routerLinkActive="selectedCategory"><b style="color: red;"> {{getCurrentLabelValue('lblPrivacyPolicy')}}</b></a>                  
+                  {{getCurrentLabelValue('lblAndIAgree')}}</label>
               </div>
             </div>
             
@@ -72,9 +81,9 @@
             <div class="form-group" style="height: 6%;">
               <label class="col-md-2 control-label" for="btnSubmit"></label>
               <div class="col-md-10">
-                <button [disabled]="!contactForm.valid || !validCaptcha" type="submit" id="btnSubmit"
+                <button [disabled]="!contactForm.valid || !validCaptcha || !agree" type="submit" id="btnSubmit"
                   class="btn btn-success from-control" style="width: 100%">
-                  <i class="fa fa-save"></i> Submit
+                  <i class="fa fa-save"></i> {{getCurrentLabelValue('lblSubmit')}}
                 </button>
               </div>
             </div>

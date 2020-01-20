@@ -20,6 +20,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
   bookings: Booking[];
   selectedBooking: Booking;
   displayConfirmDialog: boolean = false;
+  
 
   public COMP_IMG = require("../img/company.jpg");
 
@@ -105,6 +106,14 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
         this.selectedBooking.entities[i].images = images;
       }
     });
+  }
+  isFutureDate(date:Date):boolean
+  {
+    let currentDate = new Date();
+    if (new Date(date).getTime() < currentDate.getTime())
+      return false;
+    else
+      return true;
   }
 
   // deleteBooking()
