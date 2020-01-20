@@ -26,7 +26,19 @@ export class ClientsComponent extends BaseComponent implements OnInit
     private clientService: ClientService,
     private companyUsersService: CompanyUsersService) 
   {
-    super(injector, []);
+    super(injector, [
+      'lblClients',
+      'lblEmail',
+      'lblPhone',
+      'lblName',
+      'lblTotalBookings',
+      'lblActiveBookings',
+      'lblHonoredBookings',
+      'lblCanceledBookings',
+      'lblViewBookings',
+      'lblLatestBookings'
+    ]);
+
     this.site = WebSites.Back;
     this.pageName = "Clients";
 

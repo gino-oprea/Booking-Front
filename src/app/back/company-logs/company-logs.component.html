@@ -1,27 +1,27 @@
-<legend style="margin-bottom: 10px;">Company Logs</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblLogs')}}</legend>
 <div class="row" style="height: 7%;">
   <div class="col-md-12">
-    <span>Start Date: </span>
+    <span>{{getCurrentLabelValue('lblStartDate')}}: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
       (onSelect)="loadLogs()" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
-    <span> End Date: </span>
+    <span> {{getCurrentLabelValue('lblEndDate')}}: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate"
       readonlyInput="true" (onSelect)="loadLogs()" dateFormat="dd.M.yy"></p-calendar>
-    <span style="margin-left: 15px;"> Email:</span>
+    <span style="margin-left: 15px;"> {{getCurrentLabelValue('lblEmail')}}:</span>
     <input type="text" style="width: 130px;" [(ngModel)]="fiterEmail">
-    <span style="margin-left: 15px;"> Phone:</span>
+    <span style="margin-left: 15px;"> {{getCurrentLabelValue('lblPhone')}}:</span>
     <input type="text" style="width: 130px;" [(ngModel)]="filterPhone">
     <span style="margin-left: 15px;"> Site:</span>
     <select style="margin-left: 5px;" [(ngModel)]="selectedIdSite">
-      <option selected="true" value="null">Any</option>
+      <option selected="true" value="null">{{getCurrentLabelValue('lblAny')}}</option>
       <option value="1">Front</option>
       <option value="2">Back</option>
     </select>
-    <span style="margin-left: 15px;"> Page Name:</span>
+    <span style="margin-left: 15px;"> {{getCurrentLabelValue('lblPageName')}}:</span>
     <input type="text" style="width: 130px;" [(ngModel)]="filterPageName">
-    <span style="margin-left: 15px;"> Action:</span>
+    <span style="margin-left: 15px;"> {{getCurrentLabelValue('lblAction')}}:</span>
     <select style="margin-left: 5px;" [(ngModel)]="selectedIdAction">
-      <option selected="true" value="null">Any</option>
+      <option selected="true" value="null">{{getCurrentLabelValue('lblAny')}}</option>
       <option value="1">Save</option>
       <option value="2">Add</option>
       <option value="3">Edit</option>
@@ -33,7 +33,7 @@
       <option value="9">Cancel</option>
     </select>
     <button class="btn btn-primary from-control" (click)="loadLogs()" style="margin-left: 15px;"><i
-        class="fa fa-search"></i> Search</button>
+        class="fa fa-search"></i> {{getCurrentLabelValue('lblSearch')}}</button>
   </div>
 </div>
 <div class="row" style="height: 93%;">
@@ -44,31 +44,31 @@
       </ng-template> -->
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center" [ngSwitch]="'email'">Email
+          <th style="width:150px;text-align:center" [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
             <input *ngSwitchCase="'email'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'email', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'userFirstName'">First Name
+          <th style="width:150px;text-align:center" [ngSwitch]="'userFirstName'">{{getCurrentLabelValue('lblFirstName')}}
             <input *ngSwitchCase="'userFirstName'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'userFirstName', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'userLastName'">Last Name
+          <th style="width:150px;text-align:center" [ngSwitch]="'userLastName'">{{getCurrentLabelValue('lblLastName')}}
             <input *ngSwitchCase="'userLastName'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'userLastName', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">Phone
+          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">{{getCurrentLabelValue('lblPhone')}}
             <input *ngSwitchCase="'phone'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'phone', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'siteName'">Site Name
+          <th style="width:150px;text-align:center" [ngSwitch]="'siteName'">Site
             <input *ngSwitchCase="'siteName'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'siteName', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'pageName'">Page Name
+          <th style="width:150px;text-align:center" [ngSwitch]="'pageName'">{{getCurrentLabelValue('lblPageName')}}
             <input *ngSwitchCase="'pageName'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'pageName', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'actionName'">Action Name
+          <th style="width:150px;text-align:center" [ngSwitch]="'actionName'">{{getCurrentLabelValue('lblAction')}}
             <input *ngSwitchCase="'actionName'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'actionName', 'contains')" style="width: 130px;">
           </th>
@@ -76,7 +76,7 @@
             <input *ngSwitchCase="'logInfoMessage'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'logInfoMessage', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center">Date</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblDate')}}</th>
 
         </tr>
       </ng-template>

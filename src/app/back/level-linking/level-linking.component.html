@@ -1,4 +1,4 @@
-<legend style="margin-bottom: 10px;">Level linking</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblLevelLinking')}}</legend>
 <div class="row" style="height: 100%;">
   <div class="col-md-2" style="height: 100%;">
 
@@ -20,14 +20,14 @@
       </div>
       <div class="col-md-10">
         <div class="row">
-          <div class="col-md-12">Levels</div>
+          <div class="col-md-12">{{getCurrentLabelValue('lblLevels')}}</div>
         </div>
         <div class="col-md-12">
           <ol style="padding:0px;">
             <li class="list-group-item" style="cursor:pointer" *ngFor="let level of levels; let i = index"
               (click)="selectLevel(level)"
               [ngClass]="{'selected': (selectedLevel!=null ? level.id == selectedLevel.id : false)}">
-              {{level.levelName_RO}}</li>
+              {{currentCulture == 'EN' ? level.levelName_EN : level.levelName_RO}}</li>
           </ol>
         </div>
       </div>
@@ -36,7 +36,7 @@
 
   <div class="col-md-2" style="height: 100%;">
     <div class="row">
-      <div class="col-md-12">Entities</div>
+      <div class="col-md-12">{{getCurrentLabelValue('lblEntities')}}</div>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -44,7 +44,7 @@
           <li class="list-group-item" style="cursor:pointer" *ngFor="let entity of entities; let i = index"
             (click)="selectEntity(entity)"
             [ngClass]="{'selected': (selectedEntity!=null ? entity.id == selectedEntity.id : false)}">
-            {{entity.entityName_RO}}</li>
+            {{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</li>
         </ol>
       </div>
     </div>
@@ -52,13 +52,13 @@
 
   <div class="col-md-2" style="height: 100%;">
     <div class="row">
-      <div class="col-md-12">Next entities</div>
+      <div class="col-md-12">{{getCurrentLabelValue('lblNextEntities')}}</div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <ol style="padding:0px;">
           <li class="list-group-item" style="cursor:pointer" *ngFor="let entity of nextEntities; let i = index">
-            {{entity.entityName_RO}}
+            {{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}
             <input type="checkbox" [checked]="isCheckedEntity(entity.id)" (change)="onLinkChange($event,entity)"
               style="float:right;margin:0px;">
           </li>
@@ -71,7 +71,7 @@
   </div>
 </div>
 
-<p-dialog header="Affected Bookings" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
+<p-dialog header="{{getCurrentLabelValue('lblAffectedEntities')}}" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
   [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="affectedBookings"
     (bookingRemoved)="onBookingRemoved($event)" 
@@ -80,9 +80,9 @@
     (onBookingsNone)="displayAffectedBookings=false;"></bf-booking-management-dialog>
 </p-dialog>
 
-<p-dialog header="Confirm" [(visible)]="displayConfirmMoveLevel" [responsive]="true" showEffect="fade" [modal]="true"
+<p-dialog header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmMoveLevel" [responsive]="true" showEffect="fade" [modal]="true"
   width="350">
-  <bf-generic-confirm-dialog [confirmMessage]="confirmMoveLevelMessage" (onConfirm)="onConfirmMoveLevel($event)">
+  <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblLevelMoveWarning')" (onConfirm)="onConfirmMoveLevel($event)">
   </bf-generic-confirm-dialog>
 </p-dialog>
 

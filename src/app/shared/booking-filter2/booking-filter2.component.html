@@ -4,7 +4,7 @@
       style="margin:2px;padding:2px;" class="container-fluid well span6 col-md-12">
       <div class="row-fluid">
         <div class="span8">
-          <h5>{{level.levelName_EN}}</h5>
+          <h5>{{currentCulture == 'EN' ? level.levelName_EN : level.levelName_RO}}</h5>
         </div>
         <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2"
           style="margin-bottom: 5px;">

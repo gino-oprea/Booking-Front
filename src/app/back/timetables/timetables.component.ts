@@ -37,7 +37,15 @@ export class TimetablesComponent extends BaseComponent implements OnInit
     private entitiesService: EntitiesService,
     private companyService: CompanyService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblTimetablesWarning',
+      'lblName',
+      'lblEdit',
+      'lblSave',
+      'lblDelete',
+      'lblAdd',
+      'lblAffectedBookings'
+    ]);
 
     this.site = WebSites.Back;
     this.pageName = "Timetables";

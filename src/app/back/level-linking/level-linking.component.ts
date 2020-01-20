@@ -35,7 +35,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   affectedBookings: Booking[] = [];
 
   displayConfirmMoveLevel: boolean = false;
-  confirmMoveLevelMessage: string = "Are you sure you want to move the level order? Entities linking may be affected."
+  //confirmMoveLevelMessage: string = this.getCurrentLabelValue('lblLevelMoveWarning');//"Are you sure you want to move the level order? Entities linking may be affected."
 
 
   constructor(private injector: Injector,
@@ -43,7 +43,16 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
     private entitiesService: EntitiesService,
     private levelLinkingService: LevelLinkingService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblLevelLinking',
+      'lblNextEntities',
+      'lblEntities',
+      'lblLevels',
+      'lblAffectedEntities',
+      'lblConfirmation',
+      'lblLevelMoveWarning'
+    ]);
+
     this.site = WebSites.Back;
     this.pageName = "Level linking";
     let parentRoute: ActivatedRoute = this.route.parent;

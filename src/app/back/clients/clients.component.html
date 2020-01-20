@@ -1,4 +1,4 @@
-<legend style="margin-bottom: 10px;">Clients</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblClients')}}</legend>
 <div class="row" style="height: 100%;">
   <div class="col-md-12" style="height: 100%;">
     <p-table #dt [value]="clients" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="99%">
@@ -7,22 +7,22 @@
       </ng-template> -->
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center" [ngSwitch]="'email'">Email
+          <th style="width:150px;text-align:center" [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
             <input *ngSwitchCase="'email'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'email', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">Phone
+          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">{{getCurrentLabelValue('lblPhone')}}
             <input *ngSwitchCase="'phone'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'phone', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'firstName'">Name
+          <th style="width:150px;text-align:center" [ngSwitch]="'firstName'">{{getCurrentLabelValue('lblName')}}
             <input *ngSwitchCase="'firstName'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'firstName', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center">Total bookings</th>
-          <th style="width:150px;text-align:center">Active bookings</th>
-          <th style="width:150px;text-align:center">Honored bookings</th>
-          <th style="width:150px;text-align:center">Canceled bookings</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblTotalBookings')}}</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblActiveBookings')}}</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblHonoredBookings')}}</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblCanceledBookings')}}</th>
           <th style="width:150px;text-align:center">
             <!-- <button type="button" class="btn btn-primary">
               <i class="fa fa-search">View bookings</i>
@@ -42,7 +42,7 @@
           <td style="width:150px;text-align:center">
             <button type="button" class="btn btn-primary"
               (click)="selectedPhone=client.phone; displayLatestBookings=true">
-              <i class="fa fa-search"> View bookings</i>
+              <i class="fa fa-search"> {{getCurrentLabelValue('lblViewBookings')}}</i>
             </button>
           </td>
         </tr>
@@ -51,7 +51,7 @@
   </div>
 </div>
 
-<p-dialog appendTo="body" header="Latest bookings" [(visible)]="displayLatestBookings" [responsive]="true"
+<p-dialog appendTo="body" header="{{getCurrentLabelValue('lblLatestBookings')}}" [(visible)]="displayLatestBookings" [responsive]="true"
   showEffect="fade" [modal]="true" [style]="{width: '900px',  height: '500px'}" [contentStyle]="{'min-height':'500px'}">
   <bf-bookings-history [isDialog]="true" [phone]="selectedPhone"></bf-bookings-history>
 </p-dialog>

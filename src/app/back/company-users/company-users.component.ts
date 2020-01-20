@@ -34,7 +34,21 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
     private entitiesService: EntitiesService,
     private companyUsersService: CompanyUsersService, )
   {
-    super(injector, []);
+    super(injector, [
+      'lblUsers',
+      'lblEmail',
+      'lblPhone',
+      'lblName',
+      'lblRole',
+      'lblCreationDate',
+      'lblLastLogin',
+      'lblFirstName',
+      'lblLastName',
+      'lblLinkedTo',
+      'lblAdd',
+      'lblSave',
+      'lblDelete'
+    ]);
 
     this.site = WebSites.Back;
     this.pageName = "CompanyUsers";

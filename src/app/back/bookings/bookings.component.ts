@@ -49,9 +49,9 @@ export class BookingsComponent extends BaseComponent implements OnInit
   isAddTabEnabled: boolean = true;
 
   searchTypes: { id: number, value: string }[] = [
-    { id: 1, value: 'Phone' },
-    { id: 2, value: 'Name' },
-    { id: 3, value: 'E-mail' },
+    { id: 1, value: 'lblPhone' },
+    { id: 2, value: 'lblName' },
+    { id: 3, value: 'lblEmail' },
   ];
 
   constructor(private injector: Injector,
@@ -59,7 +59,17 @@ export class BookingsComponent extends BaseComponent implements OnInit
     private imageService: ImageService,
     private entitiesService: EntitiesService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblBookingsManagement',
+      'lblSearchBy',
+      'lblPhone',
+      'lblName',
+      'lblEmail',
+      'lblSearchTerms',
+      'lblAddBooking',
+      'lblEditBooking',
+      'lblNoBookingsSavedYet'
+    ]);
     this.site = WebSites.Back;
     this.pageName = "Bookings";
 

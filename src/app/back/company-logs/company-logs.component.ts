@@ -28,7 +28,20 @@ export class CompanyLogsComponent extends BaseComponent implements OnInit
 
   constructor(private injector: Injector)
   {
-    super(injector, []);
+    super(injector, [
+      'lblLogs',
+      'lblStartDate',
+      'lblEndDate',
+      'lblEmail',
+      'lblPhone',
+      'lblPageName',
+      'lblAction',
+      'lblSearch',
+      'lblFirstName',
+      'lblLastName',
+      'lblDate',
+      'lblAny'
+    ]);
 
     this.site = WebSites.Back;
     this.pageName = "CompanyLogs";

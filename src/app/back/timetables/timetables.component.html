@@ -1,4 +1,4 @@
-<legend style="margin-bottom: 10px;">Timetables</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblTimetables')}}</legend>
 <div class="row" style="height: 5%;margin-left: 5px;">
   <div class="col-md-2" style="padding:5px;">
     <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%; width: 60%;">
@@ -12,8 +12,7 @@
       <i class="fa fa-plus"></i>
     </button>
   </div>
-  <div class="col-md-4" style="padding:5px;">* Atentie! Modificarea unui orar afecteaza toate entitatile care au asociat
-    orarul respectiv.</div>
+  <div class="col-md-4" style="padding:5px;">* {{getCurrentLabelValue('lblTimetablesWarning')}}.</div>
 </div>
 <div class="row" style="height: 95%;">
   <div class="col-md-12" style="height: 100%; overflow: auto;">
@@ -22,14 +21,14 @@
   </div>
 </div>
 
-<p-dialog header="{{isAddCustomWHMode == true ? 'Add' : 'Edit'}}" [(visible)]="displayDialogAddCustomWH"
+<p-dialog header="{{isAddCustomWHMode == true ? getCurrentLabelValue('lblAdd') : getCurrentLabelValue('lblEdit')}}" [(visible)]="displayDialogAddCustomWH"
   [responsive]="true" showEffect="fade" [modal]="true" width="400">
   <form class="form-horizontal" style="height: 100%" id="addCustomWH-form" [formGroup]="addCustomWHForm"
     (ngSubmit)="onAddEditCustomWH()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="customWHName">Name:</label>
+          <label style="padding: 5px;" for="customWHName">{{getCurrentLabelValue('lblName')}}:</label>
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="customWHName" formControlName="customWHName" [ngClass]="{'valid-control':addCustomWHForm.controls['customWHName'].valid,
@@ -41,17 +40,17 @@
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="submit" (click)="setCustomWHSubmitType(true)" [disabled]="!addCustomWHForm.valid"
           class="btn btn-success">
-          <i class="fa fa-check"> Save</i>
+          <i class="fa fa-check"> {{getCurrentLabelValue('lblSave')}}</i>
         </button>
         <button type="submit" (click)="setCustomWHSubmitType(false)" *ngIf="!isAddCustomWHMode" class="btn btn-danger">
-          <i class="fa fa-remove"> Delete</i>
+          <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
         </button>
       </div>
     </footer>
   </form>
 </p-dialog>
 
-<p-dialog header="Affected Bookings" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
+<p-dialog header="{{getCurrentLabelValue('lblAffectedBookings')}}" [(visible)]="displayAffectedBookings" [responsive]="true" showEffect="fade"
   [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="affectedBookings"
     (bookingRemoved)="onBookingRemoved($event)" 

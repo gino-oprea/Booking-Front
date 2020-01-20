@@ -44,7 +44,28 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
     private bookingService: BookingService,
     private companyUsersService: CompanyUsersService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblBookingsHistory',
+      'lblStartDate',
+      'lblEndDate',
+      'lblEntities',
+      'lblAny',
+      'lblHonored',
+      'lblCanceled',
+      'lblActive',
+      'lblSearch',
+      'lblDate',
+      'lblTime',
+      'lblEmail',
+      'lblPhone',
+      'lblName',
+      'lblEntities',
+      'lblDelete',
+      'lblConfirmation',
+      'lblDeleteBookingWarning',
+      'lblSelectedBooking',
+      'lblChangeStatus'
+    ]);
 
     this.site = WebSites.Back;
     this.pageName = "Bookings History";
@@ -132,7 +153,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   }
   getBookingStatusString(idStatus: number)
   {
-    return BookingStatus[idStatus];
+    return this.getCurrentLabelValue('lbl' + BookingStatus[idStatus]);
   }
   getBookingTimeString(booking: Booking)
   {

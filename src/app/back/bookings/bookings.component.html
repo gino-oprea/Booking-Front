@@ -1,11 +1,11 @@
-<legend style="margin-bottom: 10px;">Bookings Management</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblBookingsManagement')}}</legend>
 <div class="row" style="height: 5%; margin-bottom: 10px;">
   <div class="col-md-12" style="height: 100%;">
-    Search by
+    {{getCurrentLabelValue('lblSearchBy')}}
     <select style="margin-left: 5px;" [(ngModel)]="searchType">
-      <option *ngFor="let type of searchTypes" [value]="type.id">{{type.value}}</option>
+      <option *ngFor="let type of searchTypes" [value]="type.id">{{getCurrentLabelValue(type.value)}}</option>
     </select>
-    <input type="text" style="margin-left: 5px; width: 150px; padding: 2px;" placeholder="search terms"
+    <input type="text" style="margin-left: 5px; width: 150px; padding: 2px;" placeholder="{{getCurrentLabelValue('lblSearchTerms')}}"
       [(ngModel)]="searchString">
     <button class="btn btn-primary from-control" style="margin-left: 5px;" (click)="searchBooking()"><i
         class="fa fa-search"></i></button>
@@ -26,15 +26,15 @@
   </div>
 </div>
 
-<p-dialog header="Manage Bookings" (onHide)="onCloseManageBookingsDialog()" [(visible)]="displayDialogConfirmBooking"
+<p-dialog header="{{getCurrentLabelValue('lblBookingsManagement')}}" (onHide)="onCloseManageBookingsDialog()" [(visible)]="displayDialogConfirmBooking"
   [responsive]="true" showEffect="fade" [modal]="true" width="1200">
   <ul class="nav nav-tabs">
     <li (click)="selectTab('add')" [class.disabled]="!isAddTabEnabled" [class.active]="tabs.add.active"
       style="cursor: pointer;">
-      <a style="color: black"><i class="fa fa-calendar-plus-o"></i> Add Booking</a>
+      <a style="color: black"><i class="fa fa-calendar-plus-o"></i> {{getCurrentLabelValue('lblAddBooking')}}</a>
     </li>
     <li (click)="selectTab('edit')" [class.active]="tabs.edit.active" style="cursor: pointer;">
-      <a style="color: black;"><i class="fa fa-edit"></i> Edit Booking</a>
+      <a style="color: black;"><i class="fa fa-edit"></i> {{getCurrentLabelValue('lblEditBooking')}}</a>
     </li>
   </ul>
   <div [hidden]="!tabs.add.active">
@@ -44,7 +44,7 @@
       (bookingSaved)="bookingSaved($event)"></bf-booking-confirm-dialog>
   </div>
   <div [hidden]="!tabs.edit.active">
-    <p *ngIf="timeslotBookings.length==0">No bookings saved yet</p>
+    <p *ngIf="timeslotBookings.length==0">{{getCurrentLabelValue('lblNoBookingsSavedYet')}}</p>
     <bf-booking-management-dialog [bookings]="timeslotBookings" [idCompany]="idCompany"
       (bookingRemoved)="deleteBooking($event)" (bookingCanceled)="cancelBooking($event)"
       (bookingMoved)="editBooking($event)"></bf-booking-management-dialog>

@@ -1,4 +1,4 @@
-<legend style="margin-bottom: 10px;">Users</legend>
+<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblUsers')}}</legend>
 
 <div class="row" style="height: 100%;">
   <div class="col-md-6" style="height: 100%;">
@@ -6,10 +6,10 @@
       (onRowSelect)="onRowSelect($event)" [responsive]="true" scrollable="true" scrollHeight="99%">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center">Email</th>
-          <th style="width:150px;text-align:center">Phone</th>
-          <th style="width:150px;text-align:center">Name</th>
-          <th style="width:150px;text-align:center">Role</th>          
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblEmail')}}</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblPhone')}}</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblName')}}</th>
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblRole')}}</th>          
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
@@ -25,13 +25,13 @@
   <div class="col-md-6" style="height: 100%;">
     <div class="row" style="height: 7%;">
       <div class="col-md-2" style="padding: 1px">
-        <label class="control-label">Creation date:</label>
+        <label class="control-label">{{getCurrentLabelValue('lblCreationDate')}}:</label>
       </div>
       <div class="col-md-4" style="text-align: left;padding: 1px;">
         {{selectedUser? (selectedUser.creationDate | date:'dd MMM yyyy HH:mm:ss') :''}}
       </div>
       <div class="col-md-2" style="padding: 1px">
-        <label class="control-label">Last login:</label>
+        <label class="control-label">{{getCurrentLabelValue('lblLastLogin')}}:</label>
       </div>
       <div class="col-md-4" style="text-align: left;padding: 1px">
         {{selectedUser? (selectedUser.lastLoginDate | date:'dd MMM yyyy HH:mm:ss'):''}}
@@ -41,7 +41,7 @@
       (ngSubmit)="onSave()">
       <div class="row" style="height: 7%">
         <div class="col-md-2" style="padding: 1px;">
-          <label class="control-label" for="firstName">First name:</label>
+          <label class="control-label" for="firstName">{{getCurrentLabelValue('lblFirstName')}}:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">
           <input id="firstName" [ngClass]="{'valid-control':userForm.controls['firstName'].valid,
@@ -49,7 +49,7 @@
             type="text" class="form-control">
         </div>
         <div class="col-md-2" style="padding: 1px">
-          <label class="control-label" for="lastName">Last name:</label>
+          <label class="control-label" for="lastName">{{getCurrentLabelValue('lblLastName')}}:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">
           <input type="text" id="lastName" [ngClass]="{'valid-control':userForm.controls['lastName'].valid,
@@ -59,14 +59,14 @@
       </div>
       <div class="row" style="height: 7%">
         <div class="col-md-2" style="padding: 1px;">
-          <label class="control-label" for="phone">Phone:</label>
+          <label class="control-label" for="phone">{{getCurrentLabelValue('lblPhone')}}:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">
           <input id="phone" type="text" formControlName="phone" [ngClass]="{'valid-control':userForm.controls['phone'].valid,
                         'invalid-control':!userForm.controls['phone'].valid}" class="form-control">
         </div>
         <div class="col-md-2" style="padding: 1px">
-          <label *ngIf="isAdd" class="control-label" for="email">Email:</label>
+          <label *ngIf="isAdd" class="control-label" for="email">{{getCurrentLabelValue('lblEmail')}}:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">
           <input *ngIf="isAdd" type="text" id="email" formControlName="email" [ngClass]="{'valid-control':userForm.controls['email'].valid,
@@ -75,7 +75,7 @@
       </div>
       <div class="row" style="height: 7%">
         <div class="col-md-2" style="padding: 1px;">
-          <label class="control-label" for="ddlRoles">Role:</label>
+          <label class="control-label" for="ddlRoles">{{getCurrentLabelValue('lblRole')}}:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">          
           <select formControlName="role" style="height: 100%;width: 100%;" (change)="onChangeRole($event)">
@@ -89,13 +89,13 @@
         </div>      </div>
       <div class="row" style="height: 7%">
         <div class="col-md-2" style="padding: 1px;">
-          <label *ngIf="showLinkedEntities" class="control-label" for="ddlEntities">Linked to:</label>
+          <label *ngIf="showLinkedEntities" class="control-label" for="ddlEntities">{{getCurrentLabelValue('lblLinkedTo')}}:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">
           <select *ngIf="showLinkedEntities" formControlName="entity" style="height: 100%;width: 100%;">
             <option value="0">None</option>
             <option *ngFor="let e of entities" [value]="e.id">
-              {{e.entityName_RO}}</option>
+              {{currentCulture == 'EN' ? e.entityName_EN : e.entityName_RO}}</option>
           </select>
         </div>
         <div class="col-md-2" style="padding: 1px">          
@@ -105,14 +105,14 @@
       </div>
       <div class="row" style="height: 7%;">
         <div *ngIf="!isAdd" class="col-md-4" style="padding: 1px;">
-          <input type="button" value="Add" (click)="onAdd()" class="form-control btn-primary">
+          <input type="button" value="{{getCurrentLabelValue('lblAdd')}}" (click)="onAdd()" class="form-control btn-primary">
         </div>
         <div class="col-md-4" style="padding: 1px">
-          <input [disabled]="!userForm.valid" type="submit" value="Save" class="btn btn-success from-control"
+          <input [disabled]="!userForm.valid" type="submit" value="{{getCurrentLabelValue('lblSave')}}" class="btn btn-success from-control"
             style="width: 100%">
         </div>        
         <div *ngIf="selectedUser" class="col-md-4" style="padding: 1px;">
-          <input type="button" value="Delete" (click)="onDelete()" class="form-control btn-danger">
+          <input type="button" value="{{getCurrentLabelValue('lblDelete')}}" (click)="onDelete()" class="form-control btn-danger">
         </div>
       </div>
     </form>
