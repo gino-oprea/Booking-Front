@@ -45,9 +45,11 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
 
     this.route.queryParams.subscribe((queryParams: Params) =>
     {
-      let flt = new CompanyFilter(null, queryParams['name'] != null ? queryParams['name'] : null,
+      let flt = new CompanyFilter(
         null,
-        null,
+        queryParams['name'] != null ? queryParams['name'] : null,
+        queryParams['idCategory'] != null ? queryParams['idCategory'] : null,
+        queryParams['idSubcategory'] != null ? queryParams['idSubcategory'] : null,
         queryParams['idCountry'] != null ? queryParams['idCountry'] : null,
         queryParams['idCounty'] != null ? queryParams['idCounty'] : null,
         queryParams['idCity'] != null ? queryParams['idCity'] : null

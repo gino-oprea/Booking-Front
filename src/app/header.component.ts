@@ -18,6 +18,7 @@ import { SubscriptionsService } from './app-services/subscriptions.service';
 import { CompanyService } from './app-services/company.service';
 import { SubscriptionObject } from './objects/subscription-object';
 import { first } from 'rxjs/operators';
+import { GenericDictionaryItem } from './objects/generic-dictionary-item';
 
 @Component({
   selector: 'bf-header',
@@ -40,6 +41,12 @@ export class HeaderComponent extends BaseComponent implements OnInit
   selectedCountyId: number = 0;
   selectedCityId: number = 0;
 
+  selectedCategoryId: number = 0;
+  selectedSubcategoryId: number = 0;
+
+  categories: GenericDictionaryItem[] = [];
+  subcategories: GenericDictionaryItem[] = [];
+
   showSubscriptionDialog = false;
   subscriptions: SubscriptionObject[] = [];
   selectedSubscriptionPrice: string;
@@ -51,7 +58,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
   constructor(private injector: Injector,
     private confirmationService: ConfirmationService,
-    private companySearchService: CompanySearchService,
+    private companySearchService: CompanySearchService,    
     private countriesService: CountriesService,
     private subscriptionsService: SubscriptionsService,
     private companyService: CompanyService)
@@ -88,7 +95,9 @@ export class HeaderComponent extends BaseComponent implements OnInit
         'lblUnlimited',
         'lblPhone',
         'lblTown',
-        'lblEdit'
+        'lblEdit',
+        'lblAllCategories',
+        'lblAllSubcategories'
       ]
     );
 
@@ -113,6 +122,9 @@ export class HeaderComponent extends BaseComponent implements OnInit
     //this.loadCountries();
     this.loadCounties();
     this.loadCities();
+
+    this.loadCategories();
+    this.loadSubCategories();
   }
   loadCountries()
   {
@@ -166,6 +178,34 @@ export class HeaderComponent extends BaseComponent implements OnInit
       this.selectedCityId = 0;
       this.citiesDic = [];
     }
+  }
+  loadCategories()
+  {
+    this.companyService.getActivityCategories().subscribe(groCategories =>
+    {
+      if (groCategories.error != '')
+        this.logAction(this.idCompany, true, Actions.Search, groCategories.error, groCategories.errorDetailed, true);
+      else
+        this.categories = <GenericDictionaryItem[]>groCategories.objList;
+    });
+  }
+  loadSubCategories()
+  {
+    this.companyService.getActivitySubCategories(this.selectedCategoryId).subscribe(groSubcategories =>
+    {
+      if (groSubcategories.error != '')
+        this.logAction(this.idCompany, true, Actions.Search, groSubcategories.error, groSubcategories.errorDetailed, true);
+      else
+      {
+        this.subcategories = <GenericDictionaryItem[]>groSubcategories.objList;
+        if (this.subcategories.length == 0)
+          this.selectedSubcategoryId = 0;
+      }
+    });
+  }
+  onChangeCategory(event)
+  {
+    this.loadSubCategories();
   }
   getMyAccountText()
   {
@@ -267,7 +307,9 @@ export class HeaderComponent extends BaseComponent implements OnInit
         name: this.searchString.trim(),
         idCountry: this.selectedCountryId != 1 ? this.selectedCountryId : null,
         idCounty: this.selectedCountyId != 0 ? this.selectedCountyId : null,
-        idCity: this.selectedCityId != 0 ? this.selectedCityId : null
+        idCity: this.selectedCityId != 0 ? this.selectedCityId : null,
+        idCategory: this.selectedCategoryId != 0 ? this.selectedCategoryId : null,
+        idSubcategory: this.selectedSubcategoryId != 0 ? this.selectedSubcategoryId : null
       }
     });
   }

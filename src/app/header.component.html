@@ -23,6 +23,16 @@
         <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}</option>
       </select>
 
+      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCategoryId" (change)="onChangeCategory($event)">
+        <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
+        <option *ngFor="let c of categories" [value]="c.id">{{currentCulture == 'EN' ? c.value_EN : c.value_RO}}</option>
+      </select>
+
+      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedSubcategoryId">
+        <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
+        <option *ngFor="let s of subcategories" [value]="s.id">{{currentCulture == 'EN' ? s.value_EN : s.value_RO}}</option>
+      </select>
+
       <input type="text" [(ngModel)]="searchString" placeholder="{{getCurrentLabelValue('lblSearchCompany')}}"
         (keyup.enter)="doSearch()" style="height:40px;width:300px;margin-left: 5px;">
       <button class="btn btn-primary from-control" (click)="doSearch()" style="margin-left: 5px;"><i
