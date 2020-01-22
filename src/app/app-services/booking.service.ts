@@ -16,8 +16,12 @@ import { BookingSearchFilter } from '../objects/booking-search-filter';
 @Injectable()
 export class BookingService
 {
+  currentCulture: string;
 
-  constructor(private httpClient: HttpClient, private usersService: UsersService) { }
+  constructor(private httpClient: HttpClient, private usersService: UsersService)
+  { 
+    this.currentCulture = !!localStorage.getItem('b_front_culture') ? localStorage.getItem('b_front_culture') : 'RO';
+  }
 
   getBookings(idCompany: number, dateStart: string, dateEnd: string, includeCanceled: boolean = false): Observable<GenericResponseObject>
   {
@@ -116,8 +120,12 @@ export class BookingService
     const body = JSON.stringify(booking);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    let params = new HttpParams();
+    params = params.append('culture', this.currentCulture);
+
     let options = {
-      headers: headers
+      headers: headers,
+      params:params
     };
 
     return this.httpClient.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking', body, options);
@@ -137,9 +145,15 @@ export class BookingService
     const body = JSON.stringify(booking);
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    let params = new HttpParams();
+    params = params.append('culture', this.currentCulture);
+
     let options = {
-      headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)
+      headers: headers,
+      params: params
     };
+
+    
 
     return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking', body, options);
   }
@@ -280,7 +294,8 @@ export class BookingService
   cancelBooking(idBooking: number, withClientNotification: boolean = false)
   {
     let params = new HttpParams();
-    params = params.append('withClientNotification', withClientNotification.toString());
+    params = params.append('withClientNotification', withClientNotification.toString());    
+    params = params.append('culture', this.currentCulture);
 
     let options = {
       headers: null,
