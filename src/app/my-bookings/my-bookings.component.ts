@@ -22,7 +22,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
   displayConfirmDialog: boolean = false;
   
 
-  public COMP_IMG = require("../img/company.jpg");
+  public COMP_IMG = require("../img/puzzle_piece.jpg");
 
   constructor(private injector: Injector,
     private bookingService: BookingService,

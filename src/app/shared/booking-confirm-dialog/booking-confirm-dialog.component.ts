@@ -39,7 +39,7 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
 
   validCaptcha: boolean = true;
 
-  public COMP_IMG = require("../../img/company.jpg");
+  public COMP_IMG = require("../../img/puzzle_piece.jpg");
 
   phoneChangeSubscription: Subscription;
   emailChangeSubscription: Subscription;

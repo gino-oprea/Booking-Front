@@ -22,7 +22,7 @@ import { BookingEntity } from '../../../objects/booking-entity';
 })
 export class BookingManagementDialogComponent extends BaseComponent implements OnInit, OnChanges 
 {
-  public COMP_IMG = require("../../../img/company.jpg");
+  public COMP_IMG = require("../../../img/puzzle_piece.jpg");
 
   @Input() idCompany: number;
   @Input() bookings: Booking[] = [];

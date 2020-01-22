@@ -29,7 +29,7 @@ import { ServiceDurationItem } from '../../objects/service-duration-item';
 })
 export class EntitiesComponent extends BaseComponent implements OnInit 
 {
-  public COMP_IMG = require("./img/company.jpg");
+  public COMP_IMG = require("./img/puzzle_piece.jpg");
 
   tabs: any;
   subTabs: any;
