@@ -285,4 +285,13 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
     this.loadBookings();
   }
 
+  isFutureDate(date: Date): boolean
+  {
+    let currentDate = new Date();
+    if (new Date(date).getTime() < currentDate.getTime())
+      return false;
+    else
+      return true;
+  }
+
 }

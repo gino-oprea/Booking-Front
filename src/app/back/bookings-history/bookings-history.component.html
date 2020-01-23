@@ -30,8 +30,12 @@
       </ng-template> -->
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblDate')}}</th>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblTime')}}</th>
+          <th style="width:150px;text-align:center" [pSortableColumn]="'startDate'">
+            {{getCurrentLabelValue('lblDate')}}
+            <p-sortIcon [field]="'startDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th style="width:150px;text-align:center" >{{getCurrentLabelValue('lblTime')}}</th>
           <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
             <input *ngSwitchCase="'email'" pInputText type="text" style="width: 130px;"
               (input)="dt.filter($event.target.value, 'email', 'contains')">
@@ -51,7 +55,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-booking>
-        <tr [pSelectableRow]="booking">
+        <tr [pSelectableRow]="booking" [ngClass]="isFutureDate(booking.startDate) ? null : 'pastBooking'">
           <td style="width:150px;text-align:center">{{booking.startDate | date:'dd MMM yyyy'}}</td>
           <td style="width:150px;text-align:center">{{getBookingTimeString(booking)}}</td>
           <td *ngIf="!isDialog" style="width:150px;text-align:center">{{booking.email}}</td>
