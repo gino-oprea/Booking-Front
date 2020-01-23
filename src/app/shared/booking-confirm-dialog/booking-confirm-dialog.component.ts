@@ -63,7 +63,8 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
       'lblEndDate',
       'lblStartTime',
       'lblEndTime',
-      'lblBooking'
+      'lblBooking',
+      'lblSaved'
     ]);
     this.site = WebSites.Front;
     this.pageName = "Booking confirm dialog";
@@ -217,7 +218,7 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
 
         this.logAction(this.idCompany, false, Actions.Add, '', 'add booking: ' + bookingLogInfo);
         //this.showPageMessage('success', 'Success', 'booking saved');
-        message = new Message(MessageType.Success, 'booking saved');
+        message = new Message(MessageType.Success, this.getCurrentLabelValue('lblSaved'));
       }
 
       this.bookingSaved.emit(message);
