@@ -54,7 +54,14 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
       'lblTown',
       'lblEdit',
       'lblAllowOnlineBookings',
-      'lblEnabled'
+      'lblEnabled',
+      'lblAreYouSure',
+      'lblToEnable',
+      'lblToDisable',
+      'lblThisCompany',
+      'lblFor',
+      'lblAllowOnlineBookingsMessage',
+      'lblNot'
     ]);
     this.site = WebSites.Back;
     this.pageName = "My companies";
@@ -129,7 +136,9 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   {
     this.selectedCompany = company;
     this.selectedCompanyIsEnabled = e.checked;
-    this.confirmToggleEntityMessage = "Are you sure you want to " + (this.selectedCompanyIsEnabled ? "enable" : "disable") + " this company?";
+    this.confirmToggleEntityMessage = this.getCurrentLabelValue('lblAreYouSure') + " "
+      + (this.selectedCompanyIsEnabled ? this.getCurrentLabelValue('lblToEnable') : this.getCurrentLabelValue('lblToDisable'))
+      + " " + this.getCurrentLabelValue('lblThisCompany') + "?";
     this.displayConfirmToggleCompany = true;
   }
   onConfirmToggle(message)
@@ -146,8 +155,9 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   {
     this.selectedCompany = company;
     this.selectedCompanyAllowBookings = e.checked;
-    this.confirmAllowBookingsMessage = "Are you sure you want to "
-      + (this.selectedCompanyAllowBookings ? "allow online bookings" : "not allow online bookings") + " for this company?";
+    this.confirmAllowBookingsMessage = this.getCurrentLabelValue('lblAreYouSure') + " "
+      + (this.selectedCompanyAllowBookings ? this.getCurrentLabelValue('lblAllowOnlineBookingsMessage') : this.getCurrentLabelValue('lblNot') + " " + this.getCurrentLabelValue('lblAllowOnlineBookingsMessage'))
+      + " " + this.getCurrentLabelValue('lblFor') + " " + this.getCurrentLabelValue('lblThisCompany') + "?";
     this.displayConfirmAllowBookingsCompany = true;
   }
   onConfirmAllowBookings(message)

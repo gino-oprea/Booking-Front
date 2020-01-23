@@ -50,7 +50,10 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
       'lblLevels',
       'lblAffectedEntities',
       'lblConfirmation',
-      'lblLevelMoveWarning'
+      'lblLevelMoveWarning',
+      'lblBookingCanceled',
+      'lblBookingRemoved',
+      'lblBookingEdited'
     ]);
 
     this.site = WebSites.Back;
@@ -334,7 +337,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
     //this.displayAffectedBookings = false;
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, this.getCurrentLabelValue('lblBookingRemoved'));
     }
     else
     {
@@ -345,7 +348,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
   {
     //this.displayAffectedBookings = false;
     if (event.error == null)
-      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblBookingEdited'));
     else
       this.logAction(this.idCompany, true, Actions.Edit, event, event, true);
   }
@@ -354,7 +357,7 @@ export class LevelLinkingComponent extends BaseComponent implements OnInit
     //this.displayAffectedBookings = false;
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");
+      this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, this.getCurrentLabelValue('lblBookingCanceled'));
     }
     else
     {

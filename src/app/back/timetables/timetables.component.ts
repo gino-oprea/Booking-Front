@@ -44,7 +44,8 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       'lblSave',
       'lblDelete',
       'lblAdd',
-      'lblAffectedBookings'
+      'lblAffectedBookings',
+      'lblAffectedBookingsTimetable'
     ]);
 
     this.site = WebSites.Back;
@@ -221,7 +222,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.objList.length > 0)
       {
-        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
+        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, this.getCurrentLabelValue('lblAffectedBookingsTimetable'), true);
         this.selectedWorkingHours = WorkingHours.DeepCopy(this.originalWokingHours);
 
         this.affectedBookings = gro.objList;

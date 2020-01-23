@@ -67,7 +67,8 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       'lblNewStartTime',
       'lblMoveSelectedBookingTo',
       'lblMoveBooking',
-      'lblCancelBooking'
+      'lblCancelBooking',
+      'lblBookingRemoved'
     ]);
 
     this.site = WebSites.Back;

@@ -64,7 +64,11 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
       'lblConfirmation',
       'lblDeleteBookingWarning',
       'lblSelectedBooking',
-      'lblChangeStatus'
+      'lblChangeStatus',
+      'lblBookingRemoved',
+      'lblBookingIsHonored',
+      'lblBookingIsActive',
+      'lblBookingCanceled'
     ]);
 
     this.site = WebSites.Back;
@@ -180,7 +184,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
           + new Date(this.selectedBooking.startDate).toDateString() + " "
           + new Date(this.selectedBooking.startTime).toTimeString();
 
-        this.logAction(this.idCompany, false, Actions.Delete, "", "Booking removed: " + bookingLogInfo);
+        this.logAction(this.idCompany, false, Actions.Delete, "", this.getCurrentLabelValue('lblBookingRemoved') +": " + bookingLogInfo);
 
         this.loadBookings();
       }
@@ -199,13 +203,13 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
     switch (idStatus)
     {
       case 1:
-        logMessage = 'Booking is active';
+        logMessage = this.getCurrentLabelValue('lblBookingIsActive');
         break;
       case 2:
-        logMessage = 'Booking is honored';
+        logMessage = this.getCurrentLabelValue('lblBookingIsHonored');
         break;
       case 3:
-        logMessage = 'Booking is canceled';
+        logMessage = this.getCurrentLabelValue('lblBookingCanceled');
         break;
     }
 
@@ -234,7 +238,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
         + new Date(this.selectedBooking.startDate).toDateString() + " "
         + new Date(this.selectedBooking.startTime).toTimeString() + " " + logMessage;
 
-      this.logAction(this.idCompany, false, Actions.Edit, "", "Booking edited: " + bookingLogInfo, true);
+      this.logAction(this.idCompany, false, Actions.Edit, "", this.getCurrentLabelValue('lblBookingEdited') + ": " + bookingLogInfo, true);
 
       this.loadBookings();
     }
@@ -277,7 +281,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   {
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblBookingEdited'));
     }
     else
       this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);

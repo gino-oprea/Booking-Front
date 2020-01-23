@@ -44,7 +44,9 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
     private bookingService: BookingService,
     private entitiesService: EntitiesService)
   {
-    super(injector, []);
+    super(injector, [
+      'lblTimeslotNotFit'
+    ]);
     this.site = WebSites.Front;
     this.pageName = 'Company booking';
 
@@ -162,7 +164,7 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
             this.displayDialogConfirmBooking = true;
           }
           else
-            this.showPageMessage("warn", "Warning", 'Selected combination duration does not fit in the remaining timeslots! Please select another timeslot!');
+            this.showPageMessage("warn", "Warning", this.getCurrentLabelValue('lblTimeslotNotFit'));
         }
       });
     }

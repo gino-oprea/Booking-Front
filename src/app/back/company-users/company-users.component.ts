@@ -47,7 +47,10 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
       'lblLinkedTo',
       'lblAdd',
       'lblSave',
-      'lblDelete'
+      'lblDelete',
+      'lblAddedUser',
+      'lblEditedUser',
+      'lblDeletedUser'
     ]);
 
     this.site = WebSites.Back;
@@ -202,7 +205,7 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
         }
         else
         {
-          this.logAction(this.idCompany, false, Actions.Add, '', 'Add user ' + companyUser.email, true);
+          this.logAction(this.idCompany, false, Actions.Add, '', this.getCurrentLabelValue('lblAddedUser')+' ' + companyUser.email, true);
           var idUser = <number>gro.objList[0];
           this.loadUsers(idUser);
         }
@@ -216,7 +219,7 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
           this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
         else
         {
-          this.logAction(this.idCompany, false, Actions.Add, '', 'Edit user ' + companyUser.email, true);
+          this.logAction(this.idCompany, false, Actions.Add, '', this.getCurrentLabelValue('lblEditedUser') + ' ' + companyUser.email, true);
         }
         this.loadUsers(companyUser.id);
       });
@@ -230,7 +233,7 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
         this.logAction(this.idCompany, true, Actions.Delete, gro.error, gro.errorDetailed, true);
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'Delete user ' + this.selectedUser.email, true);
+        this.logAction(this.idCompany, false, Actions.Delete, '', this.getCurrentLabelValue('lblDeletedUser') + ' ' + this.selectedUser.email, true);
         this.loadUsers();
       }
     });

@@ -103,7 +103,10 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       'lblOnlyOneMBfilesPermitted',
       'lblDescription',
       'lblCounty',
-      'lblCity'
+      'lblCity',
+      'lblBookingCanceled',
+      'lblBookingRemoved',
+      'lblBookingEdited'
     ]);
     this.site = WebSites.Back;
     this.pageName = "Company General Details";
@@ -911,7 +914,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     //this.displayAffectedBookings = false;
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, this.getCurrentLabelValue('lblBookingRemoved'));
     }
     else
     {
@@ -922,7 +925,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   {
     //this.displayAffectedBookings = false;
     if (event.error == null)
-      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblBookingEdited'));
     else
       this.logAction(this.idCompany, true, Actions.Edit, event, event, true);
   }
@@ -931,7 +934,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     //this.displayAffectedBookings = false;
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");
+      this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, this.getCurrentLabelValue('lblBookingCanceled'));
     }
     else
     {

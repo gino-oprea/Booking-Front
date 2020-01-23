@@ -68,7 +68,10 @@ export class BookingsComponent extends BaseComponent implements OnInit
       'lblSearchTerms',
       'lblAddBooking',
       'lblEditBooking',
-      'lblNoBookingsSavedYet'
+      'lblNoBookingsSavedYet',
+      'lblBookingRemoved',
+      'lblBookingCanceled',
+      'lblBookingEdited'
     ]);
     this.site = WebSites.Back;
     this.pageName = "Bookings";
@@ -354,11 +357,11 @@ export class BookingsComponent extends BaseComponent implements OnInit
     if (event.error == null)
     {
       //this.logAction(this.idCompany, false, Actions.Delete, '', 'Booking removed', true, 'Booking removed');
-      this.showPageMessage("success", "success", 'Booking removed');
+      this.showPageMessage("success", "success", this.getCurrentLabelValue('lblBookingRemoved'));
     }
     else
       //this.logAction(this.idCompany, true, Actions.Delete, event.error, event.error, true);
-      this.showPageMessage("success", "success", 'Success');
+      this.showPageMessage("error", "error", 'Error');
 
   }
   cancelBooking(event)
@@ -369,7 +372,7 @@ export class BookingsComponent extends BaseComponent implements OnInit
     if (event.error == null)
     {
       //this.logAction(this.idCompany, false, Actions.Cancel, '', 'Booking canceled', true, 'Booking canceled');
-      this.showPageMessage("success", "success", 'Booking canceled');
+      this.showPageMessage("success", "success", this.getCurrentLabelValue('lblBookingCanceled'));
     }
     else
       this.logAction(this.idCompany, true, Actions.Cancel, event.error, event.error, true);
@@ -383,7 +386,7 @@ export class BookingsComponent extends BaseComponent implements OnInit
     if (event.error == null)
     {
       //this.logAction(this.idCompany, false, Actions.Edit, '', 'Booking edited', true, 'Booking edited');
-      this.showPageMessage("success", "success", 'Booking edited');
+      this.showPageMessage("success", "success", this.getCurrentLabelValue('lblBookingEdited'));
     }
     else
       this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);

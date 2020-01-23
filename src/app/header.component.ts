@@ -97,7 +97,8 @@ export class HeaderComponent extends BaseComponent implements OnInit
         'lblTown',
         'lblEdit',
         'lblAllCategories',
-        'lblAllSubcategories'
+        'lblAllSubcategories',
+        'lblCompanyAdded'
       ]
     );
 
@@ -393,7 +394,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
             //route to new company  
             let idCompany = gro.info;
 
-            this.logAction(parseInt(idCompany), false, Actions.Add, "", "", true, "Company added");
+            this.logAction(parseInt(idCompany), false, Actions.Add, "", "", true, this.getCurrentLabelValue('lblCompanyAdded'));
 
             this.showSubscriptionDialog = false;
 
