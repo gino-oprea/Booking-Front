@@ -328,10 +328,10 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        if (gro.objList.length > 0)
-        {
+        // if (gro.objList.length > 0)
+        // {
           this.images = <Image[]>gro.objList;
-        }
+        // }        
       }
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company images', ''));
