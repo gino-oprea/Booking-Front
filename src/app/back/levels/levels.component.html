@@ -94,7 +94,7 @@
 
 <p-dialog
   header="{{isAddEntityMode == true ? getCurrentLabelValue('lblAddEntity') : getCurrentLabelValue('lblEditEntity')}}"
-  [(visible)]="displayDialogAddEntity" [responsive]="true" showEffect="fade" [modal]="true" width="400">
+  [(visible)]="displayDialogAddEntity" [responsive]="true" showEffect="fade" [modal]="true" width="600">
   <form class="form-horizontal" style="height: 100%" id="addEntity-form" [formGroup]="addEntityForm"
     (ngSubmit)="onAddEntityForm()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
@@ -137,7 +137,7 @@
 
 <p-dialog
   header="{{isAddLevelMode == true ? getCurrentLabelValue('lblAddLevel') : getCurrentLabelValue('lblEditLevel')}}"
-  [(visible)]="displayDialogAddLevel" [responsive]="true" showEffect="fade" [modal]="true" width="400">
+  [(visible)]="displayDialogAddLevel" [responsive]="true" showEffect="fade" [modal]="true" width="600">
   <form class="form-horizontal" style="height: 100%" id="addLevel-form" [formGroup]="addLevelForm"
     (ngSubmit)="onAddLevelForm()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
