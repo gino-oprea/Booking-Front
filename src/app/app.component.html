@@ -1,5 +1,5 @@
 <div class="container-fluid" style="height: 100%;">
-  <div class="row">
+  <div *ngIf="!iframe" class="row">
     <div class="col-md-12" style="padding: 0px">
       <bf-header></bf-header>
     </div>
@@ -13,13 +13,16 @@
     <p>
       Acest site foloseste cookie-uri pentru a imbunatati experienta utilizatorilor. Continuarea navigarii pe site
       implica
-      acceptarea       
-      <a [routerLink]="['/gdpr']" routerLinkActive="selectedCategory"><b style="color: red;"> politicii de utilizare a cookie-urilor si politicii de prelucrare a datelor</b> </a>
-      si a 
-      <a [routerLink]="['/termsconditions']" routerLinkActive="selectedCategory"><b style="color: red;"> termenilor si conditiilor</b> </a>
-      </p>
+      acceptarea
+      <a [routerLink]="['/gdpr']" routerLinkActive="selectedCategory"><b style="color: red;"> politicii de utilizare a
+          cookie-urilor si politicii de prelucrare a datelor</b> </a>
+      si a
+      <a [routerLink]="['/termsconditions']" routerLinkActive="selectedCategory"><b style="color: red;"> termenilor si
+          conditiilor</b> </a>
+    </p>
 
-      <i style="position: absolute;right: 40px;top: 9px; cursor: pointer;" class="fa fa-close" (click)="showTermsAndConditionsDiv=false"></i>
+    <i style="position: absolute;right: 40px;top: 9px; cursor: pointer;" class="fa fa-close"
+      (click)="showTermsAndConditionsDiv=false"></i>
   </div>
 </div>
 

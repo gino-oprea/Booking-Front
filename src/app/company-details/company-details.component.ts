@@ -27,6 +27,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
   images: Image[] = [];
   selectedImage: Image = null;
   displayImageDialog = false;
+  iframe: boolean;
 
   companyWorkingHours: WorkingHours;
 
@@ -73,6 +74,14 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
         this.companyName = params['companyname'];
       }
     });
+
+    this.routeSubscription = this.route.queryParams.subscribe((params: any) =>
+    {
+      if (params.hasOwnProperty('iframe'))
+        this.iframe = params['iframe'].toString().toLowerCase() == 'true';
+      else
+        this.iframe = false;
+    });
   }
 
   ngOnInit() 
@@ -86,7 +95,10 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
 
   goToBooking(companyId: number, companyName: string)
   {
-    this.router.navigate(['/companybooking', companyId, companyName.replace(/ /g, '')]);
+    if (this.iframe)
+      this.router.navigate(['/companybooking', companyId, companyName.replace(/ /g, '')], { queryParams: { iframe: 'true' } });
+    else
+      this.router.navigate(['/companybooking', companyId, companyName.replace(/ /g, '')]);
   }
 
   loadCompany()

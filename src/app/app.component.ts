@@ -9,8 +9,9 @@ import { Token } from './objects/token';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent extends BaseComponent implements OnInit
-{ 
+{
   showTermsAndConditionsDiv: boolean = true;
+  iframe: boolean = true;
 
   constructor(private injector: Injector)
   {
@@ -18,15 +19,23 @@ export class AppComponent extends BaseComponent implements OnInit
     this.site = WebSites.Front;
     this.pageName = "Booking Front main parent page";
 
+    this.routeSubscription = this.route.queryParams.subscribe((params: any) =>
+    {
+      if (params.hasOwnProperty('iframe'))
+        this.iframe = params['iframe'].toString().toLowerCase() == 'true';
+      else
+        this.iframe = false;
+    });
+
     this.loginService.loginSubject.subscribe(res =>
-    { 
+    {
       this.setupAutoLogin();
     });
   }
 
   ngOnInit(): void
   {
-    super.ngOnInit();    
+    super.ngOnInit();
     let savedUser = this.loginService.getCurrentUser();
     let savedToken = this.loginService.getToken();
     if (savedToken != null)
@@ -37,7 +46,7 @@ export class AppComponent extends BaseComponent implements OnInit
     if (!this.autoLoginTimeout)
       this.setupAutoLogin();
   }
-  
+
   setupAutoLogin()
   {
     let savedUser = this.loginService.getCurrentUser();
@@ -50,6 +59,6 @@ export class AppComponent extends BaseComponent implements OnInit
         {
           this.autoLogin();
         }, this.getTokenRemainingTime(savedToken));
-    }        
-  }  
+    }
+  }
 }
