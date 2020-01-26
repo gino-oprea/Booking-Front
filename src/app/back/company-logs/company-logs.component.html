@@ -76,7 +76,11 @@
             <input *ngSwitchCase="'logInfoMessage'" pInputText type="text"
               (input)="dt.filter($event.target.value, 'logInfoMessage', 'contains')" style="width: 130px;">
           </th>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblDate')}}</th>
+          <th style="width:150px;text-align:center" [pSortableColumn]="'logDate'">
+            {{getCurrentLabelValue('lblDate')}}
+            <p-sortIcon [field]="'logDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
 
         </tr>
       </ng-template>

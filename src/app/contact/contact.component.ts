@@ -38,7 +38,8 @@ export class ContactComponent extends BaseComponent implements OnInit
       'lblRequest',
       'lblComplaint',
       'lblSuggestion',
-      'lblOther'
+      'lblOther',
+      'lblMessageSent'
     ]);
     this.site = WebSites.Front;
     this.pageName = "Contact";
@@ -90,7 +91,7 @@ export class ContactComponent extends BaseComponent implements OnInit
       if (gro.error != '')
         this.logAction(null, true, Actions.Add, gro.error, gro.errorDetailed, true);
       else
-        this.logAction(null, false, Actions.Add, '', 'Message sent', true, 'Message sent');
+        this.logAction(null, false, Actions.Add, '', 'Message sent', true, this.getCurrentLabelValue('lblMessageSent'));
     });
   }
 

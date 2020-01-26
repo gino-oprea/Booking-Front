@@ -42,7 +42,8 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
         'lblPhone',
         'lblCancel',
         'lblBooking',
-        'lblConfirmCancelBooking'
+        'lblConfirmCancelBooking',
+        'lblBookingCanceled'
       ]
     );
     this.site = WebSites.Front;
@@ -150,7 +151,7 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Cancel, "", "Booking canceled", true, "Booking canceled");
+        this.logAction(this.idCompany, false, Actions.Cancel, "", "Booking canceled", true, this.getCurrentLabelValue('lblBookingCanceled'));
         this.getBookings();
       }
     });

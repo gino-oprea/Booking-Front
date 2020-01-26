@@ -1,12 +1,14 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, Injector } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { BaseComponent } from '../base-component';
+import { WebSites } from '../../enums/enums';
 
 @Component({
   selector: 'bf-full-calendar',
   templateUrl: './full-calendar.component.html',
   styleUrls: ['./full-calendar.component.css']
 })
-export class FullCalendarComponent implements OnInit {
+export class FullCalendarComponent extends BaseComponent implements OnInit {
 
   @Input() events: CalendarEvent[] = [];
   @Output() dateClick = new EventEmitter<Date>();
@@ -14,7 +16,8 @@ export class FullCalendarComponent implements OnInit {
   @Output() eventDrop = new EventEmitter<DropEventPayload>();
 
   currentDate: Date = new Date();
-  dayNames: string[];
+  dayNames_EN: string[];
+  dayNames_RO: string[];
   dayDates: CalendarSlot[][];
   //weekNumbers: number[];
   selectedMonth: number = new Date().getMonth();
@@ -22,11 +25,17 @@ export class FullCalendarComponent implements OnInit {
   calendarRowHeight: string;
   
 
-  constructor() { }
+  constructor(private injector: Injector)
+  {
+    super(injector, []);
+    this.site = WebSites.Back;
+    this.pageName = 'Full calendar';
+  }
 
   ngOnInit()
   {
-    this.dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    this.dayNames_EN = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    this.dayNames_RO = ["Lu", "Ma", "Mi", "Jo", "Vi", "Sa", "Du"];
     this.dayDates = this.generateMonth();
     this.calendarRowHeight = this.getCalendarRowHeight();
   }
@@ -198,10 +207,16 @@ export class FullCalendarComponent implements OnInit {
 
   getMonthName()
   {
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"];    
-    return monthNames[this.selectedMonth];
+    const monthNames_EN = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];  
+    const monthNames_RO = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
+      "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];  
+    return this.currentCulture == 'EN' ? monthNames_EN[this.selectedMonth] : monthNames_RO[this.selectedMonth];
   }
+  protected getDayNames():string[]
+  {
+    return this.currentCulture == 'EN' ? this.dayNames_EN : this.dayNames_RO;
+  } 
 
   timeSlotClick(calendarSlot: CalendarSlot)
   {

@@ -118,7 +118,20 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       'lblAddEntity',
       'lblEntityName_RO',
       'lblEntityName_EN',
-      'lblAffectedBookings'
+      'lblAffectedBookings',
+      'lblAreYouSureDeleteEntity',
+      'lblKeepInMindEntity',
+      'lblImageSizePermitted',
+      'lblImageSaved',
+      'lblOnlyOneImagePermitted',
+      'lblImageDeleted',
+      'lblAffectedBookingsTimetable',
+      'lblAddedEntity',
+      'lblSaved',
+      'lblEntityDeleted',
+      'lblBookingCanceled',
+      'lblBookingRemoved',
+      'lblBookingEdited'
     ]);
 
     this.site = WebSites.Back;
@@ -578,7 +591,8 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   showConfirmDeleteDialog()
   {
     this.displayConfirmDeleteEntity = true;
-    this.confirmDeleteEntityMessage = "Are you sure you want to delete entity: " + this.selectedEntity.entityName_EN + "? Keep in mind that ALL bookings allocated to this entity will remain unallocated!";
+    this.confirmDeleteEntityMessage = this.getCurrentLabelValue('lblAreYouSureDeleteEntity') + ": "
+      + this.selectedEntity.entityName_EN + "? " + this.getCurrentLabelValue('lblKeepInMindEntity') + "!";
   }
   onConfirmDelete(message: string)
   {
@@ -601,7 +615,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           if (gro.error != '')
           {
             if (gro.error.indexOf('size limit') > -1)
-              this.showPageMessage('error', 'Error', 'Image size must not exceed 3 MB');
+              this.showPageMessage('error', 'Error', this.getCurrentLabelValue('lblImageSizePermitted'));
             else
               //this.showPageMessage('error', 'Error', gro.error);
 
@@ -609,7 +623,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
           }
           else
           {
-            this.logAction(this.idCompany, false, Actions.Edit, '', 'image upload for entity ' + this.selectedEntity.id, true, 'image saved');
+            this.logAction(this.idCompany, false, Actions.Edit, '', 'image upload for entity ' + this.selectedEntity.id, true, this.getCurrentLabelValue('lblImageSaved'));
             //this.showPageMessage('success', 'Success', 'image saved');
             this.loadEntityImages();
           }
@@ -618,7 +632,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     }
     else
     {
-      this.showPageMessage('warn', 'Warning', 'only one image permitted');
+      this.showPageMessage('warn', 'Warning', this.getCurrentLabelValue('lblOnlyOneImagePermitted'));
     }
   }
 
@@ -640,7 +654,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity image ' + this.selectedEntity.id, true, 'image deleted');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity image ' + this.selectedEntity.id, true, this.getCurrentLabelValue('lblImageDeleted'));
         //this.showPageMessage('success', 'Success', '');
         this.loadEntities(this.selectedEntity.id);
       }
@@ -864,7 +878,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       let gro = <GenericResponseObject>result;
       if (gro.objList.length > 0)
       {
-        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
+        this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, this.getCurrentLabelValue('lblAffectedBookingsTimetable'), true);
         this.loadLevels(this.selectedLevelId);
 
         this.affectedBookings = gro.objList;
@@ -876,7 +890,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   {
     if (response.objList.length > 0)
     {
-      this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, 'There are bookings affected by timetable changes', true);
+      this.logAction(this.idCompany, true, Actions.Edit, 'There are bookings affected by timetable changes', '', true, this.getCurrentLabelValue('lblAffectedBookingsTimetable'), true);
       this.loadLevels(this.selectedLevelId);
 
       this.affectedBookings = response.objList;
@@ -991,7 +1005,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       else
       {
         let idEntityAdded = gro.objList[0];
-        this.logAction(this.idCompany, false, Actions.Add, '', 'add entity ' + newEntity.entityName_RO, true, 'Entity added');
+        this.logAction(this.idCompany, false, Actions.Add, '', 'add entity ' + newEntity.entityName_RO, true, this.getCurrentLabelValue('lblAddedEntity'));
         //one time subscription - trebuie facut reload la entities abia dupa ce se emite noul token cu claim-urile corecte
         this.loginService.loginSubject.pipe(first()).subscribe(login =>
         {
@@ -1067,7 +1081,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity ' + entity.entityName_RO, showSuccessMessage, 'Entity saved');
+        this.logAction(this.idCompany, false, Actions.Edit, '', 'edit entity ' + entity.entityName_RO, showSuccessMessage, this.getCurrentLabelValue('lblSaved'));
         if (isReloadEntities)
           this.loadEntities(entity.id);
       }
@@ -1092,7 +1106,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       else
       {
         //this.showPageMessage('success', 'Success', 'Entity deleted');
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity ' + entity.entityName_RO, true, 'Entity deleted');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'delete entity ' + entity.entityName_RO, true, this.getCurrentLabelValue('lblEntityDeleted'));
         this.loadEntities(null);
       }
 
@@ -1475,7 +1489,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     //this.displayAffectedBookings = false;
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, "Booking canceled");
+      this.logAction(this.idCompany, false, Actions.Cancel, "", "", true, this.getCurrentLabelValue('lblBookingCanceled'));
     }
     else
     {
@@ -1487,7 +1501,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
     //this.displayAffectedBookings = false;
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, "Booking removed");
+      this.logAction(this.idCompany, false, Actions.Delete, "", "", true, this.getCurrentLabelValue('lblBookingRemoved'));
     }
     else
     {
@@ -1498,7 +1512,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   {
     if (event.error == null)
     {
-      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, 'Booking edited');
+      this.logAction(this.idCompany, false, Actions.Edit, '', '', true, this.getCurrentLabelValue('lblBookingEdited'));
     }
     else
       this.logAction(this.idCompany, true, Actions.Edit, event.error, event.error, true);

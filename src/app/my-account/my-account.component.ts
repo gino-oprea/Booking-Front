@@ -71,7 +71,7 @@ export class MyAccountComponent extends BaseComponent implements OnInit
           this.loginService.emmitLoginChange();
 
           //this.showPageMessage("success", "Success", this.getCurrentLabelValue('lblSaved'));
-          this.logAction(null, false, Actions.Edit, "", "My account edit", true, "Saved");
+          this.logAction(null, false, Actions.Edit, "", "My account edit", true, this.getCurrentLabelValue('lblSaved'));
         }
         else
         {

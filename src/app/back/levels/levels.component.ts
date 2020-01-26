@@ -79,7 +79,11 @@ export class LevelsComponent extends BaseComponent implements OnInit
       'lblLevelName_RO',
       'lblLevelName_EN',
       'lblDefaultDuration',
-      'lblMultipleBookings'
+      'lblMultipleBookings',
+      'lblLevelDeleteWarning',
+      'lblLevelDeleted',
+      'lblAdded',
+      'lblEdited'
     ]);
     this.site = WebSites.Back;
     this.pageName = "Levels";
@@ -461,7 +465,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
     }
     else//delete
     {
-      this.confirmDeleteLevelMessage = "Are you sure you want to delete level: " + this.getSelectedLevelObj(parseInt(this.selectedLevel)).levelName_EN;
+      this.confirmDeleteLevelMessage = this.getCurrentLabelValue('lblLevelDeleteWarning') + ": " + this.getSelectedLevelObj(parseInt(this.selectedLevel)).levelName_EN;
       this.displayConfirmDeleteLevel = true;
     }
     this.displayDialogAddLevel = false;
@@ -479,7 +483,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
       else
       {
         //this.showPageMessage('success', 'Success', 'Level removed');
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'Remove level ' + this.levels.find(l => l.id.toString() == this.selectedLevel), true, 'Level removed');
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'Remove level ' + this.levels.find(l => l.id.toString() == this.selectedLevel), true, this.getCurrentLabelValue('lblLevelDeleted'));
         this.loadLevels();
       }
     },
@@ -519,7 +523,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
           else
           {
             //this.showPageMessage('success', 'Success', 'Level characteristic added');
-            this.logAction(this.idCompany, false, Actions.Add, '', 'add level characteristic ' + newCharacteristic.characteristicName_RO, true, 'Level characteristic added');
+            this.logAction(this.idCompany, false, Actions.Add, '', 'add level characteristic ' + newCharacteristic.characteristicName_RO, true, this.getCurrentLabelValue('lblAdded'));
             this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
           }
         },
@@ -548,7 +552,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
           else
           {
             //this.showPageMessage('success', 'Success', 'Level characteristic updated');
-            this.logAction(this.idCompany, false, Actions.Edit, '', 'edit level characteristic' + characteristicToUpdate.characteristicName_RO, true, 'Characteristic updated');
+            this.logAction(this.idCompany, false, Actions.Edit, '', 'edit level characteristic' + characteristicToUpdate.characteristicName_RO, true, this.getCurrentLabelValue('lblEdited'));
             this.loadLevelCharacteristics(null, parseInt(this.selectedLevel));
           }
         },
@@ -607,7 +611,7 @@ export class LevelsComponent extends BaseComponent implements OnInit
           else
           {
             //this.showPageMessage('success', 'Success', 'Entity added');
-            this.logAction(this.idCompany, false, Actions.Add, '', 'add entity ' + newEntity.entityName_RO, true, 'Entity added');
+            this.logAction(this.idCompany, false, Actions.Add, '', 'add entity ' + newEntity.entityName_RO, true, this.getCurrentLabelValue('lblAdded'));
             this.loadEntities(parseInt(this.selectedLevel));
             this.autoLogin();
           }

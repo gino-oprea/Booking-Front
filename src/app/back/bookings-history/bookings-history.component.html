@@ -1,5 +1,5 @@
 <legend *ngIf="!isDialog" style="margin-bottom: 10px;">{{getCurrentLabelValue('lblBookingsHistory')}}</legend>
-<div *ngIf="!isDialog" class="row" style="height: 7%;">
+<div class="row" style="height: 7%;">
   <div class="col-md-12">
     <span>{{getCurrentLabelValue('lblStartDate')}}: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
@@ -23,15 +23,19 @@
 <div class="row" style="height: 93%;">
   <div class="col-md-12" style="height: 100%;">
     <p-table #dt [value]="bookings" selectionMode="single" [responsive]="true"
-      (onRowSelect)="!isDialog ? displayBookingDialog=true : displayBookingDialog=false" [(selection)]="selectedBooking"
+      (onRowSelect)="displayBookingDialog=true" [(selection)]="selectedBooking"
       scrollable="true" scrollHeight="99%">
       <!-- <ng-template pTemplate="caption">
         Entities
       </ng-template> -->
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblDate')}}</th>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblTime')}}</th>
+          <th style="width:150px;text-align:center" [pSortableColumn]="'startDate'">
+            {{getCurrentLabelValue('lblDate')}}
+            <p-sortIcon [field]="'startDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+          <th style="width:150px;text-align:center" >{{getCurrentLabelValue('lblTime')}}</th>
           <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
             <input *ngSwitchCase="'email'" pInputText type="text" style="width: 130px;"
               (input)="dt.filter($event.target.value, 'email', 'contains')">
@@ -51,7 +55,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-booking>
-        <tr [pSelectableRow]="booking">
+        <tr [pSelectableRow]="booking" [ngClass]="isFutureDate(booking.startDate) ? null : 'pastBooking'">
           <td style="width:150px;text-align:center">{{booking.startDate | date:'dd MMM yyyy'}}</td>
           <td style="width:150px;text-align:center">{{getBookingTimeString(booking)}}</td>
           <td *ngIf="!isDialog" style="width:150px;text-align:center">{{booking.email}}</td>
@@ -64,7 +68,7 @@
               {{getBookingStatusString(booking.idStatus)}}
             </button>
           </td>
-          <td *ngIf="!isDialog" style="width:100px;text-align:center">
+          <td style="width:100px;text-align:center">
             <button type="button" class="btn btn-danger"
               (click)="displayConfirmDeleteBooking=true;idBooking=booking.id;">
               <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
@@ -92,7 +96,7 @@
   </div>
 </p-dialog>
 
-<p-dialog header="{{getCurrentLabelValue('lblSelectedBooking')}}" [(visible)]="displayBookingDialog" [responsive]="true" showEffect="fade"
+<p-dialog appendTo="body" header="{{getCurrentLabelValue('lblSelectedBooking')}}" [(visible)]="displayBookingDialog" [responsive]="true" showEffect="fade"
   [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="selectedBooking!=null ? [selectedBooking] : null"
     [showDeleteButton]="false" [showCancelButton]="false" [showHonoredButton]="false"
@@ -101,7 +105,7 @@
 </p-dialog>
 
 
-<p-dialog header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmDeleteBooking" [responsive]="true" showEffect="fade"
+<p-dialog appendTo="body" header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmDeleteBooking" [responsive]="true" showEffect="fade"
   [modal]="true" width="350">
   <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblDeleteBookingWarning')" (onConfirm)="onConfirmDelete($event)">
   </bf-generic-confirm-dialog>

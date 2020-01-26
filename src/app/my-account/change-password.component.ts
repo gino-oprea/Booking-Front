@@ -65,7 +65,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit
           this.loginService.emmitLoginChange();
 
           //this.showPageMessage("success", "Success", this.getCurrentLabelValue('lblYourPasswordChanged'));
-          this.logAction(null, false, Actions.Edit, "", "Password changed", true, "Password changed");
+          this.logAction(null, false, Actions.Edit, "", "Password changed", true, this.getCurrentLabelValue('lblYourPasswordChanged'));
         }
         else
         {
