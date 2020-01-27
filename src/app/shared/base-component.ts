@@ -178,12 +178,14 @@ export class BaseComponent implements OnInit, OnDestroy
             //     || idAction == Actions.Logout
             //     || idAction == Actions.View)//doar daca e actiune a userului pe pagina trebuie logat - requesturile la API se logheaza oricum din backend
             // {
-            this.loggerService.setLog(log).subscribe((data: any) =>
-            {
-                let gro = <GenericResponseObject>data;
-                //console.log(gro);
-            },
-                err => console.log(err));
+            
+            if (idAction != Actions.View)//nu mai logam actiunile de tip view
+                this.loggerService.setLog(log).subscribe((data: any) =>
+                {
+                    let gro = <GenericResponseObject>data;
+                    //console.log(gro);
+                },
+                    err => console.log(err));
 
             if (showPageMessage)
             {
