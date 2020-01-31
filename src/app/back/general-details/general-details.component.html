@@ -22,7 +22,22 @@
               </div>
             </div>
 
-            <div class="form-group" style="height: 15%;">
+            <div class="form-group" style="height: 5%;">
+              <label class="col-md-2 control-label" for="embed_details">{{getCurrentLabelValue('lblEmbedDetailsPage')}}:</label>
+              <div class="col-md-10" style="height: 100%">
+                <textarea id="embed_details" formControlName="embed_details" type="text" class="form-control input-md" readonly="true"  style="height: 100%;padding: 3px;resize: none;"></textarea>
+              </div>
+            </div>
+
+          <div class="form-group" style="height: 5%;">
+            <label class="col-md-2 control-label" for="embed_booking">{{getCurrentLabelValue('lblEmbedBookingPage')}}:</label>
+            <div class="col-md-10" style="height: 100%">
+              <textarea id="embed_booking" formControlName="embed_booking" type="text" class="form-control input-md"
+                readonly="true" style="height: 100%;padding: 3px;resize: none;"></textarea>
+            </div>
+          </div>
+
+            <div class="form-group" style="height: 10%;">
               <label class="col-md-2 control-label" for="description_ro">{{getCurrentLabelValue('lblDescription')}}
                 RO:</label>
               <div class="col-md-10" style="height: 100%">
@@ -33,7 +48,7 @@
               </div>
             </div>
 
-            <div class="form-group" style="height: 15%;">
+            <div class="form-group" style="height: 10%;">
               <label class="col-md-2 control-label" for="description_en">{{getCurrentLabelValue('lblDescription')}}
                 EN:</label>
               <div class="col-md-10" style="height: 100%">

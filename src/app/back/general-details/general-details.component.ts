@@ -106,7 +106,9 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       'lblCity',
       'lblBookingCanceled',
       'lblBookingRemoved',
-      'lblBookingEdited'
+      'lblBookingEdited',
+      'lblEmbedBookingPage',
+      'lblEmbedDetailsPage'
     ]);
     this.site = WebSites.Back;
     this.pageName = "Company General Details";
@@ -295,6 +297,20 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
   }
   initForm()
   {
+    let detailsIframeCode = '';
+    let bookingsIframeCode = '';
+    if (this.company != null)
+    {
+      let root = location.protocol + '//' + location.host;
+      let detailsUrl = root + '/companydetails/' + this.company.id + '/' + this.company.name + '?iframe=true';
+      let bookingsUrl = root + '/companybooking/' + this.company.id + '/' + this.company.name + '?iframe=true';
+      detailsIframeCode = '<iframe width="100%" height = "100%" style = "border: none;" src = "' + detailsUrl + '"></iframe>';
+      bookingsIframeCode = '<iframe width="100%" height = "100%" style = "border: none;" src = "' + bookingsUrl + '"></iframe>';
+    }
+      
+    //   <iframe width="100%" height = "100%" style = "border: none;"
+    // src = "http://localhost:4200/companydetails/31/Dentist?iframe=true" > </iframe>
+
     this.genDetailsForm = new FormGroup({
       'name': new FormControl(this.company == null ? '' : this.company.name, Validators.required),
       'description_ro': new FormControl(this.company == null ? '' : this.company.description_RO),
@@ -302,6 +318,9 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       'category': new FormControl(this.company == null ? '' : this.company.idCategory, Validators.required),
       'subcategory': new FormControl(this.company == null ? '' : this.company.idSubcategory, Validators.required),
       //'country': new FormControl(this.company == null ? '' : this.company.idCountry, Validators.required),
+
+      'embed_details': new FormControl(detailsIframeCode),
+      'embed_booking': new FormControl(bookingsIframeCode),
 
       'county': new FormControl(this.company == null ? '' : this.company.idCounty, Validators.required),
       'city': new FormControl(this.company == null ? '' : this.company.idCity, Validators.required),
@@ -311,6 +330,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       'email': new FormControl(this.company == null ? '' : this.company.email, [Validators.required,
       Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]),
       'phone': new FormControl(this.company == null ? '' : this.company.phone, Validators.required)
+
     });
 
     if (this.address)
