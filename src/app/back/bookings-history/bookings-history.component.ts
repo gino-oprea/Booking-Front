@@ -68,7 +68,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
       'lblBookingRemoved',
       'lblBookingIsHonored',
       'lblBookingIsActive',
-      'lblBookingCanceled'
+      'lblBookingCanceled',
+      'lblBookingEdited'
     ]);
 
     this.site = WebSites.Back;

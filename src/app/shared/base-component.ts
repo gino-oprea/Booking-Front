@@ -161,14 +161,23 @@ export class BaseComponent implements OnInit, OnDestroy
     {
         try
         {
-            let log = new LogItem();
+            let log = new LogItem();            
 
-            log.idUser = (!!localStorage.getItem('b_front_auth_user') ? (<User>JSON.parse(localStorage.getItem('b_front_auth_user'))).id : null);
+            let loggedUser: User = (!!localStorage.getItem('b_front_auth_user') ? <User>JSON.parse(localStorage.getItem('b_front_auth_user')) : null);
+
+            log.idUser = (!!loggedUser ? loggedUser.id : null);
+            log.email = (!!loggedUser ? loggedUser.email : null);
+            log.userFirstName = (!!loggedUser ? loggedUser.firstName : null);
+            log.userLastName = (!!loggedUser ? loggedUser.lastName : null);
+            log.phone = (!!loggedUser ? loggedUser.phone : null);
             log.idCompany = idCompany;
+            log.companyName = null;
             log.isError = isError;
             log.idSite = this.site;
+            log.siteName = WebSites[this.site];
             log.pageName = this.pageName;
             log.idAction = idAction;
+            log.actionName = Actions[idAction];
             log.logErrorMessage = errMsg;
             log.logInfoMessage = infoMsg;
 

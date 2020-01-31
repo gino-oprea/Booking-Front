@@ -113,12 +113,12 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
       if (gro.error != '')
       {
         //this.showPageMessage('error', 'Error', gro.error);
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        this.logAction(company.id, true, Actions.Edit, gro.error, gro.errorDetailed, true);
       }
       else
       {
         //this.showPageMessage('success', 'Success', this.getCurrentLabelValue('lblSaved'));
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'Toggle company ' + (company.isEnabled ? 'enabled' : 'disabled'), true, this.getCurrentLabelValue('lblSaved'));
+        this.logAction(company.id, false, Actions.Edit, '', 'Toggle company ' + (company.isEnabled ? 'enabled' : 'disabled'), true, this.getCurrentLabelValue('lblSaved'));
       }
     });
   }
@@ -183,9 +183,9 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
     {
       let gro = <GenericResponseObject>result;
       if (gro.error != '')
-        this.logAction(this.idCompany, true, Actions.Edit, gro.error, gro.errorDetailed, true);
+        this.logAction(company.id, true, Actions.Edit, gro.error, gro.errorDetailed, true);
       else
-        this.logAction(this.idCompany, false, Actions.Edit, '', 'Toggle company '+ (company.allowOnlineBookings ? 'allow' : 'not allow')+' online bookings', true, this.getCurrentLabelValue('lblSaved'));
+        this.logAction(company.id, false, Actions.Edit, '', 'Toggle company '+ (company.allowOnlineBookings ? 'allow' : 'not allow')+' online bookings', true, this.getCurrentLabelValue('lblSaved'));
     });
   }
 }
