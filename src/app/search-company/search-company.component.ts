@@ -21,6 +21,7 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
 
   companies: Company[] = [];
   images: Image[] = [];
+  emptySlotsNo: number = 10;
 
   constructor(private injector: Injector,
     private companySearchService: CompanySearchService,
@@ -32,7 +33,8 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
         'lblCompanies',
         'lblCategory',
         'lblAddress',
-        'lblCity'
+        'lblCity',
+        'lblYourCompanyHere'
       ]
     );
     this.site = WebSites.Front;
@@ -71,6 +73,9 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
       {
         this.logAction(this.idCompany, false, Actions.Search, '', 'Search company: ' + JSON.stringify(filter));
         this.companies = <Company[]>gro.objList;
+
+        this.emptySlotsNo = this.emptySlotsNo - this.companies.length < 0 ? 0 : this.emptySlotsNo - this.companies.length;
+
         this.companies.forEach(c =>
         {
           this.imageService.getCompanyImages(c.id).subscribe(result =>
@@ -86,5 +91,10 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
   goToCompanyDetails(companyId: number, companyName: string)
   {
     this.router.navigate(['/companydetails', companyId, companyName.replace(/ /g, '')]);
+  }
+
+  dummyCompanyArray(n: number): any[]
+  {
+    return Array(n);
   }
 }

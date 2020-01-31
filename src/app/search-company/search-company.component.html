@@ -21,6 +21,24 @@
         </div>
       </div>
     </div>
+
+    <div class="row" *ngFor="let dummyComp of dummyCompanyArray(emptySlotsNo);" style="cursor:pointer;">
+      <div class="container-fluid well span6 col-md-11" style="margin-bottom: 5px;">
+        <div class="row-fluid">
+          <div class="col-md-3">
+            <img [src]="COMP_IMG" style="height: auto;width: auto;max-height: 110px;">
+          </div>
+          <div class="col-md-9">
+            <h3 style="margin-top: 0px;">{{getCurrentLabelValue('lblYourCompanyHere')}}</h3>
+            <h6>{{getCurrentLabelValue('lblCategory')}}</h6>
+            <h6>Email</h6>
+            <h6>{{getCurrentLabelValue('lblCity')}}</h6>
+            <h6>{{getCurrentLabelValue('lblAddress')}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
