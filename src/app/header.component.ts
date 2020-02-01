@@ -37,6 +37,10 @@ export class HeaderComponent extends BaseComponent implements OnInit
   countriesDic: Country[] = [];
   countiesDic: County[] = [];
   citiesDic: City[] = [];
+
+  counties: SelectItem[];
+  cities: SelectItem[];
+
   selectedCountryId: number = 1;
   selectedCountyId: number = 0;
   selectedCityId: number = 0;
@@ -46,6 +50,9 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
   categories: GenericDictionaryItem[] = [];
   subcategories: GenericDictionaryItem[] = [];
+
+  categoriesDDL: SelectItem[];
+  subcategoriesDDL: SelectItem[];
 
   showSubscriptionDialog = false;
   subscriptions: SubscriptionObject[] = [];
@@ -58,7 +65,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
   constructor(private injector: Injector,
     private confirmationService: ConfirmationService,
-    private companySearchService: CompanySearchService,    
+    private companySearchService: CompanySearchService,
     private countriesService: CountriesService,
     private subscriptionsService: SubscriptionsService,
     private companyService: CompanyService)
@@ -153,6 +160,13 @@ export class HeaderComponent extends BaseComponent implements OnInit
       else
       {
         this.countiesDic = <County[]>gro.objList;
+
+        this.cities = [{ label: this.getCurrentLabelValue('lblAllCities'), value: 0 }];
+        this.counties = [{ label: this.getCurrentLabelValue('lblAllCounties'), value: 0 }];
+        for (var i = 0; i < this.countiesDic.length; i++)
+        {
+          this.counties.push({ label: this.countiesDic[i].name, value: this.countiesDic[i].id });
+        }
       }
     });
   }
@@ -170,9 +184,14 @@ export class HeaderComponent extends BaseComponent implements OnInit
         else
         {
           this.citiesDic = <City[]>gro.objList;
+
+          this.cities = [{ label: this.getCurrentLabelValue('lblAllCities'), value: 0 }];
+          for (var i = 0; i < this.citiesDic.length; i++)
+          {
+            this.cities.push({ label: this.citiesDic[i].name, value: this.citiesDic[i].id });
+          }
         }
-      },
-        err => this.logAction(this.idCompany, true, Actions.Search, 'http error loading countries dictionary', ''));
+      });
     }
     else
     {
@@ -187,7 +206,17 @@ export class HeaderComponent extends BaseComponent implements OnInit
       if (groCategories.error != '')
         this.logAction(this.idCompany, true, Actions.Search, groCategories.error, groCategories.errorDetailed, true);
       else
+      {
         this.categories = <GenericDictionaryItem[]>groCategories.objList;
+
+        this.categoriesDDL = [{ label: this.getCurrentLabelValue('lblAllCategories'), value: 0 }];
+        for (var i = 0; i < this.categories.length; i++)
+        {
+          this.categoriesDDL.push({
+            label: (this.currentCulture == 'EN' ? this.categories[i].value_EN : this.categories[i].value_RO), value: this.categories[i].id
+          });
+        }
+      }
     });
   }
   loadSubCategories()
@@ -201,10 +230,18 @@ export class HeaderComponent extends BaseComponent implements OnInit
         this.subcategories = <GenericDictionaryItem[]>groSubcategories.objList;
         if (this.subcategories.length == 0)
           this.selectedSubcategoryId = 0;
+
+        this.subcategoriesDDL = [{ label: this.getCurrentLabelValue('lblAllSubcategories'), value: 0 }];
+        for (var i = 0; i < this.subcategories.length; i++)
+        {
+          this.subcategoriesDDL.push({
+            label: (this.currentCulture == 'EN' ? this.subcategories[i].value_EN : this.subcategories[i].value_RO), value: this.subcategories[i].id
+          });
+        }
       }
     });
   }
-  onChangeCategory(event)
+  onChangeCategory()
   {
     this.loadSubCategories();
   }
