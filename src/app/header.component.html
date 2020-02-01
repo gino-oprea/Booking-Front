@@ -13,44 +13,30 @@
            <option *ngFor="let c of countriesDic" [value]="c.id">{{c.name_Formatted}}</option>
       </select> -->
 
-      <p-dropdown *ngIf="pageLabels && counties" [options]="counties" [style]="{'min-width':'50px','width':'150px'}"
-        [filter]="true" [(ngModel)]="selectedCountyId" (onChange)="loadCities()"></p-dropdown>
-      <!-- <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountyId" (change)="loadCities()">
+      <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountyId" (change)="loadCities()">
         <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
-        <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}</option>
-      </select> -->
+        <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}
+        </option>
+      </select>
 
-      <p-dropdown *ngIf="pageLabels && cities" [options]="cities"
-        [style]="{'min-width':'50px','width':'150px','margin-left':'5px'}" [filter]="true" [(ngModel)]="selectedCityId">
-      </p-dropdown>
-
-      <!-- <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCityId">
+      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCityId">
         <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
-        <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}</option>
-      </select> -->
+        <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}
+        </option>
+      </select>
 
-      <p-dropdown *ngIf="pageLabels && categoriesDDL" [options]="categoriesDDL"
-        [style]="{'min-width':'50px','width':'150px','margin-left':'5px'}" [filter]="true"
-        [(ngModel)]="selectedCategoryId" (onChange)="onChangeCategory()">
-      </p-dropdown>
-
-      <!-- <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCategoryId"
+      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCategoryId"
         (change)="onChangeCategory($event)">
         <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
         <option *ngFor="let c of categories" [value]="c.id">{{currentCulture == 'EN' ? c.value_EN : c.value_RO}}
         </option>
-      </select> -->
+      </select>
 
-      <p-dropdown *ngIf="pageLabels && subcategoriesDDL" [options]="subcategoriesDDL"
-        [style]="{'min-width':'50px','width':'150px','margin-left':'5px'}" [filter]="true"
-        [(ngModel)]="selectedSubcategoryId">
-      </p-dropdown>
-
-      <!-- <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedSubcategoryId">
+      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedSubcategoryId">
         <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
         <option *ngFor="let s of subcategories" [value]="s.id">{{currentCulture == 'EN' ? s.value_EN : s.value_RO}}
         </option>
-      </select> -->
+      </select>
 
       <input type="text" [(ngModel)]="searchString" placeholder="{{getCurrentLabelValue('lblSearchCompany')}}"
         (keyup.enter)="doSearch()" style="height:40px;width:300px;margin-left: 5px;">
