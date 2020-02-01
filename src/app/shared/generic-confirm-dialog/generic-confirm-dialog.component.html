@@ -1,12 +1,12 @@
 <p>{{confirmMessage}}</p>
 <footer>
   <div>
-    <re-captcha *ngIf="useCaptcha" #captchaRef="reCaptcha" (resolved)="onResolvedCaptcha($event)"
+    <re-captcha *ngIf="useCaptcha && !captchaDestroyed" #captchaRef (resolved)="onResolvedCaptcha($event)"
       siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
   </div>
   <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-    <button type="button"  pButton (click)="onCancelClick()" [label]="getCurrentLabelValue('lblNo')"></button>
-    <button type="button" [disabled]="useCaptcha && !validCaptcha" pButton (click)="onConfirmClick()" [label]="getCurrentLabelValue('lblYes')"
-      style="margin-left: 5px;"></button>
+    <button type="button" pButton (click)="onCancelClick()" [label]="getCurrentLabelValue('lblNo')"></button>
+    <button type="button" [disabled]="useCaptcha && !validCaptcha" pButton (click)="onConfirmClick()"
+      [label]="getCurrentLabelValue('lblYes')" style="margin-left: 5px;"></button>
   </div>
 </footer>
