@@ -197,6 +197,7 @@ export class BookingsComponent extends BaseComponent implements OnInit
     {
       this.isAddTabEnabled = true;
       this.tabs.add.active = true;
+      this.tabs.edit.active = false;
     }
     else
     {
