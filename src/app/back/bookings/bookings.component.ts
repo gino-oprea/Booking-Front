@@ -259,6 +259,11 @@ export class BookingsComponent extends BaseComponent implements OnInit
 
   onCloseManageBookingsDialog()
   {
+    this.tabs = {
+      add: { active: false },
+      edit: { active: false }
+    };
+
     if (this.autoAssignedEntityCombination)
     {
       let startTime: Date;
