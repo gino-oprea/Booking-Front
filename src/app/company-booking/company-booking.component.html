@@ -5,7 +5,7 @@
     <bf-booking-filter2 [idCompany]="idCompany" [selectedDate]="shiftedDate" (filterChanged)="filterChanged($event)"></bf-booking-filter2>   
   </div>
   <div *ngIf="bookingDefaultDuration" class="col-md-10" style="height:100%; overflow-x: auto;">
-    <bf-booking-calendar *ngIf="showCalendarBooking"></bf-booking-calendar>
+    <!-- <bf-booking-calendar *ngIf="showCalendarBooking"></bf-booking-calendar> -->
     <bf-booking-hours *ngIf="!showCalendarBooking" [idCompany]="idCompany" [selectedFilter]="selectedFilter" 
     (selectDate)="onShiftWeek($event)" (selectTimeSlot)="onSelectBookingHour($event)"></bf-booking-hours>
   </div>

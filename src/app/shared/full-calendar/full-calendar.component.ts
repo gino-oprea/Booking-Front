@@ -213,7 +213,7 @@ export class FullCalendarComponent extends BaseComponent implements OnInit {
       "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];  
     return this.currentCulture == 'EN' ? monthNames_EN[this.selectedMonth] : monthNames_RO[this.selectedMonth];
   }
-  protected getDayNames():string[]
+  getDayNames():string[]
   {
     return this.currentCulture == 'EN' ? this.dayNames_EN : this.dayNames_RO;
   } 
