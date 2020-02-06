@@ -197,11 +197,13 @@ export class BookingsComponent extends BaseComponent implements OnInit
     {
       this.isAddTabEnabled = true;
       this.tabs.add.active = true;
+      this.tabs.edit.active = false;
     }
     else
     {
       this.isAddTabEnabled = false;
       this.tabs.add.active = false;
+      this.tabs.edit.active = true;
     }
   }
 
@@ -258,6 +260,11 @@ export class BookingsComponent extends BaseComponent implements OnInit
 
   onCloseManageBookingsDialog()
   {
+    this.tabs = {
+      add: { active: false },
+      edit: { active: false }
+    };
+
     if (this.autoAssignedEntityCombination)
     {
       let startTime: Date;

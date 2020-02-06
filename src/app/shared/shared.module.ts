@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { BookingFilterComponent } from './booking-filter/booking-filter.component';
 import { BookingHoursComponent } from './booking-hours/booking-hours.component';
 import { BookingConfirmDialogComponent } from './booking-confirm-dialog/booking-confirm-dialog.component';
-import { BookingCalendarComponent } from './booking-calendar/booking-calendar.component';
+//import { BookingCalendarComponent } from './booking-calendar/booking-calendar.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { DragDropModule } from "@angular/cdk/drag-drop";
@@ -37,7 +37,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
     BookingFilterComponent,
     BookingHoursComponent,
     BookingConfirmDialogComponent,
-    BookingCalendarComponent,
+    //BookingCalendarComponent,
     FullCalendarComponent,
     BookingFilter2Component,
     GenericConfirmDialogComponent
@@ -48,7 +48,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
     GenericConfirmDialogComponent,
     BookingHoursComponent,
     BookingConfirmDialogComponent,
-    BookingCalendarComponent,
+    //BookingCalendarComponent,
     FullCalendarComponent
   ]
 })
