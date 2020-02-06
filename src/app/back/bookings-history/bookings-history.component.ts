@@ -9,6 +9,7 @@ import { NonAuthGuard } from '../../route-guards/non-auth.guard';
 import { CompanyUsersService } from 'app/app-services/company-users.service';
 import { CompanyUser } from '../../objects/user';
 import { GenericResponseObject } from '../../objects/generic-response-object';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'bf-bookings-history',
@@ -92,6 +93,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
         this.idCompany = +params['id'];
       }
     });
+
+
   }
 
   ngOnInit() 
@@ -143,6 +146,51 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
       }
     });
   }
+
+  getExportBookings(): any[]
+  {
+    let exportBookings: any[] = [];
+
+    for (let i = 0; i < this.bookings.length; i++)
+    {
+      const booking = this.bookings[i];
+      exportBookings.push({
+        [this.getCurrentLabelValue('lblDate')]: booking.startDate,
+        [this.getCurrentLabelValue('lblTime')]: this.getBookingTimeString(booking),
+        [this.getCurrentLabelValue('lblEmail')]: booking.email,
+        [this.getCurrentLabelValue('lblPhone')]: booking.phone,
+        [this.getCurrentLabelValue('lblName')]: booking.firstName + ' ' + booking.lastName,
+        [this.getCurrentLabelValue('lblEntities')]: this.getBookingEntitiesCombinationString(booking),
+        Status: this.getBookingStatusString(booking.idStatus)
+      });
+    }
+
+    return exportBookings;
+  }
+
+  exportExcel()
+  {
+    import("xlsx").then(xlsx =>
+    {
+      const worksheet = xlsx.utils.json_to_sheet(this.getExportBookings());
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, "Bookings");
+    });
+  }
+  saveAsExcelFile(buffer: any, fileName: string): void
+  {
+    import("file-saver").then(FileSaver =>
+    {
+      let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      let EXCEL_EXTENSION = '.xlsx';
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+      });
+      FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    });
+  }
+
   getBookingEntitiesCombinationString(booking: Booking)
   {
     let combString = '';
@@ -185,7 +233,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
           + new Date(this.selectedBooking.startDate).toDateString() + " "
           + new Date(this.selectedBooking.startTime).toTimeString();
 
-        this.logAction(this.idCompany, false, Actions.Delete, "", this.getCurrentLabelValue('lblBookingRemoved') +": " + bookingLogInfo);
+        this.logAction(this.idCompany, false, Actions.Delete, "", this.getCurrentLabelValue('lblBookingRemoved') + ": " + bookingLogInfo);
 
         this.loadBookings();
       }

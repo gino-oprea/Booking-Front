@@ -22,29 +22,36 @@
 </div>
 <div class="row" style="height: 93%;">
   <div class="col-md-12" style="height: 100%;">
-    <p-table #dt [value]="bookings" selectionMode="single" [responsive]="true"
-      (onRowSelect)="displayBookingDialog=true" [(selection)]="selectedBooking"
-      scrollable="true" scrollHeight="99%">
-      <!-- <ng-template pTemplate="caption">
-        Entities
-      </ng-template> -->
+    <p-table #dt [value]="bookings" selectionMode="single" [responsive]="true" (onRowSelect)="displayBookingDialog=true"
+      [(selection)]="selectedBooking" scrollable="true" scrollHeight="99%">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix" style="text-align: left">
+          <button type="button" style="margin-right: 0.5em;" class="btn btn-success" (click)="exportExcel()"><i
+              class="fa fa-file-excel-o"></i>
+            EXCEL</button>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th style="width:150px;text-align:center" [pSortableColumn]="'startDate'">
             {{getCurrentLabelValue('lblDate')}}
-            <p-sortIcon [field]="'startDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
-              ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            <p-sortIcon [field]="'startDate'" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
           </th>
-          <th style="width:150px;text-align:center" >{{getCurrentLabelValue('lblTime')}}</th>
-          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
+          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblTime')}}</th>
+          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'email'">
+            {{getCurrentLabelValue('lblEmail')}}
             <input *ngSwitchCase="'email'" pInputText type="text" style="width: 130px;"
               (input)="dt.filter($event.target.value, 'email', 'contains')">
           </th>
-          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'phone'">{{getCurrentLabelValue('lblPhone')}}
+          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'phone'">
+            {{getCurrentLabelValue('lblPhone')}}
             <input *ngSwitchCase="'phone'" pInputText type="text" style="width: 130px;"
               (input)="dt.filter($event.target.value, 'phone', 'contains')">
           </th>
-          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'firstName'">{{getCurrentLabelValue('lblName')}}
+          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'firstName'">
+            {{getCurrentLabelValue('lblName')}}
             <input *ngSwitchCase="'firstName'" pInputText type="text" style="width: 130px;"
               (input)="dt.filter($event.target.value, 'firstName', 'contains')">
           </th>
@@ -81,8 +88,8 @@
   </div>
 </div>
 
-<p-dialog header="{{getCurrentLabelValue('lblChangeStatus')}}" [(visible)]="displayStatusDialog" [responsive]="true" showEffect="fade" [modal]="true"
-  appendTo="body" width="400">
+<p-dialog header="{{getCurrentLabelValue('lblChangeStatus')}}" [(visible)]="displayStatusDialog" [responsive]="true"
+  showEffect="fade" [modal]="true" appendTo="body" width="400">
   <div>
     <button class="btn btn-success" (click)="setBookingStatus(2)">
       <i class="fa fa-check"> {{getCurrentLabelValue('lblHonored')}}</i>
@@ -96,8 +103,8 @@
   </div>
 </p-dialog>
 
-<p-dialog appendTo="body" header="{{getCurrentLabelValue('lblSelectedBooking')}}" [(visible)]="displayBookingDialog" [responsive]="true" showEffect="fade"
-  [modal]="true" width="1200">
+<p-dialog appendTo="body" header="{{getCurrentLabelValue('lblSelectedBooking')}}" [(visible)]="displayBookingDialog"
+  [responsive]="true" showEffect="fade" [modal]="true" width="1200">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="selectedBooking!=null ? [selectedBooking] : null"
     [showDeleteButton]="false" [showCancelButton]="false" [showHonoredButton]="false"
     (bookingMoved)="onBookingMoved($event)" (onBookingsNone)="displayBookingDialog=false;">
@@ -105,9 +112,10 @@
 </p-dialog>
 
 
-<p-dialog appendTo="body" header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmDeleteBooking" [responsive]="true" showEffect="fade"
-  [modal]="true" width="350">
-  <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblDeleteBookingWarning')" (onConfirm)="onConfirmDelete($event)">
+<p-dialog appendTo="body" header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmDeleteBooking"
+  [responsive]="true" showEffect="fade" [modal]="true" width="350">
+  <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblDeleteBookingWarning')"
+    (onConfirm)="onConfirmDelete($event)">
   </bf-generic-confirm-dialog>
 </p-dialog>
 
