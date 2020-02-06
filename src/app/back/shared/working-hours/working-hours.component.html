@@ -19,7 +19,7 @@
 </ul>
 
 
-<div id="parentDiv" (mousemove)=onMousemove($event) (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
+<div id="parentDiv" (mousemove)="onMousemove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
 
   <div *ngIf="singleDay==-1" id='selectionDiv' class="ghost-select" [ngClass]="{'ghost-active': isSelecting}" 
   [style.left]="selectorLeft.toString()+'px'" 
