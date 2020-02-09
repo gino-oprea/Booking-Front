@@ -76,7 +76,7 @@ export class UserRegistrationComponent extends BaseComponent implements OnInit
       user.password = (<FormGroup>this.myForm.controls['passwords']).controls['password'].value;
 
       console.log(user);
-      this.usersService.registerUser(user, UserRoleEnum.Client).subscribe((response: GenericResponseObject) =>
+      this.usersService.registerUser(user).subscribe((response: GenericResponseObject) =>
       {
         console.log(response);
         let gro = response;

@@ -55,7 +55,7 @@ export class ChangePasswordComponent extends BaseComponent implements OnInit
       this.user.password = this.passwordForm.controls['newPassword'].value;;
 
       //update mode 3 -update doar parola
-      this.usersService.editUser(this.user, null, 3).subscribe((response: any) =>
+      this.usersService.editUser(this.user).subscribe((response: any) =>
       {
         console.log(response);
         let gro = <GenericResponseObject>response;

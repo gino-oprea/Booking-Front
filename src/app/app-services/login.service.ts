@@ -61,24 +61,24 @@ export class LoginService
             localStorage.setItem('b_front_auth_user', JSON.stringify(user));
             this.loggedIn = true;
 
-            //component.logAction(null, false, Actions.Login, "", "");
+            //component.logAction(null, false, Actions.Login, "", "");            
             
             this.emmitLoginChange();
 
-            this.usersService.editUser(user,null, 1).subscribe((data) =>//updateaza data ultimului login
-            {
-              let gro = (<GenericResponseObject>data);
-              console.log(gro);
-              if (gro.info.indexOf('success') > -1)
-              {
-                //this.router.navigate(['/searchcompany']);              
-              }
-              else
-              {
-                console.log(gro.error);
-                component.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed, true, gro.error);
-              }
-            });
+            // this.usersService.editUser(user,null, 1).subscribe((data) =>//updateaza data ultimului login
+            // {
+            //   let gro = (<GenericResponseObject>data);
+            //   console.log(gro);
+            //   if (gro.info.indexOf('success') > -1)
+            //   {
+            //     //this.router.navigate(['/searchcompany']);              
+            //   }
+            //   else
+            //   {
+            //     console.log(gro.error);
+            //     component.logAction(null, true, Actions.Login, gro.error, gro.errorDetailed, true, gro.error);
+            //   }
+            // });
           }
           else
             component.logAction(null, true, Actions.Login, user.error, user.errorDetailed, true, user.error);
