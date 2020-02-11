@@ -1,4 +1,3 @@
-import { AppSettings } from './app-settings';
 import { UsersService } from './users.service';
 
 import { Injectable } from '@angular/core';
@@ -12,14 +11,15 @@ import { Timeslot } from '../objects/timeslot';
 import { AutoAssignPayload } from '../objects/auto-assign-payload';
 import { PotentialBooking } from '../objects/potential-booking';
 import { BookingSearchFilter } from '../objects/booking-search-filter';
+import { AppConfigService } from './app-config.service';
 
 @Injectable()
 export class BookingService
 {
   currentCulture: string;
 
-  constructor(private httpClient: HttpClient, private usersService: UsersService)
-  { 
+  constructor(private httpClient: HttpClient, private usersService: UsersService, private config: AppConfigService)
+  {
     this.currentCulture = !!localStorage.getItem('b_front_culture') ? localStorage.getItem('b_front_culture') : 'RO';
   }
 
@@ -36,7 +36,7 @@ export class BookingService
       params: params
     };
 
-    return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookings/' + idCompany.toString(), options);
+    return this.httpClient.get<GenericResponseObject>(this.config.api_endpoint + 'booking/GetBookings/' + idCompany.toString(), options);
   }
 
   getLevelsAsFilters(idCompany: number, weekDates: string[]): Observable<GenericResponseObject>
@@ -52,7 +52,7 @@ export class BookingService
       params: params
     };
 
-    return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Booking/GetBookingFilters/' + idCompany.toString(), options);
+    return this.httpClient.get<GenericResponseObject>(this.config.api_endpoint + 'Booking/GetBookingFilters/' + idCompany.toString(), options);
   }
   setUpBookingFilterEntitiesWorkingHours(idCompany: number, weekDates: string[], levels: LevelAsFilter[]): Observable<GenericResponseObject>
   {
@@ -71,7 +71,7 @@ export class BookingService
       params: params
     };
 
-    return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/SetUpBookingFilterEntitiesWorkingHours/'
+    return this.httpClient.post<GenericResponseObject>(this.config.api_endpoint + 'booking/SetUpBookingFilterEntitiesWorkingHours/'
       + idCompany.toString(), body, options);
   }
   getBookingDefaultDuration(idCompany: number): Observable<GenericResponseObject>
@@ -80,7 +80,7 @@ export class BookingService
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
-    return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'Booking/GetBookingDefaultDuration/' + idCompany.toString(), options);
+    return this.httpClient.get<GenericResponseObject>(this.config.api_endpoint + 'Booking/GetBookingDefaultDuration/' + idCompany.toString(), options);
   }
   getBookingRestrictions(idCompany: number, idEntities: number[], weekDates: string[]): Observable<GenericResponseObject>
   {
@@ -99,7 +99,7 @@ export class BookingService
       params: params
     };
 
-    return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingRestrictions/' + idCompany.toString(), options);
+    return this.httpClient.get<GenericResponseObject>(this.config.api_endpoint + 'booking/GetBookingRestrictions/' + idCompany.toString(), options);
   }
   editBooking(booking: Booking[]): Observable<GenericResponseObject>
   {
@@ -125,10 +125,10 @@ export class BookingService
 
     let options = {
       headers: headers,
-      params:params
+      params: params
     };
 
-    return this.httpClient.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking', body, options);
+    return this.httpClient.put<GenericResponseObject>(this.config.api_endpoint + 'booking', body, options);
   }
   addBooking(booking: Booking): Observable<GenericResponseObject>
   {
@@ -153,9 +153,9 @@ export class BookingService
       params: params
     };
 
-    
 
-    return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking', body, options);
+
+    return this.httpClient.post<GenericResponseObject>(this.config.api_endpoint + 'booking', body, options);
   }
   setBookingStatus(booking: Booking, idStatus: number): Observable<GenericResponseObject>
   {
@@ -179,7 +179,7 @@ export class BookingService
       headers: headers
     };
 
-    return this.httpClient.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/SetBookingStatus/' + idStatus.toString(), body, options);
+    return this.httpClient.put<GenericResponseObject>(this.config.api_endpoint + 'booking/SetBookingStatus/' + idStatus.toString(), body, options);
   }
   removePotentialBooking(idPotentialBooking: number)
   {
@@ -189,7 +189,7 @@ export class BookingService
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
-    return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/RemovePotentialBooking/' + idPotentialBooking.toString(), options);
+    return this.httpClient.delete<GenericResponseObject>(this.config.api_endpoint + 'booking/RemovePotentialBooking/' + idPotentialBooking.toString(), options);
   }
   autoAssignEntitiesToBooking(idCompany: number, bookingDate: string, startTime: string,
     autoAssignPayload: AutoAssignPayload): Observable<GenericResponseObject>
@@ -207,7 +207,7 @@ export class BookingService
       params: params
     };
 
-    return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/AutoAssignEntitiesToBooking/'
+    return this.httpClient.post<GenericResponseObject>(this.config.api_endpoint + 'booking/AutoAssignEntitiesToBooking/'
       + idCompany.toString(), body, options);
   }
   generateHoursMatrix(idCompany: number, weekDates: string[], selectedLevels: LevelAsFilter[], searchFilter?: BookingSearchFilter): Observable<GenericResponseObject>
@@ -236,7 +236,7 @@ export class BookingService
       params: params
     };
 
-    return this.httpClient.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GenerateHoursMatrix/'
+    return this.httpClient.post<GenericResponseObject>(this.config.api_endpoint + 'booking/GenerateHoursMatrix/'
       + idCompany.toString(), body, options);
   }
   // getBookings(idCompany: number, idEntities: number[], dateLimits: string[]):Observable<GenericResponseObject>
@@ -256,7 +256,7 @@ export class BookingService
   //     params: params
   //   };
 
-  //   return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookings/' + idCompany.toString(), options);
+  //   return this.httpClient.get<GenericResponseObject>(this.config.api_endpoint + 'booking/GetBookings/' + idCompany.toString(), options);
   // }
   getBookingsByUser(idUser: number, date: Date): Observable<GenericResponseObject>
   {
@@ -268,7 +268,7 @@ export class BookingService
       params
     };
 
-    return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingsByUser/' + idUser.toString(), options);
+    return this.httpClient.get<GenericResponseObject>(this.config.api_endpoint + 'booking/GetBookingsByUser/' + idUser.toString(), options);
   }
   getBookingsByTimeSlot(idCompany: number, bookingDate: string): Observable<GenericResponseObject>
   {
@@ -281,7 +281,7 @@ export class BookingService
       params: params
     };
 
-    return this.httpClient.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/GetBookingsByTimeSlot/' + idCompany.toString(), options);
+    return this.httpClient.get<GenericResponseObject>(this.config.api_endpoint + 'booking/GetBookingsByTimeSlot/' + idCompany.toString(), options);
   }
   removeBooking(idBooking: number)
   {
@@ -289,12 +289,12 @@ export class BookingService
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
-    return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/' + idBooking.toString(), options);
+    return this.httpClient.delete<GenericResponseObject>(this.config.api_endpoint + 'booking/' + idBooking.toString(), options);
   }
   cancelBooking(idBooking: number, withClientNotification: boolean = false)
   {
     let params = new HttpParams();
-    params = params.append('withClientNotification', withClientNotification.toString());    
+    params = params.append('withClientNotification', withClientNotification.toString());
     params = params.append('culture', this.currentCulture);
 
     let options = {
@@ -302,6 +302,6 @@ export class BookingService
       params: params
     };
 
-    return this.httpClient.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'booking/CancelBooking/' + idBooking.toString(), options);
+    return this.httpClient.delete<GenericResponseObject>(this.config.api_endpoint + 'booking/CancelBooking/' + idBooking.toString(), options);
   }
 }

@@ -8,13 +8,14 @@ import { Company } from '../objects/company';
 import { WorkingHours } from '../objects/working-hours';
 import { UsersService } from './users.service';
 import { CommonServiceMethods } from './common-service-methods';
-import { AppSettings } from './app-settings';
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { AppConfigService } from './app-config.service';
 
 @Injectable()
 export class CompanyService 
 {
-  constructor(private http:HttpClient, private usersService:UsersService) { }
+  constructor(private http: HttpClient, private usersService: UsersService, private config: AppConfigService) { }
 
   createCompany(idUser: number,
     idSubscription: number,
@@ -30,44 +31,44 @@ export class CompanyService
       headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
-    return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/NewCompany/' +
+    return this.http.post<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/NewCompany/' +
       idUser + '/' + idSubscription + '/' + amount + '/' + months, body, options);
   }
-  getCompanies(idUser:number):Observable<GenericResponseObject>
-  {    
+  getCompanies(idUser: number): Observable<GenericResponseObject>
+  {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
 
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/' + idUser, options);
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/' + idUser, options);
   }
-  getCompany(idUser:number, idCompany:number)
+  getCompany(idUser: number, idCompany: number)
   {
     let options = {
       headers: null
     };
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/' + idUser + '/' + idCompany, options);
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/' + idUser + '/' + idCompany, options);
   }
   getActivityCategories()
   {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/GetActivityCategoriesDic', options);
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/GetActivityCategoriesDic', options);
   }
-  getActivitySubCategories(idCategory:number)
+  getActivitySubCategories(idCategory: number)
   {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/GetActivitySubCategoriesDic/' + idCategory.toString(), options);
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/GetActivitySubCategoriesDic/' + idCategory.toString(), options);
   }
-  getCompanyWorkingHours(idCompany: number):Observable<GenericResponseObject>
+  getCompanyWorkingHours(idCompany: number): Observable<GenericResponseObject>
   {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/GetCompanyWorkingHours/' + idCompany, options);
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/GetCompanyWorkingHours/' + idCompany, options);
   }
   updateCompany(company: Company): Observable<GenericResponseObject>
   {
@@ -80,9 +81,9 @@ export class CompanyService
       headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
-    return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack', body, options);
+    return this.http.put<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack', body, options);
   }
-  
+
   updateCompanyWorkingHours(workingHours: WorkingHours): Observable<GenericResponseObject>
   {
     const body = JSON.stringify(workingHours);
@@ -94,20 +95,20 @@ export class CompanyService
       headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
-    return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/SetCompanyWorkingHours', body, options);
+    return this.http.put<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/SetCompanyWorkingHours', body, options);
   }
   getCompanySpecialDays(idCompany: number, day: Date): Observable<GenericResponseObject>
-  {    
-     let params = new HttpParams();    
+  {
+    let params = new HttpParams();
     params = params.append('idComp', idCompany.toString());
     params = params.append('day', day != null ? day.toUTCString() : null);
-    
+
     let options = {
       headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),
       params: params
     };
 
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/GetCompanySpecialDays', options);
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/GetCompanySpecialDays', options);
   }
   setCompanySpecialDays(isAdd: boolean, specialDay: SpecialDay): Observable<GenericResponseObject>
   {
@@ -123,13 +124,13 @@ export class CompanyService
       headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
 
-    return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/SetCompanySpecialDays/' + isAdd, body, options);
+    return this.http.post<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/SetCompanySpecialDays/' + isAdd, body, options);
   }
-  deleteCompanySpecialDay(id: number):Observable<GenericResponseObject>
+  deleteCompanySpecialDay(id: number): Observable<GenericResponseObject>
   {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
-    return this.http.delete<GenericResponseObject>(AppSettings.API_ENDPOINT + 'CompanyBack/DeleteCompanySpecialDays/' + id, options);
+    return this.http.delete<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/DeleteCompanySpecialDays/' + id, options);
   }
 }

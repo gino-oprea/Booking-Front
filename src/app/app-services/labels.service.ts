@@ -2,19 +2,20 @@ import { Label } from '../objects/label';
 import { Injectable } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
-import { AppSettings } from './app-settings';
+
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { AppConfigService } from './app-config.service';
 
 @Injectable()
 export class LabelsService 
-{ 
+{
   cultureSubject = new Subject<string>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: AppConfigService) { }
 
   getLabels(): Observable<Label[]>
   {
-    return this.http.get<Label[]>(AppSettings.API_ENDPOINT + 'labels');
+    return this.http.get<Label[]>(this.config.api_endpoint + 'labels');
   }
   getLabelsByKeyName(labelKeys: string[]): Observable<Label[]>
   {
@@ -22,7 +23,8 @@ export class LabelsService
 
     let params = new HttpParams();
 
-    for (var i = 0; i < labelKeys.length; i++) {
+    for (var i = 0; i < labelKeys.length; i++)
+    {
       params = params.append('labelName', labelKeys[i]);
     }
 
@@ -30,23 +32,23 @@ export class LabelsService
       params: params
     };
 
-    return this.http.get<Label[]>(AppSettings.API_ENDPOINT + 'labels', options);
-  }
-  
-  emmitCultureChange(culture:string)
-  {    
-    localStorage.setItem('b_front_culture', culture);
-    this.cultureSubject.next(culture);   
+    return this.http.get<Label[]>(this.config.api_endpoint + 'labels', options);
   }
 
-  addLabel(label:Label):Observable<any>
+  emmitCultureChange(culture: string)
+  {
+    localStorage.setItem('b_front_culture', culture);
+    this.cultureSubject.next(culture);
+  }
+
+  addLabel(label: Label): Observable<any>
   {
     const body = JSON.stringify(label);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(AppSettings.API_ENDPOINT + 'labels', body, { headers: headers });
+    return this.http.post(this.config.api_endpoint + 'labels', body, { headers: headers });
   }
   editLabel(label: Label)
   {
@@ -54,6 +56,6 @@ export class LabelsService
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.put(AppSettings.API_ENDPOINT + 'labels', body, { headers: headers });
+    return this.http.put(this.config.api_endpoint + 'labels', body, { headers: headers });
   }
 }

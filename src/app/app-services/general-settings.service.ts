@@ -2,24 +2,25 @@ import { Setting } from '../objects/setting';
 import { Observable } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-import { AppSettings } from './app-settings';
+
 import { CommonServiceMethods } from './common-service-methods';
 import { UsersService } from './users.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AppConfigService } from './app-config.service';
 
 @Injectable()
 export class GeneralSettingsService 
 {
-  constructor(private http: HttpClient, private usersService:UsersService) { }
+  constructor(private http: HttpClient, private usersService: UsersService, private config: AppConfigService) { }
 
-  getSettings():Observable<Setting[]>
+  getSettings(): Observable<Setting[]>
   {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
     };
-    return this.http.get<Setting[]>(AppSettings.API_ENDPOINT + 'generalSettings', options);
+    return this.http.get<Setting[]>(this.config.api_endpoint + 'generalSettings', options);
   }
-  addSetting(setting: Setting):Observable<any>
+  addSetting(setting: Setting): Observable<any>
   {
     const body = JSON.stringify(setting);
     const headers = new HttpHeaders({
@@ -29,8 +30,8 @@ export class GeneralSettingsService
     let options = {
       headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
-    
-    return this.http.post<Observable<any>>(AppSettings.API_ENDPOINT + 'generalSettings', body, options);
+
+    return this.http.post<Observable<any>>(this.config.api_endpoint + 'generalSettings', body, options);
   }
   editSetting(setting: Setting)
   {
@@ -42,7 +43,7 @@ export class GeneralSettingsService
     let options = {
       headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, headers)      
     };
-    
-    return this.http.put<Observable<any>>(AppSettings.API_ENDPOINT + 'generalSettings', body, options);
+
+    return this.http.put<Observable<any>>(this.config.api_endpoint + 'generalSettings', body, options);
   }
 }

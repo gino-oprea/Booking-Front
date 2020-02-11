@@ -4,25 +4,26 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
-import { AppSettings } from './app-settings';
+
 import { UsersService } from './users.service';
 import { CommonServiceMethods } from './common-service-methods';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { GenericResponseObject } from '../objects/generic-response-object';
+import { AppConfigService } from './app-config.service';
 
 
 @Injectable()
 export class LoggerService 
 {
 
-  constructor(private http: HttpClient, private usersService: UsersService) { }
+  constructor(private http: HttpClient, private usersService: UsersService, private config: AppConfigService) { }
 
   getLogs(): Observable<LogItem[]>
   {
     let options = {
       headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)
     };
-    return this.http.get<LogItem[]>(AppSettings.API_ENDPOINT + 'logs', options);
+    return this.http.get<LogItem[]>(this.config.api_endpoint + 'logs', options);
   }
   getLogsFiltered(
     idLog: number,
@@ -54,7 +55,7 @@ export class LoggerService
       params: params
     };
 
-    return this.http.get<LogItem[]>(AppSettings.API_ENDPOINT + 'logs/getFiltered', options);
+    return this.http.get<LogItem[]>(this.config.api_endpoint + 'logs/getFiltered', options);
   }
   getCompanyLogs(idCompany: number, dateStart: string, dateEnd: string,
     email: string,
@@ -77,7 +78,7 @@ export class LoggerService
       params: params
     };
 
-    return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'logs/GetCompanyLogs/' + idCompany.toString(), options);
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'logs/GetCompanyLogs/' + idCompany.toString(), options);
   }
   setLog(log: LogItem): Observable<any>
   {
@@ -99,7 +100,7 @@ export class LoggerService
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
+    return this.http.post(this.config.api_endpoint + 'logs', body, { headers: headers });
     // }),
     // catchError((err: any) =>
     // {
@@ -108,7 +109,7 @@ export class LoggerService
     //   const headers = new HttpHeaders({
     //     'Content-Type': 'application/json'
     //   });
-    //   return this.http.post(AppSettings.API_ENDPOINT + 'logs', body, { headers: headers });
+    //   return this.http.post(this.config.api_endpoint + 'logs', body, { headers: headers });
     // }));
   }
 }

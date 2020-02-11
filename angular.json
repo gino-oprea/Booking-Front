@@ -18,7 +18,8 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
-              "src/web.config"
+              "src/web.config",
+              "src/app.config.json"
             ],
             "styles": [
               "src/styles.css",

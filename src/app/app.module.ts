@@ -9,7 +9,7 @@ import
   DropdownModule,
   GrowlModule,
   ConfirmDialogModule,
-  ConfirmationService,  
+  ConfirmationService,
   GMapModule,
   ButtonModule,
   DialogModule,
@@ -19,7 +19,7 @@ import
 import { UsersService } from './app-services/users.service';
 import { UserRegistrationModule } from './user-registration/user-registration.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -60,7 +60,12 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions/terms-conditions.component';
 import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
 import { ContactComponent } from './contact/contact.component';
+import { AppConfigService } from './app-services/app-config.service';
 
+export function appInit(appConfigService: AppConfigService)
+{
+  return () => appConfigService.load();
+}
 
 @NgModule({
   declarations: [
@@ -68,7 +73,7 @@ import { ContactComponent } from './contact/contact.component';
     HeaderComponent,
     MyBookingsComponent,
     CompanyDetailsComponent,
-    UserLoginComponent,    
+    UserLoginComponent,
     TermsConditionsComponent,
     GdprComponent,
     ContactComponent
@@ -130,6 +135,13 @@ import { ContactComponent } from './contact/contact.component';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
+    },
+    AppConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInit,
+      multi: true,
+      deps: [AppConfigService]
     }
   ],
   bootstrap: [AppComponent]

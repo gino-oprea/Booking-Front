@@ -4,9 +4,10 @@ import { User } from '../objects/user';
 
 import { Injectable } from '@angular/core';
 import { GenericResponseObject } from '../objects/generic-response-object';
-import { AppSettings } from './app-settings';
+
 import { CommonServiceMethods } from './common-service-methods';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { AppConfigService } from './app-config.service';
 
 @Injectable()
 export class UsersService
@@ -14,7 +15,7 @@ export class UsersService
     // public loggedIn = false;    
     // loginSubject = new Subject<string>();
 
-    constructor(private http: HttpClient)
+    constructor(private http: HttpClient, private config: AppConfigService)
     {
         // this.loggedIn = !!localStorage.getItem('b_front_auth_user');        
     }
@@ -24,7 +25,7 @@ export class UsersService
         let options = {
             headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
         };
-        return this.http.get<User[]>(AppSettings.API_ENDPOINT + 'users', options);
+        return this.http.get<User[]>(this.config.api_endpoint + 'users', options);
     }
 
     getUserByEmail(email: string): Observable<User>
@@ -32,7 +33,7 @@ export class UsersService
         let options = {
             headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
         };
-        return this.http.get<User>(AppSettings.API_ENDPOINT + 'users/getbyemail/' + email, options);
+        return this.http.get<User>(this.config.api_endpoint + 'users/getbyemail/' + email, options);
     }
     getUsersForBookingAutocomplete(idCompany: number, email: string, phone: string): Observable<User[]>
     {
@@ -44,14 +45,14 @@ export class UsersService
             headers: null,
             params: params
         };
-        return this.http.get<User[]>(AppSettings.API_ENDPOINT + 'users/GetUsersForBookingAutocomplete/' + idCompany.toString(), options);
+        return this.http.get<User[]>(this.config.api_endpoint + 'users/GetUsersForBookingAutocomplete/' + idCompany.toString(), options);
     }
     getUserByEmailForUserRegistration(email: string): Observable<GenericResponseObject>
     {
         let options = {
             headers: null
         };
-        return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/GetByEmailForRegistration/' + email, options);
+        return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'users/GetByEmailForRegistration/' + email, options);
     }
     registerUser(user: User): Observable<GenericResponseObject>
     {
@@ -64,15 +65,15 @@ export class UsersService
             headers: headers
         };
 
-        return this.http.post<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users', body, options);
+        return this.http.post<GenericResponseObject>(this.config.api_endpoint + 'users', body, options);
     }
     activateUser(activationKey: string): Observable<User>
     {
-        return this.http.get<User>(AppSettings.API_ENDPOINT + 'users/activateuser/' + activationKey);
+        return this.http.get<User>(this.config.api_endpoint + 'users/activateuser/' + activationKey);
     }
     checkPassword(idUser: number, password: string): Observable<GenericResponseObject>
     {
-        return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/CheckPassword/' + idUser.toString() + '/' + password);
+        return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'users/CheckPassword/' + idUser.toString() + '/' + password);
     }
 
     editUser(user: User): Observable<any>
@@ -83,10 +84,10 @@ export class UsersService
         });
 
         let options = {
-            headers: headers           
+            headers: headers
         };
 
-        return this.http.put(AppSettings.API_ENDPOINT + 'users', body, options);
+        return this.http.put(this.config.api_endpoint + 'users', body, options);
     }
     resetUserPassword(user: User): Observable<any>
     {
@@ -99,19 +100,19 @@ export class UsersService
             headers: headers//CommonServiceMethods.generateHttpClientAuthHeaders(this, headers)
         };
 
-        return this.http.put(AppSettings.API_ENDPOINT + 'users/resetpassword',
+        return this.http.put(this.config.api_endpoint + 'users/resetpassword',
             body, options);
     }
     resetUserPasswordByEmail(email: string): Observable<GenericResponseObject>
     {
-        return this.http.put<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/ResetPasswordWithEmail/' + email, null);
+        return this.http.put<GenericResponseObject>(this.config.api_endpoint + 'users/ResetPasswordWithEmail/' + email, null);
     }
     resendUserActivationLink(userId: number): Observable<GenericResponseObject>
     {
         let options = {
             headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
         };
-        return this.http.get<GenericResponseObject>(AppSettings.API_ENDPOINT + 'users/sendActivationLink/' + userId.toString(), options);
+        return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'users/sendActivationLink/' + userId.toString(), options);
     }
 
 }

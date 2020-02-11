@@ -4,7 +4,7 @@ import { User } from '../objects/user';
 
 import { Injectable } from '@angular/core';
 import { GenericResponseObject } from '../objects/generic-response-object';
-import { AppSettings } from './app-settings';
+
 import { CommonServiceMethods } from './common-service-methods';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Token } from '../objects/token';
@@ -12,21 +12,22 @@ import * as jwt_decode from 'jwt-decode';
 import { UsersService } from './users.service';
 import { BaseComponent } from '../shared/base-component';
 import { Actions } from 'app/enums/enums';
+import { AppConfigService } from './app-config.service';
 
 
 
 @Injectable()
 export class LoginService
 {
-  public loggedIn = false;  
+  public loggedIn = false;
   loginSubject = new Subject<string>();
 
-  constructor(private http: HttpClient, private usersService:UsersService)
+  constructor(private http: HttpClient, private usersService: UsersService, private config: AppConfigService)
   {
     this.loggedIn = !!localStorage.getItem('b_front_auth_user');
   }
 
-  
+
 
   login(email: string, password: string, component: BaseComponent)
   {
@@ -42,7 +43,7 @@ export class LoginService
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
-    return this.http.post<Token>(AppSettings.TOKEN_API_ENDPOINT, body.toString(), { headers: headers }).pipe(
+    return this.http.post<Token>(this.config.token_api_endpoint, body.toString(), { headers: headers }).pipe(
       map(token =>
       {
         /////////////
@@ -62,7 +63,7 @@ export class LoginService
             this.loggedIn = true;
 
             //component.logAction(null, false, Actions.Login, "", "");            
-            
+
             this.emmitLoginChange();
 
             // this.usersService.editUser(user,null, 1).subscribe((data) =>//updateaza data ultimului login
