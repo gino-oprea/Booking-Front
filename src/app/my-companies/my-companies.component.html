@@ -16,15 +16,15 @@
                 <h6>{{getCurrentLabelValue('lblTown')}}: {{company.cityName}}</h6>
             </div>
 
-            <span *ngIf="hasRolePermission('CompanyOwner', company.id)">{{getCurrentLabelValue('lblEnabled')}}</span>
-            <div *ngIf="hasRolePermission('CompanyOwner', company.id)" class="span2">
+            <span *ngIf="hasModulePermission('Company general details', company.id)">{{getCurrentLabelValue('lblEnabled')}}</span>
+            <div *ngIf="hasModulePermission('Company general details', company.id)" class="span2">
                 <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="showToggleConfirm($event, company)"
                     [(ngModel)]="company.isEnabled"></p-inputSwitch>
             </div>
 
             <span
-                *ngIf="hasRolePermission('CompanyOwner', company.id)">{{getCurrentLabelValue('lblAllowOnlineBookings')}}</span>
-            <div *ngIf="hasRolePermission('CompanyOwner', company.id)" class="span2">
+                *ngIf="hasModulePermission('Company general details', company.id)">{{getCurrentLabelValue('lblAllowOnlineBookings')}}</span>
+            <div *ngIf="hasModulePermission('Company general details', company.id)" class="span2">
                 <p-inputSwitch (onChange)="showAllowBookingsConfirm($event, company)"
                     [(ngModel)]="company.allowOnlineBookings"></p-inputSwitch>
             </div>
