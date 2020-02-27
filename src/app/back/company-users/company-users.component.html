@@ -78,7 +78,7 @@
           <label class="control-label" for="ddlRoles">{{getCurrentLabelValue('lblRole')}}:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">          
-          <select formControlName="role" style="height: 100%;width: 100%;" (change)="onChangeRole($event)">
+          <select formControlName="role" style="height: 100%;width: 100%;">
             <option *ngFor="let r of roles" [value]="r.idRole">
               {{r.roleName}}</option>
           </select>
@@ -89,10 +89,10 @@
         </div>      </div>
       <div class="row" style="height: 7%">
         <div class="col-md-2" style="padding: 1px;">
-          <label *ngIf="showLinkedEntities" class="control-label" for="ddlEntities">{{getCurrentLabelValue('lblLinkedTo')}}:</label>
+          <label class="control-label" for="ddlEntities">{{getCurrentLabelValue('lblLinkedTo')}}:</label>
         </div>
         <div class="col-md-4" style="text-align: left;padding: 1px">
-          <select *ngIf="showLinkedEntities" formControlName="entity" style="height: 100%;width: 100%;">
+          <select formControlName="entity" style="height: 100%;width: 100%;">
             <option value="0">None</option>
             <option *ngFor="let e of entities" [value]="e.id">
               {{currentCulture == 'EN' ? e.entityName_EN : e.entityName_RO}}</option>

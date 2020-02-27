@@ -297,9 +297,9 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   {
     let user = this.loginService.getCurrentUser();
     if (user)
-      if (user.roles)
-        if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
-        {
+      //if (user.roles)
+        // if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
+        // {
           this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
           {
             if (gro.error != "")
@@ -319,11 +319,11 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
 
             this.loadBookings();
           });
-        }
-        else
-        {
-          this.loadBookings();
-        }
+        // }
+        // else
+        // {
+        //   this.loadBookings();
+        // }
   }
 
   onBookingMoved(event)

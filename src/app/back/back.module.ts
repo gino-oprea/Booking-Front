@@ -35,6 +35,8 @@ import { ClientsComponent } from './clients/clients.component';
 import { CompanyUsersComponent } from './company-users/company-users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CompanyLogsComponent } from './company-logs/company-logs.component';
+import { CompanySecurityComponent } from './company-security/company-security.component';
+import { CompanyRolesComponent } from './company-roles/company-roles.component';
 
 @NgModule({
   imports: [
@@ -71,7 +73,9 @@ import { CompanyLogsComponent } from './company-logs/company-logs.component';
     ClientsComponent,
     CompanyUsersComponent,
     DashboardComponent,
-    CompanyLogsComponent
+    CompanyLogsComponent,
+    CompanySecurityComponent,
+    CompanyRolesComponent
   ],
   providers: [
     CompanyGuard

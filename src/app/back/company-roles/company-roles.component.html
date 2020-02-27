@@ -1,0 +1,118 @@
+<div class="row" style="height: 100%;">
+  <div class="col-md-7" style="height: 100%;">
+    <p-table #dtRoles [value]="roles" selectionMode="single" [(selection)]="selectedRole"
+      (onRowSelect)="onRowSelect($event)" [columns]="cols" [responsive]="true" scrollable="true" scrollHeight="99%">
+      <ng-template pTemplate="caption">
+        Roles
+        <div style="text-align: right">
+          <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+          <input type="text" pInputText size="50" placeholder="Filter"
+            (input)="dtRoles.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="text-align:center;" *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field">
+            </p-sortIcon>
+          </th>
+          <th style="text-align:center">
+            <button type="button" class="btn btn-primary" (click)="onAddClick()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </th>
+          <th style="text-align:center"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-role let-columns="columns">
+        <tr [pSelectableRow]="role">
+          <td *ngFor="let col of columns" style="text-align:center;">
+            {{role[col.field]}}
+          </td>
+          <td style="text-align:center">
+            <button [disabled]="!role.isEditable" type="button" class="btn btn-success" (click)="onEditClick(role)">
+              <i class="fa fa-edit"> Edit</i>
+            </button>
+          </td>
+          <td style="text-align:center">
+            <button [disabled]="!role.isEditable" type="button" class="btn btn-danger" (click)="onDeleteClick(role)">
+              <i class="fa fa-close"> Delete</i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="col-md-5" style="height: 100%;">
+    <p-table #dtModules [value]="siteModules" selectionMode="single" [columns]="colsModule" [responsive]="true"
+      scrollable="true" scrollHeight="99%">
+      <ng-template pTemplate="caption">
+        Modules
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width:50px;text-align:center"></th>
+          <th style="text-align:left; width: 100px;" *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field">
+            </p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-siteModule let-columns="columns">
+        <tr [ngStyle]="{'background-color':isCheckedModule(siteModule.id)?'lightblue':'white'}">
+          <td style="width:50px;text-align:center">
+            <input type="checkbox" [checked]="isCheckedModule(siteModule.id)" style="width:20px;height:20px;" [disabled]="!selectedRole.isEditable"
+              (change)="onModuleLinkChange($event,siteModule)">
+          </td>
+          <td *ngFor="let col of columns" style="text-align:left; width: 100px;">
+            {{siteModule[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog header="{{isAddRoleMode == true ? 'Add role' : 'Edit role'}}" [(visible)]="displayDialogRole"
+  [responsive]="true" showEffect="fade" [modal]="true" width="600">
+  <form class="form-horizontal" style="height: 100%" id="addRole-form" [formGroup]="addRoleForm"
+    (ngSubmit)="onAddRoleFormSubmit()">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4">
+          <label style="padding: 5px;" for="roleName">Role Name:</label>
+        </div>
+        <div class="ui-grid-col-8">
+          <input type="text" id="roleName" formControlName="roleName" [ngClass]="{'valid-control':addRoleForm.controls['roleName'].valid,
+                        'invalid-control':!addRoleForm.controls['roleName'].valid}" class="form-control">
+        </div>
+      </div>
+    </div>
+    <br>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="submit" [disabled]="!addRoleForm.valid" class="btn btn-success">
+          <i class="fa fa-check"> Save</i>
+        </button>
+      </div>
+    </footer>
+  </form>
+</p-dialog>
+
+
+<p-dialog header="Confirm delete role" [(visible)]="displayConfirmDeleteRole" [responsive]="true" showEffect="fade"
+  [modal]="true" width="350">
+  <p>Are you sure you want do delete role?</p>
+  <footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton (click)="onCancelDeleteRoleClick()" [label]="'No'"></button>
+      <button type="button" pButton (click)="onConfirmDeleteRoleClick()" [label]="'Yes'"
+        style="margin-left: 5px;"></button>
+    </div>
+  </footer>
+</p-dialog>
+
+<p-growl [value]="pageMsgs"></p-growl>

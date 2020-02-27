@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, OnChanges, Input } from '@angular/core';
 import { BaseComponent } from '../../shared/base-component';
 import { WebSites, Actions, UserRoleEnum, LevelType } from '../../enums/enums';
 import { ActivatedRoute } from '@angular/router';
@@ -12,27 +12,31 @@ import { Level } from '../../objects/level';
 import { EntitiesService } from '../../app-services/entities.service';
 import { CompanyUsersService } from '../../app-services/company-users.service';
 import { CompanyUser } from '../../objects/user';
+import { RolesService } from '../../app-services/roles.service';
 
 @Component({
   selector: 'bf-company-users',
   templateUrl: './company-users.component.html',
   styleUrls: ['./company-users.component.css']
 })
-export class CompanyUsersComponent extends BaseComponent implements OnInit
+export class CompanyUsersComponent extends BaseComponent implements OnInit, OnChanges
 {
+  @Input() doReloadRoles: boolean = false;
+ 
   userForm: FormGroup;
   users: CompanyUser[] = [];
   selectedUser: CompanyUser;
   roles: UserRole[];
   entities: Entity[];
-  showLinkedEntities: boolean = true;
+  //showLinkedEntities: boolean = true;
   isAdd: boolean = true;
 
 
   constructor(private injector: Injector,
     private levelsService: LevelsService,
     private entitiesService: EntitiesService,
-    private companyUsersService: CompanyUsersService, )
+    private companyUsersService: CompanyUsersService,
+    private rolesService: RolesService)
   {
     super(injector, [
       'lblUsers',
@@ -66,19 +70,35 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
     });
   }
 
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void
+  {
+    if (changes['doReloadRoles'])
+    {
+      this.loadRoles();
+    }
+  }
+
   ngOnInit() 
   {
     super.ngOnInit();
-    this.initRoles();
-    this.initForm();
-    this.loadUsers();
+    this.initForm();      
+    this.loadRoles();
     this.loadCompanyEmployees();
   }
-  initRoles()
+  loadRoles()
   {
-    this.roles = [];
-    this.roles.push(new UserRole(UserRoleEnum.CompanyOwner, 'CompanyOwner'));
-    this.roles.push(new UserRole(UserRoleEnum.Employee, 'Employee'));
+    this.rolesService.getRoles(this.idCompany).subscribe(gro =>
+    {      
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+      }
+      else
+      {
+        this.roles = <UserRole[]>gro.objList;  
+        this.loadUsers();
+      }
+    });
   }
   initForm()
   {
@@ -88,11 +108,11 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
       'phone': new FormControl('', Validators.required),
       'email': new FormControl('', [Validators.required,
       Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]),
-      'role': new FormControl(UserRoleEnum.Employee),
+      'role': new FormControl(this.roles ? this.roles[0].idRole : '0'),
       'entity': new FormControl('0')
     });
 
-    this.showLinkedEntities = (this.userForm.controls["role"].value == UserRoleEnum.Employee);
+    //this.showLinkedEntities = (this.userForm.controls["role"].value == UserRoleEnum.Employee);
   }
   loadUsers(idSelectedUser: number = null)
   {
@@ -152,7 +172,7 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
     this.userForm.controls["email"].setValue(this.selectedUser.email);
     this.userForm.controls["role"].setValue(this.selectedUser.roles.find(r => r.idCompany == this.idCompany).idRole);
 
-    this.showLinkedEntities = (this.userForm.controls["role"].value == UserRoleEnum.Employee);
+    //this.showLinkedEntities = (this.userForm.controls["role"].value == UserRoleEnum.Employee);
     this.userForm.controls['entity'].setValue(this.selectedUser.linkedIdEntity != null ? this.selectedUser.linkedIdEntity : '0');
   }
   getUserFromForm(): CompanyUser
@@ -173,17 +193,17 @@ export class CompanyUsersComponent extends BaseComponent implements OnInit
 
     return companyUser;
   }
-  onChangeRole(event)
-  {
-    let idRole = event.target.value;
-    if (idRole == UserRoleEnum.Employee)
-      this.showLinkedEntities = true;
-    else
-    {
-      this.showLinkedEntities = false;
-      this.userForm.controls['entity'].setValue(0);
-    }
-  }
+  // onChangeRole(event)
+  // {
+  //   let idRole = event.target.value;
+  //   if (idRole == UserRoleEnum.Employee)
+  //     this.showLinkedEntities = true;
+  //   else
+  //   {
+  //     this.showLinkedEntities = false;
+  //     this.userForm.controls['entity'].setValue(0);
+  //   }
+  // }
   onAdd()
   {
     this.isAdd = true;

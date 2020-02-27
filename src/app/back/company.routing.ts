@@ -17,6 +17,7 @@ import { CompanyUsersComponent } from './company-users/company-users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CompanyLogsComponent } from './company-logs/company-logs.component';
 import { RoleGuard } from 'app/route-guards/role.guard';
+import { CompanySecurityComponent } from './company-security/company-security.component';
 
 
 export const COMPANY_ROUTES: Routes = [
@@ -32,7 +33,7 @@ export const COMPANY_ROUTES: Routes = [
       { path: 'bookings', component: BookingsComponent, canActivate: [RoleGuard], data: { module: 'Company bookings' }  },
       { path: 'bookings-history', component: BookingsHistoryComponent, canActivate: [RoleGuard], data: { module: 'Company bookings history' }  },
       { path: 'clients', component: ClientsComponent, canActivate: [RoleGuard], data: { module: 'Company clients' } },
-      { path: 'company-users', component: CompanyUsersComponent, canActivate: [RoleGuard], data: { module: 'Company users' }  },
+      { path: 'company-security', component: CompanySecurityComponent, canActivate: [RoleGuard], data: { module: 'Company security' }  },
       { path: 'level-linking', component: LevelLinkingComponent, canActivate: [RoleGuard], data: { module: 'Company level linking' }  },
       { path: 'dashboard', component: DashboardComponent, canActivate: [RoleGuard], data: { module: 'Company dashboard' }  },
       { path: 'company-logs', component: CompanyLogsComponent, canActivate: [RoleGuard], data: { module: 'Company logs' }  }
