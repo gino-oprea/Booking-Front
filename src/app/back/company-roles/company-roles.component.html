@@ -3,7 +3,7 @@
     <p-table #dtRoles [value]="roles" selectionMode="single" [(selection)]="selectedRole"
       (onRowSelect)="onRowSelect($event)" [columns]="cols" [responsive]="true" scrollable="true" scrollHeight="99%">
       <ng-template pTemplate="caption">
-        Roles
+        {{getCurrentLabelValue('lblRoles')}}
         <div style="text-align: right">
           <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
           <input type="text" pInputText size="50" placeholder="Filter"
@@ -13,7 +13,7 @@
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th style="text-align:center;" *ngFor="let col of columns" [pSortableColumn]="col.field">
-            {{col.header}}
+            {{getCurrentLabelValue(col.header)}}
             <p-sortIcon [field]="col.field">
             </p-sortIcon>
           </th>
@@ -32,12 +32,12 @@
           </td>
           <td style="text-align:center">
             <button [disabled]="!role.isEditable" type="button" class="btn btn-success" (click)="onEditClick(role)">
-              <i class="fa fa-edit"> Edit</i>
+              <i class="fa fa-edit"> {{getCurrentLabelValue('lblEdit')}}</i>
             </button>
           </td>
           <td style="text-align:center">
             <button [disabled]="!role.isEditable" type="button" class="btn btn-danger" (click)="onDeleteClick(role)">
-              <i class="fa fa-close"> Delete</i>
+              <i class="fa fa-close"> {{getCurrentLabelValue('lblDelete')}}</i>
             </button>
           </td>
         </tr>
@@ -49,13 +49,13 @@
     <p-table #dtModules [value]="siteModules" selectionMode="single" [columns]="colsModule" [responsive]="true"
       scrollable="true" scrollHeight="99%">
       <ng-template pTemplate="caption">
-        Modules
+        {{getCurrentLabelValue('lblModules')}}
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th style="width:50px;text-align:center"></th>
           <th style="text-align:left; width: 100px;" *ngFor="let col of columns" [pSortableColumn]="col.field">
-            {{col.header}}
+            {{getCurrentLabelValue(col.header)}}
             <p-sortIcon [field]="col.field">
             </p-sortIcon>
           </th>
@@ -64,8 +64,8 @@
       <ng-template pTemplate="body" let-siteModule let-columns="columns">
         <tr [ngStyle]="{'background-color':isCheckedModule(siteModule.id)?'lightblue':'white'}">
           <td style="width:50px;text-align:center">
-            <input type="checkbox" [checked]="isCheckedModule(siteModule.id)" style="width:20px;height:20px;" [disabled]="!selectedRole.isEditable"
-              (change)="onModuleLinkChange($event,siteModule)">
+            <input type="checkbox" [checked]="isCheckedModule(siteModule.id)" style="width:20px;height:20px;"
+              [disabled]="!selectedRole.isEditable" (change)="onModuleLinkChange($event,siteModule)">
           </td>
           <td *ngFor="let col of columns" style="text-align:left; width: 100px;">
             {{siteModule[col.field]}}
@@ -76,14 +76,14 @@
   </div>
 </div>
 
-<p-dialog header="{{isAddRoleMode == true ? 'Add role' : 'Edit role'}}" [(visible)]="displayDialogRole"
-  [responsive]="true" showEffect="fade" [modal]="true" width="600">
+<p-dialog header="{{isAddRoleMode == true ? getCurrentLabelValue('lblAddRole') : getCurrentLabelValue('lblEditRole')}}"
+  [(visible)]="displayDialogRole" [responsive]="true" showEffect="fade" [modal]="true" width="600">
   <form class="form-horizontal" style="height: 100%" id="addRole-form" [formGroup]="addRoleForm"
     (ngSubmit)="onAddRoleFormSubmit()">
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
-          <label style="padding: 5px;" for="roleName">Role Name:</label>
+          <label style="padding: 5px;" for="roleName">{{getCurrentLabelValue('lblRoleName')}}:</label>
         </div>
         <div class="ui-grid-col-8">
           <input type="text" id="roleName" formControlName="roleName" [ngClass]="{'valid-control':addRoleForm.controls['roleName'].valid,
@@ -95,7 +95,7 @@
     <footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="submit" [disabled]="!addRoleForm.valid" class="btn btn-success">
-          <i class="fa fa-check"> Save</i>
+          <i class="fa fa-check"> {{getCurrentLabelValue('lblSave')}}</i>
         </button>
       </div>
     </footer>
@@ -105,7 +105,7 @@
 
 <p-dialog header="Confirm delete role" [(visible)]="displayConfirmDeleteRole" [responsive]="true" showEffect="fade"
   [modal]="true" width="350">
-  <p>Are you sure you want do delete role?</p>
+  <p>{{getCurrentLabelValue('lblRoleDeleteWarning')}}</p>
   <footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
       <button type="button" pButton (click)="onCancelDeleteRoleClick()" [label]="'No'"></button>

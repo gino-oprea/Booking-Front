@@ -33,10 +33,31 @@ export class CompanyRolesComponent extends BaseComponent implements OnInit
   addRoleForm: FormGroup;
 
   constructor(private injector: Injector,
-    private rolesService: RolesService,    
+    private rolesService: RolesService,
     private siteModulesService: SiteModulesService)
-  { 
-    super(injector, []);
+  {
+    super(injector, [
+      'lblIdRole',
+      'lblRole',
+      'lblRoles',
+      'lblRoleName',
+      'lblIsOwner',
+      'lblIsEditable',
+      'lblEdit',
+      'lblDelete',
+      'lblModules',
+      'lblModuleName',
+      'lblSiteName',
+      'lblSave',
+      'lblRoleDeleteWarning',
+      'lblAddRole',
+      'lblEditRole',
+      'lblRoleAdded',
+      'lblRoleEdited',
+      'lblRoleDeleted',
+      'lblRoleToModuleAdded',
+      'lblRoleToModuleDeleted'
+    ]);
 
     this.site = WebSites.Back;
     this.pageName = "CompanyRoles";
@@ -51,29 +72,29 @@ export class CompanyRolesComponent extends BaseComponent implements OnInit
     });
 
     this.cols = [
-      { field: 'idRole', header: 'Id Role' },
-      { field: 'roleName', header: 'Role Name' },      
-      { field: 'isCompanyOwner', header: 'Is Owner' },
-      { field: 'isEditable', header: 'Is Editable' }
+      { field: 'idRole', header: 'lblIdRole' },
+      { field: 'roleName', header: 'lblRoleName' },
+      { field: 'isCompanyOwner', header: 'lblIsOwner' },
+      { field: 'isEditable', header: 'lblIsEditable' }
     ];
 
     this.colsModule = [
-      { field: 'name', header: 'Module Name' },
-      { field: 'siteName', header: 'Site Name' }
+      { field: 'name', header: 'lblModuleName' },
+      { field: 'siteName', header: 'lblSiteName' }
     ];
   }
 
   ngOnInit()
   {
     super.ngOnInit();
-    
+
     this.loadRoles(true);
     this.initFormAddRole();
   }
   initFormAddRole()
   {
     this.addRoleForm = new FormGroup({
-      'roleName': new FormControl(this.isAddRoleMode ? '' : this.selectedRole.roleName, Validators.required)      
+      'roleName': new FormControl(this.isAddRoleMode ? '' : this.selectedRole.roleName, Validators.required)
     });
   }
   getRoleFromForm(): UserRole
@@ -173,7 +194,7 @@ export class CompanyRolesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Delete, '', 'Role deleted', true);        
+        this.logAction(this.idCompany, false, Actions.Delete, '', 'role deleted', true, this.getCurrentLabelValue('lblRoleDeleted'));
       }
 
       this.loadRoles();
@@ -191,11 +212,13 @@ export class CompanyRolesComponent extends BaseComponent implements OnInit
     {
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, this.isAddRoleMode ? Actions.Add : Actions.Edit, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, this.isAddRoleMode ? Actions.Add : Actions.Edit, gro.error, gro.errorDetailed, true);
       }
       else
       {
-        this.logAction(this.idCompany, false, this.isAddRoleMode ? Actions.Add : Actions.Edit, '', this.isAddRoleMode ? 'Role added' : 'Role edited', true);         
+        this.logAction(this.idCompany, false, this.isAddRoleMode ? Actions.Add : Actions.Edit, '',
+          this.isAddRoleMode ? 'role added' : 'role edited', true,
+          this.isAddRoleMode ? this.getCurrentLabelValue('lblRoleAdded') : this.getCurrentLabelValue('lblRoleEdited'));
       }
 
       this.loadRoles();
@@ -223,11 +246,11 @@ export class CompanyRolesComponent extends BaseComponent implements OnInit
     {
       if (gro.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);        
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add , '', 'Role to module added', true);                 
+        this.logAction(this.idCompany, false, Actions.Add, '', 'role to module added', true, this.getCurrentLabelValue('lblRoleToModuleAdded'));
       }
       this.loadSelectedSiteModules(this.selectedRole.idRole);
     });
@@ -242,7 +265,7 @@ export class CompanyRolesComponent extends BaseComponent implements OnInit
       }
       else
       {
-        this.logAction(this.idCompany, false, Actions.Add, '', 'Role to module deleted', true);          
+        this.logAction(this.idCompany, false, Actions.Add, '', 'role to module deleted', true, this.getCurrentLabelValue('lblRoleToModuleDeleted'));
       }
       this.loadSelectedSiteModules(this.selectedRole.idRole);
     });
