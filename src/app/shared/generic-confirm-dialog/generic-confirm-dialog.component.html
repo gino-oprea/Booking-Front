@@ -1,7 +1,7 @@
 <p>{{confirmMessage}}</p>
 <footer>
   <div>
-    <re-captcha *ngIf="useCaptcha && !captchaDestroyed" #captchaRef (resolved)="onResolvedCaptcha($event)"
+    <re-captcha [ngStyle]="{'display': useCaptcha?'':'none'}" *ngIf="useCaptcha" #captchaRef (resolved)="onResolvedCaptcha($event)"
       siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
   </div>
   <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
