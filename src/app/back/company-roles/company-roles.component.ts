@@ -155,7 +155,7 @@ export class CompanyRolesComponent extends BaseComponent implements OnInit
     });
   }
 
-  onRowSelect()
+  onRowSelect(event)
   {
     this.loadSelectedSiteModules(this.selectedRole.idRole);
   }
