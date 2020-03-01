@@ -1,4 +1,4 @@
 {
-  "api_endpoint": "http://localhost:5010/api/",
-  "token_api_endpoint": "http://localhost:5000/connect/token"
+  "api_endpoint": "http://api.staging.booxy.ro/api/",
+  "token_api_endpoint": "http://identity.staging.booxy.ro/connect/token"
 }
