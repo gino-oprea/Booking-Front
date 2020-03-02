@@ -17,7 +17,7 @@ export class GenericConfirmDialogComponent extends BaseComponent implements OnIn
   @Input() resetCaptcha: boolean = false;
   @Output() onConfirm = new EventEmitter<string>();
 
-  captchaDestroyed: boolean = false;
+  //captchaDestroyed: boolean = false;
 
   validCaptcha: boolean = false;
 
@@ -31,17 +31,17 @@ export class GenericConfirmDialogComponent extends BaseComponent implements OnIn
 
   ngOnDestroy()
   {
-    this.captchaDestroyed = true;
+    //this.captchaDestroyed = true;
   }
 
   ngOnInit() 
   {
-    this.captchaDestroyed = false;
+    //this.captchaDestroyed = false;
   }
   ngOnChanges(changes: SimpleChanges): void
   {
     if (changes['resetCaptcha'])
-      this.validCaptcha = false;
+      this.validCaptcha = false;    
   }
 
   onResolvedCaptcha(captchaResponse: string)

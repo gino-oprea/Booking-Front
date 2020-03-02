@@ -123,15 +123,25 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
     });
   }
 
-  hasRolePermission(requiredRole: string, idCompany: number): boolean
+  // hasRolePermission(requiredRole: string, idCompany: number): boolean
+  // {
+  //   let currentUser = this.loginService.getCurrentUser();
+  //   let role = currentUser.roles.find(r => r.idCompany == idCompany);
+  //   if (role.idRole <= UserRoleEnum[requiredRole])
+  //     return true;
+  //   else
+  //     return false;
+  // }
+  hasModulePermission(requiredModule: string, idCompany: number): boolean
   {
-    let currentUser = this.loginService.getCurrentUser();
-    let role = currentUser.roles.find(r => r.idCompany == idCompany);
-    if (role.idRole <= UserRoleEnum[requiredRole])
+    let siteModule = this.currentUser.rolesWithModules.find(r => r.idCompany == idCompany && r.siteModules.find(m => m.name == requiredModule) != null);
+    if (siteModule != null)
       return true;
     else
       return false;
   }
+
+
   showToggleConfirm(e, company: Company)
   {
     this.selectedCompany = company;

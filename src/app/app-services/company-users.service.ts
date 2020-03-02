@@ -19,6 +19,14 @@ export class CompanyUsersService
     };
     return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyUsers/GetCompanyUsers/' + idCompany.toString(), options);
   }
+  getCurrentUserRolesWithModules(): Observable<GenericResponseObject>
+  {
+    let options = {
+      headers: null
+    };
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyUsers/GetCurrentUserRolesWithModules', options);
+  }
+    
   addCompanyUser(user: CompanyUser, idCompany: number)
   {
     const body = JSON.stringify(user);

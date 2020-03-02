@@ -1,0 +1,18 @@
+<div class="row" style="height: 100%;">
+  <div class="col-md-12" style="height: 100%;">
+    <ul class="nav nav-tabs">
+      <li (click)="selectTab('users')" [class.active]="tabs.users.active" style="cursor: pointer;">
+        <a style="color: black">{{getCurrentLabelValue('lblUsers')}}</a>
+      </li>
+      <li (click)="selectTab('roles')" [class.active]="tabs.roles.active" style="cursor: pointer;">
+        <a style="color: black">{{getCurrentLabelValue('lblRoles')}}</a>
+      </li>      
+    </ul>
+    <div [hidden]="!tabs.users.active" style="height: 95%;padding: 5px;">
+      <bf-company-users [doReloadRoles]="triggerReloadRoles"></bf-company-users>
+    </div>
+    <div [hidden]="!tabs.roles.active" style="height: 95%;padding-top: 5px;">
+      <bf-company-roles (onRoleChange)="onRoleChanged($event)"></bf-company-roles>
+    </div>    
+  </div>
+</div>

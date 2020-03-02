@@ -87,7 +87,7 @@ export class UsersService
             headers: headers
         };
 
-        return this.http.put(this.config.api_endpoint + 'users', body, options);
+        return this.http.put(this.config.api_endpoint + 'users/EditUserForFrontOffice', body, options);
     }
     resetUserPassword(user: User): Observable<any>
     {
@@ -107,12 +107,12 @@ export class UsersService
     {
         return this.http.put<GenericResponseObject>(this.config.api_endpoint + 'users/ResetPasswordWithEmail/' + email, null);
     }
-    resendUserActivationLink(userId: number): Observable<GenericResponseObject>
-    {
-        let options = {
-            headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
-        };
-        return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'users/sendActivationLink/' + userId.toString(), options);
-    }
+    // resendUserActivationLink(userId: number): Observable<GenericResponseObject>
+    // {
+    //     let options = {
+    //         headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this, null)
+    //     };
+    //     return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'users/sendActivationLink/' + userId.toString(), options);
+    // }
 
 }

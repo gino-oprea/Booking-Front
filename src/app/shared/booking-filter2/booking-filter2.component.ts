@@ -120,31 +120,33 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   {
     let user = this.loginService.getCurrentUser();
     if (user)
-      if (user.roles)
-        if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
+    {
+      //if (user.roles)
+      // if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
+      // {
+      let companyUserLoggedIn = this.companyUsers.find(cu => cu.id == user.id)
+      if (companyUserLoggedIn)
+      {
+        let idEntityLinked = companyUserLoggedIn.linkedIdEntity;
+        if (idEntityLinked)
         {
-          let companyUserLoggedIn = this.companyUsers.find(cu => cu.id == user.id)
-          if (companyUserLoggedIn)
+          this.currentUserIsEmployee = true;
+
+          let employeesLevel = this.levels.find(l => l.idLevelType == LevelType.Employee)
+
+          let selectedEntitySet = new SelectedEntityPerLevel(employeesLevel.id, idEntityLinked, employeesLevel.idLevelType);
+          this.selectedEntities.push(selectedEntitySet);
+
+          for (let i = employeesLevel.entities.length - 1; i >= 0; i--)
           {
-            let idEntityLinked = companyUserLoggedIn.linkedIdEntity;
-            if (idEntityLinked)
-            {
-              this.currentUserIsEmployee = true;
-
-              let employeesLevel = this.levels.find(l => l.idLevelType == LevelType.Employee)
-
-              let selectedEntitySet = new SelectedEntityPerLevel(employeesLevel.id, idEntityLinked, employeesLevel.idLevelType);
-              this.selectedEntities.push(selectedEntitySet);
-
-              for (let i = employeesLevel.entities.length - 1; i >= 0; i--)
-              {
-                const empEnt = employeesLevel.entities[i];
-                if (empEnt.id != idEntityLinked)
-                  employeesLevel.entities.splice(i, 1);
-              }
-            }
+            const empEnt = employeesLevel.entities[i];
+            if (empEnt.id != idEntityLinked)
+              employeesLevel.entities.splice(i, 1);
           }
         }
+      }
+      //}
+    }
   }
   loadAllLevels()
   {

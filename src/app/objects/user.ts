@@ -1,4 +1,4 @@
-import { UserRole } from './user-role';
+import { UserRole, UserRoleWithModules } from './user-role';
 export class User
 {
   constructor(
@@ -14,9 +14,11 @@ export class User
     public activationKey?: string,
     public isEnabled?: boolean,
     public lastLoginDate?: Date,
-    public token?:string,
+    public token?: string,
     public error?: string,
-    public errorDetailed?: string
+    public errorDetailed?: string,
+
+    public rolesWithModules?: UserRoleWithModules[]
   ) { }
 }
 

@@ -17,6 +17,7 @@ import { CompanyUsersComponent } from './company-users/company-users.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CompanyLogsComponent } from './company-logs/company-logs.component';
 import { RoleGuard } from 'app/route-guards/role.guard';
+import { CompanySecurityComponent } from './company-security/company-security.component';
 
 
 export const COMPANY_ROUTES: Routes = [
@@ -24,18 +25,18 @@ export const COMPANY_ROUTES: Routes = [
     path: 'company/:id', component: CompanyComponent, canActivate: [AuthGuard, CompanyGuard],
     children: [
       { path: '', redirectTo: 'generaldetails', pathMatch: 'full' },
-      { path: 'generaldetails', component: GeneralDetailsComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' } },
-      { path: 'levels', component: LevelsComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' }  },
-      { path: 'entities', component: EntitiesComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' } },
-      { path: 'timetables', component: TimetablesComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' }  },
-      { path: 'entities/:idLevel/:idEntity', component: EntitiesComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' }  },
-      { path: 'bookings', component: BookingsComponent, canActivate: [RoleGuard], data: { role: 'Employee' }  },
-      { path: 'bookings-history', component: BookingsHistoryComponent, canActivate: [RoleGuard], data: { role: 'Employee' }  },
-      { path: 'clients', component: ClientsComponent, canActivate: [RoleGuard], data: { role: 'Employee' } },
-      { path: 'company-users', component: CompanyUsersComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' }  },
-      { path: 'level-linking', component: LevelLinkingComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' }  },
-      { path: 'dashboard', component: DashboardComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' }  },
-      { path: 'company-logs', component: CompanyLogsComponent, canActivate: [RoleGuard], data: { role: 'CompanyOwner' }  }
+      { path: 'generaldetails', component: GeneralDetailsComponent, canActivate: [RoleGuard], data: { module: 'Company general details' } },
+      { path: 'levels', component: LevelsComponent, canActivate: [RoleGuard], data: { module: 'Company levels' }  },
+      { path: 'entities', component: EntitiesComponent, canActivate: [RoleGuard], data: { module: 'Company entities' } },
+      { path: 'timetables', component: TimetablesComponent, canActivate: [RoleGuard], data: { module: 'Company timetables' }  },
+      { path: 'entities/:idLevel/:idEntity', component: EntitiesComponent, canActivate: [RoleGuard], data: { module: 'Company entities' }  },
+      { path: 'bookings', component: BookingsComponent, canActivate: [RoleGuard], data: { module: 'Company bookings' }  },
+      { path: 'bookings-history', component: BookingsHistoryComponent, canActivate: [RoleGuard], data: { module: 'Company bookings history' }  },
+      { path: 'clients', component: ClientsComponent, canActivate: [RoleGuard], data: { module: 'Company clients' } },
+      { path: 'company-security', component: CompanySecurityComponent, canActivate: [RoleGuard], data: { module: 'Company security' }  },
+      { path: 'level-linking', component: LevelLinkingComponent, canActivate: [RoleGuard], data: { module: 'Company level linking' }  },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [RoleGuard], data: { module: 'Company dashboard' }  },
+      { path: 'company-logs', component: CompanyLogsComponent, canActivate: [RoleGuard], data: { module: 'Company logs' }  }
       //{ path: 'subscription', component: SubscriptionComponent },
       //{ path: 'reviews', component: FullCalendarComponent }
     ]

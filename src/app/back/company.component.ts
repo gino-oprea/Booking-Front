@@ -49,10 +49,18 @@ export class CompanyComponent extends BaseComponent implements OnInit
     super.ngOnInit();
     this.currentUser = this.loginService.getCurrentUser();
   }
-  hasRolePermission(requiredRole: string): boolean
+  // hasRolePermission(requiredRole: string): boolean
+  // {
+  //   let role = this.currentUser.roles.find(r => r.idCompany == this.idCompany);
+  //   if (role.idRole <= UserRoleEnum[requiredRole])
+  //     return true;
+  //   else
+  //     return false;
+  // }
+  hasModulePermission(requiredModule: string): boolean
   {
-    let role = this.currentUser.roles.find(r => r.idCompany == this.idCompany);
-    if (role.idRole <= UserRoleEnum[requiredRole])
+    let siteModule = this.currentUser.rolesWithModules.find(r => r.idCompany == this.idCompany && r.siteModules.find(m=>m.name==requiredModule)!=null);
+    if (siteModule!=null)
       return true;
     else
       return false;

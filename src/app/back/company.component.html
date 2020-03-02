@@ -8,50 +8,50 @@
           <a id="menu-toggle" style="margin-top:20px;float:right;">
             <i class="fa fa-bars " style="font-size:20px !Important;" aria-hidden="true" aria-hidden="true"></i></a>
         </li>
-        <li *ngIf="hasRolePermission('CompanyOwner')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company general details')" style="cursor: pointer;">
           <a [routerLink]="['generaldetails']" routerLinkActive="selectedCategory">
             <i class="fa fa-file-text-o " aria-hidden="true"></i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblDetails')}}</span>
           </a>
         </li>
-        <li *ngIf="hasRolePermission('CompanyOwner')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company levels')" style="cursor: pointer;">
           <a [routerLink]="['levels']" routerLinkActive="selectedCategory">
             <i class="fa fa-server " aria-hidden="true"></i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblLevels')}}</span>
           </a>
         </li>
-        <li *ngIf="hasRolePermission('CompanyOwner')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company entities')" style="cursor: pointer;">
           <a [routerLink]="['entities']" routerLinkActive="selectedCategory">
             <i class="fa fa-child" aria-hidden="true"></i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblEntities')}}</span> </a>
         </li>
-        <li *ngIf="hasRolePermission('CompanyOwner')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company timetables')" style="cursor: pointer;">
           <a [routerLink]="['timetables']" routerLinkActive="selectedCategory">
             <i class="fa fa-clock-o" aria-hidden="true"></i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblTimetables')}}</span> </a>
         </li>
-        <li *ngIf="hasRolePermission('CompanyOwner')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company level linking')" style="cursor: pointer;">
           <a [routerLink]="['level-linking']" routerLinkActive="selectedCategory"> <i class="fa fa-sitemap"
               aria-hidden="true"> </i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblLevelLinking')}}</span> </a>
         </li>
-        <li *ngIf="hasRolePermission('Employee')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company bookings')" style="cursor: pointer;">
           <a [routerLink]="['bookings']" routerLinkActive="selectedCategory">
             <i class="fa fa-calendar " aria-hidden="true"></i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblBookings')}}</span> </a>
         </li>
-        <li *ngIf="hasRolePermission('Employee')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company bookings history')" style="cursor: pointer;">
           <a [routerLink]="['bookings-history']" routerLinkActive="selectedCategory">
             <i class="fa fa-history " aria-hidden="true"></i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblBookingsHistory')}}</span> </a>
         </li>
-        <li *ngIf="hasRolePermission('Employee')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company clients')" style="cursor: pointer;">
           <a [routerLink]="['clients']" routerLinkActive="selectedCategory">
             <i class="fa fa-vcard-o" aria-hidden="true"> </i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblClients')}}</span> </a>
         </li>
-        <li *ngIf="hasRolePermission('CompanyOwner')" style="cursor: pointer;">
-          <a [routerLink]="['company-users']" routerLinkActive="selectedCategory">
+        <li *ngIf="hasModulePermission('Company security')" style="cursor: pointer;">
+          <a [routerLink]="['company-security']" routerLinkActive="selectedCategory">
             <i class="fa fa-user-o" aria-hidden="true"> </i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblUsers')}}</span> </a>
         </li>
@@ -64,12 +64,12 @@
           <a> <i class="fa fa-cogs" aria-hidden="true"> </i>
             <span style="margin-left:10px;"> Settings</span> </a>
         </li> -->
-        <li *ngIf="hasRolePermission('CompanyOwner')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company dashboard')" style="cursor: pointer;">
           <a [routerLink]="['dashboard']" routerLinkActive="selectedCategory">
             <i class="fa fa-line-chart" aria-hidden="true"> </i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblDashboard')}}</span> </a>
         </li>
-        <li *ngIf="hasRolePermission('CompanyOwner')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company logs')" style="cursor: pointer;">
           <a [routerLink]="['company-logs']" routerLinkActive="selectedCategory">
             <i class="fa fa-database" aria-hidden="true"> </i>
             <span style="margin-left:10px;"> {{getCurrentLabelValue('lblLogs')}}</span> </a>
