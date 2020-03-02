@@ -1,4 +1,4 @@
 {
-  "api_endpoint": "http://192.168.0.101/BookingWebAPI/api/",
-  "token_api_endpoint": "http://192.168.0.101/BookingIdentityServer/connect/token"
+  "api_endpoint": "http://api.booxy.ro/api/",
+  "token_api_endpoint": "http://identity.booxy.ro/connect/token"
 }

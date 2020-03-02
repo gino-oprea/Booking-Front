@@ -1,12 +1,22 @@
-<legend>{{getCurrentLabelValue('lblMyAccount')}}</legend>
-<div class="row" style="height: 100%;">
-   <div class="col-md-12" style="height: 100%;">    
-      <form class="form-horizontal" style="margin-right: 10px;" id="user-form" 
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 p-4 bg-light shadow">
+
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <h3>{{getCurrentLabelValue('lblMyAccount')}}</h3>
+        </div>
+      </div>
+
+<div class="row">
+  <div class="col-lg-12">
+
+      <form class="form-horizontal" id="user-form" 
       [formGroup]="userForm" (ngSubmit)="onSave()">
 
-       <div class="form-group">
+       <div class="form-group row">
               <label class="col-md-4 control-label" for="email">Email:</label>
-            <div class="col-md-4">
+            <div class="col-md-8">
               <input type="text" id="email" formControlName="email" 
                 [ngClass]="{'valid-control':userForm.controls['email'].valid,
                         'invalid-control':!userForm.controls['email'].valid}"
@@ -14,18 +24,18 @@
             </div>
           </div>   
           
-        <div class="form-group">
+        <div class="form-group row">
           <label class="col-md-4 control-label" for="firstName">{{getCurrentLabelValue('lblFirstName')}}:</label>  
-          <div class="col-md-4">
+          <div class="col-md-8">
             <input id="firstName" [ngClass]="{'valid-control':userForm.controls['firstName'].valid,
                         'invalid-control':!userForm.controls['firstName'].valid}" 
                 formControlName="firstName" type="text" class="form-control input-md">
           </div>
         </div>
           <!-- Text input-->
-          <div class="form-group">
+          <div class="form-group row">
               <label class="col-md-4 control-label" for="lastName">{{getCurrentLabelValue('lblLastName')}}:</label>
-            <div class="col-md-4">
+            <div class="col-md-8">
               <input type="text" id="lastName" 
                 [ngClass]="{'valid-control':userForm.controls['lastName'].valid,
                         'invalid-control':!userForm.controls['lastName'].valid}"
@@ -33,9 +43,9 @@
             </div>
           </div>
           <!-- Text input-->
-          <div class="form-group">
+          <div class="form-group row">
               <label class="col-md-4 control-label" for="phone">{{getCurrentLabelValue('lblPhone')}}:</label>
-            <div class="col-md-4">
+            <div class="col-md-8">
               <input id="phone" type="text" formControlName="phone" 
                 [ngClass]="{'valid-control':userForm.controls['phone'].valid,
                         'invalid-control':!userForm.controls['phone'].valid}"
@@ -44,13 +54,12 @@
           </div>
                        
           
-          <!--<div id="spacer" class="row" style="height: 55%;"></div>         -->
-          <div class="form-group"> 
+          <div class="form-group row"> 
             <label class="col-md-4 control-label" for="btnSubmit"></label>        
             <div class="col-md-4">
                   <input [disabled]="!userForm.valid" type="submit" id="btnSubmit" 
                   [value]="getCurrentLabelValue('lblSave')" 
-                  class="btn btn-success from-control" style="width: 100%">
+                  class="btn btn-success">
               </div>                                                                     
           </div>        
       </form>

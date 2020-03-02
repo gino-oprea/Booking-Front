@@ -1,143 +1,138 @@
-<nav class="navbar navbar-default" style="margin-bottom:0px">
-  <div class="container-fluid">
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <!--<ul class="nav navbar-nav" style="height:100%">
-        <li routerLinkActive="active" style="height:100%">
-          <a [routerLink]="['/searchcompany']">
-          {{getCurrentLabelValue('lblSearch')}}
-          </a>
-        </li>            
-      </ul>-->
-      <!-- <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountryId" (change)="loadTowns()">           
-           <option *ngFor="let c of countriesDic" [value]="c.id">{{c.name_Formatted}}</option>
-      </select> -->
-
-      <select style="height: 40px;width: 150px;" [(ngModel)]="selectedCountyId" (change)="loadCities()">
-        <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
-        <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}
-        </option>
-      </select>
-
-      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCityId">
-        <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
-        <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}
-        </option>
-      </select>
-
-      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedCategoryId"
-        (change)="onChangeCategory()">
-        <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
-        <option *ngFor="let c of categories" [value]="c.id">{{currentCulture == 'EN' ? c.value_EN : c.value_RO}}
-        </option>
-      </select>
-
-      <select style="height: 40px;width: 150px;margin-left: 5px;" [(ngModel)]="selectedSubcategoryId">
-        <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
-        <option *ngFor="let s of subcategories" [value]="s.id">{{currentCulture == 'EN' ? s.value_EN : s.value_RO}}
-        </option>
-      </select>
-
-      <input type="text" [(ngModel)]="searchString" placeholder="{{getCurrentLabelValue('lblSearchCompany')}}"
-        (keyup.enter)="doSearch()" style="height:40px;width:300px;margin-left: 5px;">
-      <button class="btn btn-primary from-control" (click)="doSearch()" style="margin-left: 5px;"><i
-          class="fa fa-search"></i></button>
-      <ul class="nav navbar-nav navbar-right">
-        <li style="margin-top: 5px;">
-          <a [routerLink]="['/contact']" routerLinkActive="selectedCategory"><b style="color: #4287f5;">Contact</b></a>
-        </li>
-        <li style="margin-top: 10px;">
-          <button class="btn btn-success from-control" style="margin-right: 5px;" (click)="onAddNewCompany()"><i
-              class="fa fa-plus"></i> {{getCurrentLabelValue('lblCreateNewCompany')}}</button>
-        </li>
-        <li style="margin-top: 10px;">
-          <p-dropdown [options]="cultures" [style]="{'width':'100px'}" [(ngModel)]="selectedCulture"
-            (onChange)="onCultureChange()"></p-dropdown>
-        </li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
-            <b>{{getMyAccountText()}}</b> <span class="caret"></span></a>
-          <ul id="login-dp" class="dropdown-menu">
-            <li *ngIf="!isAuth()">
-              <div class="row">
-                <div class="col-md-12">
-                  <form class="form" role="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" id="login-nav">
-                    <div class="form-group">
-                      <label class="sr-only" for="email">Email address</label>
-                      <input type="text" class="form-control" id="email" formControlName="email" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                      <label class="sr-only" for="password">
-                        {{getCurrentLabelValue('lblPassword')}}</label>
-                      <input type="password" class="form-control" id="password" formControlName="password"
-                        [placeholder]="getCurrentLabelValue('lblPassword')">
-                      <div class="help-block text-right">
-                        <a style="cursor: pointer;" (click)="displayConfirmDialog()">
-                          {{getCurrentLabelValue('lblForgotPassword')}}</a>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Log
-                        in</button>
-                    </div>
-                  </form>
-                </div>
-                <div class="bottom text-center">
-                  <a [routerLink]="['/register']"
-                    style="cursor: pointer;"><b>{{getCurrentLabelValue('lblRegister')}}</b></a>
-                </div>
-              </div>
-            </li>
-            <li *ngIf="isAuth()">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12" style="text-align: center;">
-                      <a style="cursor: pointer;" [routerLink]="['/myaccount']">
-                        <b>
-                          {{getCurrentLabelValue('lblAccountDetails')}}
-                        </b>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12" style="text-align: center;">
-                      <a style="cursor: pointer;" [routerLink]="['/changepassword']">
-                        <b>
-                          {{getCurrentLabelValue('lblChangePassword')}}
-                        </b>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12" style="text-align: center">
-                      <a style="cursor: pointer;" [routerLink]="['/mycompanies']">
-                        <b>{{getCurrentLabelValue('lblMyCompanies')}}</b></a>
-                    </div>
-                  </div>
-                  <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12" style="text-align: center">
-                      <a style="cursor: pointer;" [routerLink]="['/mybookings']">
-                        <b>
-                          {{getCurrentLabelValue('lblMyBookings')}}
-                        </b>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="bottom text-center">
-                  <a (click)="onLogout()" style="cursor: pointer"><b>Logout</b></a>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <!-- /.navbar-collapse -->
+<div class="row">
+  <div class="col-md-2">
+    <a [routerLink]="['/searchcompany']"><img src="/app/img/logo.png"></a>
   </div>
-  <!-- /.container-fluid -->
+  <div class="col-md-3">
+    <div class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" aria-label="Search" [(ngModel)]="searchString"
+        placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()">
+      <button class="btn btn-outline-success my-2 my-sm-0" (click)="doSearch()">Search</button>
+    </div>
+  </div>
+  <div class="col-md-2"><a [routerLink]="['/contact']" routerLinkActive="selectedCategory">Contact</a>
+
+  </div>
+  <div class="col-md-1">
+    <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture" (onChange)="onCultureChange()"></p-dropdown>
+  </div>
+  <div class="col-md-2">
+    <div class="dropdown">
+      <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-user-circle text-secondary fa-lg"></i> {{getMyAccountText()}}
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+        <div *ngIf="!isAuth()">
+        <div class="dropdown-item">
+            <form class="form" role="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" id="login-nav">
+              <div class="form-group">
+                <label class="sr-only" for="email">Email address</label>
+                <input type="text" class="form-control" id="email" formControlName="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label class="sr-only" for="password">
+                  {{getCurrentLabelValue('lblPassword')}}</label>
+                <input type="password" class="form-control" id="password" formControlName="password"
+                  [placeholder]="getCurrentLabelValue('lblPassword')">
+                <div class="help-block text-right">
+                  <a style="cursor: pointer;" (click)="displayConfirmDialog()">
+                    {{getCurrentLabelValue('lblForgotPassword')}}</a>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Log
+                  in</button>
+              </div>
+            </form>
+          </div>
+          <div class="dropdown-divider"></div>
+
+          <div class="dropdown-item bg-light">
+            <a [routerLink]="['/register']" class="POINTER">
+              <i class="fa fa-sign-in text-secondary fa-lg"></i> {{getCurrentLabelValue('lblRegister')}}</a>
+          </div>
+        </div>
+        
+
+        <div *ngIf="isAuth()">
+
+          <div class="dropdown-item">
+            <a [routerLink]="['/myaccount']" class="pointer">{{getCurrentLabelValue('lblAccountDetails')}}</a>
+          </div>
+          <div class="dropdown-item">
+            <a [routerLink]="['/changepassword']" class="pointer">{{getCurrentLabelValue('lblChangePassword')}}</a>
+          </div>
+          <div class="dropdown-item">
+            <a [routerLink]="['/mycompanies']" class="pointer">{{getCurrentLabelValue('lblMyCompanies')}}</a>
+          </div>
+          <div class="dropdown-item">
+            <a [routerLink]="['/mybookings']" class="pointer">{{getCurrentLabelValue('lblMyBookings')}}</a>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item bg-light">
+            <a (click)="onLogout()" class="pointer"><i class="fa fa-sign-out text-secondary fa-lg"></i> Logout</a>
+          </div>
+
+        </div>
+
+        </div>
+        </div>
+
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-success from-control" style="margin-right: 5px;" (click)="onAddNewCompany()">
+      <i class="fa fa-plus"></i> {{getCurrentLabelValue('lblCreateNewCompany')}}</button>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Filtre</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <select class="form-control" [(ngModel)]="selectedCountyId" (change)="loadCities()">
+          <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
+          <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}
+          </option>
+        </select>
+
+      </li>
+      <li class="nav-item">
+        <select class="form-control" [(ngModel)]="selectedCityId">
+          <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
+          <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}
+          </option>
+        </select>
+
+      </li>
+      <li class="nav-item">
+        <select class="form-control" [(ngModel)]="selectedCategoryId" (change)="onChangeCategory()">
+          <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
+          <option *ngFor="let c of categories" [value]="c.id">{{currentCulture == 'EN' ? c.value_EN : c.value_RO}}
+          </option>
+        </select>
+
+      </li>
+      <li class="nav-item">
+
+        <select class="form-control" [(ngModel)]="selectedSubcategoryId">
+          <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
+          <option *ngFor="let s of subcategories" [value]="s.id">{{currentCulture == 'EN' ? s.value_EN : s.value_RO}}
+          </option>
+        </select>
+
+      </li>
+    </ul>
+
+  </div>
 </nav>
+
 
 <p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayDialog" modal="modal" width="300"
   responsive="true">

@@ -9,20 +9,16 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-  <div *ngIf="showTermsAndConditionsDiv" class="footer">
-    <p>
+  <div *ngIf="showTermsAndConditionsDiv" class="bg-info p-2 fixed-bottom text-white">
+    
       Acest site foloseste cookie-uri pentru a imbunatati experienta utilizatorilor. Continuarea navigarii pe site
-      implica
-      acceptarea
-      <a [routerLink]="['/gdpr']" routerLinkActive="selectedCategory"><b style="color: red;"> politicii de utilizare a
-          cookie-urilor si politicii de prelucrare a datelor</b> </a>
+      implica acceptarea
+      <a [routerLink]="['/gdpr']" routerLinkActive="selectedCategory" class="text-white font-weight-bolder"> politicii de utilizare a cookie-urilor si politicii de prelucrare a datelor </a>
       si a
-      <a [routerLink]="['/termsconditions']" routerLinkActive="selectedCategory"><b style="color: red;"> termenilor si
-          conditiilor</b> </a>
-    </p>
+      <a [routerLink]="['/termsconditions']" routerLinkActive="selectedCategory" class="text-white font-weight-bolder"> termenilor si conditiilor </a>
+    
 
-    <i style="position: absolute;right: 40px;top: 9px; cursor: pointer;" class="fa fa-close"
-      (click)="showTermsAndConditionsDiv=false"></i>
+    <i class="fa fa-close float-right pointer" (click)="showTermsAndConditionsDiv=false"></i>
   </div>
 </div>
 
