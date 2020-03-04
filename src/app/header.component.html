@@ -1,23 +1,17 @@
-<div class="row">
+<div class="row py-2">
   <div class="col-md-2">
     <a [routerLink]="['/searchcompany']"><img [src]="COMP_LOGO"></a>
   </div>
-  <div class="col-md-3">
-    <div class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" aria-label="Search" [(ngModel)]="searchString"
+  <div class="col-md-6">
+    <div class="form-inline">
+      <input class="form-control w-75 mr-sm-2" type="text" aria-label="Search" [(ngModel)]="searchString"
         placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()">
       <button class="btn btn-outline-success my-2 my-sm-0" (click)="doSearch()">Search</button>
     </div>
   </div>
-  <div class="col-md-2"><a [routerLink]="['/contact']" routerLinkActive="selectedCategory">Contact</a>
-
-  </div>
-  <div class="col-md-1">
-    <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture" (onChange)="onCultureChange()"></p-dropdown>
-  </div>
-  <div class="col-md-2">
+  <div class="col-md-2 text-right">
     <div class="dropdown">
-      <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="dropdown-toggle btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user-circle text-secondary fa-lg"></i> {{getMyAccountText()}}
       </a>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -80,12 +74,17 @@
 
   </div>
   <div class="col-md-2">
+    <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture" (onChange)="onCultureChange()" class="mr-2"></p-dropdown>
+  
     <button class="btn btn-success from-control" style="margin-right: 5px;" (click)="onAddNewCompany()">
       <i class="fa fa-plus"></i> {{getCurrentLabelValue('lblCreateNewCompany')}}</button>
   </div>
 </div>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="row bg-light shadow-sm border-top border-bottom">
+<div class="col-12">
+
+<nav class="navbar navbar-expand-lg navbar-light">
   <a class="navbar-brand" href="#">Filtre</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +94,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
 
-      <li class="nav-item">
+      <li class="nav-item mr-2">
         <select class="form-control" [(ngModel)]="selectedCountyId" (change)="loadCities()">
           <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
           <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}
@@ -103,7 +102,7 @@
         </select>
 
       </li>
-      <li class="nav-item">
+      <li class="nav-item mr-2">
         <select class="form-control" [(ngModel)]="selectedCityId">
           <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
           <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}
@@ -111,7 +110,7 @@
         </select>
 
       </li>
-      <li class="nav-item">
+      <li class="nav-item mr-2">
         <select class="form-control" [(ngModel)]="selectedCategoryId" (change)="onChangeCategory()">
           <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
           <option *ngFor="let c of categories" [value]="c.id">{{currentCulture == 'EN' ? c.value_EN : c.value_RO}}
@@ -119,7 +118,7 @@
         </select>
 
       </li>
-      <li class="nav-item">
+      <li class="nav-item mr-2">
 
         <select class="form-control" [(ngModel)]="selectedSubcategoryId">
           <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
@@ -132,7 +131,8 @@
 
   </div>
 </nav>
-
+</div>
+</div>
 
 <p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayDialog" modal="modal" width="300"
   responsive="true">

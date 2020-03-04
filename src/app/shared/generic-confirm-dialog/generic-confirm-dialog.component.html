@@ -4,10 +4,10 @@
     <re-captcha [ngStyle]="{'display': useCaptcha?'':'none'}" *ngIf="useCaptcha" #captchaRef
       (resolved)="onResolvedCaptcha($event)" siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
   </div>
-  <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix mt-5">
+  <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix mt-5 mb-2 text-right">
 
     <a class="btn btn-light" (click)="onCancelClick()"><i class="fa fa-undo"></i> {{getCurrentLabelValue('lblNo')}}</a>
-    <a (click)="onConfirmClick()" class="btn btn-primary mx-2"
+    <a (click)="onConfirmClick()" class="btn btn-primary text-white mx-2"
       [ngClass]="(useCaptcha && !validCaptcha)?'disabled':''"><i class="fa fa-check"></i> {{getCurrentLabelValue('lblYes')}}</a>
 
   </div>

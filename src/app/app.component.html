@@ -9,6 +9,17 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+
+  <div class="fixed-bottom bg-primary p-2 text-white ">
+  <div  class="row">
+    <div class="col-md-12 text-center">
+      <a [routerLink]="['/contact']" routerLinkActive="selectedCategory" class=" text-white">Contact</a>
+
+      © Copyright. All rights reserved.
+    </div>
+  </div>
+  </div>
+
   <div *ngIf="showTermsAndConditionsDiv" class="bg-info p-2 fixed-bottom text-white">
     
       Acest site foloseste cookie-uri pentru a imbunatati experienta utilizatorilor. Continuarea navigarii pe site

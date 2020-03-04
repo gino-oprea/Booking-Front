@@ -1,218 +1,195 @@
-<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblGeneralDetails')}}</legend>
-<div class="row" style="height: 100%;">
-  <div class="col-md-12" style="height: 100%;">
-    <ul class="nav nav-tabs">
-      <li (click)="selectTab('details')" [class.active]="tabs.details.active" style="cursor: pointer;">
-        <a style="color: black"><i class="fa fa-file-text-o"></i> {{getCurrentLabelValue('lblDetails')}}</a>
+<div class="row">
+  <div class="col-md-12 my-2"><h3>{{getCurrentLabelValue('lblGeneralDetails')}}</h3>
+  </div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-md-12">
+
+<ul class="nav nav-tabs mb-2" id="myTab1" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">
+      <i class="fa fa-file-text-o"></i> {{getCurrentLabelValue('lblDetails')}}
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="time-tab" data-toggle="tab" href="#time" role="tab" aria-controls="time" aria-selected="false">
+      <i class="fa fa-calendar-o"></i> {{getCurrentLabelValue('lblTimeSettings')}}
+    </a>
+  </li>
+</ul>
+<div class="tab-content" id="myTab1Content">
+  <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+    
+    <div class="bg-light shadow-sm">
+
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <form id="user-form" [formGroup]="genDetailsForm" (ngSubmit)="onSaveForm()">
+
+
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblName')}}:</label>
+            <div class="col-md-8">
+              <input type="text" id="name" formControlName="name" [ngClass]="{'valid-control':genDetailsForm.controls['name'].valid,
+                            'invalid-control':!genDetailsForm.controls['name'].valid}" class="form-control"></div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblEmbedDetailsPage')}}:</label>
+            <div class="col-md-8">
+              <textarea id="embed_details" formControlName="embed_details" type="text" class="form-control"
+                readonly="true"></textarea></div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblEmbedBookingPage')}}:</label>
+            <div class="col-md-8">
+              <textarea id="embed_booking" formControlName="embed_booking" type="text" class="form-control input-md"></textarea></div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblDescription')}} RO:</label>
+            <div class="col-md-8">
+              <textarea id="description_ro" [ngClass]="{'valid-control':genDetailsForm.controls['description_ro'].valid,
+                            'invalid-control':!genDetailsForm.controls['description_ro'].valid}"
+                formControlName="description_ro" type="text" class="form-control input-md"></textarea></div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblDescription')}} EN:</label>
+            <div class="col-md-8"><textarea id="description_en" [ngClass]="{'valid-control':genDetailsForm.controls['description_en'].valid,
+                                        'invalid-control':!genDetailsForm.controls['description_en'].valid}"
+                formControlName="description_en" type="text" class="form-control input-md"></textarea></div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblCategory')}}:</label>
+            <div class="col-md-8">
+                            <select formControlName="category" style="height: 100%;width: 100%;" (change)="onChangeCategory($event)">
+                <option *ngFor="let c of categories" [value]="c.id">
+                  {{currentCulture == 'EN' ? c.value_EN : c.value_RO}}</option>
+              </select></div>
+          </div>
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblSubCategory')}}:</label>
+            <div class="col-md-8">
+              <select formControlName="subcategory" style="height: 100%;width: 100%;">
+                <option *ngFor="let s of subcategories" [value]="s.id">
+                  {{currentCulture == 'EN' ? s.value_EN : s.value_RO}}</option>
+              </select></div>
+          </div>
+    
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblCounty')}}:</label>
+            <div class="col-md-8">
+              <p-dropdown [options]="counties" formControlName="county" [style]="{'width':'100%'}" [filter]="true"
+                (onChange)="onLoadCities(this.genDetailsForm.controls['county'].value)"></p-dropdown></div>
+          </div>
+    
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblCity')}}:</label>
+            <div class="col-md-8">
+              <p-dropdown [options]="cities" formControlName="city" [style]="{'width':'100%'}" [filter]="true">
+              </p-dropdown></div>
+          </div>
+    
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblAddress')}}:</label>
+            <div class="col-md-8">
+              <input id="address" type="text" formControlName="address" #address [ngClass]="{'valid-control':genDetailsForm.controls['address'].valid,
+                            'invalid-control':!genDetailsForm.controls['address'].valid}" class="form-control"></div>
+          </div>
+          
+          <div class="row mb-2">
+            <label class="col-md-4">Email:</label>
+            <div class="col-md-8">
+              <input id="email" type="text" formControlName="email" [ngClass]="{'valid-control':genDetailsForm.controls['email'].valid,
+                            'invalid-control':!genDetailsForm.controls['email'].valid}" class="form-control"></div>
+          </div>
+          
+          <div class="row mb-2">
+            <label class="col-md-4">{{getCurrentLabelValue('lblPhone')}}</label>
+            <div class="col-md-8">
+              <input id="phone" type="text" formControlName="phone" [ngClass]="{'valid-control':genDetailsForm.controls['phone'].valid,
+                            'invalid-control':!genDetailsForm.controls['phone'].valid}" class="form-control"></div>
+          </div>
+    
+          <div class="row mb-2">
+            <label class="col-md-4"></label>
+            <div class="col-md-8">
+              
+              <button [disabled]="!genDetailsForm.valid" type="submit" id="btnSubmit" class="btn btn-success">
+                <i class="fa fa-save"></i> {{getCurrentLabelValue('lblSave')}}
+              </button></div>
+          </div>
+    
+        </form>
+      </div>
+      
+      <div class="col-md-6">
+
+        <div class="row">
+          <div class="col-md-12">
+            <input id="file" type="file" (change)="onUpload($event)" class="inputfile" />
+            <label for="file" class="btn btn-primary"><i class="fa fa-upload"></i>
+              {{getCurrentLabelValue('lblUploadImage')}}</label>
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="col-md-12" style="height: 100%!important; overflow: auto;">
+
+            <div *ngIf="images.length>0">
+              <div *ngFor="let img of images; let i=index">
+                <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)" class="img-thumbnail float-left mr-2 pointer" style="max-height: 100px; max-width: 200px;">
+              </div>
+            </div>
+
+            <div *ngIf="images.length==0">
+              <img [src]="COMP_IMG" class="img-thumbnail" style="max-height: 100px; max-width: 200px;">
+            </div>
+
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+            <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'100%'}" [overlays]="gMapOverlays"
+              (onMapClick)="handleMapClick($event)" (onOverlayDragEnd)="handleDragEnd($event)"></p-gmap>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">
+
+    <ul class="nav nav-pills " id="myTab2" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="WorkingHours-tab" data-toggle="tab" href="#WorkingHours" role="tab" aria-controls="WorkingHours" aria-selected="true">
+          <i class="fa fa-clock-o"></i> {{getCurrentLabelValue('lblWorkingHours')}}
+        </a>
       </li>
-      <li (click)="selectTab('timeSettings')" [class.active]="tabs.timeSettings.active" style="cursor: pointer;">
-        <a style="color: black;"><i class="fa fa-calendar-o"></i> {{getCurrentLabelValue('lblTimeSettings')}}</a>
+      <li class="nav-item">
+        <a class="nav-link" id="SpecialDays-tab" data-toggle="tab" href="#SpecialDays" role="tab" aria-controls="SpecialDays" aria-selected="false">
+          <i class="fa fa-calendar"></i> {{getCurrentLabelValue('lblSpecialDays')}}
+        </a>
       </li>
     </ul>
-    <div [hidden]="!tabs.details.active" style="height: 95%;padding: 5px;">
-      <div class="row" style="margin-right: 0px;height: 100%;">
-        <div class="col-md-6" style="height: 100%;">
-          <form class="form-horizontal" style="height: 100%" id="user-form" [formGroup]="genDetailsForm"
-            (ngSubmit)="onSaveForm()">
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="name">{{getCurrentLabelValue('lblName')}}:</label>
-              <div class="col-md-10">
-                <input type="text" id="name" formControlName="name" [ngClass]="{'valid-control':genDetailsForm.controls['name'].valid,
-                        'invalid-control':!genDetailsForm.controls['name'].valid}" class="form-control">
-              </div>
-            </div>
-
-            <div class="form-group" style="height: 5%;">
-              <label class="col-md-4 control-label"
-                for="embed_details">{{getCurrentLabelValue('lblEmbedDetailsPage')}}:</label>
-              <div class="col-md-8" style="height: 100%">
-                <textarea id="embed_details" formControlName="embed_details" type="text" class="form-control input-md"
-                  readonly="true" style="height: 100%;padding: 3px;resize: none;"></textarea>
-              </div>
-            </div>
-
-            <div class="form-group" style="height: 5%;">
-              <label class="col-md-4 control-label"
-                for="embed_booking">{{getCurrentLabelValue('lblEmbedBookingPage')}}:</label>
-              <div class="col-md-8" style="height: 100%">
-                <textarea id="embed_booking" formControlName="embed_booking" type="text" class="form-control input-md"
-                  readonly="true" style="height: 100%;padding: 3px;resize: none;"></textarea>
-              </div>
-            </div>
-
-            <div class="form-group" style="height: 10%;">
-              <label class="col-md-2 control-label" for="description_ro">{{getCurrentLabelValue('lblDescription')}}
-                RO:</label>
-              <div class="col-md-10" style="height: 100%">
-                <textarea id="description_ro" [ngClass]="{'valid-control':genDetailsForm.controls['description_ro'].valid,
-                        'invalid-control':!genDetailsForm.controls['description_ro'].valid}"
-                  formControlName="description_ro" type="text" class="form-control input-md"
-                  style="height: 100%;padding: 3px;resize: none;"></textarea>
-              </div>
-            </div>
-
-            <div class="form-group" style="height: 10%;">
-              <label class="col-md-2 control-label" for="description_en">{{getCurrentLabelValue('lblDescription')}}
-                EN:</label>
-              <div class="col-md-10" style="height: 100%">
-                <textarea id="description_en" [ngClass]="{'valid-control':genDetailsForm.controls['description_en'].valid,
-                                    'invalid-control':!genDetailsForm.controls['description_en'].valid}"
-                  formControlName="description_en" type="text" class="form-control input-md"
-                  style="height: 100%;padding: 3px;resize: none;"></textarea>
-              </div>
-            </div>
-
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="category">{{getCurrentLabelValue('lblCategory')}}:</label>
-              <div class="col-md-10">
-                <!--<p-dropdown [options]="categories" formControlName="category" (onChange)="onChangeCategory($event)" [style]="{'width':'100%'}" [filter]="false"></p-dropdown>-->
-                <select formControlName="category" style="height: 100%;width: 100%;"
-                  (change)="onChangeCategory($event)">
-                  <option *ngFor="let c of categories" [value]="c.id">
-                    {{currentCulture == 'EN' ? c.value_EN : c.value_RO}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label"
-                for="subcategory">{{getCurrentLabelValue('lblSubCategory')}}:</label>
-              <div class="col-md-10">
-                <!--<p-dropdown [options]="subcategories" formControlName="subcategory" [style]="{'width':'100%'}" [filter]="false"></p-dropdown>-->
-                <select formControlName="subcategory" style="height: 100%;width: 100%;">
-                  <option *ngFor="let s of subcategories" [value]="s.id">
-                    {{currentCulture == 'EN' ? s.value_EN : s.value_RO}}</option>
-                </select>
-              </div>
-            </div>
-            <!-- Text input-->
-            <!-- <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="country">{{getCurrentLabelValue('lblCountry')}}:</label>
-              <div class="col-md-10">
-                <p-dropdown [options]="countries" formControlName="country" [style]="{'width':'100%'}" [filter]="true" (onChange)="addressAutocomplete()"></p-dropdown>
-              </div>
-            </div> -->
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="county">{{getCurrentLabelValue('lblCounty')}}:</label>
-              <div class="col-md-10">
-                <p-dropdown [options]="counties" formControlName="county" [style]="{'width':'100%'}" [filter]="true"
-                  (onChange)="onLoadCities(this.genDetailsForm.controls['county'].value)"></p-dropdown>
-              </div>
-            </div>
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="city">{{getCurrentLabelValue('lblCity')}}:</label>
-              <div class="col-md-10">
-                <p-dropdown [options]="cities" formControlName="city" [style]="{'width':'100%'}" [filter]="true">
-                </p-dropdown>
-              </div>
-            </div>
-            <!-- Text input-->
-            <!-- <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="town">{{getCurrentLabelValue('lblTown')}}:</label>
-              <div class="col-md-10">
-                <input id="town" type="text" formControlName="town" [ngClass]="{'valid-control':genDetailsForm.controls['town'].valid,
-                        'invalid-control':!genDetailsForm.controls['town'].valid}" class="form-control">
-              </div>
-            </div> -->
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="address">{{getCurrentLabelValue('lblAddress')}}:</label>
-              <div class="col-md-10">
-
-                <input id="address" type="text" formControlName="address" #address [ngClass]="{'valid-control':genDetailsForm.controls['address'].valid,
-                        'invalid-control':!genDetailsForm.controls['address'].valid}" class="form-control">
-              </div>
-            </div>
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="email">Email:</label>
-              <div class="col-md-10">
-                <input id="email" type="text" formControlName="email" [ngClass]="{'valid-control':genDetailsForm.controls['email'].valid,
-                        'invalid-control':!genDetailsForm.controls['email'].valid}" class="form-control">
-              </div>
-            </div>
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="phone">{{getCurrentLabelValue('lblPhone')}}:</label>
-              <div class="col-md-10">
-                <input id="phone" type="text" formControlName="phone" [ngClass]="{'valid-control':genDetailsForm.controls['phone'].valid,
-                        'invalid-control':!genDetailsForm.controls['phone'].valid}" class="form-control">
-              </div>
-            </div>
-
-            <div class="form-group" style="height: 6%;">
-              <label class="col-md-2 control-label" for="btnSubmit"></label>
-              <div class="col-md-10">
-                <button [disabled]="!genDetailsForm.valid" type="submit" id="btnSubmit"
-                  class="btn btn-success from-control" style="width: 100%">
-                  <i class="fa fa-save"></i> {{getCurrentLabelValue('lblSave')}}
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="col-md-6" style="height: 100%;">
-          <div class="row" style="height: 8%;">
-            <div class="col-md-12">
-              <input id="file" type="file" (change)="onUpload($event)" class="inputfile" />
-              <label for="file" class="btn btn-primary" style="margin-bottom: 2px;"><i class="fa fa-upload"></i>
-                {{getCurrentLabelValue('lblUploadImage')}}</label>
-            </div>
-          </div>
-
-          <div class="row" style="height: 25%;">
-            <div class="col-md-12" style="height: 100%!important; overflow: auto;">
-              <ul *ngIf="images.length>0" class="imgList">
-                <li *ngFor="let img of images; let i=index" style="padding-left: 1px;padding-right: 1px;">
-                  <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)"
-                    style="cursor:pointer; height: auto;width: auto;max-height: 100px;max-width: 100%;">
-                </li>
-              </ul>
-              <img *ngIf="images.length==0" [src]="COMP_IMG"
-                style="height: auto;width: auto;max-height: 100px;max-width: 100%;">
-            </div>
-          </div>
-          <br>
-          <div class="row" style="height: 65%;">
-            <div class="col-md-12" style="height: 100%;">
-              <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'100%'}" [overlays]="gMapOverlays"
-                (onMapClick)="handleMapClick($event)" (onOverlayDragEnd)="handleDragEnd($event)"></p-gmap>
-            </div>
-          </div>
-        </div>
+    <div class="tab-content" id="myTab2Content">
+      <div class="tab-pane fade show active" id="WorkingHours" role="tabpanel" aria-labelledby="WorkingHours-tab">
+          <bf-working-hours [IsCompanyWorkingHours]="true" [workingHours]="workingHours"
+            (selectTimeSlot)="onUpdateWorkingHours($event)">
+          </bf-working-hours>
+      </div>
+      <div class="tab-pane fade" id="SpecialDays" role="tabpanel" aria-labelledby="SpecialDays-tab">
+          <bf-full-calendar [events]="specialDays" (dateClick)="onDayClick($event)" (eventClick)="onEventClick($event)"
+            (eventDrop)="onEventDrop($event)"></bf-full-calendar>
       </div>
     </div>
-    <div [hidden]="!tabs.timeSettings.active" style="height: 95%;padding-top: 5px;">
-      <div class="row" style="margin-right: 0px;height: 100%">
-        <div class="col-md-12" style="padding-right: 0px;height: 100%">
-          <ul class="nav nav-tabs">
-            <li (click)="selectSubTab('workingHours')" [class.active]="subTabs.workingHours.active"
-              style="cursor: pointer;">
-              <a style="color: black"><i class="fa fa-clock-o"></i> {{getCurrentLabelValue('lblWorkingHours')}}</a>
-            </li>
-            <li (click)="selectSubTab('specialDays')" [class.active]="subTabs.specialDays.active"
-              style="cursor: pointer;">
-              <a style="color: black;"><i class="fa fa-calendar"></i> {{getCurrentLabelValue('lblSpecialDays')}}</a>
-            </li>
-          </ul>
-          <div [hidden]="!subTabs.workingHours.active" style="height: 95%;overflow-x: auto;padding-top: 5px;">
-            <bf-working-hours [IsCompanyWorkingHours]="true" [workingHours]="workingHours"
-              (selectTimeSlot)="onUpdateWorkingHours($event)">
-            </bf-working-hours>
-          </div>
-          <div [hidden]="!subTabs.specialDays.active" style="height: 95%;padding-top: 5px;">
-            <!-- <p-schedule *ngIf="getCurrentCalendarLocale() === calendarLocale_EN" [locale]="calendarLocale_EN" [events]="specialDays"
-              [height]="auto" [editable]="true" [aspectRatio]="3.2" (onDayClick)="onDayClick($event)" (onEventClick)="onEventClick($event)"
-              (onEventDrop)="onEventDrop($event)" [header]="calendarOptions"></p-schedule>
-            <p-schedule *ngIf="getCurrentCalendarLocale() === calendarLocale_RO" [locale]="calendarLocale_RO" [events]="specialDays"
-              [height]="auto" [editable]="true" [aspectRatio]="3.2" (onDayClick)="onDayClick($event)" (onEventClick)="onEventClick($event)"
-              (onEventDrop)="onEventDrop($event)" [header]="calendarOptions"></p-schedule> -->
 
-            <!-- <p-schedule [events]="specialDays"
-              [height]="auto" [editable]="true" [aspectRatio]="3.2" (onDayClick)="onDayClick($event)" (onEventClick)="onEventClick($event)"
-              (onEventDrop)="onEventDrop($event)" [header]="calendarOptions"></p-schedule> -->
-            <bf-full-calendar [events]="specialDays" (dateClick)="onDayClick($event)"
-              (eventClick)="onEventClick($event)" (eventDrop)="onEventDrop($event)"></bf-full-calendar>
-          </div>
-        </div>
-      </div>
-    </div>
+      
+  </div>
+</div>
   </div>
 </div>
 
@@ -238,8 +215,8 @@
   <img *ngIf="selectedImage!=null" [src]="'data:image/png;base64,'+selectedImage.img"
     style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">
   <footer>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" [value]="" class="btn btn-danger" (click)="deleteImage()">
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix text-right my-2">
+      <button type="button" [value]="" class="btn btn-danger btn-sm" (click)="deleteImage()">
         <i class="fa fa-remove"></i> {{getCurrentLabelValue('lblDelete')}}
       </button>
     </div>

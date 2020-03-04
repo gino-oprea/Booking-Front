@@ -264,32 +264,6 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
       this.subcategories = <GenericDictionaryItem[]>gro.objList;
     }
   }
-  selectTab(title: string)
-  {
-    if (title == 'details')
-    {
-      this.tabs.details.active = true;
-      this.tabs.timeSettings.active = false;
-    }
-    if (title == 'timeSettings')
-    {
-      this.tabs.details.active = false;
-      this.tabs.timeSettings.active = true;
-    }
-  }
-  selectSubTab(title: string)
-  {
-    if (title == 'workingHours')
-    {
-      this.subTabs.workingHours.active = true;
-      this.subTabs.specialDays.active = false;
-    }
-    if (title == 'specialDays')
-    {
-      this.subTabs.workingHours.active = false;
-      this.subTabs.specialDays.active = true;
-    }
-  }
 
   onChangeCulture()//asta se declasneaza in base component la schimbarea de cultura
   {
