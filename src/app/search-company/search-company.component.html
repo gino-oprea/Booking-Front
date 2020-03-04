@@ -1,45 +1,52 @@
-<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblCompanies')}}</legend>
-<div class="row" style="height: 100%;">
-  <div class="col-md-12" style="height:100%;overflow: auto;">
-    <div class="row" (click)="goToCompanyDetails(company.id,company.name)"
-      *ngFor="let company of companies; let i=index" style="cursor:pointer;">
-      <div class="container-fluid well span6 col-md-11" style="margin-bottom: 5px;">
-        <div class="row-fluid">
-          <div *ngIf="company.image" class="col-md-3">
-            <img
+<h2>{{getCurrentLabelValue('lblCompanies')}}</h2>
+
+<div class="row">
+    <div (click)="goToCompanyDetails(company.id,company.name)" *ngFor="let company of companies; let i=index"  class="col-12 col-md-3 col-sm-6">
+
+      <div class="card shadow mb-3" style="min-height: 385px;">
+        <div class="bg-light text-center p-3">
+            <img *ngIf="company.image"
               [src]="company.image.length==0 ? COMP_IMG : domSanitizationService.bypassSecurityTrustUrl('data:image/png;base64,'+company.image[0].img)"
-              style="height: auto;width: auto;max-height: 110px;">
+              class="w-auto card-img-top rounded-circle pointer" style="max-height: 150px; max-width: 250px">
           </div>
-          <div class="col-md-9">
-            <h3 style="margin-top: 0px;">{{company.name}}</h3>
-            <h6>{{getCurrentLabelValue('lblCategory')}}:
-              {{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}</h6>
-            <h6>Email: {{company.email}}</h6>
-            <h6>{{getCurrentLabelValue('lblCity')}}: {{company.cityName}}</h6>
-            <h6>{{getCurrentLabelValue('lblAddress')}}: {{company.address}}</h6>
+          <div class="card-body">
+            <h4 class="card-title">{{company.name}}</h4>
+            <div class="row card-text">
+              <div class="col-md-4">{{getCurrentLabelValue('lblCategory')}}:</div>
+              <div class="col-md-8">{{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}</div>
+              <div class="col-md-4">Email:</div>
+              <div class="col-md-8">{{company.email}}</div>
+              <div class="col-md-4">{{getCurrentLabelValue('lblCity')}}:</div>
+              <div class="col-md-8">{{company.cityName}}</div>
+              <div class="col-md-4">{{getCurrentLabelValue('lblAddress')}}:</div>
+              <div class="col-md-8">{{company.address}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    <div *ngFor="let dummyComp of dummyCompanyArray(emptySlotsNo);" class="col-12 col-md-3 col-sm-6">
+      <div class="card shadow mb-3" style="min-height: 385px;">
+        <div class="bg-light text-center p-3">
+            <img [src]="COMP_IMG" class="w-auto card-img-top rounded-circle pointer" style="max-height: 150px; max-width: 250px;">
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">{{getCurrentLabelValue('lblYourCompanyHere')}}</h4>
+            <div class="row card-text">
+              <div class="col-md-4">{{getCurrentLabelValue('lblCategory')}}:</div>
+              <div class="col-md-8">{{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}</div>
+              <div class="col-md-4">Email:</div>
+              <div class="col-md-8">{{company.email}}</div>
+              <div class="col-md-4">{{getCurrentLabelValue('lblCity')}}:</div>
+              <div class="col-md-8">{{company.cityName}}</div>
+              <div class="col-md-4">{{getCurrentLabelValue('lblAddress')}}:</div>
+              <div class="col-md-8">{{company.address}}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row" *ngFor="let dummyComp of dummyCompanyArray(emptySlotsNo);" style="cursor:pointer;">
-      <div class="container-fluid well span6 col-md-11" style="margin-bottom: 5px;">
-        <div class="row-fluid">
-          <div class="col-md-3">
-            <img [src]="COMP_IMG" style="height: auto;width: auto;max-height: 110px;">
-          </div>
-          <div class="col-md-9">
-            <h3 style="margin-top: 0px;">{{getCurrentLabelValue('lblYourCompanyHere')}}</h3>
-            <h6>{{getCurrentLabelValue('lblCategory')}}</h6>
-            <h6>Email</h6>
-            <h6>{{getCurrentLabelValue('lblCity')}}</h6>
-            <h6>{{getCurrentLabelValue('lblAddress')}}</h6>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 <p-growl [value]="pageMsgs"></p-growl>

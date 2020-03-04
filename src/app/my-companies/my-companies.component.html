@@ -18,16 +18,16 @@
                         <div class="col-md-8">{{company.phone}}</div>
                         <div class="col-md-4">{{getCurrentLabelValue('lblTown')}}:</div>
                         <div class="col-md-8 mb-3">{{company.cityName}}</div>
-                        <div class="col-md-6"><span *ngIf="hasRolePermission('CompanyOwner', company.id)">{{getCurrentLabelValue('lblEnabled')}}</span></div>
+                        <div class="col-md-6"><span *ngIf="hasModulePermission('Company general details', company.id)">{{getCurrentLabelValue('lblEnabled')}}</span></div>
                         <div class="col-md-6">
-                            <div *ngIf="hasRolePermission('CompanyOwner', company.id)">
+                            <div *ngIf="hasModulePermission('Company general details', company.id)">
                                 <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="showToggleConfirm($event, company)"
                                     [(ngModel)]="company.isEnabled"></p-inputSwitch>
                             </div>
                         </div>
-                        <div class="col-md-6"><span *ngIf="hasRolePermission('CompanyOwner', company.id)">{{getCurrentLabelValue('lblAllowOnlineBookings')}}</span></div>
+                        <div class="col-md-6"><span *ngIf="hasModulePermission('Company general details', company.id)">{{getCurrentLabelValue('lblAllowOnlineBookings')}}</span></div>
                         <div class="col-md-6">
-                        <div *ngIf="hasRolePermission('CompanyOwner', company.id)">
+                        <div *ngIf="hasModulePermission('Company general details', company.id)">
                             <p-inputSwitch (onChange)="showAllowBookingsConfirm($event, company)"
                                 [(ngModel)]="company.allowOnlineBookings"></p-inputSwitch>
                         </div>
@@ -36,43 +36,6 @@
                     <a (click)="editCompany(company.id)" class="btn btn-primary text-white">{{getCurrentLabelValue('lblEdit')}}</a></div>
                     </div>
 
-<<<<<<< HEAD
-=======
-<div class="row" style="height: 70%">
-    <div *ngFor="let company of companies; let i=index" style="margin:3px;" class="container-fluid well span6 col-md-3">
-        <div class="row-fluid">
-            <div *ngIf="company.image" class="span2">
-                <!--<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle">-->
-                <img [src]="company.image.length==0 ? COMP_IMG : domSanitizationService.bypassSecurityTrustUrl('data:image/png;base64,'+company.image[0].img)"
-                    style="height: 120px;height: 120px;">
-            </div>
-
-            <div class="span8">
-                <h3>{{company.name}}</h3>
-                <h6>Email: {{company.email}}</h6>
-                <h6>{{getCurrentLabelValue('lblPhone')}}: {{company.phone}}</h6>
-                <h6>{{getCurrentLabelValue('lblTown')}}: {{company.cityName}}</h6>
-            </div>
-
-            <span *ngIf="hasModulePermission('Company general details', company.id)">{{getCurrentLabelValue('lblEnabled')}}</span>
-            <div *ngIf="hasModulePermission('Company general details', company.id)" class="span2">
-                <p-inputSwitch onLabel="Enabled" offLabel="Disabled" (onChange)="showToggleConfirm($event, company)"
-                    [(ngModel)]="company.isEnabled"></p-inputSwitch>
-            </div>
-
-            <span
-                *ngIf="hasModulePermission('Company general details', company.id)">{{getCurrentLabelValue('lblAllowOnlineBookings')}}</span>
-            <div *ngIf="hasModulePermission('Company general details', company.id)" class="span2">
-                <p-inputSwitch (onChange)="showAllowBookingsConfirm($event, company)"
-                    [(ngModel)]="company.allowOnlineBookings"></p-inputSwitch>
-            </div>
-
-            <div class="span2">
-                <div class="btn-group">
-                    <!--<button type="button" pButton icon="fa-edit" label="{{getCurrentLabelValue('lblEdit')}}" (click)="editCompany(company.id)"></button>-->
-                    <input type="button" value="{{getCurrentLabelValue('lblEdit')}}" class="btn btn-primary"
-                        (click)="editCompany(company.id)">
->>>>>>> master
                 </div>
             </div>
 

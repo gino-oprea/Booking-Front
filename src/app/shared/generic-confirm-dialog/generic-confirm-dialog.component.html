@@ -1,12 +1,14 @@
-<p>{{confirmMessage}}</p>
+<p class="py-2">{{confirmMessage}}</p>
 <footer>
   <div>
-    <re-captcha [ngStyle]="{'display': useCaptcha?'':'none'}" *ngIf="useCaptcha" #captchaRef (resolved)="onResolvedCaptcha($event)"
-      siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
+    <re-captcha [ngStyle]="{'display': useCaptcha?'':'none'}" *ngIf="useCaptcha" #captchaRef
+      (resolved)="onResolvedCaptcha($event)" siteKey="6LeVnM8UAAAAAJFBBcJNj4ceTxF7R55dH1LxQQRe"></re-captcha>
   </div>
-  <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-    <button type="button" pButton (click)="onCancelClick()" [label]="getCurrentLabelValue('lblNo')"></button>
-    <button type="button" [disabled]="useCaptcha && !validCaptcha" pButton (click)="onConfirmClick()"
-      [label]="getCurrentLabelValue('lblYes')" style="margin-left: 5px;"></button>
+  <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix mt-5">
+
+    <a class="btn btn-light" (click)="onCancelClick()"><i class="fa fa-undo"></i> {{getCurrentLabelValue('lblNo')}}</a>
+    <a (click)="onConfirmClick()" class="btn btn-primary mx-2"
+      [ngClass]="(useCaptcha && !validCaptcha)?'disabled':''"><i class="fa fa-check"></i> {{getCurrentLabelValue('lblYes')}}</a>
+
   </div>
 </footer>

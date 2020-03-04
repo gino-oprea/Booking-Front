@@ -28,6 +28,9 @@ import { GenericDictionaryItem } from './objects/generic-dictionary-item';
 export class HeaderComponent extends BaseComponent implements OnInit 
 {
 
+
+  public COMP_LOGO = require("./img/logo.png");
+
   cultures: SelectItem[];
   selectedCulture: string = !!localStorage.getItem('b_front_culture') ? localStorage.getItem('b_front_culture') : 'RO';
   loginForm: FormGroup;

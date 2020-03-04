@@ -1,9 +1,4 @@
 {
-<<<<<<< HEAD
   "api_endpoint": "http://api.booxy.ro/api/",
   "token_api_endpoint": "http://identity.booxy.ro/connect/token"
-=======
-  "api_endpoint": "http://api.staging.booxy.ro/api/",
-  "token_api_endpoint": "http://identity.staging.booxy.ro/connect/token"
->>>>>>> master
 }

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-2">
-    <a [routerLink]="['/searchcompany']"><img src="/app/img/logo.png"></a>
+    <a [routerLink]="['/searchcompany']"><img [src]="COMP_LOGO"></a>
   </div>
   <div class="col-md-3">
     <div class="form-inline my-2 my-lg-0">
@@ -198,7 +198,7 @@
 </p-dialog>
 
 <p-dialog header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmAddCompany"
-  (onHide)="onCloseAddCompanyDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="350">
+  (onHide)="onCloseAddCompanyDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="400">
   <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblConfirmCreateNewCompany')"
     (onConfirm)="onConfirmAddCompany($event)" [useCaptcha]="true" [resetCaptcha]="resetCaptcha">
   </bf-generic-confirm-dialog>
