@@ -62,6 +62,9 @@
           <div class="dropdown-item">
             <a [routerLink]="['/mybookings']" class="pointer">{{getCurrentLabelValue('lblMyBookings')}}</a>
           </div>
+          <div class="dropdown-item">
+            <a [routerLink]="['/favourites']" class="pointer">Favourites</a>
+          </div>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item bg-light">
             <a (click)="onLogout()" class="pointer"><i class="fa fa-sign-out text-secondary fa-lg"></i> Logout</a>
