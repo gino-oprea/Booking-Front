@@ -1,20 +1,27 @@
-<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblTimetables')}}</legend>
-<div class="row" style="height: 5%;margin-left: 5px;">
-  <div class="col-md-2" style="padding:5px;">
-    <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" style="height: 100%; width: 60%;">
+<div class="row">
+  <div class="col-md-12 my-2">
+    <h3>{{getCurrentLabelValue('lblTimetables')}}</h3>
+  </div>
+</div>
+
+<div class="alert alert-info">
+<div class="row">
+  <div class="col-md-2">
+    <select [(ngModel)]="selectedWhId" (change)="onDdlChangeWH()" class="form-control">
       <option *ngFor="let wh of customWorkingHours; let i=index;" [value]="wh.id">{{wh.name}}</option>
     </select>
+    </div>
+    <div class="col-md-1">
     <button type="button" *ngIf="selectedWhId!=0 &&  selectedWhId!=-1" (click)="showAddEditCustomWHDialog(false)"
-      style="width: 20%;" class="btn btn-primary">
-      <i class="fa fa-edit"></i>
-    </button>
-    <button type="button" style="width: 20%;" class="btn btn-primary" (click)="showAddEditCustomWHDialog(true)">
-      <i class="fa fa-plus"></i>
-    </button>
+      class="btn btn-success btn-sm"> <i class="fa fa-edit"></i></button>
+    <button type="button" class="btn btn-primary btn-sm mx-1" (click)="showAddEditCustomWHDialog(true)">
+      <i class="fa fa-plus"></i></button>
   </div>
-  <div class="col-md-4" style="padding:5px;">* {{getCurrentLabelValue('lblTimetablesWarning')}}.</div>
+  <div class="col-md-9">* {{getCurrentLabelValue('lblTimetablesWarning')}}.</div>
 </div>
-<div class="row" style="height: 95%;">
+</div>
+
+<div class="row">
   <div class="col-md-12" style="height: 100%; overflow: auto;">
     <bf-working-hours [workingHours]="selectedWorkingHours" (selectTimeSlot)="onUpdateWorkingHours($event)"
       [workingHoursBounds]="companyWorkingHours"></bf-working-hours>
@@ -25,6 +32,7 @@
   [responsive]="true" showEffect="fade" [modal]="true" width="400">
   <form class="form-horizontal" style="height: 100%" id="addCustomWH-form" [formGroup]="addCustomWHForm"
     (ngSubmit)="onAddEditCustomWH()">
+
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4">
@@ -37,12 +45,12 @@
       </div>
     </div>
     <footer>
-      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix my-2">
         <button type="submit" (click)="setCustomWHSubmitType(true)" [disabled]="!addCustomWHForm.valid"
           class="btn btn-success">
           <i class="fa fa-check"> {{getCurrentLabelValue('lblSave')}}</i>
         </button>
-        <button type="submit" (click)="setCustomWHSubmitType(false)" *ngIf="!isAddCustomWHMode" class="btn btn-danger">
+        <button type="submit" (click)="setCustomWHSubmitType(false)" *ngIf="!isAddCustomWHMode" class="btn btn-danger mx-2">
           <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
         </button>
       </div>

@@ -14,10 +14,10 @@
         </select>
       </div>
       <div class="col-md-3">
-        <button type="button" class="btn btn-sm btn-success" (click)="showLevelDialog(false)">
+        <button type="button" class="btn btn-sm btn-primary" (click)="showLevelDialog(false)">
           <i class="fa fa-edit"></i>
         </button>
-        <button type="button" class="btn btn-sm btn-primary mx-2" (click)="showLevelDialog(true)">
+        <button type="button" class="btn btn-sm btn-success mx-2" (click)="showLevelDialog(true)">
           <i class="fa fa-plus"></i>
         </button>
       </div>
@@ -37,8 +37,8 @@
           <th>{{getCurrentLabelValue('lblEntityName_RO')}}</th>
           <th>{{getCurrentLabelValue('lblEntityName_EN')}}</th>
           <th style="width:75px">
-            <a (click)="showAddEntityDialog()" class="text-success pointer">
-              <i class="fa fa-plus-circle fa-lg"></i>
+            <a (click)="showAddEntityDialog()" class="btn btn-sm btn-success pointer text-white">
+              <i class="fa fa-plus"></i>
             </a>
           </th>
         </tr>
@@ -48,8 +48,8 @@
           <td>{{entity.entityName_RO}}</td>
           <td>
           <td style="width:75px">
-            <a (click)="editEntity(entity.id)">
-              <i class="fa fa-edit fa-lg text-primary"></i>
+            <a (click)="editEntity(entity.id)" class="btn btn-sm btn-primary text-white"> 
+              <i class="fa fa-edit"></i>
             </a>
           </td>
         </tr>
@@ -64,12 +64,12 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:180px;text-align:center">{{getCurrentLabelValue('lblName_RO')}}</th>
-          <th style="width:180px;text-align:center">{{getCurrentLabelValue('lblName_EN')}}</th>
-          <th style="width:180px;text-align:center">{{getCurrentLabelValue('lblType')}}</th>
-          <th style="width:180px;text-align:center">{{getCurrentLabelValue('lblAllowUserOption')}}</th>
-          <th style="width:50px;text-align:center">
-            <button type="button" class="btn btn-primary" (click)="showAddLevelCharacteristicDialog(true)">
+          <th>{{getCurrentLabelValue('lblName_RO')}}</th>
+          <th>
+          <th>
+          <th>
+          <th style="width:75px">
+            <button type="button" class="btn btn-sm btn-success" (click)="showAddLevelCharacteristicDialog(true)">
               <i class="fa fa-plus"></i>
             </button>
           </th>
@@ -77,14 +77,14 @@
       </ng-template>
       <ng-template pTemplate="body" let-characteristic>
         <tr [pSelectableRow]="characteristic">
-          <td style="width:180px;text-align:center">{{characteristic.characteristicName_RO}}</td>
-          <td style="width:180px;text-align:center">{{characteristic.characteristicName_EN}}</td>
-          <td style="width:180px;text-align:center">{{characteristic.levelFieldType_EN}}</td>
-          <td style="width:180px;text-align:center">
+          <td>{{characteristic.characteristicName_RO}}</td>
+          <td>{{characteristic.characteristicName_EN}}</td>
+          <td>{{characteristic.levelFieldType_EN}}</td>
+          <td>
             <input type="checkbox" [checked]="characteristic.isFrontOption" disabled="true" />
           </td>
-          <td style="width:50px;text-align:center">
-            <button type="button" class="btn btn-primary"
+          <td style="width:75px">
+            <button type="button" class="btn btn-sm btn-primary"
               (click)="selectedLevelCharacteristic = characteristic; showAddLevelCharacteristicDialog(false)">
               <i class="fa fa-edit"></i>
             </button>
