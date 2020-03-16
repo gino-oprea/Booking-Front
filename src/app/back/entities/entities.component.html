@@ -278,16 +278,16 @@
 
 <p-dialog header="{{selectedDate==null ? '' : (selectedDate | date:'dd.MMM.yyyy')}}"
   [(visible)]="displayDialogSpecialDays" [responsive]="true" showEffect="fade" [modal]="false" width="700" height="600">
-  <div style="width: 650px;height: 450px;overflow: auto">
+  <div style="width: 650px;height: 500px;overflow: auto">
     <bf-working-hours [workingHours]="specialDayWorkingHours" [singleDay]="selectedWeekDayIndex"
       [workingHoursBounds]="companyWorkingHours" (selectTimeSlot)="onUpdateWorkingHoursSpecialDay($event)">
     </bf-working-hours>
   </div>
-  <footer>
+  <footer class="mt-2">
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
       <input type="button" [value]="getCurrentLabelValue('lblDelete')" class="btn btn-danger"
         (click)="removeSpecialDay()">
-      <input type="button" [value]="getCurrentLabelValue('lblSave')" class="btn btn-success" (click)="saveSpecialDay()">
+      <input type="button" [value]="getCurrentLabelValue('lblSave')" class="btn btn-success mx-2" (click)="saveSpecialDay()">
       <p-checkbox binary="true" label="{{getCurrentLabelValue('lblRepeatEveryYear')}}" [(ngModel)]="isRepeatEveryYear">
       </p-checkbox>
     </div>

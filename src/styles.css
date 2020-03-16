@@ -5,3 +5,6 @@
 .ui-dropdown {
   min-width: auto!important;
 }
+.tab-content {
+  margin-bottom: 50px;
+}
