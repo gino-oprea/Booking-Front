@@ -1,25 +1,37 @@
-<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblBookingsManagement')}}</legend>
-<div class="row" style="height: 5%; margin-bottom: 10px;">
-  <div class="col-md-12" style="height: 100%;">
-    {{getCurrentLabelValue('lblSearchBy')}}
-    <select style="margin-left: 5px;" [(ngModel)]="searchType">
-      <option *ngFor="let type of searchTypes" [value]="type.id">{{getCurrentLabelValue(type.value)}}</option>
-    </select>
-    <input type="text" style="margin-left: 5px; width: 150px; padding: 2px;" placeholder="{{getCurrentLabelValue('lblSearchTerms')}}"
-      [(ngModel)]="searchString">
-    <button class="btn btn-primary from-control" style="margin-left: 5px;" (click)="searchBooking()"><i
-        class="fa fa-search"></i></button>
-    <button class="btn btn-primary from-control" style="margin-left: 5px;" (click)="clearSearchBooking()"><i
-        class="fa fa-undo"></i></button>
+<div class="row">
+  <div class="col-md-12 my-2">
+    <h3>{{getCurrentLabelValue('lblBookingsManagement')}}</h3>
   </div>
 </div>
-<div class="row" style="height:95%">
+
+<div class="alert alert-info">
+
+<div class="row">
+  <div class="col-md-2">{{getCurrentLabelValue('lblSearchBy')}}
+  </div>
+  <div class="col-md-2">
+    <select class="form-control" [(ngModel)]="searchType">
+      <option *ngFor="let type of searchTypes" [value]="type.id">{{getCurrentLabelValue(type.value)}}</option>
+    </select>
+  </div>
+  <div class="col-md-2"><input type="text" placeholder="{{getCurrentLabelValue('lblSearchTerms')}}"
+      [(ngModel)]="searchString" class="form-control">
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-primary" (click)="searchBooking()"><i class="fa fa-search"></i></button>
+    <button class="btn btn-light" (click)="clearSearchBooking()"><i class="fa fa-undo"></i></button>
+  </div>
+</div>
+</div>
+<div class="row">
   <div class="col-md-2" style="height:100%;">
+    <div class="alert alert-info">
     <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="shiftedDate"
       (filterChanged)="filterChanged($event)">
     </bf-booking-filter2>
+    </div>
   </div>
-  <div *ngIf="bookingDefaultDuration" class="col-md-10" style="height:100%; overflow-x: auto;">
+  <div *ngIf="bookingDefaultDuration" class="col-md-10">
     <bf-booking-hours *ngIf="!showCalendarBooking" [idCompany]="idCompany" [selectedFilter]="selectedFilter"
       [bookingSearchFilter]="bookingSearchFilter" [allowFullCalendarNavigation]="true"
       (selectDate)="onShiftWeek($event)" (selectTimeSlot)="onSelectBookingHour($event)"></bf-booking-hours>
@@ -27,29 +39,46 @@
 </div>
 
 <p-dialog header="{{getCurrentLabelValue('lblBookingsManagement')}}" (onHide)="onCloseManageBookingsDialog()" [(visible)]="displayDialogConfirmBooking"
-  [responsive]="true" showEffect="fade" [modal]="true" width="1200">
-  <ul class="nav nav-tabs">
-    <li (click)="selectTab('add')" [class.disabled]="!isAddTabEnabled" [class.active]="tabs.add.active"
-      style="cursor: pointer;">
-      <a style="color: black"><i class="fa fa-calendar-plus-o"></i> {{getCurrentLabelValue('lblAddBooking')}}</a>
-    </li>
-    <li (click)="selectTab('edit')" [class.active]="tabs.edit.active" style="cursor: pointer;">
-      <a style="color: black;"><i class="fa fa-edit"></i> {{getCurrentLabelValue('lblEditBooking')}}</a>
-    </li>
-  </ul>
-  <div [hidden]="!tabs.add.active">
+  [responsive]="true" showEffect="fade" [modal]="true" width="1000">
+
+  <div class="container-fluid">
+<div class="row">
+  <div class="col-md-12">
+
+    <ul class="nav nav-tabs mb-2" id="myTab1" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details"
+          aria-selected="true">
+          <i class="fa fa-calendar-plus-o"></i> {{getCurrentLabelValue('lblAddBooking')}}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="time-tab" data-toggle="tab" href="#time" role="tab" aria-controls="time"
+          aria-selected="false">
+          <i class="fa fa-edit"></i> {{getCurrentLabelValue('lblEditBooking')}}
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTab1Content">
+      <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
     <bf-booking-confirm-dialog [isBookingByDay]="showCalendarBooking"
       [selectedDayTime]="selectedBookingHourTransferObject?selectedBookingHourTransferObject.workingDay:null"
       [autoAssignedEntityCombination]="autoAssignedEntityCombination" [idCompany]="idCompany" [isAdminAddBooking]="true"
       (bookingSaved)="bookingSaved($event)"></bf-booking-confirm-dialog>
-  </div>
-  <div [hidden]="!tabs.edit.active">
+        </div>
+
+      <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">
     <p *ngIf="timeslotBookings.length==0">{{getCurrentLabelValue('lblNoBookingsSavedYet')}}</p>
     <bf-booking-management-dialog [bookings]="timeslotBookings" [idCompany]="idCompany"
       (bookingRemoved)="deleteBooking($event)" (bookingCanceled)="cancelBooking($event)"
       (bookingMoved)="editBooking($event)"></bf-booking-management-dialog>
 
+      </div>
+    </div>
   </div>
+</div>
+</div>
+
 </p-dialog>
 
 <p-growl [value]="pageMsgs"></p-growl>

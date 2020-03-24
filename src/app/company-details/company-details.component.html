@@ -1,77 +1,68 @@
-<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblCompanyDetails')}}</legend>
-<div class="row" style="margin-right: 0px;height: 100%;">
-  <div *ngIf="company" class="col-md-6" style="height: 100%;">
-    <form class="form-horizontal" style="height: 100%" id="user-form">
-      <div class="form-group" style="height: 6%;">
+<div class="row">
+  <div class="col-md-12 my-2">
+    <h3>{{getCurrentLabelValue('lblCompanyDetails')}}</h3>
+  </div>
+</div>
+
+
+<div class="row">
+  <div *ngIf="company" class="col-md-6">
+    <form class="form-horizontal" id="user-form">
+      <div class="row">
         <label class="col-md-2 control-label" for="name">{{getCurrentLabelValue('lblName')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea"
-            readonly="readonly">{{company.name}}</textarea>
+          <input type="text" class="form-control-plaintext" readonly value="{{company.name}}">
         </div>
       </div>
-
-      <div class="form-group" style="height: 15%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="description">{{getCurrentLabelValue('lblDescription')}}:</label>
-        <div class="col-md-10" style="height: 100%">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">
-            {{currentCulture == 'EN' ? company.description_EN : company.description_RO}}</textarea>
+        <div class="col-md-10">
+          <input type="text" class="form-control-plaintext" readonly value="{{currentCulture == 'EN' ? company.description_EN : company.description_RO}}">
         </div>
       </div>
-
-      <div class="form-group" style="height: 6%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="category">{{getCurrentLabelValue('lblCategory')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">
-            {{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}
-          </textarea>
+          <input type="text" class="form-control-plaintext" readonly value="{{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}">
         </div>
       </div>
-      <div class="form-group" style="height: 6%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="subcategory">{{getCurrentLabelValue('lblSubCategory')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">
-            {{currentCulture == 'EN' ? company.subcategoryName_EN : company.subcategoryName_RO}}
-          </textarea>
+          <input type="text" class="form-control-plaintext" readonly value="{{currentCulture == 'EN' ? company.subcategoryName_EN : company.subcategoryName_RO}}">
         </div>
       </div>
-
-      <div class="form-group" style="height: 6%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="county">{{getCurrentLabelValue('lblCounty')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.countyName}}
-          </textarea>
+          <input type="text" class="form-control-plaintext" readonly value="{{company.countyName}}">
         </div>
       </div>
-      <div class="form-group" style="height: 6%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="city">{{getCurrentLabelValue('lblCity')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.cityName}}
-          </textarea>
+          <input type="text" class="form-control-plaintext" readonly value="{{company.cityName}}">
         </div>
       </div>
-
-      <div class="form-group" style="height: 6%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="address">{{getCurrentLabelValue('lblAddress')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.address}}
-          </textarea>
+          <input type="text" class="form-control-plaintext" readonly value="{{company.address}}">
         </div>
       </div>
-      <div class="form-group" style="height: 6%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="email">Email:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.email}}
-          </textarea>
+          <input type="text" class="form-control-plaintext" readonly value="{{company.email}}">
         </div>
       </div>
-      <div class="form-group" style="height: 6%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="phone">{{getCurrentLabelValue('lblPhone')}}:</label>
         <div class="col-md-10">
-          <textarea type="text" class="form-control input-md readonly-textarea" readonly="readonly">{{company.phone}}
-          </textarea>
+          <input type="text" class="form-control-plaintext" readonly value="{{company.phone}}">
         </div>
       </div>
-      <div class="form-group" style="height: 6%;">
+      <div class="row">
         <label class="col-md-2 control-label" for="phone">{{getCurrentLabelValue('lblWorkingHours')}}</label>
         <div class="col-md-10">
           <ul *ngIf="companyWorkingHours">
@@ -101,12 +92,12 @@
       </div>
     </form>
   </div>
-  <div class="col-md-6" style="height: 100%;">
-    <div class="row" style="height: 25%;">
-      <div class="col-md-12" style="height: 100%!important; overflow: auto;">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
         <ul *ngIf="images.length>0" class="imgList">
-          <li *ngFor="let img of images; let i=index" style="padding-left: 1px;padding-right: 1px;">
-            <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)"
+          <li *ngFor="let img of images; let i=index">
+            <img class="img-thumbnail" [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)"
               style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
           </li>
         </ul>
@@ -115,9 +106,9 @@
       </div>
     </div>
     <br>
-    <div class="row" style="height: 65%;">
+    <div class="row">
       <div class="col-md-12" style="height: 100%;">
-        <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'100%'}" [overlays]="gMapOverlays">
+        <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'450px'}" [overlays]="gMapOverlays">
         </p-gmap>
       </div>
     </div>

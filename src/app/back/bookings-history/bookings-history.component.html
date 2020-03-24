@@ -1,27 +1,55 @@
-<legend *ngIf="!isDialog" style="margin-bottom: 10px;">{{getCurrentLabelValue('lblBookingsHistory')}}</legend>
-<div class="row" style="height: 7%;">
+<div class="row">
+  <div class="col-md-12 my-2">
+    <h3>{{getCurrentLabelValue('lblBookingsHistory')}}</h3>
+  </div>
+</div>
+
+
+<div class="row" *ngIf="!isDialog" >
   <div class="col-md-12">
+    <nav class="navbar navbar-expand-lg">
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item mr-2">
     <span>{{getCurrentLabelValue('lblStartDate')}}: </span>
+  </li>
+  <li class="nav-item mr-2">
     <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
       (onSelect)="loadBookings()" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
+  </li>
+  <li class="nav-item mr-2">
     <span> {{getCurrentLabelValue('lblEndDate')}}: </span>
+  </li>
+  <li class="nav-item mr-2">
     <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate"
       readonlyInput="true" (onSelect)="loadBookings()" dateFormat="dd.M.yy"></p-calendar>
+  </li>
+  <li class="nav-item mr-2">
     <span> {{getCurrentLabelValue('lblEntities')}}:</span>
-    <input type="text" style="width: 130px;" [(ngModel)]="filterEntity">
+  </li>
+  <li class="nav-item mr-2">
+    <input type="text" style="width: 130px;" [(ngModel)]="filterEntity" class="form-control">
+  </li>
+  <li class="nav-item mr-2">
     <span> Status:</span>
-    <select style="margin-left: 5px;" [(ngModel)]="filterIdStatus">
+  </li>
+  <li class="nav-item mr-2">
+    <select width="150" style="margin-left: 5px; max-width: 150px;" [(ngModel)]="filterIdStatus" class="form-control">
       <option selected="true" value="0">{{getCurrentLabelValue('lblAny')}}</option>
       <option value="1">{{getCurrentLabelValue('lblActive')}}</option>
       <option value="2">{{getCurrentLabelValue('lblHonored')}}</option>
       <option value="3">{{getCurrentLabelValue('lblCanceled')}}</option>
     </select>
-    <button class="btn btn-primary from-control" (click)="loadBookings()" style="margin-left: 15px;"><i
+  </li>
+  <li class="nav-item mr-2">
+    <button class="btn btn-primary" (click)="loadBookings()" style="margin-left: 15px;"><i
         class="fa fa-search"></i> {{getCurrentLabelValue('lblSearch')}}</button>
+  </li>
+</ul>
+</nav>
   </div>
 </div>
-<div class="row" style="height: 93%;">
-  <div class="col-md-12" style="height: 100%;">
+<div class="row">
+  <div class="col-md-12">
     <p-table #dt [value]="bookings" selectionMode="single" [responsive]="true" (onRowSelect)="displayBookingDialog=true"
       [(selection)]="selectedBooking" scrollable="true" scrollHeight="99%">
       <ng-template pTemplate="caption">
@@ -105,10 +133,12 @@
 
 <p-dialog appendTo="body" header="{{getCurrentLabelValue('lblSelectedBooking')}}" [(visible)]="displayBookingDialog"
   [responsive]="true" showEffect="fade" [modal]="true" width="1200">
+<div class="container-fluid">
   <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="selectedBooking!=null ? [selectedBooking] : null"
     [showDeleteButton]="false" [showCancelButton]="false" [showHonoredButton]="false"
     (bookingMoved)="onBookingMoved($event)" (onBookingsNone)="displayBookingDialog=false;">
   </bf-booking-management-dialog>
+</div>
 </p-dialog>
 
 

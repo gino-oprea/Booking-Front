@@ -1,14 +1,12 @@
 <div class="row">
   <div *ngFor="let level of filteredLevelsForDropdowns">
-    <div *ngIf="level.isFrontOption && !(isFilteredByEmployeeRole && level.idLevelType == 3 && currentUserIsEmployee)"
-      style="margin:2px;padding:2px;" class="container-fluid well span6 col-md-12">
-      <div class="row-fluid">
-        <div class="span8">
-          <h5>{{currentCulture == 'EN' ? level.levelName_EN : level.levelName_RO}}</h5>
+    <div *ngIf="level.isFrontOption && !(isFilteredByEmployeeRole && level.idLevelType == 3 && currentUserIsEmployee)">
+      <div class="row">
+        <div class="col-12">
+          <b>{{currentCulture == 'EN' ? level.levelName_EN : level.levelName_RO}}</b>
         </div>
-        <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="span2"
-          style="margin-bottom: 5px;">
-          <select *ngIf="characteristic.isFrontOption && !isMoveBookingFilter"
+        <div *ngFor="let characteristic of level.levelCharacteristics; let i = index" class="col-12 my-2">
+          <select class="form-control" *ngIf="characteristic.isFrontOption && !isMoveBookingFilter"
             id="ddlLevelCharacteristics_{{level.id}}_{{characteristic.id}}"
             [(ngModel)]="getSelectedCharacteristic(level.id,characteristic.id).selectedValue"
             (change)="doFilterEntitiesByCharacteristics(level.id)">
@@ -21,8 +19,8 @@
             </option>
           </select>
         </div>
-        <div class="span2">
-          <select style="height: 30px;width: 200px; border-color: blue;" id="ddlLevelEntities"
+        <div class="col-12 my-2">
+          <select class="form-control" id="ddlLevelEntities"
             [(ngModel)]="getSelectedEntitiesByIdLevel(level.id).idEntity" (change)="doFilterEntities(level.id)">
             <option value="-1">Select {{currentCulture == 'EN' ? level.levelName_EN : level.levelName_RO}} / Reset
             </option>
@@ -39,14 +37,17 @@
   </div>
 </div>
 <div class="row">
+        <div class="col-12">
   <p-calendar [showIcon]="true" [(ngModel)]="selectedDate" (onSelect)="applyFilter()" [minDate]="today"
     placeholder="Date" [locale]="currentCulture == 'EN' ? en :ro" readonlyInput="true" dateFormat="dd.M.yy">
   </p-calendar>
-</div>
-<div *ngIf="!isMoveBookingFilter" class="row">
-  <button class="btn btn-primary from-control" (click)="resetFilters()">
+        </div>
+<div class="col-12 my-2">
+
+  <button *ngIf="!isMoveBookingFilter" class="btn btn-primary" (click)="resetFilters()">
     <i class="fa fa-refresh"></i> {{getCurrentLabelValue('lblResetFilters')}}
   </button>
+</div>
 </div>
 
 <p-growl [value]="pageMsgs"></p-growl>

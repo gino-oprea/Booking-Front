@@ -2,82 +2,82 @@
 <div class="row" style="height: 100%">
   <div id="wrapper" [ngClass]="{toggled:!sidebarShow}">
     <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-      <ul class="sidebar-nav" style="margin-left:0;">
-        <li style="cursor: pointer;" class="sidebar-brand" (click)="toggleSideBar()">
-          <a id="menu-toggle" style="margin-top:20px;float:right;">
-            <i class="fa fa-bars " style="font-size:20px !Important;" aria-hidden="true" aria-hidden="true"></i></a>
+    <div id="sidebar-wrapper" class="shadow-sm border-right">
+      <ul class="sidebar-nav pointer">
+        <li class="sidebar-brand" (click)="toggleSideBar()">
+          <a id="menu-toggle" class=" text-primary mt-2">
+            <i class="fa fa-bars " aria-hidden="true" aria-hidden="true"></i></a>
         </li>
-        <li *ngIf="hasModulePermission('Company general details')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company general details')"  data-toggle="tooltip" data-placement="right" title="{{getCurrentLabelValue('lblDetails')}}">
           <a [routerLink]="['generaldetails']" routerLinkActive="selectedCategory">
             <i class="fa fa-file-text-o " aria-hidden="true"></i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblDetails')}}</span>
+            <span> {{getCurrentLabelValue('lblDetails')}}</span>
           </a>
         </li>
-        <li *ngIf="hasModulePermission('Company levels')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company levels')"  data-toggle="tooltip" data-placement="right" title="{{getCurrentLabelValue('lblLevels')}}">
           <a [routerLink]="['levels']" routerLinkActive="selectedCategory">
             <i class="fa fa-server " aria-hidden="true"></i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblLevels')}}</span>
+            <span> {{getCurrentLabelValue('lblLevels')}}</span>
           </a>
         </li>
-        <li *ngIf="hasModulePermission('Company entities')" style="cursor: pointer;">
-          <a [routerLink]="['entities']" routerLinkActive="selectedCategory">
+        <li *ngIf="hasModulePermission('Company entities')">
+          <a [routerLink]="['entities']" routerLinkActive="selectedCategory" title="{{getCurrentLabelValue('lblEntities')}}">
             <i class="fa fa-child" aria-hidden="true"></i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblEntities')}}</span> </a>
+            <span> {{getCurrentLabelValue('lblEntities')}}</span> </a>
         </li>
-        <li *ngIf="hasModulePermission('Company timetables')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company timetables')">
           <a [routerLink]="['timetables']" routerLinkActive="selectedCategory">
             <i class="fa fa-clock-o" aria-hidden="true"></i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblTimetables')}}</span> </a>
+            <span> {{getCurrentLabelValue('lblTimetables')}}</span> </a>
         </li>
-        <li *ngIf="hasModulePermission('Company level linking')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company level linking')" title="{{getCurrentLabelValue('lblLevelLinking')}}">
           <a [routerLink]="['level-linking']" routerLinkActive="selectedCategory"> <i class="fa fa-sitemap"
               aria-hidden="true"> </i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblLevelLinking')}}</span> </a>
+            <span> {{getCurrentLabelValue('lblLevelLinking')}}</span> </a>
         </li>
-        <li *ngIf="hasModulePermission('Company bookings')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company bookings')" title="{{getCurrentLabelValue('lblBookings')}}">
           <a [routerLink]="['bookings']" routerLinkActive="selectedCategory">
             <i class="fa fa-calendar " aria-hidden="true"></i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblBookings')}}</span> </a>
+            <span> {{getCurrentLabelValue('lblBookings')}}</span> </a>
         </li>
-        <li *ngIf="hasModulePermission('Company bookings history')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company bookings history')" title="{{getCurrentLabelValue('lblBookingsHistory')}}">
           <a [routerLink]="['bookings-history']" routerLinkActive="selectedCategory">
             <i class="fa fa-history " aria-hidden="true"></i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblBookingsHistory')}}</span> </a>
+            <span> {{getCurrentLabelValue('lblBookingsHistory')}}</span> </a>
         </li>
-        <li *ngIf="hasModulePermission('Company clients')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company clients')" title="{{getCurrentLabelValue('lblClients')}}">
           <a [routerLink]="['clients']" routerLinkActive="selectedCategory">
-            <i class="fa fa-vcard-o" aria-hidden="true"> </i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblClients')}}</span> </a>
+            <i class="fa fa-vcard-o" aria-hidden="true"> </i> 
+            <span>{{getCurrentLabelValue('lblClients')}} </span> </a>
         </li>
-        <li *ngIf="hasModulePermission('Company security')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company security')" title="{{getCurrentLabelValue('lblUsers')}}">
           <a [routerLink]="['company-security']" routerLinkActive="selectedCategory">
             <i class="fa fa-user-o" aria-hidden="true"> </i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblUsers')}}</span> </a>
+            <span> {{getCurrentLabelValue('lblUsers')}}</span> </a>
         </li>
-        <!-- <li style="cursor: pointer;">
+        <!-- <li>
           <a [routerLink]="['reviews']" routerLinkActive="selectedCategory"> <i class="fa fa-thumbs-o-up"
               aria-hidden="true"> </i>
-            <span style="margin-left:10px;"> Reviews</span> </a>
+            <span> Reviews</span> </a>
         </li>
-        <li style="cursor: pointer;">
+        <li>
           <a> <i class="fa fa-cogs" aria-hidden="true"> </i>
-            <span style="margin-left:10px;"> Settings</span> </a>
+            <span> Settings</span> </a>
         </li> -->
-        <li *ngIf="hasModulePermission('Company dashboard')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company dashboard')" title="{{getCurrentLabelValue('lblDashboard')}}">
           <a [routerLink]="['dashboard']" routerLinkActive="selectedCategory">
             <i class="fa fa-line-chart" aria-hidden="true"> </i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblDashboard')}}</span> </a>
+            <span> {{getCurrentLabelValue('lblDashboard')}}</span> </a>
         </li>
-        <li *ngIf="hasModulePermission('Company logs')" style="cursor: pointer;">
+        <li *ngIf="hasModulePermission('Company logs')" title="{{getCurrentLabelValue('lblLogs')}}">
           <a [routerLink]="['company-logs']" routerLinkActive="selectedCategory">
             <i class="fa fa-database" aria-hidden="true"> </i>
-            <span style="margin-left:10px;"> {{getCurrentLabelValue('lblLogs')}}</span> </a>
+            <span> {{getCurrentLabelValue('lblLogs')}}</span> </a>
         </li>
-        <!-- <li style="cursor: pointer;">
+        <!-- <li>
           <a [routerLink]="['subscription']" routerLinkActive="selectedCategory"> <i class="fa fa-credit-card"
               aria-hidden="true"> </i>
-            <span style="margin-left:10px;"> Subscription</span> </a>
+            <span> Subscription</span> </a>
         </li> -->
       </ul>
     </div>

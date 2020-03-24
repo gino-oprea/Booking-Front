@@ -38,6 +38,7 @@ export class TimetablesComponent extends BaseComponent implements OnInit
     private companyService: CompanyService)
   {
     super(injector, [
+      'lblTimetables',
       'lblTimetablesWarning',
       'lblName',
       'lblEdit',
