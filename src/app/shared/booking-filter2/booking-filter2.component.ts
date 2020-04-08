@@ -39,6 +39,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
   @Input() selectedDate: Date = new Date();
   @Input() isFilteredByEmployeeRole: boolean = false;
   @Input() doResetFilters: boolean = false;
+  @Input() isForAdmin: boolean = false;
   @Output() filterChanged = new EventEmitter<BookingFilter>();
 
   en: any;

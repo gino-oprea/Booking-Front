@@ -101,7 +101,7 @@
       <b> {{getCurrentLabelValue('lblMoveSelectedBookingTo')}}:</b>
 
       <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate"
-        [doResetFilters]="doResetMoveFilter" [isMoveBookingFilter]="true"
+        [doResetFilters]="doResetMoveFilter" [isMoveBookingFilter]="true" [isForAdmin]="true"
         (filterChanged)="moveBookingfilterChanged($event)">
       </bf-booking-filter2>
       <div>{{getCurrentLabelValue('lblNewStartTime')}}:
