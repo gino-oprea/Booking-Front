@@ -91,6 +91,12 @@
         </div>
       </div>
     </form>
+    
+<button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary from-control"
+  (click)="goToBooking(idCompany,companyName)"><i class="fa fa-arrow-right"></i>
+  {{getCurrentLabelValue('lblBookNow')}}</button>
+<span *ngIf="company && !company.allowOnlineBookings">{{getCurrentLabelValue('lblCompanyNotAllowBookings')}}.</span>
+
   </div>
   <div class="col-md-6">
     <div class="row">
@@ -121,8 +127,3 @@
   <img *ngIf="selectedImage!=null" [src]="'data:image/png;base64,'+selectedImage.img"
     style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">
 </p-dialog>
-
-<button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary from-control"
-  (click)="goToBooking(idCompany,companyName)"><i class="fa fa-arrow-right"></i>
-  {{getCurrentLabelValue('lblBookNow')}}</button>
-<span *ngIf="company && !company.allowOnlineBookings">{{getCurrentLabelValue('lblCompanyNotAllowBookings')}}.</span>

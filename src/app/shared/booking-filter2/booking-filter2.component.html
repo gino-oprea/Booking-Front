@@ -28,26 +28,25 @@
               {{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</option>
           </select>
           <div *ngIf="getSelectedImage(level.id)!=null && !isMoveBookingFilter">
-            <img [src]="'data:image/png;base64,'+getSelectedImage(level.id)"
-              style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
+            <img [src]="'data:image/png;base64,'+getSelectedImage(level.id)" class="w-100 mt-1 border p-1 bg-white">
           </div>
         </div>
       </div>
+    </div></div>
     </div>
-  </div>
-</div>
-<div class="row">
-        <div class="col-12">
-  <p-calendar [showIcon]="true" [(ngModel)]="selectedDate" (onSelect)="applyFilter()" [minDate]="today"
-    placeholder="Date" [locale]="currentCulture == 'EN' ? en :ro" readonlyInput="true" dateFormat="dd.M.yy">
-  </p-calendar>
-        </div>
-<div class="col-12 my-2">
-
-  <button *ngIf="!isMoveBookingFilter" class="btn btn-primary" (click)="resetFilters()">
-    <i class="fa fa-refresh"></i> {{getCurrentLabelValue('lblResetFilters')}}
-  </button>
-</div>
-</div>
-
-<p-growl [value]="pageMsgs"></p-growl>
+    <div class="row">
+      <div class="col-12 my-2">
+        <p-calendar [showIcon]="true" [(ngModel)]="selectedDate" (onSelect)="applyFilter()" [minDate]="today"
+          placeholder="Date" [locale]="currentCulture == 'EN' ? en :ro" readonlyInput="true" dateFormat="dd.M.yy"
+          styleClass="px-0 mx-0" inputStyleClass="w-75" icon="fa fa-calendar">
+        </p-calendar>
+      </div>
+      <div class="col-12">
+    
+        <button *ngIf="!isMoveBookingFilter" class="btn btn-primary" (click)="resetFilters()">
+          <i class="fa fa-refresh"></i> {{getCurrentLabelValue('lblResetFilters')}}
+        </button>
+      </div>
+    </div>
+    
+    <p-growl [value]="pageMsgs"></p-growl>

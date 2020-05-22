@@ -8,18 +8,14 @@
 
     <div class="row">
       <div class="col-md-9">
-        <select [(ngModel)]="selectedLevel" (change)="onDdlChangeLevel()" class="form-control">
+        <select [(ngModel)]="selectedLevel" (change)="onDdlChangeLevel()" class="form-control form-control-sm">
           <option *ngFor="let l of levels" [value]="l.id">{{currentCulture == 'EN' ? l.levelName_EN : l.levelName_RO}}
           </option>
         </select>
       </div>
       <div class="col-md-3">
-        <button type="button" class="btn btn-sm btn-primary" (click)="showLevelDialog(false)">
-          <i class="fa fa-edit"></i>
-        </button>
-        <button type="button" class="btn btn-sm btn-success mx-2" (click)="showLevelDialog(true)">
-          <i class="fa fa-plus"></i>
-        </button>
+          <i class="fa fa-edit fa-lg btn-primary p-2" (click)="showLevelDialog(false)"></i>
+          <i class="fa fa-plus fa-lg btn-success p-2 mx-2" (click)="showLevelDialog(true)"></i>
       </div>
     </div>
   </div>
@@ -36,10 +32,8 @@
         <tr>
           <th>{{getCurrentLabelValue('lblEntityName_RO')}}</th>
           <th>{{getCurrentLabelValue('lblEntityName_EN')}}</th>
-          <th style="width:75px">
-            <a (click)="showAddEntityDialog()" class="btn btn-sm btn-success pointer text-white">
-              <i class="fa fa-plus"></i>
-            </a>
+          <th style="width:65px">
+              <i class="fa fa-plus fa-lg text-success pointer" title="{{getCurrentLabelValue('lblAdd')}}" (click)="showAddEntityDialog()"></i>
           </th>
         </tr>
       </ng-template>
@@ -47,10 +41,8 @@
         <tr [pSelectableRow]="entity">
           <td>{{entity.entityName_RO}}</td>
           <td>
-          <td style="width:75px">
-            <a (click)="editEntity(entity.id)" class="btn btn-sm btn-primary text-white"> 
-              <i class="fa fa-edit"></i>
-            </a>
+          <td style="width:65px">
+              <i  class="fa fa-edit fa-lg text-primary pointer" title="{{getCurrentLabelValue('lblEdit')}}" (click)="editEntity(entity.id)"></i>
           </td>
         </tr>
       </ng-template>
@@ -68,10 +60,8 @@
           <th>
           <th>
           <th>
-          <th style="width:75px">
-            <button type="button" class="btn btn-sm btn-success" (click)="showAddLevelCharacteristicDialog(true)">
-              <i class="fa fa-plus"></i>
-            </button>
+          <th style="width:65px">
+            <i class="fa fa-plus fa-lg text-success pointer" title="{{getCurrentLabelValue('lblAdd')}}" (click)="showAddLevelCharacteristicDialog(true)"></i>
           </th>
         </tr>
       </ng-template>
@@ -83,11 +73,9 @@
           <td>
             <input type="checkbox" [checked]="characteristic.isFrontOption" disabled="true" />
           </td>
-          <td style="width:75px">
-            <button type="button" class="btn btn-sm btn-primary"
-              (click)="selectedLevelCharacteristic = characteristic; showAddLevelCharacteristicDialog(false)">
-              <i class="fa fa-edit"></i>
-            </button>
+          <td style="width:65px">
+
+              <i class="fa fa-edit fa-lg text-primary pointer" title="Edit" (click)="selectedLevelCharacteristic = characteristic; showAddLevelCharacteristicDialog(false)"></i>
           </td>
         </tr>
       </ng-template>
@@ -130,7 +118,7 @@
           class="btn btn-success">
           <i class="fa fa-check"> {{getCurrentLabelValue('lblSave')}}</i>
         </button>
-        <button type="submit" (click)="setEntitySubmitType(false)" *ngIf="!isAddEntityMode" class="btn btn-danger">
+        <button type="submit" (click)="setEntitySubmitType(false)" *ngIf="!isAddEntityMode" class="btn btn-danger mx-1">
           <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
         </button>
       </div>
@@ -174,7 +162,7 @@
           <label for="ddlType_dialog">{{getCurrentLabelValue('lblType')}}:</label>
         </div>
         <div class="ui-grid-col-8">
-          <select formControlName="addLevelType" style="height: 100%;width: 100%;" (change)="onDdlChangeLevelType()">
+          <select formControlName="addLevelType" class="form-control form-control-sm" (change)="onDdlChangeLevelType()">
             <option *ngFor="let t of types" [value]="t.id">{{currentCulture == 'EN' ? t.value_EN : t.value_RO}}</option>
           </select>
         </div>
@@ -188,14 +176,13 @@
           <!-- <input id="duration" (keyup)="checkDuration($event.target.value)" type="text" 
           formControlName="duration" [ngClass]="{'valid-control':addLevelForm.controls['duration'].valid,
                         'invalid-control':!addLevelForm.controls['duration'].valid}" class="form-control"> -->
-          <select formControlName="duration" style="height: 100%;width: 100%;">
+          <select formControlName="duration" class="form-control form-control-sm">
             <option *ngFor="let d of durationArray" [value]="d.value">{{d.label}}</option>
           </select>
         </div>
         <div class="col-md-4">
           <select formControlName="duration_type"
-            (change)="loadDurationArray(this.addLevelForm.controls['duration_type'].value)"
-            style="height: 100%;width: 100%;">
+            (change)="loadDurationArray(this.addLevelForm.controls['duration_type'].value)" class="form-control form-control-sm">
             <option *ngFor="let t of durationTypes" [disabled]="t.id==3" [value]="t.id">
               {{currentCulture == 'EN' ? t.value_EN : t.value_RO}}</option>
           </select>
@@ -228,7 +215,7 @@
           class="btn btn-success">
           <i class="fa fa-check"> {{getCurrentLabelValue('lblSave')}}</i>
         </button>
-        <button type="submit" (click)="setLevelSubmitType(false)" *ngIf="!isAddLevelMode" class="btn btn-danger">
+        <button type="submit" (click)="setLevelSubmitType(false)" *ngIf="!isAddLevelMode" class="btn btn-danger mx-1">
           <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
         </button>
       </div>
@@ -273,7 +260,7 @@
           <label for="ddlFieldType_dialog">{{getCurrentLabelValue('lblType')}}:</label>
         </div>
         <div class="ui-grid-col-8">
-          <select id="ddlFieldType_dialog" formControlName="addLevelCharactFieldType" style="height: 100%;width: 100%;">
+          <select id="ddlFieldType_dialog" formControlName="addLevelCharactFieldType" class="form-control">
             <option *ngFor="let t of levelFieldTypes" [value]="t.id">
               {{currentCulture == 'EN' ? t.value_EN : t.value_RO}}</option>
           </select>
@@ -297,7 +284,7 @@
           <i class="fa fa-check"> {{getCurrentLabelValue('lblSave')}}</i>
         </button>
         <button type="submit" (click)="setCharacteristicSubmitType(false)" *ngIf="!isAddCharacteristicMode"
-          class="btn btn-danger">
+          class="btn btn-danger mx-1">
           <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
         </button>
       </div>

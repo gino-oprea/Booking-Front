@@ -5,109 +5,107 @@
 </div>
 
 
-<div class="row" *ngIf="!isDialog" >
-  <div class="col-md-12">
+<div class="row" *ngIf="!isDialog">
+  <div class="col-md-11">
     <nav class="navbar navbar-expand-lg">
-<ul class="navbar-nav mr-auto">
-  <li class="nav-item mr-2">
-    <span>{{getCurrentLabelValue('lblStartDate')}}: </span>
-  </li>
-  <li class="nav-item mr-2">
-    <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
-      (onSelect)="loadBookings()" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
-  </li>
-  <li class="nav-item mr-2">
-    <span> {{getCurrentLabelValue('lblEndDate')}}: </span>
-  </li>
-  <li class="nav-item mr-2">
-    <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate"
-      readonlyInput="true" (onSelect)="loadBookings()" dateFormat="dd.M.yy"></p-calendar>
-  </li>
-  <li class="nav-item mr-2">
-    <span> {{getCurrentLabelValue('lblEntities')}}:</span>
-  </li>
-  <li class="nav-item mr-2">
-    <input type="text" style="width: 130px;" [(ngModel)]="filterEntity" class="form-control">
-  </li>
-  <li class="nav-item mr-2">
-    <span> Status:</span>
-  </li>
-  <li class="nav-item mr-2">
-    <select width="150" style="margin-left: 5px; max-width: 150px;" [(ngModel)]="filterIdStatus" class="form-control">
-      <option selected="true" value="0">{{getCurrentLabelValue('lblAny')}}</option>
-      <option value="1">{{getCurrentLabelValue('lblActive')}}</option>
-      <option value="2">{{getCurrentLabelValue('lblHonored')}}</option>
-      <option value="3">{{getCurrentLabelValue('lblCanceled')}}</option>
-    </select>
-  </li>
-  <li class="nav-item mr-2">
-    <button class="btn btn-primary" (click)="loadBookings()" style="margin-left: 15px;"><i
-        class="fa fa-search"></i> {{getCurrentLabelValue('lblSearch')}}</button>
-  </li>
-</ul>
-</nav>
-  </div>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item mr-1">
+          <span>{{getCurrentLabelValue('lblStartDate')}}: </span>
+        </li>
+        <li class="nav-item mr-1">
+          <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
+            (onSelect)="loadBookings()" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
+        </li>
+        <li class="nav-item mr-1">
+          <span> {{getCurrentLabelValue('lblEndDate')}}: </span>
+        </li>
+        <li class="nav-item mr-1">
+          <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate"
+            readonlyInput="true" (onSelect)="loadBookings()" dateFormat="dd.M.yy"></p-calendar>
+        </li>
+        <li class="nav-item mr-1">
+          <span> {{getCurrentLabelValue('lblEntities')}}:</span>
+        </li>
+        <li class="nav-item mr-1">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="filterEntity">
+        </li>
+        <li class="nav-item mr-1">
+          <span> Status:</span>
+        </li>
+        <li class="nav-item mr-1">
+          <select [(ngModel)]="filterIdStatus" class="form-control form-control-sm">
+            <option selected="true" value="0">{{getCurrentLabelValue('lblAny')}}</option>
+            <option value="1">{{getCurrentLabelValue('lblActive')}}</option>
+            <option value="2">{{getCurrentLabelValue('lblHonored')}}</option>
+            <option value="3">{{getCurrentLabelValue('lblCanceled')}}</option>
+          </select>
+        </li>
+        <li class="nav-item mr-1">
+          <button class="btn btn-primary" (click)="loadBookings()" style="margin-left: 15px;"><i
+              class="fa fa-search"></i> {{getCurrentLabelValue('lblSearch')}}</button>
+        </li>
+      </ul>
+    </nav>
+
+    </div>
+    <div class="col-md-1"><button type="button" style="margin-right: 0.5em;" class="btn btn-sm btn-success" (click)="exportExcel()"><i
+        class="fa fa-file-excel-o"></i>
+      EXCEL</button>
+    </div>
 </div>
+
 <div class="row">
   <div class="col-md-12">
     <p-table #dt [value]="bookings" selectionMode="single" [responsive]="true" (onRowSelect)="displayBookingDialog=true"
-      [(selection)]="selectedBooking" scrollable="true" scrollHeight="99%">
-      <ng-template pTemplate="caption">
-        <div class="ui-helper-clearfix" style="text-align: left">
-          <button type="button" style="margin-right: 0.5em;" class="btn btn-success" (click)="exportExcel()"><i
-              class="fa fa-file-excel-o"></i>
-            EXCEL</button>
-        </div>
-      </ng-template>
+      [(selection)]="selectedBooking" scrollable="true" scrollHeight="400px">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center" [pSortableColumn]="'startDate'">
+          <th style="width: 120px;" [pSortableColumn]="'startDate'">
             {{getCurrentLabelValue('lblDate')}}
             <p-sortIcon [field]="'startDate'" ariaLabel="Activate to sort"
               ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
             </p-sortIcon>
           </th>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblTime')}}</th>
-          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'email'">
+          <th style="width: 120px;">{{getCurrentLabelValue('lblTime')}}</th>
+          <th *ngIf="!isDialog" [ngSwitch]="'email'">
             {{getCurrentLabelValue('lblEmail')}}
-            <input *ngSwitchCase="'email'" pInputText type="text" style="width: 130px;"
+            <input *ngSwitchCase="'email'" pInputText type="text" class="form-control form-control-sm"
               (input)="dt.filter($event.target.value, 'email', 'contains')">
           </th>
-          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'phone'">
+          <th style="width: 120px;" *ngIf="!isDialog" [ngSwitch]="'phone'">
             {{getCurrentLabelValue('lblPhone')}}
-            <input *ngSwitchCase="'phone'" pInputText type="text" style="width: 130px;"
+            <input *ngSwitchCase="'phone'" pInputText type="text" class="form-control form-control-sm"
               (input)="dt.filter($event.target.value, 'phone', 'contains')">
           </th>
-          <th *ngIf="!isDialog" style="width:150px;text-align:center" [ngSwitch]="'firstName'">
+          <th *ngIf="!isDialog" [ngSwitch]="'firstName'">
             {{getCurrentLabelValue('lblName')}}
-            <input *ngSwitchCase="'firstName'" pInputText type="text" style="width: 130px;"
+            <input *ngSwitchCase="'firstName'" pInputText type="text" class="form-control form-control-sm"
               (input)="dt.filter($event.target.value, 'firstName', 'contains')">
           </th>
-          <th style="width:250px;text-align:center">{{getCurrentLabelValue('lblEntities')}}</th>
-          <th style="width:150px;text-align:center">Status</th>
-          <th *ngIf="!isDialog" style="width:100px;text-align:center">
+          <th>{{getCurrentLabelValue('lblEntities')}}</th>
+          <th style="width: 120px;">Status</th>
+          <th style="width: 60px;">
           </th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-booking>
         <tr [pSelectableRow]="booking" [ngClass]="isFutureDate(booking.startDate) ? null : 'pastBooking'">
-          <td style="width:150px;text-align:center">{{booking.startDate | date:'dd MMM yyyy'}}</td>
-          <td style="width:150px;text-align:center">{{getBookingTimeString(booking)}}</td>
-          <td *ngIf="!isDialog" style="width:150px;text-align:center">{{booking.email}}</td>
-          <td *ngIf="!isDialog" style="width:150px;text-align:center">{{booking.phone}}</td>
-          <td *ngIf="!isDialog" style="width:150px;text-align:center">{{booking.firstName +' '+ booking.lastName}}</td>
-          <td style="width:250px;text-align:center">{{getBookingEntitiesCombinationString(booking)}}</td>
-          <td style="width:150px;text-align:center">
-            <button type="button" class="btn" (click)="displayStatusDialog = true; selectedBooking = booking;"
+          <td style="width: 120px;">{{booking.startDate | date:'dd MMM yyyy'}}</td>
+          <td style="width: 120px;">{{getBookingTimeString(booking)}}</td>
+          <td *ngIf="!isDialog" class="text-truncate" title="{{booking.email}}">{{booking.email}}</td>
+          <td style="width: 120px;" *ngIf="!isDialog">{{booking.phone}}</td>
+          <td *ngIf="!isDialog" class="text-truncate" title="{{booking.firstName +' '+ booking.lastName}}">{{booking.firstName +' '+ booking.lastName}}</td>
+          <td class="text-truncate" title="{{getBookingEntitiesCombinationString(booking)}}">{{getBookingEntitiesCombinationString(booking)}}</td>
+          <td style="width: 120px;">
+            <button type="button" class="btn btn-sm" (click)="displayStatusDialog = true; selectedBooking = booking;"
               [ngClass]="{'btn-primary': booking.idStatus == 1, 'btn-success': booking.idStatus == 2, 'btn-secondary': booking.idStatus == 3}">
               {{getBookingStatusString(booking.idStatus)}}
             </button>
           </td>
-          <td style="width:100px;text-align:center">
-            <button type="button" class="btn btn-danger"
-              (click)="displayConfirmDeleteBooking=true;idBooking=booking.id;">
-              <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
-            </button>
+          <td style="width: 60px;">
+            <i class="fa fa-trash text-danger fa-lg"
+              (click)="displayConfirmDeleteBooking=true;idBooking=booking.id;"></i>
+
           </td>
         </tr>
 
@@ -133,12 +131,12 @@
 
 <p-dialog appendTo="body" header="{{getCurrentLabelValue('lblSelectedBooking')}}" [(visible)]="displayBookingDialog"
   [responsive]="true" showEffect="fade" [modal]="true" width="1200">
-<div class="container-fluid">
-  <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="selectedBooking!=null ? [selectedBooking] : null"
-    [showDeleteButton]="false" [showCancelButton]="false" [showHonoredButton]="false"
-    (bookingMoved)="onBookingMoved($event)" (onBookingsNone)="displayBookingDialog=false;">
-  </bf-booking-management-dialog>
-</div>
+  <div class="container-fluid">
+    <bf-booking-management-dialog [idCompany]="idCompany" [bookings]="selectedBooking!=null ? [selectedBooking] : null"
+      [showDeleteButton]="false" [showCancelButton]="false" [showHonoredButton]="false"
+      (bookingMoved)="onBookingMoved($event)" (onBookingsNone)="displayBookingDialog=false;">
+    </bf-booking-management-dialog>
+  </div>
 </p-dialog>
 
 
