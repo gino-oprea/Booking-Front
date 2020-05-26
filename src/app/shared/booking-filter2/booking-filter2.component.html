@@ -1,6 +1,6 @@
 <div class="row">
   <div *ngFor="let level of filteredLevelsForDropdowns">
-    <div *ngIf="level.isFrontOption && !(isFilteredByEmployeeRole && level.idLevelType == 3 && currentUserIsEmployee)">
+    <div *ngIf="(level.isFrontOption || isForAdmin) && !(isFilteredByEmployeeRole && level.idLevelType == 3 && currentUserIsEmployee)">
       <div class="row">
         <div class="col-12">
           <b>{{currentCulture == 'EN' ? level.levelName_EN : level.levelName_RO}}</b>

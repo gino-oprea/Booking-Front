@@ -203,7 +203,7 @@
 <p-dialog header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmAddCompany"
   (onHide)="onCloseAddCompanyDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="400">
   <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblConfirmCreateNewCompany')"
-    (onConfirm)="onConfirmAddCompany($event)" [useCaptcha]="true" [resetCaptcha]="resetCaptcha">
+    (onConfirm)="onConfirmAddCompany($event)" [useCaptcha]="false" [resetCaptcha]="resetCaptcha">
   </bf-generic-confirm-dialog>
 </p-dialog>
 

@@ -319,18 +319,30 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
     {
       this.isSelecting = true;
 
+      
+
       //this.parentDiv.nativeElement.offsetLeft
       //var x = (e.pageX - this.parentDiv.nativeElement.offsetLeft) + this.window.pageXOffset;  
     
       //var bodyRect = document.body.getBoundingClientRect();
-      var parentDivRect = document.getElementById('parentDiv').getBoundingClientRect();
-      var offsetTop = parentDivRect.top;// - bodyRect.top;
-      var offsetLeft = parentDivRect.left;// - bodyRect.left;
+      var parentDivRect = document.getElementById('selectorParentDiv').getBoundingClientRect();
+      var offsetTop = parentDivRect.top;
+      var offsetLeft = parentDivRect.left;
+      var scrollTop = document.getElementById('html_El').scrollTop;
 
-      let pageX = e.pageX - offsetLeft + 15;// - 35;      
-      let pageY = e.pageY - offsetTop + 80; //- 138;
-      if (this.IsCompanyWorkingHours)
-        pageY = e.pageY - offsetTop + 48 + 80; //- 138;
+      // console.log('x: ' + e.pageX + ' y: ' + e.pageY);
+      // console.log('div top: ' + offsetTop + ' div left: ' + offsetLeft);
+
+      // document.querySelectorAll('*').forEach(e =>
+      // {
+      //   if (e.clientHeight < e.scrollHeight)
+      //     console.log(e);
+      // });
+
+      let pageX = e.pageX - offsetLeft;// - 35;      
+      let pageY = e.pageY - offsetTop - scrollTop; //- 138;
+      // if (this.IsCompanyWorkingHours)
+      //   pageY = e.pageY - offsetTop - scrollTop; //- 138;
 
       this.selectorLeft = pageX;
       this.selectorTop = pageY;
@@ -396,15 +408,16 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
       if (this.isSelecting)
       {
         //var bodyRect = document.body.getBoundingClientRect();
-        var parentDivRect = document.getElementById('parentDiv').getBoundingClientRect();
+        var parentDivRect = document.getElementById('selectorParentDiv').getBoundingClientRect();
         var offsetTop = parentDivRect.top;// - bodyRect.top;
         var offsetLeft = parentDivRect.left;// - bodyRect.left;
+        var scrollTop = document.getElementById('html_El').scrollTop;
 
         //asta nu merge bine pe pagina de company general details...nu e corecta formula pentru offset
-        let pageX = e.pageX - offsetLeft + 15;// - 35;
-        let pageY = e.pageY - offsetTop + 80; //- 138;
-        if (this.IsCompanyWorkingHours)
-          pageY = e.pageY - offsetTop + 48 + 80; //- 138;
+        let pageX = e.pageX - offsetLeft;// - 35;
+        let pageY = e.pageY - offsetTop - scrollTop; //- 138;
+        // if (this.IsCompanyWorkingHours)
+        //   pageY = e.pageY - offsetTop - scrollTop; //- 138;
       
         this.selectorW = Math.abs(this.initLeft - pageX);
         this.selectorH = Math.abs(this.initTop - pageY);
