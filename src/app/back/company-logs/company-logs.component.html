@@ -1,26 +1,41 @@
-<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblLogs')}}</legend>
-<div class="row" style="height: 7%;">
-  <div class="col-md-12">
+<h5>{{getCurrentLabelValue('lblLogs')}}</h5>
+<div class="row mb-1 bg-light">
+  <div class="col-md-2">
+
     <span>{{getCurrentLabelValue('lblStartDate')}}: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="startDate" placeholder="Start Date" [maxDate]="endDate"
       (onSelect)="loadLogs()" [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
+
+      </div>
+      <div class="col-md-2">
+
     <span> {{getCurrentLabelValue('lblEndDate')}}: </span>
     <p-calendar [showIcon]="true" [(ngModel)]="endDate" placeholder="End Date" [locale]="en" [minDate]="startDate"
       readonlyInput="true" (onSelect)="loadLogs()" dateFormat="dd.M.yy"></p-calendar>
-    <span style="margin-left: 15px;"> {{getCurrentLabelValue('lblEmail')}}:</span>
-    <input type="text" style="width: 130px;" [(ngModel)]="fiterEmail">
-    <span style="margin-left: 15px;"> {{getCurrentLabelValue('lblPhone')}}:</span>
-    <input type="text" style="width: 130px;" [(ngModel)]="filterPhone">
-    <span style="margin-left: 15px;"> Site:</span>
-    <select style="margin-left: 5px;" [(ngModel)]="selectedIdSite">
+</div>
+<div class="col-md-2">
+    <span> {{getCurrentLabelValue('lblEmail')}}:</span>
+    <input class="form-control form-control-sm" [(ngModel)]="fiterEmail">
+</div>
+<div class="col-md-1">
+    <span> {{getCurrentLabelValue('lblPhone')}}:</span>
+    <input class="form-control form-control-sm" [(ngModel)]="filterPhone">
+</div>
+<div class="col-md-1">
+    <span> Site:</span>
+    <select class="form-control form-control-sm" [(ngModel)]="selectedIdSite">
       <option selected="true" value="null">{{getCurrentLabelValue('lblAny')}}</option>
       <option value="1">Front</option>
       <option value="2">Back</option>
     </select>
-    <span style="margin-left: 15px;"> {{getCurrentLabelValue('lblPageName')}}:</span>
-    <input type="text" style="width: 130px;" [(ngModel)]="filterPageName">
-    <span style="margin-left: 15px;"> {{getCurrentLabelValue('lblAction')}}:</span>
-    <select style="margin-left: 5px;" [(ngModel)]="selectedIdAction">
+</div>
+<div class="col-md-2">
+    <span> {{getCurrentLabelValue('lblPageName')}}:</span>
+    <input class="form-control form-control-sm" [(ngModel)]="filterPageName">
+</div>
+<div class="col-md-1">
+    <span> {{getCurrentLabelValue('lblAction')}}:</span>
+    <select class="form-control form-control-sm" [(ngModel)]="selectedIdAction">
       <option selected="true" value="null">{{getCurrentLabelValue('lblAny')}}</option>
       <option value="1">Save</option>
       <option value="2">Add</option>
@@ -32,51 +47,53 @@
       <option value="8">View</option>
       <option value="9">Cancel</option>
     </select>
-    <button class="btn btn-primary from-control" (click)="loadLogs()" style="margin-left: 15px;"><i
+</div>
+<div class="col-md-1"><br/>
+    <button class="btn btn-sm btn-primary" (click)="loadLogs()"><i
         class="fa fa-search"></i> {{getCurrentLabelValue('lblSearch')}}</button>
   </div>
 </div>
-<div class="row" style="height: 93%;">
-  <div class="col-md-12" style="height: 100%;">
-    <p-table #dt [value]="companyLogs" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="500">
+<div class="row">
+  <div class="col-md-12">
+    <p-table #dt [value]="companyLogs" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="400px">
       <!-- <ng-template pTemplate="caption">
         Entities
       </ng-template> -->
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center" [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
+          <th [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
             <input *ngSwitchCase="'email'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'email', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'email', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'userFirstName'">{{getCurrentLabelValue('lblFirstName')}}
+          <th [ngSwitch]="'userFirstName'">{{getCurrentLabelValue('lblFirstName')}}
             <input *ngSwitchCase="'userFirstName'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'userFirstName', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'userFirstName', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'userLastName'">{{getCurrentLabelValue('lblLastName')}}
+          <th [ngSwitch]="'userLastName'">{{getCurrentLabelValue('lblLastName')}}
             <input *ngSwitchCase="'userLastName'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'userLastName', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'userLastName', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">{{getCurrentLabelValue('lblPhone')}}
+          <th [ngSwitch]="'phone'">{{getCurrentLabelValue('lblPhone')}}
             <input *ngSwitchCase="'phone'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'phone', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'phone', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'siteName'">Site
+          <th [ngSwitch]="'siteName'">Site
             <input *ngSwitchCase="'siteName'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'siteName', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'siteName', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'pageName'">{{getCurrentLabelValue('lblPageName')}}
+          <th [ngSwitch]="'pageName'">{{getCurrentLabelValue('lblPageName')}}
             <input *ngSwitchCase="'pageName'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'pageName', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'pageName', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'actionName'">{{getCurrentLabelValue('lblAction')}}
+          <th [ngSwitch]="'actionName'">{{getCurrentLabelValue('lblAction')}}
             <input *ngSwitchCase="'actionName'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'actionName', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'actionName', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'logInfoMessage'">Info
+          <th [ngSwitch]="'logInfoMessage'">Info
             <input *ngSwitchCase="'logInfoMessage'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'logInfoMessage', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'logInfoMessage', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [pSortableColumn]="'logDate'">
+          <th [pSortableColumn]="'logDate'">
             {{getCurrentLabelValue('lblDate')}}
             <p-sortIcon [field]="'logDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
               ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
@@ -86,15 +103,15 @@
       </ng-template>
       <ng-template pTemplate="body" let-log>
         <tr [pSelectableRow]="log">
-          <td style="width:150px;text-align:center">{{log.email}}</td>
-          <td style="width:150px;text-align:center">{{log.userFirstName}}</td>
-          <td style="width:150px;text-align:center">{{log.userLastName}}</td>
-          <td style="width:150px;text-align:center">{{log.phone}}</td>
-          <td style="width:150px;text-align:center">{{log.siteName}}</td>
-          <td style="width:150px;text-align:center">{{log.pageName}}</td>
-          <td style="width:150px;text-align:center">{{log.actionName}}</td>
-          <td style="width:150px;text-align:center">{{log.logInfoMessage}}</td>
-          <td style="width:150px;text-align:center">
+          <td class="text-truncate" title="{{log.email}}">{{log.email}}</td>
+          <td class="text-truncate" title="{{log.userFirstName}}">{{log.userFirstName}}</td>
+          <td class="text-truncate" title="{{log.userLastName}}">{{log.userLastName}}</td>
+          <td class="text-truncate" title="{{log.phone}}">{{log.phone}}</td>
+          <td class="text-truncate" title="{{log.siteName}}">{{log.siteName}}</td>
+          <td class="text-truncate" title="{{log.pageName}}">{{log.pageName}}</td>
+          <td class="text-truncate" title="{{log.actionName}}">{{log.actionName}}</td>
+          <td class="text-truncate" title="{{log.logInfoMessage}}">{{log.logInfoMessage}}</td>
+          <td class="text-truncate" title="{{log.logDate.toString()+'Z' | date:'dd MMM yy HH:mm:ss'}}">
             <!-- UTC to local date -->
             {{log.logDate.toString()+'Z' | date:'dd MMM yy HH:mm:ss'}}
           </td>

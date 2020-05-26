@@ -26,13 +26,17 @@
   </div>
 </div>
 <div class="row">
+  <div class="col-12">
   <p-calendar [showIcon]="true" [(ngModel)]="selectedDate" (onSelect)="applyFilter()" [minDate]="today" placeholder="Date"
     [locale]="en" readonlyInput="true" dateFormat="dd.M.yy"></p-calendar>
+    </div>
 </div>
 <div class="row">
+  <div class="col-12">
   <button class="btn btn-primary from-control" (click)="resetFilters()">
     <i class="fa fa-refresh"></i> Reset filters
   </button>
+  </div>
 </div>
 
 <p-growl [value]="pageMsgs"></p-growl>

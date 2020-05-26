@@ -6,29 +6,29 @@
 
 <div class="row">
   <div class="col-md-12">
-    <p-table #dt [value]="clients" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="500">
+    <p-table #dt [value]="clients" selectionMode="single" [responsive]="true" scrollable="true" scrollHeight="500px">
       <!-- <ng-template pTemplate="caption">
         Entities
       </ng-template> -->
       <ng-template pTemplate="header">
         <tr>
-          <th style="width:150px;text-align:center" [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
+          <th [ngSwitch]="'email'">{{getCurrentLabelValue('lblEmail')}}
             <input *ngSwitchCase="'email'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'email', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'email', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'phone'">{{getCurrentLabelValue('lblPhone')}}
+          <th [ngSwitch]="'phone'">{{getCurrentLabelValue('lblPhone')}}
             <input *ngSwitchCase="'phone'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'phone', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'phone', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center" [ngSwitch]="'firstName'">{{getCurrentLabelValue('lblName')}}
+          <th [ngSwitch]="'firstName'">{{getCurrentLabelValue('lblName')}}
             <input *ngSwitchCase="'firstName'" pInputText type="text"
-              (input)="dt.filter($event.target.value, 'firstName', 'contains')" style="width: 130px;">
+              (input)="dt.filter($event.target.value, 'firstName', 'contains')" class="form-control form-control-sm">
           </th>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblTotalBookings')}}</th>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblActiveBookings')}}</th>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblHonoredBookings')}}</th>
-          <th style="width:150px;text-align:center">{{getCurrentLabelValue('lblCanceledBookings')}}</th>
-          <th style="width:150px;text-align:center">
+          <th>{{getCurrentLabelValue('lblTotalBookings')}}</th>
+          <th>{{getCurrentLabelValue('lblActiveBookings')}}</th>
+          <th>{{getCurrentLabelValue('lblHonoredBookings')}}</th>
+          <th>{{getCurrentLabelValue('lblCanceledBookings')}}</th>
+          <th>
             <!-- <button type="button" class="btn btn-primary">
               <i class="fa fa-search">View bookings</i>
             </button> -->
@@ -37,18 +37,18 @@
       </ng-template>
       <ng-template pTemplate="body" let-client>
         <tr [pSelectableRow]="client">
-          <td style="width:150px;text-align:center">{{client.email}}</td>
-          <td style="width:150px;text-align:center">{{client.phone}}</td>
-          <td style="width:150px;text-align:center">{{client.firstName +' '+ client.lastName}}</td>
-          <td style="width:150px;text-align:center">{{client.totalBookings}}</td>
-          <td style="width:150px;text-align:center">{{client.activeBookings}}</td>
-          <td style="width:150px;text-align:center">{{client.honoredBookings}}</td>
-          <td style="width:150px;text-align:center">{{client.canceledBookings}}</td>
-          <td style="width:150px;text-align:center">
-            <button type="button" class="btn btn-primary"
+          <td class="text-truncate" title="{{client.email}}">{{client.email}}</td>
+          <td class="text-truncate" title="{{client.phone}}">{{client.phone}}</td>
+          <td class="text-truncate" title="{{client.firstName +' '+ client.lastName}}">{{client.firstName +' '+ client.lastName}}</td>
+          <td class="text-truncate" title="{{client.totalBookings}}">{{client.totalBookings}}</td>
+          <td class="text-truncate" title="{{client.activeBookings}}">{{client.activeBookings}}</td>
+          <td class="text-truncate" title="{{client.honoredBookings}}">{{client.honoredBookings}}</td>
+          <td class="text-truncate" title="{{client.canceledBookings}}">{{client.canceledBookings}}</td>
+          <td>
+            <a class="btn btn-sm btn-links"
               (click)="selectedPhone=client.phone; displayLatestBookings=true">
-              <i class="fa fa-search"> {{getCurrentLabelValue('lblViewBookings')}}</i>
-            </button>
+              <i class="fa fa-eye fa-lg text-warning"> </i> {{getCurrentLabelValue('lblViewBookings')}}
+          </a>
           </td>
         </tr>
       </ng-template>

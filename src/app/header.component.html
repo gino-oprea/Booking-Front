@@ -2,7 +2,7 @@
   <div class="col-md-2">
     <a [routerLink]="['/searchcompany']"><img [src]="COMP_LOGO"></a>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-5">
     <div class="form-inline">
       <input class="form-control w-75 mr-sm-2" type="text" aria-label="Search" [(ngModel)]="searchString"
         placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()">
@@ -76,7 +76,7 @@
         </div>
 
   </div>
-  <div class="col-md-2">
+  <div class="col-md-3">
     <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture" (onChange)="onCultureChange()" class="mr-2"></p-dropdown>
   
     <button class="btn btn-success from-control" style="margin-right: 5px;" (click)="onAddNewCompany()">
