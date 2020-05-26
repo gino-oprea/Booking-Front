@@ -219,7 +219,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
+              <div id="selectorParentDiv" class="col-md-12">
                 <bf-working-hours [disabled]="!isVariableWH" [workingHours]="selectedWorkingHours"
                   [workingHoursBounds]="companyWorkingHours" (selectTimeSlot)="onUpdateWorkingHours($event)">
                 </bf-working-hours>
