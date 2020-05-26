@@ -403,6 +403,8 @@ export class WorkingHoursComponent extends BaseComponent implements OnInit, OnCh
   }
   onMousemove(e:MouseEvent)
   {
+    e.preventDefault();
+    
     if (this.singleDay == -1)
     {
       if (this.isSelecting)
