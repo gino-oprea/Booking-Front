@@ -20,6 +20,9 @@ import { AutoAssignPayload } from '../objects/auto-assign-payload';
 import { PotentialBooking } from '../objects/potential-booking';
 import { BookingEntity } from '../objects/booking-entity';
 import { Message } from '../objects/message';
+import { CompanyFilter } from '../objects/company-filter';
+import { CompanySearchService } from '../app-services/company-search.service';
+import { Company } from '../objects/company';
 
 @Component({
   selector: 'bf-company-booking',
@@ -42,6 +45,7 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
+    private companySearchService: CompanySearchService,
     private entitiesService: EntitiesService)
   {
     super(injector, [
@@ -56,18 +60,38 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
       {
         this.idCompany = +params['id'];
       }
-      if (params.hasOwnProperty('companyname'))
-      {
-        this.companyName = params['companyname'];
-      }
+      // if (params.hasOwnProperty('companyname'))
+      // {
+      //   this.companyName = params['companyname'];
+      // }
     });
   }
 
   ngOnInit()
   {
     super.ngOnInit();
+    this.loadCompany(this.idCompany);
 
     this.getBookingDefaultDuration();
+  }
+
+  loadCompany(idCompany:number)
+  {
+    let flt = new CompanyFilter(idCompany);
+    this.companySearchService.getCompanies(flt).subscribe(result =>
+    {
+      let gro = <GenericResponseObject>result;
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        this.showPageMessage("error", "Error", gro.error);
+      }
+      else
+      {        
+        this.companyName = (<Company[]>gro.objList)[0].name;
+      }
+    },
+      err => this.logAction(this.idCompany, true, Actions.Search, 'http error searching companies', ''));
   }
   getBookingDefaultDuration()
   {

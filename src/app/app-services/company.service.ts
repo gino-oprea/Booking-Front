@@ -42,6 +42,14 @@ export class CompanyService
 
     return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/' + idUser, options);
   }
+  getFavouriteCompanies(): Observable<GenericResponseObject>
+  {
+    let options = {
+      headers: null
+    };
+
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/GetFavouriteCompanies', options);
+  }
   getCompany(idUser: number, idCompany: number)
   {
     let options = {
@@ -126,11 +134,33 @@ export class CompanyService
 
     return this.http.post<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/SetCompanySpecialDays/' + isAdd, body, options);
   }
+  setFavouriteCompany(idCompany: number): Observable<GenericResponseObject>
+  {
+    
+
+    const body = null;
+    const headers = new HttpHeaders(
+      { 'Content-Type': 'application/json' }
+    );
+    let options = {
+      headers: headers
+    };
+
+    return this.http.post<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/SetFavouriteCompany/' + idCompany.toString(), body, options);
+  }
+
   deleteCompanySpecialDay(id: number): Observable<GenericResponseObject>
   {
     let options = {
-      headers: null//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null)      
+      headers: null
     };
     return this.http.delete<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/DeleteCompanySpecialDays/' + id, options);
+  }
+  deleteFavouriteCompany(idCompany: number): Observable<GenericResponseObject>
+  {
+    let options = {
+      headers: null
+    };
+    return this.http.delete<GenericResponseObject>(this.config.api_endpoint + 'CompanyBack/DeleteFavouriteCompany/' + idCompany.toString(), options);
   }
 }

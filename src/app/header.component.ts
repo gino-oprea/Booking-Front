@@ -102,7 +102,8 @@ export class HeaderComponent extends BaseComponent implements OnInit
         'lblEdit',
         'lblAllCategories',
         'lblAllSubcategories',
-        'lblCompanyAdded'
+        'lblCompanyAdded',
+        'lblFavourites'
       ]
     );
 

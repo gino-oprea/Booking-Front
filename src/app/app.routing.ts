@@ -17,6 +17,7 @@ import { CompanyAllowBookingGuard } from './route-guards/company-allow-booking.g
 import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions/terms-conditions.component';
 import { ContactComponent } from './contact/contact.component';
+import { FavouriteCompaniesComponent } from './favourite-companies/favourite-companies.component';
 
 const APP_ROUTES = [
     { path: '', redirectTo: 'searchcompany', pathMatch: 'full' },
@@ -36,6 +37,7 @@ const APP_ROUTES = [
     { path: 'mybookings', component: MyBookingsComponent, canActivate: [AuthGuard] },
     { path: 'changepassword', component: ChangePasswordComponent, canActivate: [AuthGuard] },
     { path: 'mycompanies', component: MyCompaniesComponent, canActivate: [AuthGuard] },
+    { path: 'favourites', component: FavouriteCompaniesComponent, canActivate: [AuthGuard] },
     { path: 'company/:id', loadChildren: () => import('app/back/back.module').then(m => m.BackModule) },
 
     { path: '**', redirectTo: '/searchcompany' }
