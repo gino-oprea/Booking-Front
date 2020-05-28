@@ -21,7 +21,8 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   public COMP_IMG = require("./img/company.jpg");
 
   companies: Company[];
-
+  favouritesIds: number[] = [];
+  
   selectedCompany: Company;
   selectedCompanyIsEnabled: boolean;
   displayConfirmToggleCompany: boolean = false;
@@ -90,6 +91,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
   ngOnInit()
   {
     super.ngOnInit();
+    this.loadFavourites();
   }
 
 
@@ -196,6 +198,75 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
         this.logAction(company.id, true, Actions.Edit, gro.error, gro.errorDetailed, true);
       else
         this.logAction(company.id, false, Actions.Edit, '', 'Toggle company '+ (company.allowOnlineBookings ? 'allow' : 'not allow')+' online bookings', true, this.getCurrentLabelValue('lblSaved'));
+    });
+  }
+
+
+  isAuth(): boolean
+  {
+    return this.loginService.isAuthenticated();
+  }
+  loadFavourites()
+  {
+    if (this.isAuth())
+      this.companyService.getFavouriteCompanies().subscribe(gro =>
+      {
+        if (gro.error != '')
+        {
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+          this.showPageMessage("error", "Error", gro.error);
+        }
+        else
+        {
+          this.favouritesIds = <number[]>gro.objList;
+        }
+      });
+  }
+
+  isFavourite(idComp: number): boolean
+  {
+    let exists: boolean = false;
+    this.favouritesIds.find(fId => fId == idComp) != null ? exists = true : exists = false;
+
+    return exists;
+  }
+
+  toggleFavourite(idComp: number, event: MouseEvent)
+  {
+    event.stopPropagation();
+    if (this.isFavourite(idComp))
+      this.deleteFavourite(idComp);
+    else
+      this.setFavourite(idComp);
+  }
+  setFavourite(idComp: number)
+  {
+    this.companyService.setFavouriteCompany(idComp).subscribe(gro =>
+    {
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
+        this.showPageMessage("error", "Error", gro.error);
+      }
+      else
+      {
+        this.loadFavourites();
+      }
+    });
+  }
+  deleteFavourite(idComp: number)
+  {
+    this.companyService.deleteFavouriteCompany(idComp).subscribe(gro =>
+    {
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
+        this.showPageMessage("error", "Error", gro.error);
+      }
+      else
+      {
+        this.loadFavourites();
+      }
     });
   }
 }

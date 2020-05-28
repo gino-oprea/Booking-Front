@@ -9,7 +9,8 @@
                 <img *ngIf="company.image" [src]="company.image.length==0 ? COMP_IMG : domSanitizationService.bypassSecurityTrustUrl('data:image/png;base64,'+company.image[0].img)"
                     class="w-auto card-img-top rounded-circle pointer" style="max-height: 150px;" (click)="editCompany(company.id)">
 
-                    <a class="float-right pointer"><i class="fa fa-heart-o fa-2x"></i></a>
+                    <a *ngIf="isAuth()" class="float-right pointer" (click)="toggleFavourite(company.id, $event)"><i
+                            [ngClass]="isFavourite(company.id)? 'fa fa-heart fa-2x':'fa fa-heart-o fa-2x'"></i></a>
                     <!-- daca e bifat: fa-heart in floc de fa-heart-o"></i> -->
                     </div>
                 <div class="card-body">

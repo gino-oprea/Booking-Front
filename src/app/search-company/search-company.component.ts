@@ -9,6 +9,7 @@ import { BaseComponent } from '../shared/base-component';
 import { GenericResponseObject } from '../objects/generic-response-object';
 import { ImageService } from '../app-services/image.service';
 import { Image } from '../objects/image';
+import { CompanyService } from '../app-services/company.service';
 
 @Component({
   selector: 'bf-search-company',
@@ -20,11 +21,13 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
   protected COMP_IMG = require("./img/company.jpg");
 
   companies: Company[] = [];
+  favouritesIds: number[] = [];
   images: Image[] = [];
   emptySlotsNo: number = 10;
 
   constructor(private injector: Injector,
     private companySearchService: CompanySearchService,
+    private companyService: CompanyService,
     private imageService: ImageService,
     protected domSanitizationService: DomSanitizer)
   {
@@ -58,7 +61,84 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
       );
       this.loadFilteredCompanies(flt);
     });
+
+    this.loadFavourites();
+
+    this.loginService.loginSubject.subscribe(res =>
+    { 
+      this.loadFavourites();
+    });
   }
+
+  loadFavourites()
+  {
+    if (this.isAuth())
+      this.companyService.getFavouriteCompanies().subscribe(gro =>
+      { 
+        if (gro.error != '')
+        {
+          this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+          this.showPageMessage("error", "Error", gro.error);
+        }
+        else
+        {
+          this.favouritesIds = <number[]>gro.objList;
+        }
+      });
+  }
+
+  isFavourite(idComp: number): boolean
+  {
+    let exists: boolean = false;
+    this.favouritesIds.find(fId => fId == idComp) != null ? exists = true : exists = false;
+
+    return exists;
+  }
+
+  toggleFavourite(idComp: number, event: MouseEvent)
+  {
+    event.stopPropagation(); 
+    if (this.isFavourite(idComp))
+      this.deleteFavourite(idComp);      
+    else
+      this.setFavourite(idComp);
+  }
+  setFavourite(idComp: number)
+  {       
+    this.companyService.setFavouriteCompany(idComp).subscribe(gro =>
+    {
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
+        this.showPageMessage("error", "Error", gro.error);
+      }
+      else
+      {
+        this.loadFavourites();
+      }
+    });
+  }
+  deleteFavourite(idComp: number)
+  {
+    this.companyService.deleteFavouriteCompany(idComp).subscribe(gro =>
+    {
+      if (gro.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Add, gro.error, gro.errorDetailed, true);
+        this.showPageMessage("error", "Error", gro.error);
+      }
+      else
+      {
+        this.loadFavourites();
+      }
+    });
+  }
+
+  isAuth(): boolean
+  {    
+    return this.loginService.isAuthenticated();
+  }  
+
   loadFilteredCompanies(filter: CompanyFilter)
   {
     this.companySearchService.getCompanies(filter).subscribe(result =>
