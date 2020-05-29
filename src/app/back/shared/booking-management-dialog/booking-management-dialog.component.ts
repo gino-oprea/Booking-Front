@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from '../../../shared/base-component';
-import { WebSites, Actions, BookingStatus, UserRoleEnum } from '../../../enums/enums';
+import { WebSites, Actions, BookingStatus, UserRoleEnum, LevelType } from '../../../enums/enums';
 import { Booking } from '../../../objects/booking';
 import { BookingService } from '../../../app-services/booking.service';
 import { GenericResponseObject } from '../../../objects/generic-response-object';
@@ -46,6 +46,7 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
 
   currentUserIsEmployee: boolean = false;
   idEntityLinkedToUser: number = null;
+  moveBookingPrice: number = null;
 
   constructor(private injector: Injector,
     private bookingService: BookingService,
@@ -68,7 +69,8 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       'lblMoveSelectedBookingTo',
       'lblMoveBooking',
       'lblCancelBooking',
-      'lblBookingRemoved'
+      'lblBookingRemoved',
+      'lblPrice'
     ]);
 
     this.site = WebSites.Back;
@@ -185,13 +187,14 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
     let selectedTimeslot = this.getSelectedMoveTimeslot();
 
     let originalBooking = JSON.parse(JSON.stringify(this.selectedBooking));
-
+    
     this.selectedBooking.idCompany = this.idCompany;
     this.selectedBooking.startDate = new Date(CommonServiceMethods.getDateString(selectedTimeslot.startTime));
     this.selectedBooking.endDate = null;
     this.selectedBooking.startTime = new Date(CommonServiceMethods.getDateString(selectedTimeslot.startTime, true));
     this.selectedBooking.endTime = new Date(CommonServiceMethods.getDateString(selectedTimeslot.endTime, true));
     this.selectedBooking.entities = [];
+    this.selectedBooking.bookingPrice = this.moveBookingPrice;
 
     for (let i = 0; i < this.selectedMoveFilter.length; i++)
     {
@@ -291,6 +294,10 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   }
   moveBookingfilterChanged(value)
   {
+    //setup new price
+    this.moveBookingPrice = this.calculateNewPrice(value.filteredLevels);
+    
+
     if (value.filteredLevels.find(l => l.entities.length > 1) != null)
       this.entityNotSelected = true;
     else
@@ -304,9 +311,22 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
       this.loadTimeslots(value.filteredLevels, weekDates, value.date);
   }
 
+  calculateNewPrice(levels:LevelAsFilter[]):number
+  {
+    let servicesLevel = levels.find(l => l.idLevelType == LevelType.Service);
+    if (servicesLevel != null)
+    {
+      if (servicesLevel.entities.length == 1)      //a service is selected
+        return servicesLevel.entities[0].defaultServicePrice;
+    }
+
+    return null;
+  }
+
   loadTimeslots(filter: LevelAsFilter[], weekDates: string[], selectedFilterDate: Date)
   {
     this.selectedMoveTimeslot = null;
+    this.moveBookingTimeslots = [];
 
     this.bookingService.generateHoursMatrix(this.idCompany, weekDates, filter, null).subscribe(gro =>
     {

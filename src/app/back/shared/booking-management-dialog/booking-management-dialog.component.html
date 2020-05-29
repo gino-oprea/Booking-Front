@@ -77,6 +77,14 @@
             <span>{{getBookingStatusString(selectedBooking.idStatus)}}</span>
           </div>
         </div>
+        <div class="row">
+          <div class="col-5">
+            <label for="status">{{getCurrentLabelValue('lblPrice')}}:</label>
+          </div>
+          <div class="col-md-7">
+            <span>{{selectedBooking.bookingPrice}}</span>
+          </div>
+        </div>
 
 
         <footer>
@@ -104,6 +112,14 @@
         [doResetFilters]="doResetMoveFilter" [isMoveBookingFilter]="true" [isForAdmin]="true"
         (filterChanged)="moveBookingfilterChanged($event)">
       </bf-booking-filter2>
+      <div *ngIf="moveBookingPrice!=null" class="row">
+        <div class="col-5">
+          <label for="status">{{getCurrentLabelValue('lblPrice')}}:</label>
+        </div>
+        <div class="col-md-7">
+          <span>{{moveBookingPrice}}</span>
+        </div>
+      </div>
       <div>{{getCurrentLabelValue('lblNewStartTime')}}:
         <select class="form-control" [(ngModel)]="selectedMoveTimeslot">
           <option *ngFor="let timeslot of moveBookingTimeslots" [value]="getDateStringWrapper(timeslot.startTime)">
