@@ -200,6 +200,9 @@ export class BookingConfirmDialogComponent extends BaseComponent implements OnIn
     booking.startTime = this.confirmBooking.controls['startTime'].value;
     booking.endTime = this.confirmBooking.controls['endTime'].value;
 
+    let serviceWithPrice = this.autoAssignedEntityCombination.entityCombination.find(e => e.defaultServicePrice != null);
+    booking.bookingPrice = serviceWithPrice != null ? serviceWithPrice.defaultServicePrice : null;
+
     var message: Message = null;
     this.bookingService.addBooking(booking).subscribe(gro =>
     {
