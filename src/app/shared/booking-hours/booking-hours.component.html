@@ -1,185 +1,179 @@
-<ul class="slots-view">
+<div class="row">
+  <div class="col-12 px-0">
+    <ul class="slots-view">
   <!--style="vertical-align: bottom;margin-bottom: 2px;width:6%;"-->
-  <li [ngStyle]="{'vertical-align': 'bottom','margin-bottom': '2px','width': '6%'}">
-    <div>
-      <button type="button" class="btn btn-primary" (click)="shiftWeek(-1)">
-        <i class="fa fa-angle-left"></i>
-      </button>
-      <button type="button" class="btn btn-primary" style="margin-left: 2px;" (click)="shiftWeek(1)">
-        <i class="fa fa-angle-right"></i>
-      </button>
-    </div>
-    <div class="time-slots unselectable" style="margin-right: 0px;">
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>00:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>01:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>02:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>03:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>04:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>05:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>06:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>07:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>08:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>09:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>10:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>11:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>12:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>13:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>14:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>15:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>16:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>17:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>18:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>19:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>20:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>21:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>22:00:</b>
-          </span>
-        </div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title">
-          <span>
-            <b>23:00:</b>
-          </span>
-        </div>
+
+  <div class="time-slots unselectable d-none" style="margin-right: 0px;">
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>00:00:</b>
+        </span>
       </div>
     </div>
-  </li>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>01:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>02:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>03:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>04:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>05:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>06:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>07:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>08:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>09:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>10:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>11:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>12:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>13:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>14:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>15:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>16:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>17:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>18:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>19:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>20:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>21:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>22:00:</b>
+        </span>
+      </div>
+    </div>
+    <div class="hour-row">
+      <div class="hour-title">
+        <span>
+          <b>23:00:</b>
+        </span>
+      </div>
+    </div>
+
+  </div>
   <li *ngFor="let d of hoursMatrix; let i = index"
     [ngStyle]="{'width':commonMethods.computeDayColumnWidth(hoursMatrix)}">
     <div class="day-title unselectable">
@@ -208,14 +202,37 @@
     </div>
   </li>
 </ul>
+</div>
+</div>
+<div class="row mb-1">
+  <div class="col-12 text-center col-md-1">
+    <button type="button" class="btn btn-sm btn-primary" (click)="shiftWeek(-1)">
+      <i class="fa fa-angle-left"></i>
+    </button>
+    <button type="button" class="btn btn-sm btn-primary" style="margin-left: 2px;" (click)="shiftWeek(1)">
+      <i class="fa fa-angle-right"></i>
+    </button>
 
-<!-- <div class="row"> -->
-<div class="time-select-div disabled" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
--{{getCurrentLabelValue('lblTimeslotDisabled')}}
-<div class="time-select-div" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
--{{getCurrentLabelValue('lblTimeslotAvailable')}}
-<div class="time-select-div booked" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
--{{getCurrentLabelValue('lblTimeslotHasBookings')}}
-<div class="time-select-div fullbooked" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
--{{getCurrentLabelValue('lblTimeslotFullBooked')}}
-<!-- </div> -->
+  </div>
+  <div class="col-6 col-md-2 pt-1">
+    <div class="time-select-div disabled" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
+    {{getCurrentLabelValue('lblTimeslotDisabled')}}
+
+  </div>
+  <div class="col-6 col-md-2 pt-1">
+    <div class="time-select-div" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
+    {{getCurrentLabelValue('lblTimeslotAvailable')}}
+
+  </div>
+  <div class="col-6 col-md-3 pt-1">
+    <div class="time-select-div booked" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
+    {{getCurrentLabelValue('lblTimeslotHasBookings')}}
+
+  </div>
+  <div class="col-6 col-md-3 pt-1">
+    <div class="time-select-div fullbooked" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
+    {{getCurrentLabelValue('lblTimeslotFullBooked')}}
+
+  </div>
+</div>
+

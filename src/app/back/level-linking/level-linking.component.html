@@ -4,24 +4,16 @@
 
     <div class="row">
       <div class="col-md-2">
-        <div class="row">
-          <div class="col-md-12">
-            <button type="button" class="btn btn-primary" (click)="displayConfirmMoveLevel=true; levelMoveType='up'"><i
+            <button type="button" class="btn btn-primary my-2" (click)="displayConfirmMoveLevel=true; levelMoveType='up'"><i
                 class="fa fa-sort-up"></i></button>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-md-12">
             <button type="button" class="btn btn-primary" (click)="displayConfirmMoveLevel=true; levelMoveType='down'"><i
                 class="fa fa-sort-down"></i></button>
           </div>
-        </div>
-      </div>
       <div class="col-md-10">
         <div class="row">
           <div class="col-md-12">{{getCurrentLabelValue('lblLevels')}}</div>
         </div>
+        <div class="row">
         <div class="col-md-12">
           <ol style="padding:0px;">
             <li class="list-group-item" style="cursor:pointer" *ngFor="let level of levels; let i = index"
@@ -29,6 +21,7 @@
               [ngClass]="{'selected': (selectedLevel!=null ? level.id == selectedLevel.id : false)}">
               {{currentCulture == 'EN' ? level.levelName_EN : level.levelName_RO}}</li>
           </ol>
+        </div>
         </div>
       </div>
     </div>

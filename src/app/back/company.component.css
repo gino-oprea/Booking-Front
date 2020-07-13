@@ -56,7 +56,7 @@
     position: absolute;
     top: 0;
     right:10px;
-    width: 200px;
+    width: 215px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -139,8 +139,8 @@
 }
 
 
-@media(max-width:414px) {
-
+  @media (max-width: 767.98px) {
+   
 #wrapper.toggled #page-content-wrapper {
     position: absolute;
     margin-right:60px;
@@ -197,10 +197,16 @@
         position: relative;
         margin-right: 0;
     }
+/* 
+#wrapper.toggled span {
+  visibility: hidden;
 
-
-
+} */
+  .slots-view li {
+    width: 100px !important;
+  }
 
 }
+
 
 
