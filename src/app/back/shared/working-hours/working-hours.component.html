@@ -1,7 +1,6 @@
 
 <ul class="slots-view" style="margin-bottom: 0px;">
-  <li [ngStyle]="{'vertical-align': 'bottom','margin-bottom': '2px','width': (singleDay==-1 ? '6%' : '10%')}">    
-  </li>
+
   <li *ngFor="let d of hoursMatrix; let i = index"
     [ngStyle]="{'width': (singleDay==-1 ? commonMethods.computeDayColumnWidth(hoursMatrix) : '85%')}">
     <div class="day-title unselectable">
@@ -26,82 +25,7 @@
 
 <ul class="slots-view">
   <!--style="vertical-align: bottom;margin-bottom: 2px;width:6%;"-->
-  <li [ngStyle]="{'vertical-align': 'bottom','margin-bottom': '2px','width': (singleDay==-1 ? '6%' : '10%')}">
-    <div class="time-slots unselectable" style="margin-right: 0px;">
-      <div class="hour-row">
-        <div class="hour-title"><span><b>00:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>01:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>02:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>03:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>04:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>05:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>06:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>07:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>08:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>09:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>10:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>11:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>12:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>13:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>14:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>15:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>16:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>17:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>18:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>19:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>20:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>21:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>22:00:</b></span></div>
-      </div>
-      <div class="hour-row">
-        <div class="hour-title"><span><b>23:00:</b></span></div>
-      </div>
-    </div>
-  </li>
+
   <li *ngFor="let d of hoursMatrix; let i = index" 
   [ngStyle]="{'width': (singleDay==-1 ? commonMethods.computeDayColumnWidth(hoursMatrix) : '85%')}">
     <!-- <div class="day-title unselectable">

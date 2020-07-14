@@ -1,20 +1,20 @@
 <div class="row py-2">
-  <div class="col-md-2">
+  <div class="col-12 col-md-2">
     <a [routerLink]="['/searchcompany']"><img [src]="COMP_LOGO"></a>
   </div>
-  <div class="col-md-5">
+  <div class="col-12 col-md-4">
     <div class="form-inline">
       <input class="form-control w-75 mr-sm-2" type="text" aria-label="Search" [(ngModel)]="searchString"
         placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()">
       <button class="btn btn-outline-success my-2 my-sm-0" (click)="doSearch()">Search</button>
     </div>
   </div>
-  <div class="col-md-2 text-right">
+  <div class="col-8 col-md-2 text-right">
     <div class="dropdown">
       <a class="dropdown-toggle btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user-circle text-secondary fa-lg"></i> {{getMyAccountText()}}
       </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <div class="dropdown-menu topddl" aria-labelledby="dropdownMenuButton">
 
         <div *ngIf="!isAuth()">
         <div class="dropdown-item">
@@ -76,11 +76,14 @@
         </div>
 
   </div>
-  <div class="col-md-3">
+  <div class="col-4 col-md-2">
     <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture" (onChange)="onCultureChange()" class="mr-2"></p-dropdown>
   
+  </div>
+  <div class="col-12 col-md-2 text-center text-md-auto my-2 my-md-0">
     <button class="btn btn-success from-control" style="margin-right: 5px;" (click)="onAddNewCompany()">
       <i class="fa fa-plus"></i> {{getCurrentLabelValue('lblCreateNewCompany')}}</button>
+
   </div>
 </div>
 

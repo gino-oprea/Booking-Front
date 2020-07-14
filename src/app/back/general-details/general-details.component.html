@@ -135,12 +135,12 @@
 
             <div *ngIf="images.length>0">
               <div *ngFor="let img of images; let i=index">
-                <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)" class="img-thumbnail float-left mr-2 pointer" style="max-height: 100px; max-width: 200px;">
+                <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)" class="img-thumbnail float-left mr-2 pointer mb-2" style="max-height: 100px; max-width: 200px;">
               </div>
             </div>
 
             <div *ngIf="images.length==0">
-              <img [src]="COMP_IMG" class="img-thumbnail" style="max-height: 100px; max-width: 200px;">
+              <img [src]="COMP_IMG" class="img-thumbnail mb-2" style="max-height: 100px; max-width: 200px;">
             </div>
 
           </div>

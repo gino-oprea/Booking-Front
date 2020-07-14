@@ -53,3 +53,6 @@ body{
         border-top:0 none;
     }
 }
+.topddl {
+    min-width: 15rem;
+}
