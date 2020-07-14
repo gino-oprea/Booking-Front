@@ -2,8 +2,8 @@
   <div class="col-md-6">
     <h5>{{getCurrentLabelValue('lblRoles')}}</h5>
 
-    <p-table #dtRoles [value]="roles" selectionMode="single" [(selection)]="selectedRole"
-      (onRowSelect)="onRowSelect($event)" [columns]="cols" [responsive]="true" scrollable="true" scrollHeight="450px">
+    <p-table #dtRoles [value]="roles" selectionMode="single" [(selection)]="selectedRole" selectionMode="single"
+      (onRowSelect)="onRowSelect($event)" (onRowUnselect)="cancelUnselect($event)" [columns]="cols" [responsive]="true" scrollable="true" scrollHeight="450px">
       <ng-template pTemplate="caption">
         <div class="row">
           <div class="offset-md-6 col-6">

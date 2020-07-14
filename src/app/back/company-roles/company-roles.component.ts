@@ -159,8 +159,18 @@ export class CompanyRolesComponent extends BaseComponent implements OnInit
   {
     this.loadSelectedSiteModules(this.selectedRole.idRole);
   }
+  cancelUnselect(event)
+  {
+    this.selectedRole = event.data;
+  }
   onAddClick()
   {
+    if (this.selectedRole == null)
+    {
+      this.selectedRole = this.roles[0];
+      this.loadSelectedSiteModules(this.selectedRole.idRole);
+    }
+
     this.isAddRoleMode = true;
     this.initFormAddRole();
     this.displayDialogRole = true;
