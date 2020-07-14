@@ -276,8 +276,8 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     if (this.company != null)
     {
       let root = location.protocol + '//' + location.host;
-      let detailsUrl = root + '/companydetails/' + this.company.id + '/' + this.company.name + '?iframe=true';
-      let bookingsUrl = root + '/companybooking/' + this.company.id + '/' + this.company.name + '?iframe=true';
+      let detailsUrl = root + '/companydetails/' + this.company.id + '/' + this.company.name.replace(/\s/g, "") + '?iframe=true';
+      let bookingsUrl = root + '/companybooking/' + this.company.id + '/' + this.company.name.replace(/\s/g, "") + '?iframe=true';
       detailsIframeCode = '<iframe width="100%" height = "100%" style = "border: none;" src = "' + detailsUrl + '"></iframe>';
       bookingsIframeCode = '<iframe width="100%" height = "100%" style = "border: none;" src = "' + bookingsUrl + '"></iframe>';
     }

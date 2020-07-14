@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { BaseComponent } from 'app/shared/base-component';
 import { WebSites } from './enums/enums';
 import { Token } from './objects/token';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'bf-root',
@@ -12,12 +13,17 @@ export class AppComponent extends BaseComponent implements OnInit
 {
   showTermsAndConditionsDiv: boolean = true;
   iframe: boolean = true;
+  isLanding: boolean = false;
 
-  constructor(private injector: Injector)
+  constructor(private injector: Injector, private location: Location)
   {
     super(injector, []);
     this.site = WebSites.Front;
     this.pageName = "Booking Front main parent page";
+
+    // if (this.route.snapshot.url[0] == '/landing')
+    //   this.isLanding = true;
+    
 
     this.routeSubscription = this.route.queryParams.subscribe((params: any) =>
     {
@@ -27,6 +33,15 @@ export class AppComponent extends BaseComponent implements OnInit
         this.iframe = false;
     });
 
+    this.location.onUrlChange((url, state) =>
+    { 
+      if (url == '/landing')
+        this.isLanding = true;
+      else
+        this.isLanding = false;
+    });
+    
+
     this.loginService.loginSubject.subscribe(res =>
     {
       this.setupAutoLogin();
@@ -35,7 +50,8 @@ export class AppComponent extends BaseComponent implements OnInit
 
   ngOnInit(): void
   {
-    super.ngOnInit();
+    super.ngOnInit();   
+
     let savedUser = this.loginService.getCurrentUser();
     let savedToken = this.loginService.getToken();
     if (savedToken != null)

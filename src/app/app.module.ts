@@ -62,6 +62,7 @@ import { GdprComponent } from './terms-conditions/gdpr/gdpr.component';
 import { ContactComponent } from './contact/contact.component';
 import { AppConfigService } from './app-services/app-config.service';
 import { FavouriteCompaniesComponent } from './favourite-companies/favourite-companies.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 export function appInit(appConfigService: AppConfigService)
 {
@@ -78,7 +79,8 @@ export function appInit(appConfigService: AppConfigService)
     TermsConditionsComponent,
     GdprComponent,
     ContactComponent,
-    FavouriteCompaniesComponent
+    FavouriteCompaniesComponent,
+    LandingPageComponent
   ],
   imports: [
     routing,
