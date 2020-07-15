@@ -30,8 +30,8 @@
   </div>
 </div>
 
-<div class="row" style="height: 95%;">
-  <div class="col-md-12" style="height: 100%;">
+<div class="row">
+  <div class="col-md-12">
 
     <ul class="nav nav-tabs mb-2" id="myTab1" role="tablist">
       <li class="nav-item">
@@ -157,7 +157,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <ul *ngIf="images.length>0" class="imgList">
                 <li *ngFor="let img of images; let i=index">
                   <img [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)" class="img-thumbnail float-left mr-2 pointer w-auto">
@@ -194,18 +194,17 @@
 
             <div class="row mt-2">
               <div class="col-md-2">
-                <div class="checkbox">
+                <div class="checkbox float-left">
                   <label>
                     <input [(ngModel)]="isCustomWH" type="checkbox" (change)="onIsCustomChange()"
-                      value=""> {{getCurrentLabelValue('lblCustom')}}</label>
+                      value=""> {{getCurrentLabelValue('lblCustom')}}</label>&nbsp;
                 </div>
-              </div>
 
-              <div class="col-md-1">
-                <div class="checkbox">
+                
+                <div class="checkbox px-2">
                   <label>
                     <input [(ngModel)]="isVariableWH" type="checkbox" (change)="onIsVariableChange()"
-                      value=""> {{getCurrentLabelValue('lblVariable')}}</label>
+                      value=""> {{getCurrentLabelValue('lblVariable')}}</label>&nbsp;
                 </div>
               </div>
               <div class="col-md-3">

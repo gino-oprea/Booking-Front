@@ -11,7 +11,7 @@
       <div *ngFor="let entity of selectedBooking.entities">
         <div class="badge badge-info">{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</div>
         <div *ngIf="entity.images">
-          <img *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
+          <img class="img-thumbnail" *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
             style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
           <img *ngIf="entity.images.length==0" [src]="COMP_IMG"
             style="height: auto;width: auto;max-height: 100px;max-width: 100%;">
@@ -99,7 +99,7 @@
             </button>
             <button *ngIf="showDeleteButton" class="btn btn-danger" (click)="deleteBooking()"
               [disabled]="isButtonDisabledByRole()" style="margin-left: 5px;">
-              <i class="fa fa-remove"> {{getCurrentLabelValue('lblDelete')}}</i>
+              <i class="fa fa-trash"> {{getCurrentLabelValue('lblDelete')}}</i>
             </button>
           </div>
         </footer>

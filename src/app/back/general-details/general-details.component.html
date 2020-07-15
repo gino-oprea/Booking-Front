@@ -190,16 +190,19 @@
 </div>
 
 <p-dialog header="{{selectedDate==null ? '' : (selectedDate | date:'dd.MMM.yyyy')}}" [(visible)]="displayDialog"
-  [responsive]="true" showEffect="fade" [modal]="false" width="700" height="600">
-  <div style="width: 650px;height: 450px;overflow: auto">
+  [responsive]="true" showEffect="fade" [modal]="false" width="500">
+  <div style="overflow: auto; height: 500px;">
     <bf-working-hours [workingHours]="specialDayWorkingHours" [singleDay]="selectedWeekDayIndex"
       (selectTimeSlot)="onUpdateWorkingHoursSpecialDay($event)"></bf-working-hours>
   </div>
   <footer>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <input type="button" [value]="getCurrentLabelValue('lblDelete')" class="btn btn-danger"
-        (click)="removeSpecialDay()">
-      <input type="button" [value]="getCurrentLabelValue('lblSave')" class="btn btn-success" (click)="saveSpecialDay()">
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix my-2">
+
+      <a class="btn btn-danger text-white mr-1" (click)="removeSpecialDay()"><i class="fa fa-trash"></i> {{getCurrentLabelValue('lblDelete')}}</a>
+
+      <a class="btn btn-success text-white mr-2" (click)="saveSpecialDay()"><i class="fa fa-save"></i> {{getCurrentLabelValue('lblSave')}}</a>
+
+
       <p-checkbox binary="true" label="{{getCurrentLabelValue('lblRepeatEveryYear')}}" [(ngModel)]="isRepeatEveryYear">
       </p-checkbox>
     </div>
