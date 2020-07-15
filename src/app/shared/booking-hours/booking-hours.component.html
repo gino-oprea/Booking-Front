@@ -1,4 +1,15 @@
 <div class="row">
+    <div class="col-12 text-center col-md-12">
+      <button type="button" class="btn btn-sm btn-primary" (click)="shiftWeek(-1)">
+        <i class="fa fa-angle-left"></i> prev
+      </button>
+      <button type="button" class="btn btn-sm btn-primary" style="margin-left: 2px;" (click)="shiftWeek(1)">
+        <i class="fa fa-angle-right"></i> next
+      </button>
+    
+    </div>
+</div>
+<div class="row">
   <div class="col-12 px-0">
     <ul class="slots-view">
   <!--style="vertical-align: bottom;margin-bottom: 2px;width:6%;"-->
@@ -205,21 +216,13 @@
 </div>
 </div>
 <div class="row mb-1">
-  <div class="col-12 text-center col-md-1">
-    <button type="button" class="btn btn-sm btn-primary" (click)="shiftWeek(-1)">
-      <i class="fa fa-angle-left"></i>
-    </button>
-    <button type="button" class="btn btn-sm btn-primary" style="margin-left: 2px;" (click)="shiftWeek(1)">
-      <i class="fa fa-angle-right"></i>
-    </button>
 
-  </div>
-  <div class="col-6 col-md-2 pt-1">
+  <div class="col-6 col-md-3 pt-1">
     <div class="time-select-div disabled" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
     {{getCurrentLabelValue('lblTimeslotDisabled')}}
 
   </div>
-  <div class="col-6 col-md-2 pt-1">
+  <div class="col-6 col-md-3 pt-1">
     <div class="time-select-div" style="margin-right: 2px; height: 20px; width: 50px;"><span></span></div>
     {{getCurrentLabelValue('lblTimeslotAvailable')}}
 
