@@ -15,6 +15,11 @@ export class AppComponent extends BaseComponent implements OnInit
   iframe: boolean = true;
   isLanding: boolean = false;
 
+  public APP_GooglePlay = require("./img/google-play.png");
+  public APP_Store = require("./img/app-store.png");
+
+
+
   constructor(private injector: Injector, private location: Location)
   {
     super(injector, []);

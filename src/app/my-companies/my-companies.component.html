@@ -1,17 +1,19 @@
+<div class="container my-4">
 <h2>{{getCurrentLabelValue('lblMyCompanies')}}</h2>
 
 <div class="row">
-    <div *ngFor="let company of companies; let i=index" class="col-12 col-md-3 col-sm-6">
+    <div *ngFor="let company of companies; let i=index" class="col-12 col-md-4 col-sm-6">
         
 
-            <div class="card shadow mb-3" style="min-height: 460px;">
-                <div class="bg-light text-center p-3">
+            <div class="card shadow mb-3" style="min-height: 385px;">
+                <div class="bg-light text-center">
                 <img *ngIf="company.image" [src]="company.image.length==0 ? COMP_IMG : domSanitizationService.bypassSecurityTrustUrl('data:image/png;base64,'+company.image[0].img)"
-                    class="w-auto card-img-top rounded-circle pointer" style="max-height: 150px; max-width: 250px" (click)="editCompany(company.id)">
+                    class="w-100 card-img-top pointer" (click)="editCompany(company.id)">
 
-                    <a *ngIf="isAuth()" class="float-right pointer" (click)="toggleFavourite(company.id, $event)"><i
-                            [ngClass]="isFavourite(company.id)? 'fa fa-heart fa-2x text-danger':'fa fa-heart-o fa-2x text-danger'"></i></a>
-                    <!-- daca e bifat: fa-heart in floc de fa-heart-o"></i> -->
+<a *ngIf="isAuth()" class="float-right position-absolute pointer" (click)="toggleFavourite(company.id, $event)"
+    style="right: 15px; top: 15px;"><i
+        [ngClass]="isFavourite(company.id)? 'fa fa-heart fa-2x text-danger':'fa fa-heart-o fa-2x text-danger'"></i></a>
+
                     </div>
                 <div class="card-body">
                     <h4 class="card-title">{{company.name}}</h4>
@@ -60,3 +62,5 @@
 </p-dialog>
 
 <p-growl [value]="pageMsgs"></p-growl>
+
+</div>

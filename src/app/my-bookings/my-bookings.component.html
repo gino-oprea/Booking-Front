@@ -1,6 +1,7 @@
-<legend style="margin-bottom: 10px;">{{getCurrentLabelValue('lblMyBookings')}}</legend>
-<div *ngIf="bookings" class="row" style="height: 100%;">
-  <div class="col-md-4" style="height: 100%; overflow: auto;">
+<div class="container my-3">
+<h2>{{getCurrentLabelValue('lblMyBookings')}}</h2>
+<div *ngIf="bookings" class="row">
+  <div class="col-md-4">
     <!-- <ol style="padding:0px;">
       <li class="list-group-item" style="cursor:pointer" *ngFor="let booking of bookings; let i = index" (click)="selectBooking(booking)"
       [ngClass]="{'selected': (selectedBooking!=null ? booking.id == selectedBooking.id : false)}">{{booking.startDate | date:'dd MMM y'}}</li>
@@ -118,3 +119,4 @@
   </footer>
 </p-dialog>
 <p-growl [value]="pageMsgs"></p-growl>
+</div>

@@ -18,7 +18,7 @@ import { first } from 'rxjs/operators';
 export class MyCompaniesComponent extends BaseComponent implements OnInit
 {
   public PLUS_IMG = require("./img/plus.png");
-  public COMP_IMG = require("./img/company.jpg");
+  public COMP_IMG = require("./img/company.png");
 
   companies: Company[];
   favouritesIds: number[] = [];

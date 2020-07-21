@@ -1,6 +1,7 @@
-<div class="row py-2">
+<div class="container">
+<div class="row py-3">
   <div class="col-12 col-md-2">
-    <a [routerLink]="['/landing']"><img [src]="COMP_LOGO"></a>
+    <a [routerLink]="['/landing']"><img [src]="COMP_LOGO" class="img-fluid"></a>
   </div>
   <div class="col-12 col-md-4">
     <div class="form-inline">
@@ -11,13 +12,14 @@
   </div>
   <div class="col-8 col-md-2 text-right">
     <div class="dropdown">
-      <a class="dropdown-toggle btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="dropdown-toggle btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user-circle text-secondary fa-lg"></i> {{getMyAccountText()}}
       </a>
       <div class="dropdown-menu topddl" aria-labelledby="dropdownMenuButton">
 
         <div *ngIf="!isAuth()">
-        <div class="dropdown-item">
+          <div class="dropdown-item">
             <form class="form" role="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" id="login-nav">
               <div class="form-group">
                 <label class="sr-only" for="email">Email address</label>
@@ -46,7 +48,7 @@
               <i class="fa fa-sign-in text-secondary fa-lg"></i> {{getCurrentLabelValue('lblRegister')}}</a>
           </div>
         </div>
-        
+
 
         <div *ngIf="isAuth()">
 
@@ -72,73 +74,81 @@
 
         </div>
 
-        </div>
-        </div>
+      </div>
+    </div>
 
   </div>
-  <div class="col-4 col-md-2">
-    <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture" (onChange)="onCultureChange()" class="mr-2"></p-dropdown>
-  
+  <div class="col-4 col-md-1">
+    <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture"
+      (onChange)="onCultureChange()" class="mr-2"></p-dropdown>
+
   </div>
-  <div class="col-12 col-md-2 text-center text-md-auto my-2 my-md-0">
-    <button class="btn btn-success from-control" style="margin-right: 5px;" (click)="onAddNewCompany()">
+  <div class="col-12 col-md-3 text-center text-md-auto my-2 my-md-0">
+    <button class="btn btn-primary from-control" style="margin-right: 5px;" (click)="onAddNewCompany()">
       <i class="fa fa-plus"></i> {{getCurrentLabelValue('lblCreateNewCompany')}}</button>
 
   </div>
 </div>
+</div>
 
-<div class="row bg-light shadow-sm border-top border-bottom">
-<div class="col-12">
+<div class="row">
+  <div class="col-12 text-center px-0">
+    <div class="bg-light shadow-sm border-top border-bottom text-center">
+<div class="container text-center">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">Filtre</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-<nav class="navbar navbar-expand-lg navbar-light">
-  <a class="navbar-brand" href="#">Filtre</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+            <li class="nav-item mr-2">
+              <select class="form-control" [(ngModel)]="selectedCountyId" (change)="loadCities()">
+                <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
+                <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}
+                </option>
+              </select>
 
-      <li class="nav-item mr-2">
-        <select class="form-control" [(ngModel)]="selectedCountyId" (change)="loadCities()">
-          <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
-          <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}
-          </option>
-        </select>
+            </li>
+            <li class="nav-item mr-2">
+              <select class="form-control" [(ngModel)]="selectedCityId">
+                <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
+                <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}
+                </option>
+              </select>
 
-      </li>
-      <li class="nav-item mr-2">
-        <select class="form-control" [(ngModel)]="selectedCityId">
-          <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
-          <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}
-          </option>
-        </select>
+            </li>
+            <li class="nav-item mr-2">
+              <select class="form-control" [(ngModel)]="selectedCategoryId" (change)="onChangeCategory()">
+                <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
+                <option *ngFor="let c of categories" [value]="c.id">{{currentCulture == 'EN' ? c.value_EN : c.value_RO}}
+                </option>
+              </select>
 
-      </li>
-      <li class="nav-item mr-2">
-        <select class="form-control" [(ngModel)]="selectedCategoryId" (change)="onChangeCategory()">
-          <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
-          <option *ngFor="let c of categories" [value]="c.id">{{currentCulture == 'EN' ? c.value_EN : c.value_RO}}
-          </option>
-        </select>
+            </li>
+            <li class="nav-item mr-2">
 
-      </li>
-      <li class="nav-item mr-2">
+              <select class="form-control" [(ngModel)]="selectedSubcategoryId">
+                <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
+                <option *ngFor="let s of subcategories" [value]="s.id">
+                  {{currentCulture == 'EN' ? s.value_EN : s.value_RO}}
+                </option>
+              </select>
 
-        <select class="form-control" [(ngModel)]="selectedSubcategoryId">
-          <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
-          <option *ngFor="let s of subcategories" [value]="s.id">{{currentCulture == 'EN' ? s.value_EN : s.value_RO}}
-          </option>
-        </select>
+            </li>
+          </ul>
 
-      </li>
-    </ul>
-
+        </div>
+      </nav>
+      
+    </div>
   </div>
-</nav>
 </div>
-</div>
+
+
 
 <p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayDialog" modal="modal" width="300"
   responsive="true">

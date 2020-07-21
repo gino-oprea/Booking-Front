@@ -27,7 +27,7 @@ import { Image } from '../../objects/image';
 })
 export class BookingsComponent extends BaseComponent implements OnInit 
 {
-  public COMP_IMG = require("../../img/company.jpg");
+  public COMP_IMG = require("../../img/company.png");
 
   bookingDefaultDuration: BookingDefaultDuration;
   showCalendarBooking: boolean;

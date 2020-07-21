@@ -105,7 +105,9 @@
         <div *ngIf="!isAdd" class="col-md-12">
           <input type="button" value="{{getCurrentLabelValue('lblAdd')}}" (click)="onAdd()" class="btn btn-primary">
 
-          <input [disabled]="!userForm.valid" type="submit" value="{{getCurrentLabelValue('lblSave')}}" class="btn btn-success mx-2">
+          <button [disabled]="!userForm.valid" type="submit" class="btn btn-success mx-2">
+            <i class="fa fa-save"></i> {{getCurrentLabelValue('lblSave')}}
+          </button>
 
           <input *ngIf="selectedUser" type="button" value="{{getCurrentLabelValue('lblDelete')}}" (click)="onDelete()" class="btn btn-danger">
         </div>

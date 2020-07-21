@@ -29,7 +29,7 @@ import { forkJoin } from 'rxjs';
 })
 export class GeneralDetailsComponent extends BaseComponent implements OnInit
 {
-  public COMP_IMG = require("./img/company.jpg");
+  public COMP_IMG = require("./img/company.png");
 
   mapOptions: any;
   genDetailsForm: FormGroup;
