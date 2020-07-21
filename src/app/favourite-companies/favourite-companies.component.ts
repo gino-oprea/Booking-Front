@@ -17,7 +17,7 @@ import { ImageService } from '../app-services/image.service';
 })
 export class FavouriteCompaniesComponent extends BaseComponent implements OnInit {
 
-  protected COMP_IMG = require("../search-company/img/company.jpg");
+  protected COMP_IMG = require("../search-company/img/company.png");
  
   companies: Company[] = [];
   favouritesIds: number[] = [];

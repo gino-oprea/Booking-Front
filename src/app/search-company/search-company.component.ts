@@ -18,7 +18,7 @@ import { CompanyService } from '../app-services/company.service';
 })
 export class SearchCompanyComponent extends BaseComponent implements OnInit 
 {
-  protected COMP_IMG = require("./img/company.jpg");
+  protected COMP_IMG = require("./img/company.png");
 
   companies: Company[] = [];
   favouritesIds: number[] = [];

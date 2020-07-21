@@ -1,39 +1,38 @@
-<div *ngIf="company" class="row">
-  <div class="col-md-12 my-2">
-    <h3>{{company.name}}</h3>
+<div class="container my-4">
+<div class="row">
+  <div class="col-12 col-md-6">
+    <div class="bg-success-light p-5" *ngIf="company">
+    
+            <div class="row">
+              <div class="col-12 col-md-12">
+                <h1>{{company.name}}</h1>
+                <p>{{currentCulture == 'EN' ? company.description_EN : company.description_RO}}</p>
+                <h3><small>Address</small> {{company.address}}</h3>
+              </div>
+              <div class="col-12 col-md-12">
+                <button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary btn-lg my-2"
+                  (click)="goToBooking(idCompany,companyName)"><i class="fa fa-arrow-right"></i>
+                  {{getCurrentLabelValue('lblBookNow')}}</button>
+                <span *ngIf="company && !company.allowOnlineBookings">{{getCurrentLabelValue('lblCompanyNotAllowBookings')}}.</span>
+              </div>
+            </div>
+    </div>
   </div>
+  <div class="col-12 col-md-6">
+          <ul *ngIf="images.length>0" class="imgList">
+            <li *ngFor="let img of images; let i=index">
+              <img class="img-fluid border shadow-sm" [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)">
+            </li>
+          </ul>
+          <img *ngIf="images.length==0" [src]="COMP_IMG" class="img-fluid border shadow-sm mb-2"></div>
 </div>
+
 
 
 <div class="row">
   <div *ngIf="company" class="col-md-6">
     <form class="form-horizontal" id="user-form">
 
-      <div class="row">
-        <div class="col-md-12">
-          <ul *ngIf="images.length>0" class="imgList">
-            <li *ngFor="let img of images; let i=index">
-              <img class="img-thumbnail" [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)"
-                style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
-            </li>
-          </ul>
-          <img *ngIf="images.length==0" [src]="COMP_IMG" style="height: auto;width: auto;max-height: 100px;max-width: 100%;">
-        </div>
-
-      </div>
-
-      <div class="bg-light border p-2">
-      <div class="row">
-        <div class="col-12 col-md-8">
-          {{currentCulture == 'EN' ? company.description_EN : company.description_RO}}
-        </div><div class="col-12 col-md-4 text-right">
-          <button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary"
-          (click)="goToBooking(idCompany,companyName)"><i class="fa fa-arrow-right"></i>
-          {{getCurrentLabelValue('lblBookNow')}}</button>
-        <span *ngIf="company && !company.allowOnlineBookings">{{getCurrentLabelValue('lblCompanyNotAllowBookings')}}.</span>
-          </div>
-      </div>
-      </div>
       <div class="row">
         <div class="col-6 col-md-2" for="category">{{getCurrentLabelValue('lblCategory')}}:</div>
         <div class="col-6 col-md-10">
@@ -91,7 +90,7 @@
   </div>
   <div class="col-md-6">
     <div class="row">
-      <div class="col-md-12" style="height: 100%;">
+      <div class="col-md-12 mb-4" style="height: 100%;">
         <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'450px'}" [overlays]="gMapOverlays">
         </p-gmap>
       </div>

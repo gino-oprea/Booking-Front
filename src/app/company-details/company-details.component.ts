@@ -20,7 +20,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
 
   @ViewChild('map', { static: false }) map;
 
-  public COMP_IMG = require("../img/company.jpg");
+  public COMP_IMG = require("../img/company.png");
 
   companyName: string = '';
   company: Company;

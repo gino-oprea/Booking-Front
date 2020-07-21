@@ -9,6 +9,14 @@ import { WebSites } from '../enums/enums';
 })
 export class LandingPageComponent extends BaseComponent implements OnInit {
 
+
+  public COMP_LOGO = require("../img/logo.png");
+  public COMP_Banner = require("../img/home-banner.png");
+  public COMP_Banner1 = require("../img/mobile-app.png");
+  public APP_GooglePlay = require("../img/google-play.png");
+  public APP_Store = require("../img/app-store.png");
+
+D
   constructor(private injector: Injector) {
     super(injector, []);
     this.site = WebSites.Front;

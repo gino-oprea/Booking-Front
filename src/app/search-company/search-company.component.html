@@ -1,28 +1,34 @@
-<h2>{{getCurrentLabelValue('lblCompanies')}}</h2>
+<div class="container my-4">
+<h2 class="d-none">{{getCurrentLabelValue('lblCompanies')}}</h2>
 
 <div class="row">
-    <div (click)="goToCompanyDetails(company.id,company.name)" *ngFor="let company of companies; let i=index"  class="col-12 col-md-3 col-sm-6">
+    <div (click)="goToCompanyDetails(company.id,company.name)" *ngFor="let company of companies; let i=index"  class="col-12 col-md-4 col-sm-6">
 
       <div class="card shadow mb-3" style="min-height: 385px;">
-        <div class="bg-light text-center p-3">
+        <div class="bg-light text-center">
+
+          <a *ngIf="isAuth()" class="float-right position-absolute pointer" (click)="toggleFavourite(company.id, $event)" style="right: 15px; top: 15px;"><i
+              [ngClass]="isFavourite(company.id)? 'fa fa-heart fa-2x text-danger':'fa fa-heart-o fa-2x text-danger'"></i></a>
+
+
             <img *ngIf="company.image"
               [src]="company.image.length==0 ? COMP_IMG : domSanitizationService.bypassSecurityTrustUrl('data:image/png;base64,'+company.image[0].img)"
-              class="w-auto card-img-top rounded-circle pointer" style="max-height: 150px; max-width: 250px">
+              class="w-100 card-img-top pointer">
               
-                    <a *ngIf="isAuth()" class="float-right pointer" (click)="toggleFavourite(company.id, $event)"><i 
-                      [ngClass]="isFavourite(company.id)? 'fa fa-heart fa-2x text-danger':'fa fa-heart-o fa-2x text-danger'"></i></a>
-                    <!-- daca e bifat: fa-heart in floc de fa-heart-o"></i> -->
           </div>
           <div class="card-body">
-            <h4 class="card-title">{{company.name}}</h4>
+            <h4 class="card-title">{{company.name}}
+              <p class="small float-right text-success"> {{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}</p>
+
+            </h4>
             <div class="row card-text">
-              <div class="col-md-4">{{getCurrentLabelValue('lblCategory')}}:</div>
-              <div class="col-md-8">{{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}</div>
-              <div class="col-md-4">Email:</div>
-              <div class="col-md-8">{{company.email}}</div>
-              <div class="col-md-4">{{getCurrentLabelValue('lblCity')}}:</div>
-              <div class="col-md-8">{{company.cityName}}</div>
-              <div class="col-md-4">{{getCurrentLabelValue('lblAddress')}}:</div>
+              <div class="col-md-4 d-none">{{getCurrentLabelValue('lblCategory')}}:</div>
+              <div class="col-md-8 d-none">{{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}}</div>
+              <div class="col-md-4 d-none">Email:</div>
+              <div class="col-md-8 d-none">{{company.email}}</div>
+              <div class="col-md-4 d-none">{{getCurrentLabelValue('lblCity')}}:</div>
+              <div class="col-md-8 d-none">{{company.cityName}}</div>
+              <div class="col-md-4 d-none">{{getCurrentLabelValue('lblAddress')}}:</div>
               <div class="col-md-8">{{company.address}}</div>
             </div>
           </div>
@@ -30,21 +36,16 @@
       </div>
     
 
-    <div *ngFor="let dummyComp of dummyCompanyArray(emptySlotsNo);" class="col-12 col-md-3 col-sm-6">
+    <div *ngFor="let dummyComp of dummyCompanyArray(emptySlotsNo);" class="col-12 col-md-4 col-sm-6">
       <div class="card shadow mb-3" style="min-height: 385px;">
-        <div class="bg-light text-center p-3">
-            <img [src]="COMP_IMG" class="w-auto card-img-top rounded-circle pointer" style="max-height: 150px; max-width: 250px;">
+        <div class="bg-light text-center">
+            <img [src]="COMP_IMG" class="w-100 card-img-top pointer">
           </div>
           <div class="card-body">
             <h4 class="card-title">{{getCurrentLabelValue('lblYourCompanyHere')}}</h4>
             <div class="row card-text">
-              <div class="col-md-4">{{getCurrentLabelValue('lblCategory')}}:</div>
-              <div class="col-md-8"></div>
-              <div class="col-md-4">Email:</div>
-              <div class="col-md-8"></div>
-              <div class="col-md-4">{{getCurrentLabelValue('lblCity')}}:</div>
-              <div class="col-md-8"></div>
-              <div class="col-md-4">{{getCurrentLabelValue('lblAddress')}}:</div>
+
+              <div class="col-md-4">{{getCurrentLabelValue('lblAddress')}}</div>
               <div class="col-md-8"></div>
             </div>
           </div>
@@ -54,3 +55,5 @@
 
 
 <p-growl [value]="pageMsgs"></p-growl>
+
+</div>

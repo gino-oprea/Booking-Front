@@ -1,3 +1,5 @@
+
+<div class="container">
 <div class="row">
   <div class="col-md-12 my-2">
     <h3>{{companyName}}</h3>
@@ -5,13 +7,13 @@
 </div>
 
 <div class="row">
-  <div class="col-md-2">
+  <div class="col-md-3">
     <div class="alert alert-info">
     <!-- <bf-booking-filter (filterChanged)="filterChanged($event)"></bf-booking-filter> -->
     <bf-booking-filter2 [idCompany]="idCompany" [selectedDate]="shiftedDate" (filterChanged)="filterChanged($event)"></bf-booking-filter2>   
   </div>
   </div>
-  <div *ngIf="bookingDefaultDuration" class="col-md-10" style="height:100%; overflow-x: auto;">
+  <div *ngIf="bookingDefaultDuration" class="col-md-9 mb-5">
     <!-- <bf-booking-calendar *ngIf="showCalendarBooking"></bf-booking-calendar> -->
     <bf-booking-hours *ngIf="!showCalendarBooking" [idCompany]="idCompany" [selectedFilter]="selectedFilter" 
     (selectDate)="onShiftWeek($event)" (selectTimeSlot)="onSelectBookingHour($event)"></bf-booking-hours>
@@ -26,3 +28,5 @@
 </p-dialog>
 
 <p-growl [value]="pageMsgs"></p-growl>
+
+</div>
