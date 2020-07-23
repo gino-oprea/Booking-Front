@@ -163,11 +163,42 @@ export class BookingHoursComponent extends BaseComponent implements OnInit, OnCh
                   this.isFirstLoad = false;
                   this.shiftWeek(WeekShiftType.Right)
                 }
+
+                this.removeUnusableTimeslots();
               }
             }
           });
         }
       });
+  }
+
+  removeUnusableTimeslots()
+  {    
+    //let hours = 24;
+    for (let i = 23; i >=0; i--)//orele - pentru a parcurge orele linie cu linie pe toate zilele
+    {
+      let selectableExists = false;//se reseteaza la fiecare schimbare de rand a orelor
+      break_level:
+      for (let j = 0; j < this.hoursMatrix.length; j++)//zile
+      {
+        for (let k = 0; k < this.hoursMatrix[j][i].length; k++)//timesloturile de pe ora respectiva
+        {
+          if (this.hoursMatrix[j][i][k].isSelectable)
+          {
+            selectableExists = true;
+            break break_level;
+          }
+        }
+      }
+
+      if (!selectableExists)//eliminam toate timesloturile de pe ora respectiva
+      {
+        for (let j = 0; j < this.hoursMatrix.length; j++)//zile
+        {          
+          this.hoursMatrix[j].splice(i, 1);
+        }
+      }
+    }
   }
 
   getTimeslotValueAsString(timeslot: Timeslot): string
