@@ -1,6 +1,6 @@
-<div class="container mt-3">
-  <div class="row">
-    <div class="col-md-6 offset-md-3 p-4 bg-light shadow">
+<div class="mt-3 p-4">
+  <div class="container">
+
 
       <div class="row">
         <div class="col-md-12 mb-3">
@@ -9,7 +9,7 @@
       </div>
 
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-8">
 
       <form class="form-horizontal" id="user-form" 
       [formGroup]="userForm" (ngSubmit)="onSave()">
@@ -63,6 +63,8 @@
               </div>                                                                     
           </div>        
       </form>
+  </div>
+</div>
   </div>
 </div>
 <p-growl [value]="pageMsgs"></p-growl>
