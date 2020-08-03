@@ -74,7 +74,12 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
         if (this.bookings.length > 0)
         {
           this.selectedBooking = this.bookings[0];
-          this.setupSelectedBookingImages();
+          //this.setupSelectedBookingImages();
+          for (let i = 0; i < this.bookings.length; i++) 
+          {
+            let booking = this.bookings[i];
+            this.setupBookingImages(booking);
+          }
         }
         else
           this.selectedBooking = null;
@@ -105,6 +110,25 @@ export class MyBookingsComponent extends BaseComponent implements OnInit
       {
         const images = <Image[]>imageResults[i].objList;
         this.selectedBooking.entities[i].images = images;
+      }
+    });
+  }
+  setupBookingImages(booking: Booking)
+  {
+    //setup images
+    let requests = [];
+    for (let i = 0; i < booking.entities.length; i++)
+    {
+      const entity = booking.entities[i];
+      requests.push(this.imageService.getEntityImages(entity.idEntity));
+    }
+
+    forkJoin(requests).subscribe((imageResults: GenericResponseObject[]) =>
+    {
+      for (let i = 0; i < imageResults.length; i++) 
+      {
+        const images = <Image[]>imageResults[i].objList;
+        booking.entities[i].images = images;
       }
     });
   }
