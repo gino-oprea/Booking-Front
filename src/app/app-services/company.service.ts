@@ -20,9 +20,14 @@ export class CompanyService
   createCompany(idUser: number,
     idSubscription: number,
     amount: number,
-    months: number): Observable<GenericResponseObject>
+    months: number,
+    company?: Company): Observable<GenericResponseObject>
   {
-    const body = null;
+    let body = null;
+    
+    if (company != null)
+      body = JSON.stringify(company);
+    
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

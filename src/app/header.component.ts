@@ -19,6 +19,7 @@ import { CompanyService } from './app-services/company.service';
 import { SubscriptionObject } from './objects/subscription-object';
 import { first } from 'rxjs/operators';
 import { GenericDictionaryItem } from './objects/generic-dictionary-item';
+import { Company } from './objects/company';
 
 @Component({
   selector: 'bf-header',
@@ -59,6 +60,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
   confirmAddCompanyMessage: string = "This will create a new company. Are you sure?";
 
   resetCaptcha: boolean = true;
+  addCompanyForm: FormGroup;
 
   constructor(private injector: Injector,
     private confirmationService: ConfirmationService,
@@ -102,7 +104,10 @@ export class HeaderComponent extends BaseComponent implements OnInit
         'lblAllCategories',
         'lblAllSubcategories',
         'lblCompanyAdded',
-        'lblFavourites'
+        'lblFavourites',
+        'lblDescription',
+        'lblSave',
+        'lblCompanyName'
       ]
     );
 
@@ -124,12 +129,22 @@ export class HeaderComponent extends BaseComponent implements OnInit
   {
     this.loadSubscriptions();
 
+    this.initFormAddCompany();
+
     //this.loadCountries();
     this.loadCounties();
     this.loadCities();
 
     this.loadCategories();
     this.loadSubCategories();
+  }
+  initFormAddCompany()
+  {
+    this.addCompanyForm = new FormGroup({
+      'addCompanyName': new FormControl('', Validators.required),
+      'addCompanyDescription_RO': new FormControl('', Validators.required),
+      'addCompanyDescription_EN': new FormControl('', Validators.required)
+    });
   }
   loadCountries()
   {
@@ -335,6 +350,17 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
     this.displayConfirmAddCompany = false;
   }
+  onAddCompanyForm()
+  {
+    let comp = new Company();
+    comp.name = this.addCompanyForm.controls["addCompanyName"].value;
+    comp.description_RO = this.addCompanyForm.controls["addCompanyDescription_RO"].value;
+    comp.description_EN = this.addCompanyForm.controls["addCompanyDescription_EN"].value;
+
+    this.addNewCompany(this.subscriptions[0].id, 0, 12, comp);
+    this.displayConfirmAddCompany = false;
+    this.addCompanyForm.reset();
+  }
   loadSubscriptions()
   {
     this.subscriptionsService.getSubscriptions().subscribe(
@@ -381,9 +407,9 @@ export class HeaderComponent extends BaseComponent implements OnInit
       this.logAction(this.idCompany, true, Actions.Add, ex.message, 'error choosing subscription');
     }
   }
-  addNewCompany(idSubscription: number, amount: number, months: number)
+  addNewCompany(idSubscription: number, amount: number, months: number, company?:Company)
   {
-    this.companyService.createCompany(this.loginService.getCurrentUser().id, idSubscription, amount, months)
+    this.companyService.createCompany(this.loginService.getCurrentUser().id, idSubscription, amount, months, company)
       .subscribe(result =>
       {
         let gro = <GenericResponseObject>result;
@@ -405,7 +431,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
 
             this.router.navigate(['/company', idCompany, 'generaldetails']);
           });
-          this.autoLogin();//mai sus e pregatit subscriptionul ca sa prinda schimbarea de token si sa faca routing-ul catre noua companie           
+          this.autoLogin();//mai sus e pregatit subscription-ul ca sa prinda schimbarea de token si sa faca routing-ul catre noua companie           
         }
       },
         err => this.logAction(this.idCompany, true, Actions.Add, 'http error adding company', ''));
@@ -413,5 +439,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
   onCloseAddCompanyDialog()
   {
     this.resetCaptcha = !this.resetCaptcha;
+
+    this.addCompanyForm.reset();
   }
 }

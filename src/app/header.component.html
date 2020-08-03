@@ -1,223 +1,275 @@
 <div class="container">
-<div class="row py-3">
-  <div class="col-12 col-md-2">
-    <a [routerLink]="['/landing']"><img [src]="COMP_LOGO" class="img-fluid"></a>
-  </div>
-  <div class="col-12 col-md-4">
-    <div class="form-inline">
-      <input class="form-control w-75 mr-sm-2" type="text" aria-label="Search" [(ngModel)]="searchString"
-        placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()">
-      <button class="btn btn-outline-success my-2 my-sm-0" (click)="doSearch()">Search</button>
+  <div class="row py-3">
+    <div class="col-12 col-md-2">
+      <a [routerLink]="['/landing']"><img [src]="COMP_LOGO" class="img-fluid"></a>
     </div>
-  </div>
-  <div class="col-8 col-md-2 text-right">
-    <div class="dropdown">
-      <a class="dropdown-toggle btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-user-circle text-secondary fa-lg"></i> {{getMyAccountText()}}
-      </a>
-      <div class="dropdown-menu topddl" aria-labelledby="dropdownMenuButton">
-
-        <div *ngIf="!isAuth()">
-          <div class="dropdown-item">
-            <form class="form" role="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" id="login-nav">
-              <div class="form-group">
-                <label class="sr-only" for="email">Email address</label>
-                <input type="text" class="form-control" id="email" formControlName="email" placeholder="Email">
-              </div>
-              <div class="form-group">
-                <label class="sr-only" for="password">
-                  {{getCurrentLabelValue('lblPassword')}}</label>
-                <input type="password" class="form-control" id="password" formControlName="password"
-                  [placeholder]="getCurrentLabelValue('lblPassword')">
-                <div class="help-block text-right">
-                  <a style="cursor: pointer;" (click)="displayConfirmDialog()">
-                    {{getCurrentLabelValue('lblForgotPassword')}}</a>
-                </div>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Log
-                  in</button>
-              </div>
-            </form>
-          </div>
-          <div class="dropdown-divider"></div>
-
-          <div class="dropdown-item bg-light">
-            <a [routerLink]="['/register']" class="POINTER">
-              <i class="fa fa-sign-in text-secondary fa-lg"></i> {{getCurrentLabelValue('lblRegister')}}</a>
-          </div>
-        </div>
-
-
-        <div *ngIf="isAuth()">
-
-          <div class="dropdown-item">
-            <a [routerLink]="['/myaccount']" class="pointer">{{getCurrentLabelValue('lblAccountDetails')}}</a>
-          </div>
-          <div class="dropdown-item">
-            <a [routerLink]="['/changepassword']" class="pointer">{{getCurrentLabelValue('lblChangePassword')}}</a>
-          </div>
-          <div class="dropdown-item">
-            <a [routerLink]="['/mycompanies']" class="pointer">{{getCurrentLabelValue('lblMyCompanies')}}</a>
-          </div>
-          <div class="dropdown-item">
-            <a [routerLink]="['/mybookings']" class="pointer">{{getCurrentLabelValue('lblMyBookings')}}</a>
-          </div>
-          <div class="dropdown-item">
-            <a [routerLink]="['/favourites']" class="pointer">{{getCurrentLabelValue('lblFavourites')}}</a>
-          </div>
-          <div class="dropdown-divider"></div>
-          <div class="dropdown-item bg-light">
-            <a (click)="onLogout()" class="pointer"><i class="fa fa-sign-out text-secondary fa-lg"></i> Logout</a>
-          </div>
-
-        </div>
-
+    <div class="col-12 col-md-4">
+      <div class="form-inline">
+        <input class="form-control w-75 mr-sm-2" type="text" aria-label="Search" [(ngModel)]="searchString"
+          placeholder="{{getCurrentLabelValue('lblSearchCompany')}}" (keyup.enter)="doSearch()">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="doSearch()">Search</button>
       </div>
     </div>
+    <div class="col-8 col-md-2 text-right">
+      <div class="dropdown">
+        <a class="dropdown-toggle btn btn-light" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-user-circle text-secondary fa-lg"></i> {{getMyAccountText()}}
+        </a>
+        <div class="dropdown-menu topddl" aria-labelledby="dropdownMenuButton">
 
-  </div>
-  <div class="col-4 col-md-1">
-    <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture"
-      (onChange)="onCultureChange()" class="mr-2"></p-dropdown>
+          <div *ngIf="!isAuth()">
+            <div class="dropdown-item">
+              <form class="form" role="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" id="login-nav">
+                <div class="form-group">
+                  <label class="sr-only" for="email">Email address</label>
+                  <input type="text" class="form-control" id="email" formControlName="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="password">
+                    {{getCurrentLabelValue('lblPassword')}}</label>
+                  <input type="password" class="form-control" id="password" formControlName="password"
+                    [placeholder]="getCurrentLabelValue('lblPassword')">
+                  <div class="help-block text-right">
+                    <a style="cursor: pointer;" (click)="displayConfirmDialog()">
+                      {{getCurrentLabelValue('lblForgotPassword')}}</a>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Log
+                    in</button>
+                </div>
+              </form>
+            </div>
+            <div class="dropdown-divider"></div>
 
-  </div>
-  <div class="col-12 col-md-3 text-center text-md-auto my-2 my-md-0">
-    <button class="btn btn-primary from-control" style="margin-right: 5px;" (click)="onAddNewCompany()">
-      <i class="fa fa-plus"></i> {{getCurrentLabelValue('lblCreateNewCompany')}}</button>
+            <div class="dropdown-item bg-light">
+              <a [routerLink]="['/register']" class="POINTER">
+                <i class="fa fa-sign-in text-secondary fa-lg"></i> {{getCurrentLabelValue('lblRegister')}}</a>
+            </div>
+          </div>
 
+
+          <div *ngIf="isAuth()">
+
+            <div class="dropdown-item">
+              <a [routerLink]="['/myaccount']" class="pointer">{{getCurrentLabelValue('lblAccountDetails')}}</a>
+            </div>
+            <div class="dropdown-item">
+              <a [routerLink]="['/changepassword']" class="pointer">{{getCurrentLabelValue('lblChangePassword')}}</a>
+            </div>
+            <div class="dropdown-item">
+              <a [routerLink]="['/mycompanies']" class="pointer">{{getCurrentLabelValue('lblMyCompanies')}}</a>
+            </div>
+            <div class="dropdown-item">
+              <a [routerLink]="['/mybookings']" class="pointer">{{getCurrentLabelValue('lblMyBookings')}}</a>
+            </div>
+            <div class="dropdown-item">
+              <a [routerLink]="['/favourites']" class="pointer">{{getCurrentLabelValue('lblFavourites')}}</a>
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-item bg-light">
+              <a (click)="onLogout()" class="pointer"><i class="fa fa-sign-out text-secondary fa-lg"></i> Logout</a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="col-4 col-md-1">
+      <p-dropdown [style]="{'width':'60px'}" [options]="cultures" [(ngModel)]="selectedCulture"
+        (onChange)="onCultureChange()" class="mr-2"></p-dropdown>
+
+    </div>
+    <div class="col-12 col-md-3 text-center text-md-auto my-2 my-md-0">
+      <button class="btn btn-primary from-control" style="margin-right: 5px;" (click)="onAddNewCompany()">
+        <i class="fa fa-plus"></i> {{getCurrentLabelValue('lblCreateNewCompany')}}</button>
+
+    </div>
   </div>
-</div>
 </div>
 
 <div class="row">
   <div class="col-12 text-center px-0">
     <div class="bg-light shadow-sm border-top border-bottom text-center">
-<div class="container text-center">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#">Filtre</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+      <div class="container text-center">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand" href="#">Filtre</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
 
-            <li class="nav-item mr-2">
-              <select class="form-control" [(ngModel)]="selectedCountyId" (change)="loadCities()">
-                <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
-                <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}
-                </option>
-              </select>
+              <li class="nav-item mr-2">
+                <select class="form-control" [(ngModel)]="selectedCountyId" (change)="loadCities()">
+                  <option value="0">{{getCurrentLabelValue('lblAllCounties')}}</option>
+                  <option *ngFor="let county of countiesDic; let i=index" [value]="county.id">{{county.name}}
+                  </option>
+                </select>
 
-            </li>
-            <li class="nav-item mr-2">
-              <select class="form-control" [(ngModel)]="selectedCityId">
-                <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
-                <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}
-                </option>
-              </select>
+              </li>
+              <li class="nav-item mr-2">
+                <select class="form-control" [(ngModel)]="selectedCityId">
+                  <option value="0">{{getCurrentLabelValue('lblAllCities')}}</option>
+                  <option *ngFor="let city of citiesDic; let i=index" [value]="city.id">{{city.name}}
+                  </option>
+                </select>
 
-            </li>
-            <li class="nav-item mr-2">
-              <select class="form-control" [(ngModel)]="selectedCategoryId" (change)="onChangeCategory()">
-                <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
-                <option *ngFor="let c of categories" [value]="c.id">{{currentCulture == 'EN' ? c.value_EN : c.value_RO}}
-                </option>
-              </select>
+              </li>
+              <li class="nav-item mr-2">
+                <select class="form-control" [(ngModel)]="selectedCategoryId" (change)="onChangeCategory()">
+                  <option value="0">{{getCurrentLabelValue('lblAllCategories')}}</option>
+                  <option *ngFor="let c of categories" [value]="c.id">
+                    {{currentCulture == 'EN' ? c.value_EN : c.value_RO}}
+                  </option>
+                </select>
 
-            </li>
-            <li class="nav-item mr-2">
+              </li>
+              <li class="nav-item mr-2">
 
-              <select class="form-control" [(ngModel)]="selectedSubcategoryId">
-                <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
-                <option *ngFor="let s of subcategories" [value]="s.id">
-                  {{currentCulture == 'EN' ? s.value_EN : s.value_RO}}
-                </option>
-              </select>
+                <select class="form-control" [(ngModel)]="selectedSubcategoryId">
+                  <option value="0">{{getCurrentLabelValue('lblAllSubcategories')}}</option>
+                  <option *ngFor="let s of subcategories" [value]="s.id">
+                    {{currentCulture == 'EN' ? s.value_EN : s.value_RO}}
+                  </option>
+                </select>
 
-            </li>
-          </ul>
+              </li>
+            </ul>
 
+          </div>
+        </nav>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayDialog" modal="modal" width="300"
+    responsive="true">
+    <p>{{getCurrentLabelValue('lblConfirmForgotPassword')}}</p>
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" pButton (click)="displayDialog=false" [label]="getCurrentLabelValue('lblNo')"></button>
+        <button type="button" pButton (click)="onForgotPassword()" [label]="getCurrentLabelValue('lblYes')"></button>
+      </div>
+    </footer>
+  </p-dialog>
+
+  <p-dialog header="{{getCurrentLabelValue('lblSubscriptions')}}" [(visible)]="showSubscriptionDialog" modal="modal"
+    width="1000" responsive="true">
+    <div *ngFor="let subscription of subscriptions; let i=index" class="col-md-3">
+      <div class="row" style="border-bottom:1px #e6e6e6 solid;background-color: #2399e5; margin-right:1px;">
+        <label class="col-sm-4 control-label">{{subscription.subscriptionName}}</label>
+      </div>
+
+      <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
+        <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblMonthlyBookings')}}:</div>
+        <div class="col-md-3" style="padding: 5px">
+          {{subscription.monthlyBookingsNo==null?getCurrentLabelValue('lblUnlimited'):subscription.monthlyBookingsNo}}
         </div>
-      </nav>
-      
-    </div>
-  </div>
-</div>
+      </div>
 
+      <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
+        <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblLevels')}}:</div>
+        <div class="col-md-3" style="padding: 5px">
+          {{subscription.levelsNo==null?getCurrentLabelValue('lblUnlimited'):subscription.levelsNo}}</div>
+      </div>
 
+      <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
+        <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblEntitiesPerLevel')}}:</div>
+        <div class="col-md-3" style="padding: 5px">
+          {{subscription.entitiesPerLevelNo==null?getCurrentLabelValue('lblUnlimited'):subscription.entitiesPerLevelNo}}
+        </div>
+      </div>
 
-<p-dialog [header]="getCurrentLabelValue('lblConfirmation')" [(visible)]="displayDialog" modal="modal" width="300"
-  responsive="true">
-  <p>{{getCurrentLabelValue('lblConfirmForgotPassword')}}</p>
-  <footer>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton (click)="displayDialog=false" [label]="getCurrentLabelValue('lblNo')"></button>
-      <button type="button" pButton (click)="onForgotPassword()" [label]="getCurrentLabelValue('lblYes')"></button>
-    </div>
-  </footer>
-</p-dialog>
-
-<p-dialog header="{{getCurrentLabelValue('lblSubscriptions')}}" [(visible)]="showSubscriptionDialog" modal="modal"
-  width="1000" responsive="true">
-  <div *ngFor="let subscription of subscriptions; let i=index" class="col-md-3">
-    <div class="row" style="border-bottom:1px #e6e6e6 solid;background-color: #2399e5; margin-right:1px;">
-      <label class="col-sm-4 control-label">{{subscription.subscriptionName}}</label>
-    </div>
-
-    <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
-      <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblMonthlyBookings')}}:</div>
-      <div class="col-md-3" style="padding: 5px">
-        {{subscription.monthlyBookingsNo==null?getCurrentLabelValue('lblUnlimited'):subscription.monthlyBookingsNo}}
+      <div class="row" style="background-color: #f5f5f5;margin-right: 1px;">
+        <div class="col-sm-12" style="margin-left: 10px;">
+          <label class="radio">
+            <input type="radio" name="price" id="rbOneMonth" [(ngModel)]="selectedSubscriptionPrice"
+              [value]="subscription.monthlyPrice==null ? subscription.id+'|monthly_0' : subscription.id+'|monthly_'+subscription.monthlyPrice"
+              style="cursor: pointer;">
+            {{getCurrentLabelValue('lblOneMonth')}}
+            ({{subscription.monthlyPrice==null ? 0 : subscription.monthlyPrice}} EUR) </label>
+          <label class="radio">
+            <input type="radio" name="price" id="rbOneYear" style="cursor: pointer;"
+              [(ngModel)]="selectedSubscriptionPrice"
+              [value]="subscription.yearlyPrice==null ? subscription.id+'|yearly_0' : subscription.id+'|yearly_'+subscription.yearlyPrice">
+            {{getCurrentLabelValue('lblOneYear')}}
+            ({{subscription.yearlyPrice==null ? 0 : subscription.yearlyPrice}} EUR)</label>
+        </div>
       </div>
     </div>
 
-    <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
-      <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblLevels')}}:</div>
-      <div class="col-md-3" style="padding: 5px">
-        {{subscription.levelsNo==null?getCurrentLabelValue('lblUnlimited'):subscription.levelsNo}}</div>
-    </div>
-
-    <div class="row" style="border-bottom:1px #e6e6e6 solid;margin-right:1px;background-color: #f5f5f5;">
-      <div class="col-md-7" style="padding: 5px">{{getCurrentLabelValue('lblEntitiesPerLevel')}}:</div>
-      <div class="col-md-3" style="padding: 5px">
-        {{subscription.entitiesPerLevelNo==null?getCurrentLabelValue('lblUnlimited'):subscription.entitiesPerLevelNo}}
+    <footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button type="button" pButton icon="fa-check" (click)="chooseSubscription()" label="OK"></button>
       </div>
-    </div>
+    </footer>
+  </p-dialog>
 
-    <div class="row" style="background-color: #f5f5f5;margin-right: 1px;">
-      <div class="col-sm-12" style="margin-left: 10px;">
-        <label class="radio">
-          <input type="radio" name="price" id="rbOneMonth" [(ngModel)]="selectedSubscriptionPrice"
-            [value]="subscription.monthlyPrice==null ? subscription.id+'|monthly_0' : subscription.id+'|monthly_'+subscription.monthlyPrice"
-            style="cursor: pointer;">
-          {{getCurrentLabelValue('lblOneMonth')}}
-          ({{subscription.monthlyPrice==null ? 0 : subscription.monthlyPrice}} EUR) </label>
-        <label class="radio">
-          <input type="radio" name="price" id="rbOneYear" style="cursor: pointer;"
-            [(ngModel)]="selectedSubscriptionPrice"
-            [value]="subscription.yearlyPrice==null ? subscription.id+'|yearly_0' : subscription.id+'|yearly_'+subscription.yearlyPrice">
-          {{getCurrentLabelValue('lblOneYear')}}
-          ({{subscription.yearlyPrice==null ? 0 : subscription.yearlyPrice}} EUR)</label>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-      <button type="button" pButton icon="fa-check" (click)="chooseSubscription()" label="OK"></button>
-    </div>
-  </footer>
-</p-dialog>
-
-<p-dialog header="{{getCurrentLabelValue('lblConfirmation')}}" [(visible)]="displayConfirmAddCompany"
-  (onHide)="onCloseAddCompanyDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="400">
-  <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblConfirmCreateNewCompany')"
+  <p-dialog header="{{getCurrentLabelValue('lblConfirmCreateNewCompany')}}" [(visible)]="displayConfirmAddCompany"
+    (onHide)="onCloseAddCompanyDialog()" [responsive]="true" showEffect="fade" [modal]="true" width="600">
+    <!-- <bf-generic-confirm-dialog [confirmMessage]="getCurrentLabelValue('lblConfirmCreateNewCompany')"
     (onConfirm)="onConfirmAddCompany($event)" [useCaptcha]="false" [resetCaptcha]="resetCaptcha">
-  </bf-generic-confirm-dialog>
-</p-dialog>
+  </bf-generic-confirm-dialog> -->
+    <form class="form-horizontal" style="height: 100%" id="addEntity-form" [formGroup]="addCompanyForm"
+      (ngSubmit)="onAddCompanyForm()">
+      <div class="ui-grid ui-grid-responsive ui-fluid">
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4">
+            <label style="padding: 5px;" for="addCompanyName">{{getCurrentLabelValue('lblCompanyName')}}:</label>
+          </div>
+          <div class="ui-grid-col-8">
+            <input type="text" id="addCompanyName" formControlName="addCompanyName" [ngClass]="{'valid-control':addCompanyForm.controls['addCompanyName'].valid,
+                              'invalid-control':!addCompanyForm.controls['addCompanyName'].valid}"
+              class="form-control">
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="ui-grid ui-grid-responsive ui-fluid">
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4">
+            <label style="padding: 5px;" for="addCompanyDescription_RO">{{getCurrentLabelValue('lblDescription')}}
+              RO:</label>
+          </div>
+          <div class="ui-grid-col-8">
+            <textarea type="text" id="addCompanyDescription_RO" formControlName="addCompanyDescription_RO" [ngClass]="{'valid-control':addCompanyForm.controls['addCompanyDescription_RO'].valid,
+                          'invalid-control':!addCompanyForm.controls['addCompanyDescription_RO'].valid}"
+              class="form-control"></textarea>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="ui-grid ui-grid-responsive ui-fluid">
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-4">
+            <label style="padding: 5px;" for="addCompanyDescription_EN">{{getCurrentLabelValue('lblDescription')}}
+              EN:</label>
+          </div>
+          <div class="ui-grid-col-8">
+            <textarea type="text" id="addCompanyDescription_EN" formControlName="addCompanyDescription_EN" [ngClass]="{'valid-control':addCompanyForm.controls['addCompanyDescription_EN'].valid,
+                          'invalid-control':!addCompanyForm.controls['addCompanyDescription_EN'].valid}"
+              class="form-control"></textarea>
+          </div>
+        </div>
+      </div>
+      <br>
+      <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button type="submit" [disabled]="!addCompanyForm.valid" class="btn btn-success">
+            <i class="fa fa-check"> {{getCurrentLabelValue('lblSave')}}</i>
+          </button>
+        </div>
+      </footer>
+    </form>
+  </p-dialog>
 
-<p-growl [value]="pageMsgs"></p-growl>
+  <p-growl [value]="pageMsgs"></p-growl>
