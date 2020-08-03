@@ -6,10 +6,10 @@ import { EntitiesService } from '../../app-services/entities.service';
 import { GenericResponseObject } from '../../objects/generic-response-object';
 import { WorkingHours } from '../../objects/working-hours';
 import { WorkingDay } from '../../objects/working-day';
-import { CompanyService } from '../../app-services/company.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Entity } from '../../objects/entity';
 import { Booking } from '../../objects/booking';
+import { Company } from '../../objects/company';
 
 @Component({
   selector: 'bf-timetables',
@@ -32,10 +32,10 @@ export class TimetablesComponent extends BaseComponent implements OnInit
 
   displayAffectedBookings: boolean = false;
   affectedBookings: Booking[] = [];
+  company: Company;
 
   constructor(private injector: Injector,
-    private entitiesService: EntitiesService,
-    private companyService: CompanyService)
+    private entitiesService: EntitiesService)
   {
     super(injector, [
       'lblTimetables',
@@ -65,11 +65,11 @@ export class TimetablesComponent extends BaseComponent implements OnInit
   ngOnInit()
   {
     super.ngOnInit();
-
     this.loadCompanyWorkingHours();
     this.loadEntitiesAndCustomWorkingHours();
     this.initFormCustomWH();
-  }
+  }  
+
   loadCompanyWorkingHours()
   {
     this.companyService.getCompanyWorkingHours(this.idCompany).subscribe(result =>
