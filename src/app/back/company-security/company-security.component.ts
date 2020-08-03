@@ -16,6 +16,7 @@ export class CompanySecurityComponent extends BaseComponent implements OnInit
   constructor(private injector: Injector)
   { 
     super(injector, [
+      'lblCompanySecurity',
       'lblRoles',
       'lblUsers'
     ]);

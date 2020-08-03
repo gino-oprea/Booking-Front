@@ -26,8 +26,7 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
   emptySlotsNo: number = 10;
 
   constructor(private injector: Injector,
-    private companySearchService: CompanySearchService,
-    private companyService: CompanyService,
+    private companySearchService: CompanySearchService,    
     private imageService: ImageService,
     protected domSanitizationService: DomSanitizer)
   {

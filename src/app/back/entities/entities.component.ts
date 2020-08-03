@@ -84,8 +84,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
   specialDayWorkingHours: WorkingHours;
   selectedSpecialDayWorkingHoursString: string = '';
 
-  constructor(private injector: Injector,
-    private companyService: CompanyService,
+  constructor(private injector: Injector,    
     private imageService: ImageService,
     private levelsService: LevelsService,
     private entitiesService: EntitiesService)

@@ -64,8 +64,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
     private confirmationService: ConfirmationService,
     private companySearchService: CompanySearchService,
     private countriesService: CountriesService,
-    private subscriptionsService: SubscriptionsService,
-    private companyService: CompanyService)
+    private subscriptionsService: SubscriptionsService)
   {
     super(injector,
       [

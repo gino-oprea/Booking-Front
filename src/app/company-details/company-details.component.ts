@@ -40,8 +40,7 @@ export class CompanyDetailsComponent extends BaseComponent implements OnInit
 
 
   constructor(private injector: Injector,
-    private companySearchService: CompanySearchService,
-    private companyService: CompanyService,
+    private companySearchService: CompanySearchService,    
     private imageService: ImageService)
   {
     super(injector,

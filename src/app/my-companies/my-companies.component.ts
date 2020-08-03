@@ -38,8 +38,7 @@ export class MyCompaniesComponent extends BaseComponent implements OnInit
 
   constructor(private injector: Injector,
     //private subscriptionsService: SubscriptionsService,
-    private imageService: ImageService,
-    private companyService: CompanyService,
+    private imageService: ImageService,    
     public domSanitizationService: DomSanitizer)
   {
     super(injector, [

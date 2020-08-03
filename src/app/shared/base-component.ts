@@ -12,6 +12,8 @@ import { Label } from '../objects/label';
 import { UsersService } from '../app-services/users.service';
 import { LoginService } from '../app-services/login.service';
 import { Token } from '../objects/token';
+import { CompanyService } from '../app-services/company.service';
+import { Company } from '../objects/company';
 
 export class BaseComponent implements OnInit, OnDestroy
 {
@@ -19,6 +21,7 @@ export class BaseComponent implements OnInit, OnDestroy
     autoLoginTimeout;
 
     idCompany: number = null;
+    companyName: string = '';
     pageName: string;
     pageMsgs: Message[] = [];
     site = WebSites.Front;
@@ -28,6 +31,7 @@ export class BaseComponent implements OnInit, OnDestroy
     usersService: UsersService;
     loggerService: LoggerService;
     labelsService: LabelsService;
+    companyService: CompanyService;
     router: Router;
     route: ActivatedRoute;
     currentLabels: Label[] = [];
@@ -50,6 +54,7 @@ export class BaseComponent implements OnInit, OnDestroy
             this.labelsService = injector.get(LabelsService);
             this.loginService = injector.get(LoginService);
             this.usersService = injector.get(UsersService);
+            this.companyService = injector.get(CompanyService);
             this.router = injector.get(Router);
             this.route = injector.get(ActivatedRoute);
 
@@ -101,6 +106,26 @@ export class BaseComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         this.logAction(this.idCompany, false, Actions.View, "", "");
+        if (this.idCompany != null)
+            this.loadCompanyName();
+    }
+    loadCompanyName()
+    {
+        this.companyService.getCompany(this.loginService.getCurrentUser().id, this.idCompany).subscribe(gro =>
+        {
+            if (gro.error != '')
+            {
+                //this.showPageMessage('error', 'Error', gro.error);
+                this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+            }
+            else
+            {
+                if (gro.objList.length > 0)
+                {
+                    this.companyName = (<Company>gro.objList[0]).name;
+                }
+            }
+        });
     }
 
     redirectFromUnauthorizedPages()

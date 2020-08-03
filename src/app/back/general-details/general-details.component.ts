@@ -70,8 +70,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
 
 
 
-  constructor(private injector: Injector,
-    private companyService: CompanyService,
+  constructor(private injector: Injector,    
     private imageService: ImageService,
     private countriesService: CountriesService,
     private cd: ChangeDetectorRef
@@ -191,7 +190,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     combined1.subscribe(results =>
     {
       const [resultCompany, resultCategories, resultCounties] = results;
-      this.loadCompany(resultCompany);
+      this.loadComp(resultCompany);
       this.initCategories(resultCategories);
       this.initCounties(resultCounties);
 
@@ -330,7 +329,7 @@ export class GeneralDetailsComponent extends BaseComponent implements OnInit
     },
       err => this.logAction(this.idCompany, true, Actions.Search, 'http error getting company images', ''));
   }
-  loadCompany(gro: GenericResponseObject)
+  loadComp(gro: GenericResponseObject)
   {
     // this.companyService.getCompany(this.loginService.getCurrentUser().id, this.idCompany).subscribe(result =>
     // {
