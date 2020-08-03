@@ -19,9 +19,28 @@
     </div>
   </div>
   <div class="col-12 col-md-6">
-          <ul *ngIf="images.length>0" class="imgList">
+
+    <div *ngIf="images.length>0" id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="2000">
+      <div class="carousel-inner">
+        <div *ngFor="let img of images; let i=index" class="carousel-item active">
+          <img class="border shadow-sm d-block w-100" [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)">
+        </div>
+
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon fa fa-next" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+
+          <ul *ngIf="images.length>0" class="imgList d-none">
             <li *ngFor="let img of images; let i=index">
-              <img class="img-fluid border shadow-sm" [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)">
+              <img class="img-fluid border shadow-sm d-block w-100" [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)">
             </li>
           </ul>
           <img *ngIf="images.length==0" [src]="COMP_IMG" class="img-fluid border shadow-sm mb-2"></div>
@@ -29,7 +48,7 @@
 
 
 
-<div class="row">
+<div class="row my-3">
   <div *ngIf="company" class="col-md-6">
     <form class="form-horizontal" id="user-form">
 
