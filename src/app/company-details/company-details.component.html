@@ -1,124 +1,128 @@
 <div class="container my-4">
-<div class="row">
-  <div class="col-12 col-md-6">
-    <div class="bg-success-light p-5" *ngIf="company">
-    
-            <div class="row">
-              <div class="col-12 col-md-12">
-                <h1>{{company.name}}</h1>
-                <p>{{currentCulture == 'EN' ? company.description_EN : company.description_RO}}</p>
-                <h3><small>Address</small> {{company.address}}</h3>
-              </div>
-              <div class="col-12 col-md-12">
-                <button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary btn-lg my-2"
-                  (click)="goToBooking(idCompany,companyName)"><i class="fa fa-arrow-right"></i>
-                  {{getCurrentLabelValue('lblBookNow')}}</button>
-                <span *ngIf="company && !company.allowOnlineBookings">{{getCurrentLabelValue('lblCompanyNotAllowBookings')}}.</span>
-              </div>
-            </div>
-    </div>
-  </div>
-  <div class="col-12 col-md-6">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="bg-success-light p-5" *ngIf="company">
 
-    <div *ngIf="images.length>0" id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="2000">
-      <div class="carousel-inner">
-        <div *ngFor="let img of images; let i=index" class="carousel-item active">
-          <img class="border shadow-sm d-block w-100" [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)">
+        <div class="row">
+          <div class="col-12 col-md-12">
+            <h1>{{company.name}}</h1>
+            <p>{{currentCulture == 'EN' ? company.description_EN : company.description_RO}}</p>
+            <h3><small>Address</small> {{company.address}}</h3>
+          </div>
+          <div class="col-12 col-md-12">
+            <button *ngIf="company && company.allowOnlineBookings" class="btn btn-primary btn-lg my-2"
+              (click)="goToBooking(idCompany,companyName)"><i class="fa fa-arrow-right"></i>
+              {{getCurrentLabelValue('lblBookNow')}}</button>
+            <span
+              *ngIf="company && !company.allowOnlineBookings">{{getCurrentLabelValue('lblCompanyNotAllowBookings')}}.</span>
+          </div>
         </div>
-
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-        <span class="carousel-control-next-icon fa fa-next" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-
-
-          <ul *ngIf="images.length>0" class="imgList d-none">
-            <li *ngFor="let img of images; let i=index">
-              <img class="img-fluid border shadow-sm d-block w-100" [src]="'data:image/png;base64,'+img.img" (click)="onImageClick(img)">
-            </li>
-          </ul>
-          <img *ngIf="images.length==0" [src]="COMP_IMG" class="img-fluid border shadow-sm mb-2"></div>
-</div>
-
-
-
-<div class="row my-3">
-  <div *ngIf="company" class="col-md-6">
-    <form class="form-horizontal" id="user-form">
-
-      <div class="row">
-        <div class="col-6 col-md-2" for="category">{{getCurrentLabelValue('lblCategory')}}:</div>
-        <div class="col-6 col-md-10">
-          {{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}} / 
-
-          {{currentCulture == 'EN' ? company.subcategoryName_EN : company.subcategoryName_RO}}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-md-2" for="address">{{getCurrentLabelValue('lblAddress')}}:</div>
-        <div class="col-6 col-md-10">{{company.address}}, {{company.countyName}}, {{company.cityName}}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-md-2" for="email">Email:</div>
-        <div class="col-6 col-md-10">{{company.email}}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-md-2" for="phone">{{getCurrentLabelValue('lblPhone')}}:</div>
-        <div class="col-6 col-md-10">{{company.phone}}
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6 col-md-2" for="phone">{{getCurrentLabelValue('lblWorkingHours')}}</div>
-        <div class="col-6 col-md-10">
-          <ul *ngIf="companyWorkingHours">
-            <li>
-              Luni: {{getWorkingHoursString(companyWorkingHours.monday.workHours.toString())}}
-            </li>
-            <li>
-              Marti: {{getWorkingHoursString(companyWorkingHours.tuesday.workHours.toString())}}
-            </li>
-            <li>
-              Miercuri: {{getWorkingHoursString(companyWorkingHours.wednesday.workHours.toString())}}
-            </li>
-            <li>
-              Joi: {{getWorkingHoursString(companyWorkingHours.thursday.workHours.toString())}}
-            </li>
-            <li>
-              Vineri: {{getWorkingHoursString(companyWorkingHours.friday.workHours.toString())}}
-            </li>
-            <li>
-              Sambata: {{getWorkingHoursString(companyWorkingHours.saturday.workHours.toString())}}
-            </li>
-            <li>
-              Duminica: {{getWorkingHoursString(companyWorkingHours.sunday.workHours.toString())}}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </form>
-
-
-  </div>
-  <div class="col-md-6">
-    <div class="row">
-      <div class="col-md-12 mb-4" style="height: 100%;">
-        <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'450px'}" [overlays]="gMapOverlays">
-        </p-gmap>
       </div>
     </div>
+    <div class="col-12 col-md-6">
+
+      <div *ngIf="images.length>0" id="carouselExampleControls" class="carousel slide" data-ride="carousel"
+        data-interval="2000">
+        <div class="carousel-inner">
+          <div *ngFor="let img of images; let i=index" class="carousel-item" [ngClass]="{'active':i==0}">
+            <img class="border shadow-sm d-block w-100" [src]="'data:image/png;base64,'+img.img"
+              (click)="onImageClick(img)">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon fa fa-next" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+
+      <ul *ngIf="images.length>0" class="imgList d-none">
+        <li *ngFor="let img of images; let i=index">
+          <img class="img-fluid border shadow-sm d-block w-100" [src]="'data:image/png;base64,'+img.img"
+            (click)="onImageClick(img)">
+        </li>
+      </ul>
+      <img *ngIf="images.length==0" [src]="COMP_IMG" class="img-fluid border shadow-sm mb-2">
+    </div>
   </div>
-</div>
 
 
-<p-dialog [(visible)]="displayImageDialog" [responsive]="true" showEffect="fade" [modal]="false" width="600">
-  <img *ngIf="selectedImage!=null" [src]="'data:image/png;base64,'+selectedImage.img"
-    style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">
-</p-dialog>
+
+  <div class="row my-3">
+    <div *ngIf="company" class="col-md-6">
+      <form class="form-horizontal" id="user-form">
+
+        <div class="row">
+          <div class="col-6 col-md-2" for="category">{{getCurrentLabelValue('lblCategory')}}:</div>
+          <div class="col-6 col-md-10">
+            {{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}} /
+
+            {{currentCulture == 'EN' ? company.subcategoryName_EN : company.subcategoryName_RO}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-2" for="address">{{getCurrentLabelValue('lblAddress')}}:</div>
+          <div class="col-6 col-md-10">{{company.address}}, {{company.countyName}}, {{company.cityName}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-2" for="email">Email:</div>
+          <div class="col-6 col-md-10">{{company.email}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-2" for="phone">{{getCurrentLabelValue('lblPhone')}}:</div>
+          <div class="col-6 col-md-10">{{company.phone}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 col-md-2" for="phone">{{getCurrentLabelValue('lblWorkingHours')}}</div>
+          <div class="col-6 col-md-10">
+            <ul *ngIf="companyWorkingHours">
+              <li>
+                Luni: {{getWorkingHoursString(companyWorkingHours.monday.workHours.toString())}}
+              </li>
+              <li>
+                Marti: {{getWorkingHoursString(companyWorkingHours.tuesday.workHours.toString())}}
+              </li>
+              <li>
+                Miercuri: {{getWorkingHoursString(companyWorkingHours.wednesday.workHours.toString())}}
+              </li>
+              <li>
+                Joi: {{getWorkingHoursString(companyWorkingHours.thursday.workHours.toString())}}
+              </li>
+              <li>
+                Vineri: {{getWorkingHoursString(companyWorkingHours.friday.workHours.toString())}}
+              </li>
+              <li>
+                Sambata: {{getWorkingHoursString(companyWorkingHours.saturday.workHours.toString())}}
+              </li>
+              <li>
+                Duminica: {{getWorkingHoursString(companyWorkingHours.sunday.workHours.toString())}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </form>
+
+
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12 mb-4" style="height: 100%;">
+          <p-gmap #map [options]="mapOptions" [style]="{'width':'100%','height':'450px'}" [overlays]="gMapOverlays">
+          </p-gmap>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <p-dialog [(visible)]="displayImageDialog" [responsive]="true" showEffect="fade" [modal]="false" width="600">
+    <img *ngIf="selectedImage!=null" [src]="'data:image/png;base64,'+selectedImage.img"
+      style="height: auto;width: auto;max-height: 450px!important;max-width: 550px!important;">
+  </p-dialog>
