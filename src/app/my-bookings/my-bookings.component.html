@@ -45,7 +45,7 @@
           <div class="col-2">
             <br><br>
             <button class="btn btn-danger" (click)="showConfirmDialog()"
-              [disabled]="!isFutureDate(selectedBooking.startDate)">
+              [disabled]="!isFutureDate(booking.startDate)">
               <i class="fa fa-remove"> {{getCurrentLabelValue('lblCancel')}} {{getCurrentLabelValue('lblBooking')}}</i>
             </button>
 
@@ -173,7 +173,7 @@
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
         <button type="button" pButton (click)="displayConfirmDialog=false"
           [label]="getCurrentLabelValue('lblNo')"></button>
-        <button type="button" pButton (click)="onCancelBooking()" [label]="getCurrentLabelValue('lblYes')"></button>
+        <button type="button" pButton (click)="onCancelBooking()" style="margin-left: 5px;" [label]="getCurrentLabelValue('lblYes')"></button>
       </div>
     </footer>
   </p-dialog>
