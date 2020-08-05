@@ -54,27 +54,27 @@
 
     <ul class="nav nav-tabs mb-2" id="myTab1" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details"
+        <a class="nav-link" [ngClass]="{'active':isAddTabEnabled}" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details"
           aria-selected="true">
           <i class="fa fa-calendar-plus-o"></i> {{getCurrentLabelValue('lblAddBooking')}}
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="time-tab" data-toggle="tab" href="#time" role="tab" aria-controls="time"
+        <a class="nav-link" [ngClass]="{'active':!isAddTabEnabled}" id="time-tab" data-toggle="tab" href="#time" role="tab" aria-controls="time"
           aria-selected="false">
           <i class="fa fa-edit"></i> {{getCurrentLabelValue('lblEditBooking')}}
         </a>
       </li>
     </ul>
     <div class="tab-content" id="myTab1Content">
-      <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+      <div class="tab-pane fade" [ngClass]="{'show active':isAddTabEnabled}" id="details" role="tabpanel" aria-labelledby="details-tab">
     <bf-booking-confirm-dialog [isBookingByDay]="showCalendarBooking"
       [selectedDayTime]="selectedBookingHourTransferObject?selectedBookingHourTransferObject.workingDay:null"
       [autoAssignedEntityCombination]="autoAssignedEntityCombination" [idCompany]="idCompany" [isAdminAddBooking]="true"
       (bookingSaved)="bookingSaved($event)"></bf-booking-confirm-dialog>
         </div>
 
-      <div class="tab-pane fade" id="time" role="tabpanel" aria-labelledby="time-tab">
+      <div class="tab-pane fade" [ngClass]="{'show active':!isAddTabEnabled}" id="time" role="tabpanel" aria-labelledby="time-tab">
     <p *ngIf="timeslotBookings.length==0">{{getCurrentLabelValue('lblNoBookingsSavedYet')}}</p>
     <bf-booking-management-dialog [bookings]="timeslotBookings" [idCompany]="idCompany"
       (bookingRemoved)="deleteBooking($event)" (bookingCanceled)="cancelBooking($event)"
