@@ -54,61 +54,69 @@
 
   <div class="row my-3">
     <div *ngIf="company" class="col-md-6">
-      <form class="form-horizontal" id="user-form">
+      <div class="bg-light px-5 py-4">
 
         <div class="row">
-          <div class="col-6 col-md-2" for="category">{{getCurrentLabelValue('lblCategory')}}:</div>
-          <div class="col-6 col-md-10">
+          <div class="col-6 col-md-3 bolder">{{getCurrentLabelValue('lblCategory')}}</div>
+          <div class="col-6 col-md-9">
             {{currentCulture == 'EN' ? company.categoryName_EN : company.categoryName_RO}} /
 
             {{currentCulture == 'EN' ? company.subcategoryName_EN : company.subcategoryName_RO}}
           </div>
         </div>
         <div class="row">
-          <div class="col-6 col-md-2" for="address">{{getCurrentLabelValue('lblAddress')}}:</div>
-          <div class="col-6 col-md-10">{{company.address}}, {{company.countyName}}, {{company.cityName}}
+          <div class="col-6 col-md-3 bolder">{{getCurrentLabelValue('lblAddress')}}</div>
+          <div class="col-6 col-md-9">{{company.address}}, {{company.countyName}}, {{company.cityName}}
           </div>
         </div>
         <div class="row">
-          <div class="col-6 col-md-2" for="email">Email:</div>
-          <div class="col-6 col-md-10">{{company.email}}
+          <div class="col-6 col-md-3 bolder">Email:</div>
+          <div class="col-6 col-md-9">{{company.email}}
           </div>
         </div>
         <div class="row">
-          <div class="col-6 col-md-2" for="phone">{{getCurrentLabelValue('lblPhone')}}:</div>
-          <div class="col-6 col-md-10">{{company.phone}}
+          <div class="col-6 col-md-3 bolder">{{getCurrentLabelValue('lblPhone')}}</div>
+          <div class="col-6 col-md-9">{{company.phone}}
           </div>
         </div>
-        <div class="row">
-          <div class="col-6 col-md-2" for="phone">{{getCurrentLabelValue('lblWorkingHours')}}</div>
-          <div class="col-6 col-md-10">
-            <ul *ngIf="companyWorkingHours">
-              <li>
-                Luni: {{getWorkingHoursString(companyWorkingHours.monday.workHours.toString())}}
-              </li>
-              <li>
-                Marti: {{getWorkingHoursString(companyWorkingHours.tuesday.workHours.toString())}}
-              </li>
-              <li>
-                Miercuri: {{getWorkingHoursString(companyWorkingHours.wednesday.workHours.toString())}}
-              </li>
-              <li>
-                Joi: {{getWorkingHoursString(companyWorkingHours.thursday.workHours.toString())}}
-              </li>
-              <li>
-                Vineri: {{getWorkingHoursString(companyWorkingHours.friday.workHours.toString())}}
-              </li>
-              <li>
-                Sambata: {{getWorkingHoursString(companyWorkingHours.saturday.workHours.toString())}}
-              </li>
-              <li>
-                Duminica: {{getWorkingHoursString(companyWorkingHours.sunday.workHours.toString())}}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </form>
+        <div class="row mt-3" *ngIf="companyWorkingHours">
+          <div class="col-12">
+            <table class="table table-sm table-hover mb-0">
+            
+  <thead class="thead-light">
+              <tr class=" text-center">
+                <th colspan="2">{{getCurrentLabelValue('lblWorkingHours')}}</th>
+              </tr>
+  </thead>
+              <tr>
+                <td>Luni</td>
+                <td>{{getWorkingHoursString(companyWorkingHours.monday.workHours.toString())}}</td>
+              </tr><tr>
+                <td>Marti</td>
+                <td>{{getWorkingHoursString(companyWorkingHours.tuesday.workHours.toString())}}</td>
+              </tr><tr>
+                <td>Miercuri</td>
+                <td>{{getWorkingHoursString(companyWorkingHours.wednesday.workHours.toString())}}</td>
+              </tr><tr>
+                <td>Joi</td>
+                <td>{{getWorkingHoursString(companyWorkingHours.thursday.workHours.toString())}}</td>
+              </tr><tr>
+                <td>Vineri</td>
+                <td>{{getWorkingHoursString(companyWorkingHours.friday.workHours.toString())}}</td>
+              </tr><tr>
+                <td>Sambata</td>
+                <td>{{getWorkingHoursString(companyWorkingHours.saturday.workHours.toString())}}</td>
+              </tr><tr class="border-bottom">
+                <td>Duminica</td>
+                <td>{{getWorkingHoursString(companyWorkingHours.sunday.workHours.toString())}}</td>
+              </tr>
+            </table>
 
+          </div>
+        </div>
+     
+        
+</div>
 
     </div>
     <div class="col-md-6">

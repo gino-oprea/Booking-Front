@@ -1,8 +1,13 @@
-body {font-size: 1.1rem!important;}
+body {
+  font-family: 'Open Sans',
+  sans-serif !important;
+}
 .pointer {
   cursor: pointer;
 }
-
+.bolder {
+  font-weight: 600 !important;
+}
 .ui-dropdown {
   min-width: auto!important;
 }

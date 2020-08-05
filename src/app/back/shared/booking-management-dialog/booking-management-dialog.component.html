@@ -1,112 +1,72 @@
 <div class="container-fluid">
   <div class="row">
-    <div *ngIf="bookings" class="col-md-12">
+    <div *ngIf="bookings" class="col-md-3 px-0">
       
-        <div class="alert alert-info text-white" *ngFor="let booking of bookings; let i = index" (click)="selectBooking(booking)"
-          [ngClass]="{'selected': (selectedBooking!=null ? booking.id == selectedBooking.id : false)}">
-          {{booking.email + " - " + booking.phone}}</div>
-      
-    </div>
-    <div *ngIf="selectedBooking" class="col-md-3">
-      <div *ngFor="let entity of selectedBooking.entities">
-        <div class="badge badge-info">{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</div>
-        <div *ngIf="entity.images">
-          <img class="img-thumbnail" *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img"
-            style="cursor:pointer; height: auto;width: auto;max-height: 150px;max-width: 100%;">
-          <img *ngIf="entity.images.length==0" [src]="COMP_IMG"
-            style="height: auto;width: auto;max-height: 100px;max-width: 100%;">
+        <div class="alert alert-info p-2 mb-1 rounded-0" *ngFor="let booking of bookings; let i = index" (click)="selectBooking(booking)"
+          [ngClass]="{'selected bolder': (selectedBooking!=null ? booking.id == selectedBooking.id : false)}">
+          {{booking.email + "  " + booking.phone}}
+        
+          <p class="bolder"><i class="fa fa-history fa-lg text-primary"></i> {{getBookingStatusString(booking.idStatus)}}
+          </p>
+          
         </div>
-      </div>
+      
     </div>
     <div *ngIf="selectedBooking" class="col-md-6">
-      <form class="form-horizontal">
+      <div class="row">
 
-        <div class="row">
-          <div class="col-5">
-            <label for="firstName">{{getCurrentLabelValue('lblFirstName')}}:</label>
+          <div class="col-md-4" *ngFor="let entity of selectedBooking.entities">
+            <div>{{currentCulture == 'EN' ? entity.entityName_EN : entity.entityName_RO}}</div>
+            <div *ngIf="entity.images">
+              <img class="w-auto mt-1 border p-1 bg-white" style="max-height: 125px;" *ngIf="entity.images.length>0" [src]="'data:image/png;base64,'+entity.images[0].img">
+              <img class="w-auto mt-1 border p-1 bg-white" style="max-height: 125px;" *ngIf="entity.images.length==0" [src]="COMP_IMG">
+            </div>
           </div>
-          <div class="col-md-7">
-            <span>{{selectedBooking.firstName}}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5">
-            <label for="lastName">{{getCurrentLabelValue('lblLastName')}}:</label>
-          </div>
-          <div class="col-md-7">
-            <span>{{selectedBooking.lastName}}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5">
-            <label for="phone">{{getCurrentLabelValue('lblPhone')}}:</label>
-          </div>
-          <div class="col-md-7">
-            <span>{{selectedBooking.phone}}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <label for="startTime">{{getCurrentLabelValue('lblDate')}}:</label>
-          </div>
-          <div class="col-md-7">
-            <span>{{selectedBooking.startDate | date:'dd.MMM.yyyy'}}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5">
-            <label for="startTime">{{getCurrentLabelValue('lblStartTime')}}:</label>
-          </div>
-          <div class="col-md-7">
-            <span>{{selectedBooking.startTime | date:'HH:mm'}}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5">
-            <label for="endTime">{{getCurrentLabelValue('lblEndTime')}}:</label>
-          </div>
-          <div class="col-md-7">
-            <span>{{selectedBooking.endTime | date:'HH:mm'}}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5">
-            <label for="status">Status:</label>
-          </div>
-          <div class="col-md-7">
-            <span>{{getBookingStatusString(selectedBooking.idStatus)}}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5">
-            <label for="status">{{getCurrentLabelValue('lblPrice')}}:</label>
-          </div>
-          <div class="col-md-7">
-            <span>{{selectedBooking.bookingPrice}}</span>
-          </div>
-        </div>
 
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          
+            <div class="row">
+              <div class="col-12">
+                 <h4 class="mt-1">{{selectedBooking.firstName}} {{selectedBooking.lastName}}</h4>
 
-        <footer>
-          <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix my-2">
-            <button *ngIf="showHonoredButton" class="btn btn-success" (click)="setBookingHonored()"
-              [disabled]="isButtonDisabledByRole()">
-              <i class="fa fa-check"> {{getCurrentLabelValue('lblHonored')}}</i>
-            </button>
-            <button *ngIf="showCancelButton" class="btn btn-warning" (click)="cancelBooking()"
-              [disabled]="isButtonDisabledByRole()" style="margin-left: 5px;">
-              <i class="fa fa-remove"> {{getCurrentLabelValue('lblCancelBooking')}}</i>
-            </button>
-            <button *ngIf="showDeleteButton" class="btn btn-danger" (click)="deleteBooking()"
-              [disabled]="isButtonDisabledByRole()" style="margin-left: 5px;">
-              <i class="fa fa-trash"> {{getCurrentLabelValue('lblDelete')}}</i>
-            </button>
-          </div>
-        </footer>
-      </form>
+                <p class="bolder"><i class="fa fa-phone-square fa-lg text-primary"></i> {{selectedBooking.phone}}</p>
+              
+                <p class="py-2"><i class="fa fa-calendar text-primary mr-1"></i> 
+                  <span class="bolder">{{selectedBooking.startDate | date:'dd.MMM.yyyy'}} </span> 
+                  <span class="bg-light border-bottom p-1">{{selectedBooking.startTime | date:'HH:mm'}} - {{selectedBooking.endTime | date:'HH:mm'}}</span></p>
+              
+               
+             
+                
+                <p class="bolder pt-1"><i class="fa fa-credit-card fa-lg text-primary"></i> {{selectedBooking.bookingPrice}} lei </p>
+              </div>
+            </div>
+          
+          
+            <footer>
+              <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix my-2">
+                <button *ngIf="showHonoredButton" class="btn btn-success" (click)="setBookingHonored()"
+                  [disabled]="isButtonDisabledByRole()">
+                  <i class="fa fa-check"> {{getCurrentLabelValue('lblHonored')}}</i>
+                </button>
+                <button *ngIf="showCancelButton" class="btn btn-warning" (click)="cancelBooking()"
+                  [disabled]="isButtonDisabledByRole()" style="margin-left: 5px;">
+                  <i class="fa fa-remove"> {{getCurrentLabelValue('lblCancelBooking')}}</i>
+                </button>
+                <button *ngIf="showDeleteButton" class="btn btn-danger" (click)="deleteBooking()"
+                  [disabled]="isButtonDisabledByRole()" style="margin-left: 5px;">
+                  <i class="fa fa-trash"> {{getCurrentLabelValue('lblDelete')}}</i>
+                </button>
+              </div>
+            </footer>
+        </div>
+      </div>
+
     </div>
     <div *ngIf="selectedBooking" class="col-md-3">
-      <b> {{getCurrentLabelValue('lblMoveSelectedBookingTo')}}:</b>
+      <h5 class="mb-2"> {{getCurrentLabelValue('lblMoveBooking')}}</h5>
 
       <bf-booking-filter2 [idCompany]="idCompany" [isFilteredByEmployeeRole]="true" [selectedDate]="moveBookingDate"
         [doResetFilters]="doResetMoveFilter" [isMoveBookingFilter]="true" [isForAdmin]="true"
