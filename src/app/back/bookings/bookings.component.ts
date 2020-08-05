@@ -125,12 +125,14 @@ export class BookingsComponent extends BaseComponent implements OnInit
         {
           this.selectedBooking = this.timeslotBookings[0];
           this.setupSelectedBookingImages();
-          this.selectTab('edit');
+          //this.selectTab('edit');
+          this.enableAddTab(false);
         }
         else
         {
           this.selectedBooking = null;
-          this.selectTab('add');
+          //this.selectTab('add');
+          this.enableAddTab(true);
         }
       }
     });
@@ -178,11 +180,12 @@ export class BookingsComponent extends BaseComponent implements OnInit
             if (gro.objList != null)
             {
               this.autoAssignedEntityCombination = <AutoAssignedEntityCombination>gro.objList[0];
-              this.enableAddTab(true);
+              //this.enableAddTab(true);
             }
             else
             {
               //this.showPageMessage("warn", "Warning", 'Selected combination duration does not fit in the remaining timeslots! Please select another timeslot!');
+              this.autoAssignedEntityCombination = null;
               this.enableAddTab(false);
             }
             this.displayDialogConfirmBooking = true;
@@ -192,7 +195,7 @@ export class BookingsComponent extends BaseComponent implements OnInit
   }
 
   enableAddTab(doEnable: boolean)
-  {
+  {    
     if (doEnable)
     {
       this.isAddTabEnabled = true;
