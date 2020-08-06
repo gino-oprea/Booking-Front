@@ -100,7 +100,7 @@ export class CommonServiceMethods
 
   computeDayColumnWidth(hoursMatrix: Timeslot[][][]): string
   {
-    let width = '13.3%';
+    let width = '14.28%';
 
     switch (hoursMatrix[0][0].length) 
     {
