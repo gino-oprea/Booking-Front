@@ -7,6 +7,7 @@ import { CompanyClient } from 'app/objects/company-client';
 import { NonAuthGuard } from '../../route-guards/non-auth.guard';
 import { CompanyUsersService } from '../../app-services/company-users.service';
 import { CompanyUser } from 'app/objects/user';
+import { Entity } from '../../objects/entity';
 
 @Component({
   selector: 'bf-clients',
@@ -56,55 +57,70 @@ export class ClientsComponent extends BaseComponent implements OnInit
   {
     super.ngOnInit();
 
-    //this.loadClients();
-    this.filterByUserRoleAndLoadClients();
+    this.loadClients();
+    //this.filterByUserRoleAndLoadClients();
   }
   loadClients()
   {
-    this.clientService.getCompanyClients(this.idCompany, this.idEntityLinkedToUser).subscribe(gro =>
+    this.companyUsersService.getEntityLinkedToUser(this.idCompany).subscribe(res =>
     {
-      if (gro.error != '')
+      if (res.error != '')
       {
-        this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+        this.logAction(this.idCompany, true, Actions.Search, res.error, res.errorDetailed, true);
       }
       else
       {
-        this.clients = <CompanyClient[]>gro.objList;
+        this.idEntityLinkedToUser = null;
+        if (res.objList != null)
+          this.idEntityLinkedToUser = (<Entity[]>res.objList)[0].id;
+        
+        this.clientService.getCompanyClients(this.idCompany, this.idEntityLinkedToUser).subscribe(gro =>
+        {
+          if (gro.error != '')
+          {
+            this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+          }
+          else
+          {
+            this.clients = <CompanyClient[]>gro.objList;
+          }
+        });
       }
     });
+    
   }
 
-  filterByUserRoleAndLoadClients()
-  {
-    let user = this.loginService.getCurrentUser();
-    if (user)
-      if (user.roles)
-        if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
-        {
-          this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
-          {
-            if (gro.error != "")
-              this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-            else
-            {
-              let companyUsers = <CompanyUser[]>gro.objList;
+  // filterByUserRoleAndLoadClients()
+  // {
+  //   let user = this.loginService.getCurrentUser();
+  //   if (user)
+  //     if (user.roles)
+  //       if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
+  //       {
+  //         this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
+  //         {
+  //           if (gro.error != "")
+  //             this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+  //           else
+  //           {
+  //             let companyUsers = <CompanyUser[]>gro.objList;
 
-              let companyUserLoggedIn = companyUsers.find(cu => cu.id == user.id)
-              if (companyUserLoggedIn)
-              {
-                this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;
-                if (this.idEntityLinkedToUser)
-                  this.currentUserIsEmployee = true;
-              }
-            }
+  //             let companyUserLoggedIn = companyUsers.find(cu => cu.id == user.id)
+  //             if (companyUserLoggedIn)
+  //             {
+  //               this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;
+  //               if (this.idEntityLinkedToUser)
+  //                 this.currentUserIsEmployee = true;
+  //             }
+  //           }
 
-            this.loadClients();
-          });
-        }
-        else
-        {
-          this.loadClients();
-        }
-  }
+  //           this.loadClients();
+  //         });
+  //       }
+  //       else
+  //       {
+  //         this.loadClients();
+  //       }
+  // }
 
 }

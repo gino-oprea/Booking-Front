@@ -100,8 +100,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
   ngOnInit() 
   {
     super.ngOnInit();
-    //this.loadBookings();
-    this.filterByUserRoleAndLoadBookings()
+    this.loadBookings();
+    //this.filterByUserRoleAndLoadBookings()
   }
   ngOnChanges(changes: SimpleChanges): void
   {
@@ -112,7 +112,7 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
     let startDateString = CommonServiceMethods.getDateString(this.startDate);
     let endDateString = CommonServiceMethods.getDateString(this.endDate);
 
-    this.bookingService.getBookings(this.idCompany, startDateString, endDateString, true).subscribe(gro =>
+    this.bookingService.getBookings(this.idCompany, startDateString, endDateString, true,true).subscribe(gro =>
     {
       if (gro.error != '')
       {
@@ -141,8 +141,8 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
           return t;
         });
 
-        if (this.currentUserIsEmployee && this.idEntityLinkedToUser != null)
-          this.bookings = this.bookings.filter(b => b.entities.find(e => e.idEntity == this.idEntityLinkedToUser) != null)
+        // if (this.currentUserIsEmployee && this.idEntityLinkedToUser != null)
+        //   this.bookings = this.bookings.filter(b => b.entities.find(e => e.idEntity == this.idEntityLinkedToUser) != null)
       }
     });
   }
@@ -293,38 +293,33 @@ export class BookingsHistoryComponent extends BaseComponent implements OnInit, O
     }
   }
 
-  filterByUserRoleAndLoadBookings()
-  {
-    let user = this.loginService.getCurrentUser();
-    if (user)
-      //if (user.roles)
-        // if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
-        // {
-          this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
-          {
-            if (gro.error != "")
-              this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-            else
-            {
-              let companyUsers = <CompanyUser[]>gro.objList;
+  // filterByUserRoleAndLoadBookings()
+  // {
+  //   let user = this.loginService.getCurrentUser();
+  //   if (user)
+  //     //if (user.roles)
+  //       // if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
+  //       // {
+  //         this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
+  //         {
+  //           if (gro.error != "")
+  //             this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+  //           else
+  //           {
+  //             let companyUsers = <CompanyUser[]>gro.objList;
 
-              let companyUserLoggedIn = companyUsers.find(cu => cu.id == user.id)
-              if (companyUserLoggedIn)
-              {
-                this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;
-                if (this.idEntityLinkedToUser)
-                  this.currentUserIsEmployee = true;
-              }
-            }
+  //             let companyUserLoggedIn = companyUsers.find(cu => cu.id == user.id)
+  //             if (companyUserLoggedIn)
+  //             {
+  //               this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;
+  //               if (this.idEntityLinkedToUser)
+  //                 this.currentUserIsEmployee = true;
+  //             }
+  //           }
 
-            this.loadBookings();
-          });
-        // }
-        // else
-        // {
-        //   this.loadBookings();
-        // }
-  }
+  //           this.loadBookings();
+  //         });        
+  // }
 
   onBookingMoved(event)
   {

@@ -19,6 +19,13 @@ export class CompanyUsersService
     };
     return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyUsers/GetCompanyUsers/' + idCompany.toString(), options);
   }
+  getEntityLinkedToUser(idCompany: number): Observable<GenericResponseObject>
+  {
+    let options = {
+      headers: null
+    };
+    return this.http.get<GenericResponseObject>(this.config.api_endpoint + 'CompanyUsers/GetEntityLinkedToUser/' + idCompany.toString(), options);
+  }
   getCurrentUserRolesWithModules(): Observable<GenericResponseObject>
   {
     let options = {

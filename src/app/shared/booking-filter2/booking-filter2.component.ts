@@ -54,6 +54,7 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
 
   companyUsers: CompanyUser[] = [];
   currentUserIsEmployee: boolean = false;
+  idEntityLinkedToUser: number = null;
 
 
   constructor(private injector: Injector,
@@ -96,16 +97,35 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
     {
       if (this.idCompany)
         if (this.isFilteredByEmployeeRole)
-          this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
+          this.companyUsersService.getEntityLinkedToUser(this.idCompany).subscribe(res =>
           {
-            if (gro.error != "")
-              this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+            if (res.error != '')
+            {
+              this.logAction(this.idCompany, true, Actions.Search, res.error, res.errorDetailed, true);
+            }
             else
             {
-              this.companyUsers = <CompanyUser[]>gro.objList;
+              this.idEntityLinkedToUser = null;
+              if (res.objList != null)
+                this.idEntityLinkedToUser = (<Entity[]>res.objList)[0].id;
+
+              if (this.idEntityLinkedToUser)
+                this.currentUserIsEmployee = true;
+              
+              this.loadAllLevels();
             }
-            this.loadAllLevels();
           });
+          
+          // this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
+          // {
+          //   if (gro.error != "")
+          //     this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+          //   else
+          //   {
+          //     this.companyUsers = <CompanyUser[]>gro.objList;
+          //   }
+          //   this.loadAllLevels();
+          // });
         else
           this.loadAllLevels();
     }
@@ -118,37 +138,53 @@ export class BookingFilter2Component extends BaseComponent implements OnInit, On
     }
   }
   filterByUserRole()
-  {
-    let user = this.loginService.getCurrentUser();
-    if (user)
-    {
-      //if (user.roles)
-      // if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
-      // {
-      let companyUserLoggedIn = this.companyUsers.find(cu => cu.id == user.id)
-      if (companyUserLoggedIn)
-      {
-        let idEntityLinked = companyUserLoggedIn.linkedIdEntity;
-        if (idEntityLinked)
+  {           
+      if (this.currentUserIsEmployee)
+      {        
+        if (this.idEntityLinkedToUser)
         {
-          this.currentUserIsEmployee = true;
-
           let employeesLevel = this.levels.find(l => l.idLevelType == LevelType.Employee)
 
-          let selectedEntitySet = new SelectedEntityPerLevel(employeesLevel.id, idEntityLinked, employeesLevel.idLevelType);
+          let selectedEntitySet = new SelectedEntityPerLevel(employeesLevel.id, this.idEntityLinkedToUser, employeesLevel.idLevelType);
           this.selectedEntities.push(selectedEntitySet);
 
           for (let i = employeesLevel.entities.length - 1; i >= 0; i--)
           {
             const empEnt = employeesLevel.entities[i];
-            if (empEnt.id != idEntityLinked)
+            if (empEnt.id != this.idEntityLinkedToUser)
               employeesLevel.entities.splice(i, 1);
           }
         }
-      }
-      //}
-    }
+      }     
   }
+  // filterByUserRole()
+  // {
+  //   let user = this.loginService.getCurrentUser();
+  //   if (user)
+  //   {      
+  //     let companyUserLoggedIn = this.companyUsers.find(cu => cu.id == user.id)
+  //     if (companyUserLoggedIn)
+  //     {
+  //       let idEntityLinked = companyUserLoggedIn.linkedIdEntity;
+  //       if (idEntityLinked)
+  //       {
+  //         this.currentUserIsEmployee = true;
+
+  //         let employeesLevel = this.levels.find(l => l.idLevelType == LevelType.Employee)
+
+  //         let selectedEntitySet = new SelectedEntityPerLevel(employeesLevel.id, idEntityLinked, employeesLevel.idLevelType);
+  //         this.selectedEntities.push(selectedEntitySet);
+
+  //         for (let i = employeesLevel.entities.length - 1; i >= 0; i--)
+  //         {
+  //           const empEnt = employeesLevel.entities[i];
+  //           if (empEnt.id != idEntityLinked)
+  //             employeesLevel.entities.splice(i, 1);
+  //         }
+  //       }
+  //     }     
+  //   }
+  // }
   loadAllLevels()
   {
     let weekDates: string[];
