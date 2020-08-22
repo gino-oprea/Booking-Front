@@ -395,7 +395,7 @@ export class EntitiesComponent extends BaseComponent implements OnInit
         }
         else
         {
-          this.selectedWhId = 0;
+          this.selectedWhId = -1;//nu trebuie selectat niciunul daca nu are
           this.onDdlChangeWH();
         }
 
@@ -787,6 +787,16 @@ export class EntitiesComponent extends BaseComponent implements OnInit
       wds.push(this.selectedWorkingHours.friday);
       wds.push(this.selectedWorkingHours.saturday);
       wds.push(this.selectedWorkingHours.sunday);
+
+
+      if (this.selectedWhId == -1)//daca nu are in db program variabil il punem gol
+      {
+        for (let i = 0; i < wds.length; i++)
+        {
+          let workingDay = wds[i];
+          workingDay.workHours = '';          
+        }
+      }
 
       this.addEntityVariableWorkingHours(wds);
 
