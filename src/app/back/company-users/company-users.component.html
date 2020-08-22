@@ -102,14 +102,22 @@
       </div>
 
       <div class="row">
-        <div *ngIf="!isAdd" class="col-md-12">
-          <input type="button" value="{{getCurrentLabelValue('lblAdd')}}" (click)="onAdd()" class="btn btn-primary">
+        <div  class="col-md-12">
+          <!-- <input *ngIf="!isAdd" type="button" value="{{getCurrentLabelValue('lblAdd')}}" (click)="onAdd()" class="btn btn-primary"> -->
+
+          <button *ngIf="!isAdd" class="btn btn-primary" (click)="onAdd()">
+            <i class="fa fa-plus"></i> {{getCurrentLabelValue('lblAdd')}}
+          </button>
 
           <button [disabled]="!userForm.valid" type="submit" class="btn btn-success mx-2">
             <i class="fa fa-save"></i> {{getCurrentLabelValue('lblSave')}}
           </button>
 
-          <input *ngIf="selectedUser" type="button" value="{{getCurrentLabelValue('lblDelete')}}" (click)="onDelete()" class="btn btn-danger">
+          <!-- <input *ngIf="selectedUser" type="button" value="{{getCurrentLabelValue('lblDelete')}}" (click)="onDelete()" class="btn btn-danger"> -->
+
+          <button *ngIf="selectedUser" class="btn btn-danger" (click)="onDelete()">
+            <i class="fa fa-trash"></i> {{getCurrentLabelValue('lblDelete')}}
+          </button>
         </div>
       </div>
     </form>

@@ -25,8 +25,7 @@ export class SearchCompanyComponent extends BaseComponent implements OnInit
   images: Image[] = [];
   emptySlotsNo: number = 10;
 
-  constructor(private injector: Injector,
-    private companySearchService: CompanySearchService,    
+  constructor(private injector: Injector,     
     private imageService: ImageService,
     protected domSanitizationService: DomSanitizer)
   {

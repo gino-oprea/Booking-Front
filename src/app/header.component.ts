@@ -63,8 +63,7 @@ export class HeaderComponent extends BaseComponent implements OnInit
   addCompanyForm: FormGroup;
 
   constructor(private injector: Injector,
-    private confirmationService: ConfirmationService,
-    private companySearchService: CompanySearchService,
+    private confirmationService: ConfirmationService,    
     private countriesService: CountriesService,
     private subscriptionsService: SubscriptionsService)
   {
