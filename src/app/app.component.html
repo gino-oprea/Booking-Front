@@ -15,43 +15,48 @@
   <div *ngIf="!isLanding" class="bg-success-light my-5 p-3">
     <div class="container">
 
-    <div class="row">
-      <div class="col-7">
-  <h2 class="mt-2 text-primary">Descarcă <b>aplicația</b> în curând</h2>
-  <p class="my-2">Programează-te oriunde ai nevoie cu aplicatia mobila Booxy</p> 
+      <div class="row">
+        <div class="col-7">
+          <h2 class="mt-2 text-primary">Descarcă <b>aplicația</b> în curând</h2>
+          <p class="my-2">Programează-te oriunde ai nevoie cu aplicatia mobila Booxy</p>
+        </div>
+        <div class="col-5 mt-5">
+
+          <a><img [src]="APP_GooglePlay" class="img-fluid" style="height: 50px;"> </a>
+          <!-- <a><img [src]="APP_Store" class="img-fluid mx-3" style="height: 50px;"> </a> -->
+
+        </div>
       </div>
-      <div class="col-5 mt-5">
-  
-        <a><img [src]="APP_GooglePlay" class="img-fluid" style="height: 50px;"> </a>
-        <!-- <a><img [src]="APP_Store" class="img-fluid mx-3" style="height: 50px;"> </a> -->
-  
-      </div></div>
     </div>
   </div>
 
 
   <div class="fixed-bottom bg-info-btm p-2 text-white ">
-  <div  class="row">
-    <div class="col-md-12 text-center">
-      <a [routerLink]="['/contact']" routerLinkActive="selectedCategory" class=" text-white">Contact</a>
-      <i class="fa fa-circle mx-4"></i>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a [routerLink]="['/contact']" routerLinkActive="selectedCategory" class=" text-white">Contact</a>
+        <i class="fa fa-circle mx-4"></i>
 
-      © Copyright BOOXY. All rights reserved.
+        © Copyright BOOXY. All rights reserved.
+      </div>
     </div>
-  </div>
   </div>
 
   <div *ngIf="showTermsAndConditionsDiv" class="bg-info-btm p-2 fixed-bottom text-white">
-    
-      Acest site foloseste cookie-uri pentru a imbunatati experienta utilizatorilor. Continuarea navigarii pe site
-      implica acceptarea
-      <a [routerLink]="['/gdpr']" routerLinkActive="selectedCategory" class="text-white font-weight-bolder"> politicii de confidentialitate </a>
-      si a
-      <a [routerLink]="['/termsconditions']" routerLinkActive="selectedCategory" class="text-white font-weight-bolder"> termenilor si conditiilor </a>
-    
+
+    Acest site foloseste cookie-uri pentru a imbunatati experienta utilizatorilor. Continuarea navigarii pe site
+    implica acceptarea
+    <a [routerLink]="['/gdpr']" routerLinkActive="selectedCategory" class="text-white font-weight-bolder"> politicii de
+      confidentialitate </a>
+    si a
+    <a [routerLink]="['/termsconditions']" routerLinkActive="selectedCategory" class="text-white font-weight-bolder">
+      termenilor si conditiilor </a>
+
 
     <i class="fa fa-close float-right pointer" (click)="showTermsAndConditionsDiv=false"></i>
   </div>
+
+  <div class="row" style="height: 15px;"></div>
 </div>
 
 <p-growl [value]="pageMsgs"></p-growl>
