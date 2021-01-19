@@ -110,7 +110,7 @@ export class BookingsComponent extends BaseComponent implements OnInit
 
   getTimeslotBookings(bookingDate: Date)
   {
-    this.bookingService.getBookingsByTimeSlot(this.idCompany, CommonServiceMethods.getDateString(bookingDate, true)).subscribe(gro =>
+    this.bookingService.getBookingsByTimeSlot(this.idCompany, CommonServiceMethods.getDateString(bookingDate, true), true).subscribe(gro =>
     {
       if (gro.error != '') 
       {

@@ -44,8 +44,7 @@ export class CompanyBookingComponent extends BaseComponent implements OnInit
 
 
   constructor(private injector: Injector,
-    private bookingService: BookingService,
-    private companySearchService: CompanySearchService,
+    private bookingService: BookingService,    
     private entitiesService: EntitiesService)
   {
     super(injector, [

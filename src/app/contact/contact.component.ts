@@ -39,6 +39,7 @@ export class ContactComponent extends BaseComponent implements OnInit
       'lblComplaint',
       'lblSuggestion',
       'lblOther',
+      'lblBug',
       'lblMessageSent'
     ]);
     this.site = WebSites.Front;

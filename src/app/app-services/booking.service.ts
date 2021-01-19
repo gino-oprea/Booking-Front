@@ -23,12 +23,13 @@ export class BookingService
     this.currentCulture = !!localStorage.getItem('b_front_culture') ? localStorage.getItem('b_front_culture') : 'RO';
   }
 
-  getBookings(idCompany: number, dateStart: string, dateEnd: string, includeCanceled: boolean = false): Observable<GenericResponseObject>
+  getBookings(idCompany: number, dateStart: string, dateEnd: string, includeCanceled: boolean = false, filterByLinkedEntityToUser: boolean = false): Observable<GenericResponseObject>
   {
     let params = new HttpParams();
     params = params.append('dateStart', dateStart);
     params = params.append('dateEnd', dateEnd);
     params = params.append('includeCanceled', includeCanceled.toString());
+    params = params.append('filterByLinkedEntityToUser', filterByLinkedEntityToUser.toString());
 
 
     let options = {
@@ -270,11 +271,12 @@ export class BookingService
 
     return this.httpClient.get<GenericResponseObject>(this.config.api_endpoint + 'booking/GetBookingsByUser/' + idUser.toString(), options);
   }
-  getBookingsByTimeSlot(idCompany: number, bookingDate: string): Observable<GenericResponseObject>
+  getBookingsByTimeSlot(idCompany: number, bookingDate: string, filterByLinkedEntityToUser: boolean=false): Observable<GenericResponseObject>
   {
     let params = new HttpParams();
 
     params = params.append('bookingDate', bookingDate);
+    params = params.append('filterByLinkedEntityToUser', filterByLinkedEntityToUser.toString());
 
     let options = {
       headers: null,//CommonServiceMethods.generateHttpClientAuthHeaders(this.usersService, null),

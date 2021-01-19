@@ -14,6 +14,7 @@ import { LoginService } from '../app-services/login.service';
 import { Token } from '../objects/token';
 import { CompanyService } from '../app-services/company.service';
 import { Company } from '../objects/company';
+import { CompanySearchService } from '../app-services/company-search.service';
 
 export class BaseComponent implements OnInit, OnDestroy
 {
@@ -32,6 +33,7 @@ export class BaseComponent implements OnInit, OnDestroy
     loggerService: LoggerService;
     labelsService: LabelsService;
     companyService: CompanyService;
+    companySearchService: CompanySearchService;
     router: Router;
     route: ActivatedRoute;
     currentLabels: Label[] = [];
@@ -55,6 +57,7 @@ export class BaseComponent implements OnInit, OnDestroy
             this.loginService = injector.get(LoginService);
             this.usersService = injector.get(UsersService);
             this.companyService = injector.get(CompanyService);
+            this.companySearchService = injector.get(CompanySearchService);
             this.router = injector.get(Router);
             this.route = injector.get(ActivatedRoute);
 
@@ -111,7 +114,7 @@ export class BaseComponent implements OnInit, OnDestroy
     }
     loadCompanyName()
     {
-        this.companyService.getCompany(this.loginService.getCurrentUser().id, this.idCompany).subscribe(gro =>
+        this.companySearchService.getCompany(null, this.idCompany).subscribe(gro =>
         {
             if (gro.error != '')
             {

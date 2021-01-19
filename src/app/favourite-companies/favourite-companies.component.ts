@@ -23,8 +23,7 @@ export class FavouriteCompaniesComponent extends BaseComponent implements OnInit
   favouritesIds: number[] = [];
   images: Image[] = [];
 
-  constructor(private injector: Injector,    
-    private companySearchService: CompanySearchService,
+  constructor(private injector: Injector,        
     private imageService: ImageService,
     protected domSanitizationService: DomSanitizer)
   {

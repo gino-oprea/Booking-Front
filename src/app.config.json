@@ -1,4 +1,4 @@
 {
-  "api_endpoint": "http://api.booxy.ro/api/",
-  "token_api_endpoint": "http://identity.booxy.ro/connect/token"
+  "api_endpoint": "https://apidemo.booxy.ro/api/",
+  "token_api_endpoint": "https://identitydemo.booxy.ro/connect/token"
 }

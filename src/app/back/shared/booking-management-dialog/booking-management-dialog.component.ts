@@ -14,6 +14,7 @@ import { LevelAsFilter } from 'app/objects/level-as-filter';
 import { Timeslot } from 'app/objects/timeslot';
 import { CommonServiceMethods } from '../../../app-services/common-service-methods';
 import { BookingEntity } from '../../../objects/booking-entity';
+import { Entity } from '../../../objects/entity';
 
 @Component({
   selector: 'bf-booking-management-dialog',
@@ -268,29 +269,43 @@ export class BookingManagementDialogComponent extends BaseComponent implements O
   }
   filterByUserRole()
   {
-    let user = this.loginService.getCurrentUser();
-    if (user)
-      if (user.roles)
-        if (user.roles.find(r => r.idRole == UserRoleEnum.Employee && r.idCompany == this.idCompany))
-        {
-          this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
-          {
-            if (gro.error != "")
-              this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
-            else
-            {
-              let companyUsers = <CompanyUser[]>gro.objList;
+    this.companyUsersService.getEntityLinkedToUser(this.idCompany).subscribe(res =>
+    {
+      if (res.error != '')
+      {
+        this.logAction(this.idCompany, true, Actions.Search, res.error, res.errorDetailed, true);
+      }
+      else
+      {
+        this.idEntityLinkedToUser = null;
+        if (res.objList != null)
+          this.idEntityLinkedToUser = (<Entity[]>res.objList)[0].id;
+       
+        if (this.idEntityLinkedToUser)
+          this.currentUserIsEmployee = true;
+      }
+    });
 
-              let companyUserLoggedIn = companyUsers.find(cu => cu.id == user.id)
-              if (companyUserLoggedIn)
-              {
-                this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;
-                if (this.idEntityLinkedToUser)
-                  this.currentUserIsEmployee = true;
-              }
-            }
-          });
-        }
+
+    // let user = this.loginService.getCurrentUser();
+    // if (user)
+    //   this.companyUsersService.getCompanyUsers(this.idCompany).subscribe(gro =>
+    //   {
+    //     if (gro.error != "")
+    //       this.logAction(this.idCompany, true, Actions.Search, gro.error, gro.errorDetailed, true);
+    //     else
+    //     {
+    //       let companyUsers = <CompanyUser[]>gro.objList;
+
+    //       let companyUserLoggedIn = companyUsers.find(cu => cu.id == user.id)
+    //       if (companyUserLoggedIn)
+    //       {
+    //         this.idEntityLinkedToUser = companyUserLoggedIn.linkedIdEntity;
+    //         if (this.idEntityLinkedToUser)
+    //           this.currentUserIsEmployee = true;
+    //       }
+    //     }
+    //   });
   }
   moveBookingfilterChanged(value)
   {
