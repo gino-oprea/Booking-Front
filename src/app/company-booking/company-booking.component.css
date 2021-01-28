@@ -1,0 +1,4 @@
+::ng-deep p-dialog .ui-dialog {
+  overflow: auto;
+  max-height: 100%;
+}
