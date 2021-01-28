@@ -30,25 +30,30 @@
 
 <div class="container my-5">
   <div class="row">
-    <div class="col-4 my-4">
+    <div class="col-12 col-md-4 my-4">
       <h3 class="mt-4">Manual video</h3>
       <iframe style="height: 80%; width: 100%;"
         src="https://www.youtube.com/embed/videoseries?list=PL6xjDOOsinayTQYplJQorYM87xZDlqHnm" frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe>
     </div>
-    <div class="col-4">
+    <div class="col-12 col-md-4">
       <img [src]="COMP_Banner1" class="img-fluid">
       <!-- <img [src]="COMP_Banner1" class="img-fluid"> -->
     </div>
-    <div class="col-4 my-4">
+    <div class="col-12 col-md-4 my-4">
       <h2 class="mt-4">Descarcă <b>aplicația</b></h2>
       <p class="my-4">Programează-te oriunde ai nevoie cu aplicatia mobila Booxy</p>
       <p class="my-4">Disponibila in curand pe Google Play si App Store</p>
+        <div class="row">
+          <div class="col-6">
+            <a><img [src]="APP_GooglePlay" class="img-fluid"> </a>
+          </div>
+          <div class="col-6"><a><img [src]="APP_Store" class="img-fluid mx-3"> </a></div>
+        </div>
 
-      <a><img [src]="APP_GooglePlay" class="img-fluid" style="height: 50px;"> </a>
-      <a><img [src]="APP_Store" class="img-fluid mx-3" style="height: 50px;"> </a>
-    </div>
+
+        </div>
 
   </div>
 
